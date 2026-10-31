@@ -1,0 +1,140 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>逢坂大河ws的综合站</title>
+<style>
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: #f8f8f6;
+  color: #292929;
+  font-family: Arial, "Microsoft YaHei", sans-serif;
+}
+header {
+  padding: 22px 6%;
+  background: white;
+  border-bottom: 1px solid #eee;
+}
+.logo {
+  font-size: 21px;
+  font-weight: bold;
+}
+nav {
+  margin-top: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+}
+nav a {
+  text-decoration: none;
+  color: #777;
+  font-size: 14px;
+}
+.hero {
+  padding: 90px 8%;
+  border-bottom: 1px solid #eee;
+}
+.hero h1 {
+  font-size: 43px;
+  line-height: 1.4;
+}
+.hero p {
+  color: #888;
+  line-height: 2;
+}
+.container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 50px 6%;
+}
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+.card {
+  background: white;
+  border: 1px solid #eee;
+  padding: 25px;
+  border-radius: 8px;
+}
+.card h3 {
+  margin-top: 0;
+}
+.card p {
+  color: #888;
+  font-size: 13px;
+}
+footer {
+  padding: 30px;
+  text-align: center;
+  color: #999;
+  font-size: 12px;
+}
+@media(max-width:600px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .hero h1 {
+    font-size: 34px;
+  }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">逢坂大河ws.</div>
+  <nav>
+    <a href="/">首页</a>
+    <a href="/blog/">博客</a>
+    <a href="/tools/nine-grid/">九宫格合成</a>
+    <a href="/about/">关于本站</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>逢坂大河ws的<br>综合站</h1>
+  <p>
+    一个属于自己的互联网空间。<br>
+    记录生活、分享知识、探索技术。
+  </p>
+</section>
+
+<main class="container">
+  <h2>网站功能</h2>
+
+  <div class="grid">
+    <div class="card">
+      <h3>个人博客</h3>
+      <p>记录想法，分享文章。</p>
+    </div>
+
+    <div class="card">
+      <h3>九宫格合成</h3>
+      <p>图片切割与批量下载。</p>
+    </div>
+
+    <div class="card">
+      <h3>资料库</h3>
+      <p>整理人物资料与图片。</p>
+    </div>
+
+    <div class="card">
+      <h3>关于本站</h3>
+      <p>了解网站的建立初衷。</p>
+    </div>
+  </div>
+</main>
+
+<footer>
+  © 2026 逢坂大河ws的综合站
+</footer>
+
+</body>
+</html>
