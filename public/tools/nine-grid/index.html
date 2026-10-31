@@ -1,0 +1,382 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>九宫格图片合成 - 逢坂大河ws的综合站</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #f8f8f6;
+  color: #292929;
+  font-family: Arial, "Microsoft YaHei", sans-serif;
+}
+
+header {
+  padding: 18px 6%;
+  background: white;
+  border-bottom: 1px solid #eee;
+}
+
+header a {
+  color: #292929;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+main {
+  max-width: 850px;
+  margin: auto;
+  padding: 40px 20px;
+}
+
+h1 {
+  font-size: 30px;
+}
+
+.subtitle {
+  color: #888;
+  font-size: 14px;
+}
+
+.panel {
+  background: white;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 22px;
+  margin-top: 22px;
+}
+
+.upload {
+  display: block;
+  padding: 35px 15px;
+  border: 2px dashed #ddd;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  color: #777;
+}
+
+.upload input {
+  display: none;
+}
+
+select, button {
+  padding: 11px 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: white;
+  font-size: 14px;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+.primary {
+  background: #292929;
+  color: white;
+  border-color: #292929;
+}
+
+.controls {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+
+.preview {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px;
+  max-width: 420px;
+  margin: 22px auto;
+  background: #eee;
+}
+
+.preview canvas {
+  width: 100%;
+  display: block;
+}
+
+#status {
+  color: #888;
+  font-size: 13px;
+  margin-top: 15px;
+}
+
+.downloads {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 9px;
+}
+
+.downloads button {
+  font-size: 12px;
+}
+
+footer {
+  text-align: center;
+  padding: 30px;
+  color: #aaa;
+  font-size: 12px;
+}
+
+@media(max-width: 500px) {
+  h1 {
+    font-size: 25px;
+  }
+
+  main {
+    padding: 25px 15px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <a href="/">逢坂大河ws的综合站</a>
+</header>
+
+<main>
+
+  <h1>九宫格图片合成</h1>
+  <p class="subtitle">
+    上传一张图片，自动切割成九张独立图片。
+  </p>
+
+  <section class="panel">
+
+    <label class="upload">
+      <strong>＋ 选择图片</strong>
+      <p>点击这里上传 JPG、PNG 或 WEBP</p>
+      <input type="file" id="imageInput"
+        accept="image/jpeg,image/png,image/webp">
+    </label>
+
+    <div class="controls">
+
+      <select id="cropMode">
+        <option value="square">正方形裁切</option>
+        <option value="original">保留原图比例</option>
+      </select>
+
+      <select id="imageFormat">
+        <option value="image/png">PNG 格式</option>
+        <option value="image/jpeg">JPG 格式</option>
+        <option value="image/webp">WEBP 格式</option>
+      </select>
+
+      <button class="primary" id="generate" disabled>
+        生成九宫格
+      </button>
+
+    </div>
+
+    <p id="status">请先选择一张图片。</p>
+
+  </section>
+
+  <section class="panel">
+
+    <h3>九宫格预览</h3>
+
+    <div class="preview" id="preview">
+    </div>
+
+    <h3>单张图片下载</h3>
+
+    <div class="downloads" id="downloads">
+    </div>
+
+  </section>
+
+  <section class="panel">
+    <h3>使用说明</h3>
+    <p class="subtitle">
+      1. 上传一张图片。<br>
+      2. 选择切割方式。<br>
+      3. 点击生成九宫格。<br>
+      4. 点击对应按钮下载图片。<br>
+      所有图片处理均在本地浏览器完成。
+    </p>
+  </section>
+
+</main>
+
+<footer>
+  © 2026 逢坂大河ws的综合站
+</footer>
+
+<script>
+const input = document.getElementById("imageInput");
+const generate = document.getElementById("generate");
+const preview = document.getElementById("preview");
+const downloads = document.getElementById("downloads");
+const status = document.getElementById("status");
+
+let originalImage = null;
+let pieces = [];
+
+input.addEventListener("change", () => {
+  const file = input.files[0];
+
+  if (!file) return;
+
+  if (!file.type.startsWith("image/")) {
+    status.textContent = "请选择有效的图片文件。";
+    return;
+  }
+
+  if (file.size > 20 * 1024 * 1024) {
+    status.textContent = "图片不能超过20MB。";
+    return;
+  }
+
+  const url = URL.createObjectURL(file);
+  const image = new Image();
+
+  image.onload = () => {
+    if (originalImage) {
+      URL.revokeObjectURL(originalImage.url);
+    }
+
+    originalImage = {
+      image,
+      url
+    };
+
+    pieces = [];
+    preview.innerHTML = "";
+    downloads.innerHTML = "";
+
+    generate.disabled = false;
+
+    status.textContent =
+      "图片加载成功：" +
+      image.width + " × " + image.height;
+  };
+
+  image.onerror = () => {
+    URL.revokeObjectURL(url);
+    status.textContent = "图片读取失败，请重新选择。";
+  };
+
+  image.src = url;
+});
+
+generate.addEventListener("click", () => {
+  if (!originalImage) return;
+
+  const image = originalImage.image;
+  const mode = document.getElementById("cropMode").value;
+  const format = document.getElementById("imageFormat").value;
+
+  let startX = 0;
+  let startY = 0;
+  let width = image.width;
+  let height = image.height;
+
+  if (mode === "square") {
+    const side = Math.min(width, height);
+
+    startX = (width - side) / 2;
+    startY = (height - side) / 2;
+
+    width = side;
+    height = side;
+  }
+
+  const cellWidth = width / 3;
+  const cellHeight = height / 3;
+
+  pieces = [];
+  preview.innerHTML = "";
+  downloads.innerHTML = "";
+
+  for (let row = 0; row < 3; row++) {
+    for (let col = 0; col < 3; col++) {
+
+      const canvas = document.createElement("canvas");
+
+      canvas.width = Math.floor(cellWidth);
+      canvas.height = Math.floor(cellHeight);
+
+      const ctx = canvas.getContext("2d");
+
+      ctx.drawImage(
+        image,
+        startX + col * cellWidth,
+        startY + row * cellHeight,
+        cellWidth,
+        cellHeight,
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      );
+
+      pieces.push(canvas);
+
+      preview.appendChild(canvas);
+
+      const button = document.createElement("button");
+
+      button.textContent =
+        "下载第 " + (row * 3 + col + 1) + " 张";
+
+      button.addEventListener("click", () => {
+        downloadCanvas(
+          canvas,
+          row * 3 + col + 1,
+          format
+        );
+      });
+
+      downloads.appendChild(button);
+    }
+  }
+
+  status.textContent = "九宫格生成成功，共9张图片。";
+});
+
+function downloadCanvas(canvas, number, format) {
+  const extension = format.split("/")[1];
+
+  canvas.toBlob(blob => {
+    if (!blob) {
+      status.textContent = "图片导出失败，请重试。";
+      return;
+    }
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = "taiga-grid-" + number + "." + extension;
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }, format);
+}
+</script>
+
+</body>
+</html>
