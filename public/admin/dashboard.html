@@ -1,1 +1,390 @@
 
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>管理后台 - 逢坂大河ws</title>
+
+<style>
+:root {
+  --bg: #faf7f5;
+  --card: #ffffff;
+  --text: #302925;
+  --muted: #857a73;
+  --line: #eee7e2;
+  --accent: #a87568;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+}
+
+header {
+  height: 65px;
+  background: white;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+}
+
+.logo {
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.header-right {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.layout {
+  display: flex;
+  min-height: calc(100vh - 65px);
+}
+
+.sidebar {
+  width: 220px;
+  background: white;
+  border-right: 1px solid var(--line);
+  padding: 25px 15px;
+  flex-shrink: 0;
+}
+
+.nav-title {
+  color: var(--muted);
+  font-size: 12px;
+  margin: 0 12px 15px;
+}
+
+.nav-item {
+  display: block;
+  padding: 12px;
+  margin-bottom: 6px;
+  color: var(--text);
+  text-decoration: none;
+  border-radius: 9px;
+  font-size: 14px;
+}
+
+.nav-item.active {
+  background: #f4ebe7;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.nav-item:hover {
+  background: #f7f2ef;
+}
+
+main {
+  flex: 1;
+  min-width: 0;
+  padding: 35px;
+  max-width: 1200px;
+}
+
+.welcome {
+  margin-bottom: 28px;
+}
+
+.welcome h1 {
+  margin: 0 0 9px;
+  font-size: 27px;
+}
+
+.welcome p {
+  color: var(--muted);
+  margin: 0;
+  font-size: 14px;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 25px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  padding: 22px;
+}
+
+.stat-label {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.stat-number {
+  font-size: 30px;
+  font-weight: 700;
+  margin-top: 12px;
+}
+
+.section {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  padding: 23px;
+  margin-bottom: 20px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.section-header h2 {
+  font-size: 17px;
+  margin: 0;
+}
+
+.btn {
+  display: inline-block;
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--accent);
+  color: white;
+  text-decoration: none;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  opacity: .85;
+}
+
+.article {
+  padding: 15px 0;
+  border-top: 1px solid var(--line);
+}
+
+.article-title {
+  font-weight: 600;
+  margin-bottom: 7px;
+}
+
+.article-info {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.empty {
+  color: var(--muted);
+  text-align: center;
+  padding: 35px 10px;
+  font-size: 14px;
+}
+
+.footer {
+  color: var(--muted);
+  font-size: 12px;
+  text-align: center;
+  padding: 25px 0;
+}
+
+@media (max-width: 700px) {
+  .layout {
+    display: block;
+  }
+
+  .sidebar {
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    overflow-x: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .nav-title {
+    display: none;
+  }
+
+  .nav-item {
+    white-space: nowrap;
+    margin: 0 3px;
+  }
+
+  main {
+    padding: 22px 15px;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .card {
+    padding: 17px;
+  }
+
+  header {
+    padding: 0 16px;
+  }
+
+  .welcome h1 {
+    font-size: 23px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">逢坂大河ws</div>
+  <div class="header-right">管理员控制台</div>
+</header>
+
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="nav-title">管理菜单</div>
+    <a class="nav-item active" href="dashboard.html">管理首页</a>
+    <a class="nav-item" href="write.html">写文章</a>
+    <a class="nav-item" href="articles.html">文章管理</a>
+    <a class="nav-item" href="settings.html">网站设置</a>
+    <a class="nav-item" href="/">返回网站</a>
+  </aside>
+
+  <main>
+
+    <div class="welcome">
+      <h1>欢迎回来</h1>
+      <p>这里是逢坂大河ws的内容管理中心。</p>
+    </div>
+
+    <div class="stats">
+
+      <div class="card">
+        <div class="stat-label">已发布文章</div>
+        <div class="stat-number" id="publishedCount">—</div>
+      </div>
+
+      <div class="card">
+        <div class="stat-label">文章状态</div>
+        <div class="stat-number">正常</div>
+      </div>
+
+      <div class="card">
+        <div class="stat-label">数据库连接</div>
+        <div class="stat-number" id="dbStatus">检查中</div>
+      </div>
+
+    </div>
+
+    <section class="section">
+
+      <div class="section-header">
+        <h2>最近发布的文章</h2>
+        <a class="btn" href="articles.html">管理文章</a>
+      </div>
+
+      <div id="articleList">
+        <div class="empty">正在读取文章……</div>
+      </div>
+
+    </section>
+
+    <section class="section">
+
+      <div class="section-header">
+        <h2>快捷操作</h2>
+      </div>
+
+      <a class="btn" href="write.html">＋ 写一篇新文章</a>
+
+    </section>
+
+    <div class="footer">
+      逢坂大河ws · Administration
+    </div>
+
+  </main>
+
+</div>
+
+<script>
+async function loadArticles() {
+  const list = document.getElementById("articleList");
+  const count = document.getElementById("publishedCount");
+  const status = document.getElementById("dbStatus");
+
+  try {
+    const response = await fetch("/api/posts", {
+      cache: "no-store"
+    });
+
+    if (!response.ok) {
+      throw new Error("读取失败");
+    }
+
+    const result = await response.json();
+
+    if (!result.success || !Array.isArray(result.posts)) {
+      throw new Error("数据格式错误");
+    }
+
+    const posts = result.posts;
+
+    count.textContent = posts.length;
+    status.textContent = "已连接";
+
+    if (posts.length === 0) {
+      list.innerHTML =
+        '<div class="empty">目前还没有已发布的文章。</div>';
+      return;
+    }
+
+    list.innerHTML = "";
+
+    posts.slice(0, 8).forEach(post => {
+      const item = document.createElement("div");
+      item.className = "article";
+
+      const title = document.createElement("div");
+      title.className = "article-title";
+      title.textContent = post.title || "无标题";
+
+      const info = document.createElement("div");
+      info.className = "article-info";
+      info.textContent =
+        (post.category || "未分类") + " · " +
+        (post.created_at || "");
+
+      item.appendChild(title);
+      item.appendChild(info);
+      list.appendChild(item);
+    });
+
+  } catch (error) {
+    count.textContent = "—";
+    status.textContent = "未连接";
+    list.innerHTML =
+      '<div class="empty">暂时无法读取文章，请检查数据库接口。</div>';
+  }
+}
+
+loadArticles();
+</script>
+
+</body>
+</html>
