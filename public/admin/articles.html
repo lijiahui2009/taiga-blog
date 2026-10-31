@@ -1,1 +1,497 @@
 
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>文章管理 - 逢坂大河ws</title>
+
+<style>
+:root {
+  --bg: #faf7f5;
+  --card: #fff;
+  --text: #302925;
+  --muted: #857a73;
+  --line: #eee7e2;
+  --accent: #a87568;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+header {
+  height: 65px;
+  background: white;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 22px;
+}
+
+.logo {
+  font-size: 19px;
+  font-weight: bold;
+}
+
+header a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.layout {
+  display: flex;
+  min-height: calc(100vh - 65px);
+}
+
+.sidebar {
+  width: 210px;
+  background: white;
+  border-right: 1px solid var(--line);
+  padding: 25px 14px;
+  flex-shrink: 0;
+}
+
+.nav-title {
+  color: var(--muted);
+  font-size: 12px;
+  margin: 0 12px 15px;
+}
+
+.nav-item {
+  display: block;
+  padding: 12px;
+  margin-bottom: 6px;
+  color: var(--text);
+  text-decoration: none;
+  border-radius: 9px;
+  font-size: 14px;
+}
+
+.nav-item.active {
+  background: #f4ebe7;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+main {
+  flex: 1;
+  min-width: 0;
+  max-width: 1100px;
+  padding: 32px;
+}
+
+h1 {
+  font-size: 26px;
+  margin: 0 0 8px;
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 25px;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+select, input {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: white;
+  color: var(--text);
+  font-size: 13px;
+}
+
+button, .btn {
+  border: 0;
+  border-radius: 8px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.primary {
+  background: var(--accent);
+  color: white;
+}
+
+.refresh {
+  background: #f1ebe7;
+  color: var(--text);
+}
+
+.table-card {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  overflow: hidden;
+}
+
+.article {
+  padding: 19px 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.article:last-child {
+  border-bottom: 0;
+}
+
+.article-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.article-title {
+  font-weight: 650;
+  font-size: 15px;
+  margin-bottom: 9px;
+  overflow-wrap: anywhere;
+}
+
+.article-meta {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+
+.status {
+  display: inline-block;
+  padding: 5px 9px;
+  border-radius: 20px;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.status.published {
+  background: #edf5ed;
+  color: #39734a;
+}
+
+.status.draft {
+  background: #f4eee7;
+  color: #92704e;
+}
+
+.article-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 13px;
+}
+
+.delete {
+  background: #f9eeee;
+  color: #a33e3e;
+}
+
+.empty {
+  text-align: center;
+  padding: 45px 15px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+#message {
+  display: none;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+#message.error {
+  display: block;
+  background: #f9eeee;
+  color: #a33e3e;
+}
+
+@media(max-width:700px) {
+  .layout {
+    display: block;
+  }
+
+  .sidebar {
+    width: 100%;
+    display: flex;
+    overflow-x: auto;
+    padding: 9px;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .nav-title {
+    display: none;
+  }
+
+  .nav-item {
+    white-space: nowrap;
+    margin: 0 3px;
+  }
+
+  main {
+    padding: 22px 14px;
+  }
+
+  .article {
+    padding: 17px 14px;
+  }
+
+  h1 {
+    font-size: 23px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">逢坂大河ws</div>
+  <a href="dashboard.html">返回管理首页</a>
+</header>
+
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="nav-title">管理菜单</div>
+    <a class="nav-item" href="dashboard.html">管理首页</a>
+    <a class="nav-item" href="write.html">写文章</a>
+    <a class="nav-item active" href="articles.html">文章管理</a>
+    <a class="nav-item" href="/">返回网站</a>
+  </aside>
+
+  <main>
+
+    <h1>文章管理</h1>
+    <div class="subtitle">
+      查看、筛选和管理你保存的全部文章。
+    </div>
+
+    <div id="message"></div>
+
+    <div class="toolbar">
+
+      <div class="filters">
+        <select id="filter">
+          <option value="all">全部文章</option>
+          <option value="published">已发布</option>
+          <option value="draft">草稿</option>
+        </select>
+
+        <input
+          id="search"
+          type="search"
+          placeholder="搜索文章标题"
+        >
+      </div>
+
+      <div>
+        <button class="refresh" id="refreshButton">
+          刷新列表
+        </button>
+
+        <a class="btn primary" href="write.html">
+          ＋ 写文章
+        </a>
+      </div>
+
+    </div>
+
+    <div class="table-card" id="articleList">
+      <div class="empty">正在读取文章……</div>
+    </div>
+
+  </main>
+
+</div>
+
+<script>
+const articleList = document.getElementById("articleList");
+const filter = document.getElementById("filter");
+const search = document.getElementById("search");
+const message = document.getElementById("message");
+
+let allPosts = [];
+
+function showError(text) {
+  message.textContent = text;
+  message.className = "error";
+}
+
+async function loadArticles() {
+  articleList.innerHTML =
+    '<div class="empty">正在读取文章……</div>';
+
+  message.className = "";
+
+  try {
+    const response = await fetch("/api/admin/posts", {
+      credentials: "same-origin",
+      cache: "no-store"
+    });
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      throw new Error(
+        result.message || "读取文章失败"
+      );
+    }
+
+    allPosts = result.posts || [];
+    renderArticles();
+
+  } catch (error) {
+    articleList.innerHTML =
+      '<div class="empty">无法读取文章列表。</div>';
+
+    showError(error.message);
+  }
+}
+
+function renderArticles() {
+  articleList.innerHTML = "";
+
+  const keyword = search.value.trim().toLowerCase();
+  const selectedStatus = filter.value;
+
+  const posts = allPosts.filter(post => {
+    const matchesStatus =
+      selectedStatus === "all" ||
+      post.status === selectedStatus;
+
+    const matchesSearch =
+      (post.title || "").toLowerCase().includes(keyword);
+
+    return matchesStatus && matchesSearch;
+  });
+
+  if (posts.length === 0) {
+    articleList.innerHTML =
+      '<div class="empty">没有找到符合条件的文章。</div>';
+    return;
+  }
+
+  posts.forEach(post => {
+    const article = document.createElement("div");
+    article.className = "article";
+
+    const top = document.createElement("div");
+    top.className = "article-top";
+
+    const left = document.createElement("div");
+
+    const title = document.createElement("div");
+    title.className = "article-title";
+    title.textContent = post.title || "无标题";
+
+    const meta = document.createElement("div");
+    meta.className = "article-meta";
+    meta.textContent =
+      "分类：" + (post.category || "未分类") +
+      " · 编号：" + post.id +
+      "\n创建时间：" + (post.created_at || "未知") +
+      "\n更新时间：" + (post.updated_at || "未知");
+
+    const status = document.createElement("span");
+    status.className =
+      "status " +
+      (post.status === "published" ? "published" : "draft");
+
+    status.textContent =
+      post.status === "published" ? "已发布" : "草稿";
+
+    left.appendChild(title);
+    left.appendChild(meta);
+
+    top.appendChild(left);
+    top.appendChild(status);
+
+    const actions = document.createElement("div");
+    actions.className = "article-actions";
+
+    const deleteButton = document.createElement("button");
+    deleteButton.className = "delete";
+    deleteButton.textContent = "删除文章";
+
+    deleteButton.addEventListener("click", () => {
+      deleteArticle(post.id, post.title);
+    });
+
+    actions.appendChild(deleteButton);
+
+    article.appendChild(top);
+    article.appendChild(actions);
+
+    articleList.appendChild(article);
+  });
+}
+
+async function deleteArticle(id, title) {
+  const confirmed = confirm(
+    "确定要删除文章《" + title + "》吗？此操作无法撤销。"
+  );
+
+  if (!confirmed) return;
+
+  try {
+    const response = await fetch("/api/admin/posts", {
+      method: "DELETE",
+      credentials: "same-origin",
+      cache: "no-store",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ id: id })
+    });
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      throw new Error(result.message || "删除失败");
+    }
+
+    await loadArticles();
+
+  } catch (error) {
+    showError(error.message);
+  }
+}
+
+filter.addEventListener("change", renderArticles);
+search.addEventListener("input", renderArticles);
+document.getElementById("refreshButton")
+  .addEventListener("click", loadArticles);
+
+loadArticles();
+</script>
+
+</body>
+</html>
+
