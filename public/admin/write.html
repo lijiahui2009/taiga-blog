@@ -1,1 +1,366 @@
 
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>写文章 - 逢坂大河ws</title>
+
+<style>
+:root {
+  --bg: #faf7f5;
+  --card: #fff;
+  --text: #302925;
+  --muted: #857a73;
+  --line: #eee7e2;
+  --accent: #a87568;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+header {
+  background: white;
+  border-bottom: 1px solid var(--line);
+  padding: 17px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 19px;
+  font-weight: bold;
+}
+
+header a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 13px;
+}
+
+main {
+  max-width: 950px;
+  margin: 35px auto;
+  padding: 0 18px;
+}
+
+h1 {
+  font-size: 27px;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 25px;
+}
+
+.editor {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 26px;
+}
+
+.field {
+  margin-bottom: 23px;
+}
+
+label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 9px;
+}
+
+input, textarea, select {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+  outline: none;
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: var(--accent);
+}
+
+textarea {
+  resize: vertical;
+  line-height: 1.8;
+}
+
+#summary {
+  min-height: 85px;
+}
+
+#content {
+  min-height: 350px;
+}
+
+.hint {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 7px;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--line);
+  padding-top: 22px;
+}
+
+button {
+  border: 0;
+  border-radius: 8px;
+  padding: 12px 22px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.draft {
+  background: #f1ebe7;
+  color: var(--text);
+}
+
+.publish {
+  background: var(--accent);
+  color: white;
+}
+
+button:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+}
+
+#message {
+  display: none;
+  margin-top: 18px;
+  padding: 13px;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+#message.success {
+  display: block;
+  background: #edf5ed;
+  color: #356b3d;
+}
+
+#message.error {
+  display: block;
+  background: #f9eeee;
+  color: #a33e3e;
+}
+
+@media(max-width:600px) {
+  main {
+    margin-top: 24px;
+  }
+
+  .editor {
+    padding: 18px;
+  }
+
+  h1 {
+    font-size: 23px;
+  }
+
+  .actions button {
+    flex: 1;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">逢坂大河ws</div>
+  <a href="dashboard.html">返回管理首页</a>
+</header>
+
+<main>
+
+  <h1>写一篇新文章</h1>
+  <div class="subtitle">
+    在这里记录想法、整理资料，发布到你的个人博客。
+  </div>
+
+  <section class="editor">
+
+    <form id="articleForm">
+
+      <div class="field">
+        <label for="title">文章标题</label>
+        <input
+          id="title"
+          type="text"
+          maxlength="200"
+          placeholder="请输入文章标题"
+          required
+        >
+      </div>
+
+      <div class="field">
+        <label for="category">文章分类</label>
+        <input
+          id="category"
+          type="text"
+          maxlength="50"
+          placeholder="例如：日常记录、技术、资料整理"
+        >
+      </div>
+
+      <div class="field">
+        <label for="summary">文章摘要</label>
+        <textarea
+          id="summary"
+          maxlength="1000"
+          placeholder="简单介绍这篇文章的内容"
+        ></textarea>
+      </div>
+
+      <div class="field">
+        <label for="content">正文内容</label>
+        <textarea
+          id="content"
+          maxlength="100000"
+          placeholder="从这里开始写文章……"
+          required
+        ></textarea>
+        <div class="hint">
+          目前支持纯文本内容，换行会保留。
+        </div>
+      </div>
+
+      <div class="actions">
+        <button
+          type="button"
+          class="draft"
+          id="draftButton"
+        >
+          保存草稿
+        </button>
+
+        <button
+          type="button"
+          class="publish"
+          id="publishButton"
+        >
+          正式发布
+        </button>
+      </div>
+
+    </form>
+
+    <div id="message"></div>
+
+  </section>
+
+</main>
+
+<script>
+const titleInput = document.getElementById("title");
+const categoryInput = document.getElementById("category");
+const summaryInput = document.getElementById("summary");
+const contentInput = document.getElementById("content");
+
+const draftButton = document.getElementById("draftButton");
+const publishButton = document.getElementById("publishButton");
+const message = document.getElementById("message");
+
+function showMessage(text, type) {
+  message.textContent = text;
+  message.className = type;
+}
+
+async function saveArticle(status) {
+  const title = titleInput.value.trim();
+  const content = contentInput.value.trim();
+
+  if (!title) {
+    showMessage("请先填写文章标题。", "error");
+    titleInput.focus();
+    return;
+  }
+
+  if (!content) {
+    showMessage("请填写文章正文。", "error");
+    contentInput.focus();
+    return;
+  }
+
+  draftButton.disabled = true;
+  publishButton.disabled = true;
+
+  showMessage("正在保存，请稍候……", "success");
+
+  try {
+    const response = await fetch("/api/admin/posts", {
+      method: "POST",
+      credentials: "same-origin",
+      cache: "no-store",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        title: title,
+        category: categoryInput.value.trim() || "未分类",
+        summary: summaryInput.value.trim(),
+        content: content,
+        status: status
+      })
+    });
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      throw new Error(
+        result.message || "保存失败，HTTP " + response.status
+      );
+    }
+
+    if (status === "draft") {
+      showMessage("草稿保存成功！文章编号：" + result.id, "success");
+    } else {
+      showMessage("文章发布成功！文章编号：" + result.id, "success");
+    }
+
+  } catch (error) {
+    showMessage("保存失败：" + error.message, "error");
+  } finally {
+    draftButton.disabled = false;
+    publishButton.disabled = false;
+  }
+}
+
+draftButton.addEventListener("click", function() {
+  saveArticle("draft");
+});
+
+publishButton.addEventListener("click", function() {
+  saveArticle("published");
+});
+</script>
+
+</body>
+</html>
+
