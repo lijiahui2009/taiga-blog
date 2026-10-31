@@ -432,26 +432,26 @@ function renderArticles() {
 
     top.appendChild(left);
     top.appendChild(status);
+const actions = document.createElement("div");
+actions.className = "article-actions";
 
-    const actions = document.createElement("div");
-    actions.className = "article-actions";
+const editButton = document.createElement("button");
+editButton.className = "refresh";
+editButton.textContent = "编辑文章";
+editButton.addEventListener("click", () => {
+  location.href = "edit.html?id=" + encodeURIComponent(post.id);
+});
 
-    const deleteButton = document.createElement("button");
-    deleteButton.className = "delete";
-    deleteButton.textContent = "删除文章";
+const deleteButton = document.createElement("button");
+deleteButton.className = "delete";
+deleteButton.textContent = "删除文章";
+deleteButton.addEventListener("click", () => {
+  deleteArticle(post.id, post.title);
+});
 
-    deleteButton.addEventListener("click", () => {
-      deleteArticle(post.id, post.title);
-    });
-
-    actions.appendChild(deleteButton);
-
-    article.appendChild(top);
-    article.appendChild(actions);
-
-    articleList.appendChild(article);
-  });
-}
+actions.appendChild(editButton);
+actions.appendChild(deleteButton);
+    
 
 async function deleteArticle(id, title) {
   const confirmed = confirm(
