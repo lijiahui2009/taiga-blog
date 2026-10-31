@@ -200,9 +200,8 @@ form.addEventListener("submit", async (event) => {
     }
 
   } catch (error) {
-    message.textContent = "连接服务器失败，请稍后重试。";
-  }
-
+  message.textContent = "请求异常：" + error.message;
+}
   button.disabled = false;
   button.textContent = "登录管理后台";
 });
