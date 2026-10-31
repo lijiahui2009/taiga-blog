@@ -1,0 +1,471 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>博客 - 逢坂大河ws的综合站</title>
+
+<style>
+:root {
+  --bg: #f7f5f3;
+  --card: #ffffff;
+  --text: #302b29;
+  --muted: #817873;
+  --accent: #b77b70;
+  --border: #e9e2de;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 20px 15px 60px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+header {
+  padding: 25px 0 30px;
+}
+
+.back {
+  color: var(--accent);
+  font-size: 14px;
+}
+
+header h1 {
+  font-size: 30px;
+  margin: 22px 0 8px;
+}
+
+header p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.search-box {
+  margin: 15px 0 20px;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: white;
+  font-size: 15px;
+  outline: none;
+}
+
+.search-box input:focus {
+  border-color: var(--accent);
+}
+
+.categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin: 20px 0;
+}
+
+.category {
+  padding: 9px 15px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: white;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.category.active {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+.section-title {
+  font-size: 19px;
+  margin: 30px 0 15px;
+}
+
+.article-list {
+  display: grid;
+  gap: 14px;
+}
+
+.article {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  padding: 20px;
+  cursor: pointer;
+  transition: transform .2s, box-shadow .2s;
+}
+
+.article:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px #00000008;
+}
+
+.article-category {
+  display: inline-block;
+  color: var(--accent);
+  background: #f8eeeb;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.article h2 {
+  font-size: 19px;
+  margin: 13px 0 9px;
+}
+
+.article p {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.8;
+  margin: 0 0 13px;
+}
+
+.article-meta {
+  color: #a49a94;
+  font-size: 12px;
+}
+
+.empty {
+  background: white;
+  border-radius: 12px;
+  padding: 35px 15px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+#detail {
+  display: none;
+  background: white;
+  padding: 25px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  margin-top: 20px;
+}
+
+#detail h2 {
+  font-size: 25px;
+  line-height: 1.5;
+}
+
+.detail-meta {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 12px 0 25px;
+}
+
+.detail-content {
+  font-size: 15px;
+  line-height: 2;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.detail-content p {
+  margin: 0 0 16px;
+}
+
+.back-list {
+  color: var(--accent);
+  border: 0;
+  background: transparent;
+  padding: 10px 0;
+  cursor: pointer;
+}
+
+footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 45px;
+}
+
+.hidden { display: none !important; }
+
+@media (max-width: 500px) {
+  header h1 { font-size: 26px; }
+  .article { padding: 17px; }
+  #detail { padding: 18px; }
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<header>
+  <a class="back" href="/">← 返回综合站</a>
+  <h1>个人博客</h1>
+  <p>记录想法、技术、生活与值得保存的信息。</p>
+</header>
+
+<div id="listPage">
+
+  <div class="search-box">
+    <input id="searchInput"
+      type="search"
+      placeholder="搜索文章标题、内容或分类……">
+  </div>
+
+  <div class="categories" id="categories"></div>
+
+  <h2 class="section-title">文章列表</h2>
+
+  <div class="article-list" id="articleList"></div>
+
+</div>
+
+<div id="detail">
+  <button class="back-list" id="backButton">← 返回文章列表</button>
+  <div id="detailCategory"></div>
+  <h2 id="detailTitle"></h2>
+  <div class="detail-meta" id="detailMeta"></div>
+  <div class="detail-content" id="detailContent"></div>
+</div>
+
+<footer>
+  逢坂大河ws的综合站
+  <p>个人博客 · 独立记录 · 持续更新</p>
+</footer>
+
+</div>
+
+<script>
+
+// 示例文章数据
+// 后续会将这里替换为数据库接口
+const articles = [
+  {
+    id: 1,
+    title: "欢迎来到逢坂大河ws的综合站",
+    category: "本站公告",
+    date: "2026-10-31",
+    summary: "这是本站博客系统的第一篇示例文章，介绍网站的定位与未来规划。",
+    content: `欢迎来到逢坂大河ws的综合站。
+
+这里是一个个人网站，主要用于记录个人想法、整理资料、分享技术与保存值得记录的信息。
+
+目前网站正在逐步建设中。
+
+未来计划增加：
+博客文章系统
+人物资料库
+九宫格图片工具
+更多实用工具
+
+本站会持续更新。`
+  },
+  {
+    id: 2,
+    title: "为什么建立自己的个人网站",
+    category: "个人记录",
+    date: "2026-10-31",
+    summary: "个人网站不仅是展示页面，也是一种独立保存和组织信息的方式。",
+    content: `互联网有很多平台，但个人内容往往受到平台规则和展示方式的限制。
+
+建立独立网站，可以自己决定页面结构、内容分类和功能。
+
+这也是建立本站的一个重要原因。`
+  },
+  {
+    id: 3,
+    title: "从 HTML 开始学习网站开发",
+    category: "技术",
+    date: "2026-10-31",
+    summary: "从 HTML、CSS 到 JavaScript，逐步理解网站的基本组成。",
+    content: `HTML 负责网页结构。
+
+CSS 负责网页样式。
+
+JavaScript 负责网页交互。
+
+这三个部分是前端开发的重要基础。
+
+本站也会逐步使用这些技术进行开发。`
+  }
+];
+
+// 获取分类
+const categories = [
+  "全部",
+  ...new Set(articles.map(article => article.category))
+];
+
+let currentCategory = "全部";
+let currentSearch = "";
+
+const categoryBox = document.getElementById("categories");
+const articleList = document.getElementById("articleList");
+
+function renderCategories() {
+  categoryBox.innerHTML = "";
+
+  categories.forEach(category => {
+    const button = document.createElement("button");
+    button.className =
+      "category" +
+      (category === currentCategory ? " active" : "");
+
+    button.textContent = category;
+
+    button.onclick = () => {
+      currentCategory = category;
+      renderCategories();
+      renderArticles();
+    };
+
+    categoryBox.appendChild(button);
+  });
+}
+
+function renderArticles() {
+  articleList.innerHTML = "";
+
+  const filtered = articles.filter(article => {
+    const categoryMatch =
+      currentCategory === "全部" ||
+      article.category === currentCategory;
+
+    const keyword = currentSearch.toLowerCase();
+
+    const searchMatch =
+      article.title.toLowerCase().includes(keyword) ||
+      article.summary.toLowerCase().includes(keyword) ||
+      article.content.toLowerCase().includes(keyword) ||
+      article.category.toLowerCase().includes(keyword);
+
+    return categoryMatch && searchMatch;
+  });
+
+  if (filtered.length === 0) {
+    articleList.innerHTML =
+      '<div class="empty">没有找到相关文章。</div>';
+    return;
+  }
+
+  filtered.forEach(article => {
+    const card = document.createElement("article");
+    card.className = "article";
+
+    const category = document.createElement("span");
+    category.className = "article-category";
+    category.textContent = article.category;
+
+    const title = document.createElement("h2");
+    title.textContent = article.title;
+
+    const summary = document.createElement("p");
+    summary.textContent = article.summary;
+
+    const meta = document.createElement("div");
+    meta.className = "article-meta";
+    meta.textContent = "发布时间：" + article.date;
+
+    card.append(category, title, summary, meta);
+
+    card.onclick = () => openArticle(article.id);
+
+    articleList.appendChild(card);
+  });
+}
+
+function openArticle(id) {
+  const article = articles.find(item => item.id === id);
+  if (!article) return;
+
+  document.getElementById("listPage").classList.add("hidden");
+
+  document.getElementById("detail").style.display = "block";
+
+  document.getElementById("detailCategory").textContent =
+    article.category;
+
+  document.getElementById("detailTitle").textContent =
+    article.title;
+
+  document.getElementById("detailMeta").textContent =
+    "发布时间：" + article.date;
+
+  document.getElementById("detailContent").textContent =
+    article.content;
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+
+  history.pushState(
+    { articleId: id },
+    "",
+    "?article=" + id
+  );
+}
+
+function backToList() {
+  document.getElementById("detail").style.display = "none";
+  document.getElementById("listPage").classList.remove("hidden");
+
+  const url = new URL(window.location.href);
+  url.searchParams.delete("article");
+  history.replaceState({}, "", url.pathname);
+}
+
+document.getElementById("backButton").onclick = backToList;
+
+document.getElementById("searchInput").addEventListener(
+  "input",
+  event => {
+    currentSearch = event.target.value.trim();
+    renderArticles();
+  }
+);
+
+window.addEventListener("popstate", event => {
+  if (event.state && event.state.articleId) {
+    openArticle(event.state.articleId);
+  } else {
+    backToList();
+  }
+});
+
+renderCategories();
+renderArticles();
+
+const initialId = Number(
+  new URLSearchParams(window.location.search).get("article")
+);
+
+if (initialId) {
+  const article = articles.find(item => item.id === initialId);
+  if (article) {
+    document.getElementById("listPage").classList.add("hidden");
+    document.getElementById("detail").style.display = "block";
+    document.getElementById("detailCategory").textContent = article.category;
+    document.getElementById("detailTitle").textContent = article.title;
+    document.getElementById("detailMeta").textContent = "发布时间：" + article.date;
+    document.getElementById("detailContent").textContent = article.content;
+  }
+}
+
+</script>
+</body>
+</html>
