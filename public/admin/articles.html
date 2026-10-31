@@ -451,7 +451,11 @@ deleteButton.addEventListener("click", () => {
 
 actions.appendChild(editButton);
 actions.appendChild(deleteButton);
-    
+
+article.appendChild(top);
+article.appendChild(actions);
+articleList.appendChild(article);
+});  
 
 async function deleteArticle(id, title) {
   const confirmed = confirm(
