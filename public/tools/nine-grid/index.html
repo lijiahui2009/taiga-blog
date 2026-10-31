@@ -4,377 +4,651 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>九宫格图片合成 - 逢坂大河ws的综合站</title>
+<title>九宫格图片工具 - 逢坂大河ws的综合站</title>
 
 <style>
-* {
-  box-sizing: border-box;
+:root {
+  --bg: #f7f5f3;
+  --card: #ffffff;
+  --text: #302b29;
+  --muted: #817873;
+  --accent: #b77b70;
+  --border: #e9e2de;
 }
+
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
-  background: #f8f8f6;
-  color: #292929;
-  font-family: Arial, "Microsoft YaHei", sans-serif;
+  padding: 24px 16px 60px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+}
+
+.container {
+  max-width: 850px;
+  margin: auto;
 }
 
 header {
-  padding: 18px 6%;
-  background: white;
-  border-bottom: 1px solid #eee;
-}
-
-header a {
-  color: #292929;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-main {
-  max-width: 850px;
-  margin: auto;
-  padding: 40px 20px;
-}
-
-h1 {
-  font-size: 30px;
-}
-
-.subtitle {
-  color: #888;
-  font-size: 14px;
-}
-
-.panel {
-  background: white;
-  border: 1px solid #eee;
-  border-radius: 10px;
-  padding: 22px;
-  margin-top: 22px;
-}
-
-.upload {
-  display: block;
-  padding: 35px 15px;
-  border: 2px dashed #ddd;
-  border-radius: 8px;
   text-align: center;
-  cursor: pointer;
-  color: #777;
+  padding: 30px 10px;
 }
 
-.upload input {
-  display: none;
+header h1 {
+  font-size: 28px;
+  margin: 0 0 10px;
 }
 
-select, button {
-  padding: 11px 15px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  background: white;
+header p {
+  color: var(--muted);
   font-size: 14px;
+}
+
+.back {
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.tab {
+  flex: 1;
+  padding: 14px 8px;
+  border: 1px solid var(--border);
+  background: white;
+  border-radius: 12px;
+  color: var(--text);
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.tab.active {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+.card {
+  background: var(--card);
+  padding: 22px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  margin-bottom: 18px;
+}
+
+h2 {
+  font-size: 19px;
+  margin: 0 0 10px;
+}
+
+.desc {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+  margin-bottom: 18px;
+}
+
+label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+input, select {
+  max-width: 100%;
+  font-size: 14px;
+}
+
+input[type="file"] {
+  width: 100%;
+  padding: 12px;
+  background: #faf9f8;
+  border: 1px dashed #d8ccc5;
+  border-radius: 10px;
+}
+
+select {
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: white;
 }
 
 button {
+  border: 0;
+  background: var(--accent);
+  color: white;
+  padding: 12px 18px;
+  border-radius: 9px;
+  font-size: 14px;
   cursor: pointer;
 }
 
 button:disabled {
-  opacity: .4;
+  opacity: .45;
   cursor: not-allowed;
 }
 
-.primary {
-  background: #292929;
-  color: white;
-  border-color: #292929;
+button.secondary {
+  background: #eee9e6;
+  color: var(--text);
 }
 
-.controls {
+.settings {
   display: flex;
-  gap: 12px;
+  gap: 15px;
   flex-wrap: wrap;
-  margin-top: 18px;
+  align-items: center;
+  margin: 18px 0;
+}
+
+.settings label {
+  margin: 0;
 }
 
 .preview {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 3px;
-  max-width: 420px;
-  margin: 22px auto;
-  background: #eee;
+  gap: 5px;
+  margin-top: 18px;
 }
 
+.preview img,
 .preview canvas {
-  width: 100%;
   display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  background: #eee;
+  border-radius: 5px;
 }
 
-#status {
-  color: #888;
-  font-size: 13px;
-  margin-top: 15px;
+.preview-item {
+  min-width: 0;
 }
 
-.downloads {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 9px;
-}
-
-.downloads button {
+.preview-item button {
+  width: 100%;
+  padding: 8px 2px;
+  margin-top: 5px;
   font-size: 12px;
 }
+
+.image-slots {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.slot {
+  min-width: 0;
+  text-align: center;
+}
+
+.slot-number {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 7px;
+}
+
+.slot img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  background: #eee;
+  border-radius: 8px;
+  display: block;
+  margin-bottom: 7px;
+}
+
+.slot input {
+  width: 100%;
+  font-size: 11px;
+}
+
+.status {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 14px;
+  line-height: 1.6;
+}
+
+.result-image {
+  width: 100%;
+  max-width: 500px;
+  display: block;
+  margin: 20px auto;
+  border-radius: 8px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.hidden { display: none; }
 
 footer {
   text-align: center;
-  padding: 30px;
-  color: #aaa;
+  color: var(--muted);
   font-size: 12px;
+  margin-top: 35px;
 }
 
-@media(max-width: 500px) {
-  h1 {
-    font-size: 25px;
-  }
-
-  main {
-    padding: 25px 15px;
-  }
+@media (max-width: 480px) {
+  body { padding: 12px 10px 40px; }
+  .card { padding: 16px; }
+  header h1 { font-size: 24px; }
+  .image-slots { gap: 8px; }
 }
 </style>
 </head>
 
 <body>
+<div class="container">
 
 <header>
-  <a href="/">逢坂大河ws的综合站</a>
+  <a class="back" href="/">← 返回综合站</a>
+  <h1>九宫格图片工具</h1>
+  <p>图片切割与九宫格合成，一站完成</p>
 </header>
 
-<main>
+<div class="tabs">
+  <button class="tab active" id="cutTab">图片切割</button>
+  <button class="tab" id="mergeTab">图片合成</button>
+</div>
 
-  <h1>九宫格图片合成</h1>
-  <p class="subtitle">
-    上传一张图片，自动切割成九张独立图片。
+<!-- 图片切割 -->
+<section id="cutSection">
+
+<div class="card">
+  <h2>一张图片切成九张</h2>
+  <p class="desc">
+    上传一张图片，自动切割成 3×3 九张图片。
+    可以逐张预览和下载。
   </p>
 
-  <section class="panel">
+  <label>选择图片</label>
+  <input type="file" id="cutInput"
+    accept="image/png,image/jpeg,image/webp">
 
-    <label class="upload">
-      <strong>＋ 选择图片</strong>
-      <p>点击这里上传 JPG、PNG 或 WEBP</p>
-      <input type="file" id="imageInput"
-        accept="image/jpeg,image/png,image/webp">
-    </label>
-
-    <div class="controls">
-
+  <div class="settings">
+    <label>
+      切割方式
       <select id="cropMode">
-        <option value="square">正方形裁切</option>
+        <option value="square">中心裁切为正方形</option>
         <option value="original">保留原图比例</option>
       </select>
+    </label>
 
-      <select id="imageFormat">
-        <option value="image/png">PNG 格式</option>
-        <option value="image/jpeg">JPG 格式</option>
-        <option value="image/webp">WEBP 格式</option>
+    <label>
+      图片格式
+      <select id="cutFormat">
+        <option value="image/png">PNG</option>
+        <option value="image/jpeg">JPG</option>
+        <option value="image/webp">WEBP</option>
       </select>
+    </label>
+  </div>
 
-      <button class="primary" id="generate" disabled>
-        生成九宫格
-      </button>
+  <button id="cutButton">开始切割</button>
+  <div class="status" id="cutStatus">等待上传图片。</div>
+  <div class="preview" id="cutPreview"></div>
+</div>
 
-    </div>
+</section>
 
-    <p id="status">请先选择一张图片。</p>
+<!-- 九张图片合成 -->
+<section id="mergeSection" class="hidden">
 
-  </section>
+<div class="card">
+  <h2>九张图片合成一张</h2>
+  <p class="desc">
+    按照 1 至 9 的顺序上传图片。
+    系统会将九张图片排列成 3×3 九宫格，
+    最终生成一张完整图片。
+  </p>
 
-  <section class="panel">
+  <div class="image-slots" id="imageSlots"></div>
 
-    <h3>九宫格预览</h3>
+  <div class="settings">
+    <label>
+      输出格式
+      <select id="mergeFormat">
+        <option value="image/png">PNG</option>
+        <option value="image/jpeg">JPG</option>
+        <option value="image/webp">WEBP</option>
+      </select>
+    </label>
 
-    <div class="preview" id="preview">
-    </div>
+    <label>
+      每格尺寸
+      <select id="cellSize">
+        <option value="300">300 × 300</option>
+        <option value="500" selected>500 × 500</option>
+        <option value="800">800 × 800</option>
+        <option value="1000">1000 × 1000</option>
+      </select>
+    </label>
+  </div>
 
-    <h3>单张图片下载</h3>
+  <button id="mergeButton">合成九宫格</button>
+  <div class="status" id="mergeStatus">
+    请依次上传九张图片。
+  </div>
 
-    <div class="downloads" id="downloads">
-    </div>
+  <canvas id="mergeCanvas" class="result-image hidden"></canvas>
 
-  </section>
+  <div class="actions">
+    <button id="downloadMerge" disabled>下载合成图片</button>
+    <button class="secondary" id="clearMerge">清空图片</button>
+  </div>
+</div>
 
-  <section class="panel">
-    <h3>使用说明</h3>
-    <p class="subtitle">
-      1. 上传一张图片。<br>
-      2. 选择切割方式。<br>
-      3. 点击生成九宫格。<br>
-      4. 点击对应按钮下载图片。<br>
-      所有图片处理均在本地浏览器完成。
-    </p>
-  </section>
-
-</main>
+</section>
 
 <footer>
-  © 2026 逢坂大河ws的综合站
+  逢坂大河ws的综合站 · 九宫格图片工具
+  <p>图片仅在当前浏览器本地处理，不会上传服务器。</p>
 </footer>
 
+</div>
+
 <script>
-const input = document.getElementById("imageInput");
-const generate = document.getElementById("generate");
-const preview = document.getElementById("preview");
-const downloads = document.getElementById("downloads");
-const status = document.getElementById("status");
+const cutTab = document.getElementById("cutTab");
+const mergeTab = document.getElementById("mergeTab");
+const cutSection = document.getElementById("cutSection");
+const mergeSection = document.getElementById("mergeSection");
 
-let originalImage = null;
-let pieces = [];
+cutTab.onclick = () => {
+  cutTab.classList.add("active");
+  mergeTab.classList.remove("active");
+  cutSection.classList.remove("hidden");
+  mergeSection.classList.add("hidden");
+};
 
-input.addEventListener("change", () => {
-  const file = input.files[0];
+mergeTab.onclick = () => {
+  mergeTab.classList.add("active");
+  cutTab.classList.remove("active");
+  mergeSection.classList.remove("hidden");
+  cutSection.classList.add("hidden");
+};
 
-  if (!file) return;
+// 图片切割
+let cutCanvases = [];
 
-  if (!file.type.startsWith("image/")) {
-    status.textContent = "请选择有效的图片文件。";
+function loadImage(file) {
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    const url = URL.createObjectURL(file);
+
+    image.onload = () => {
+      URL.revokeObjectURL(url);
+      resolve(image);
+    };
+
+    image.onerror = () => {
+      URL.revokeObjectURL(url);
+      reject(new Error("图片读取失败"));
+    };
+
+    image.src = url;
+  });
+}
+
+function canvasBlob(canvas, format) {
+  return new Promise(resolve => {
+    canvas.toBlob(resolve, format, 0.92);
+  });
+}
+
+document.getElementById("cutButton").onclick =
+async () => {
+  const file = document.getElementById("cutInput").files[0];
+  const status = document.getElementById("cutStatus");
+  const preview = document.getElementById("cutPreview");
+
+  if (!file) {
+    status.textContent = "请先选择一张图片。";
     return;
   }
 
   if (file.size > 20 * 1024 * 1024) {
-    status.textContent = "图片不能超过20MB。";
+    status.textContent = "图片不能超过 20MB。";
     return;
   }
 
-  const url = URL.createObjectURL(file);
-  const image = new Image();
+  try {
+    status.textContent = "正在处理图片……";
+    preview.innerHTML = "";
+    cutCanvases = [];
 
-  image.onload = () => {
-    if (originalImage) {
-      URL.revokeObjectURL(originalImage.url);
+    const img = await loadImage(file);
+    const mode = document.getElementById("cropMode").value;
+    const format = document.getElementById("cutFormat").value;
+
+    let width = img.width;
+    let height = img.height;
+    let startX = 0;
+    let startY = 0;
+
+    if (mode === "square") {
+      const side = Math.min(width, height);
+      startX = (width - side) / 2;
+      startY = (height - side) / 2;
+      width = side;
+      height = side;
     }
 
-    originalImage = {
-      image,
-      url
-    };
+    const cellW = width / 3;
+    const cellH = height / 3;
 
-    pieces = [];
-    preview.innerHTML = "";
-    downloads.innerHTML = "";
-
-    generate.disabled = false;
-
-    status.textContent =
-      "图片加载成功：" +
-      image.width + " × " + image.height;
-  };
-
-  image.onerror = () => {
-    URL.revokeObjectURL(url);
-    status.textContent = "图片读取失败，请重新选择。";
-  };
-
-  image.src = url;
-});
-
-generate.addEventListener("click", () => {
-  if (!originalImage) return;
-
-  const image = originalImage.image;
-  const mode = document.getElementById("cropMode").value;
-  const format = document.getElementById("imageFormat").value;
-
-  let startX = 0;
-  let startY = 0;
-  let width = image.width;
-  let height = image.height;
-
-  if (mode === "square") {
-    const side = Math.min(width, height);
-
-    startX = (width - side) / 2;
-    startY = (height - side) / 2;
-
-    width = side;
-    height = side;
-  }
-
-  const cellWidth = width / 3;
-  const cellHeight = height / 3;
-
-  pieces = [];
-  preview.innerHTML = "";
-  downloads.innerHTML = "";
-
-  for (let row = 0; row < 3; row++) {
-    for (let col = 0; col < 3; col++) {
+    for (let i = 0; i < 9; i++) {
+      const row = Math.floor(i / 3);
+      const col = i % 3;
 
       const canvas = document.createElement("canvas");
-
-      canvas.width = Math.floor(cellWidth);
-      canvas.height = Math.floor(cellHeight);
+      canvas.width = Math.round(cellW);
+      canvas.height = Math.round(cellH);
 
       const ctx = canvas.getContext("2d");
 
       ctx.drawImage(
-        image,
-        startX + col * cellWidth,
-        startY + row * cellHeight,
-        cellWidth,
-        cellHeight,
+        img,
+        startX + col * cellW,
+        startY + row * cellH,
+        cellW,
+        cellH,
         0,
         0,
         canvas.width,
         canvas.height
       );
 
-      pieces.push(canvas);
+      cutCanvases.push(canvas);
 
-      preview.appendChild(canvas);
+      const item = document.createElement("div");
+      item.className = "preview-item";
+
+      item.appendChild(canvas);
 
       const button = document.createElement("button");
+      button.textContent = "下载第 " + (i + 1) + " 张";
 
-      button.textContent =
-        "下载第 " + (row * 3 + col + 1) + " 张";
+      button.onclick = async () => {
+        const blob = await canvasBlob(canvas, format);
+        if (!blob) {
+          status.textContent = "图片导出失败。";
+          return;
+        }
+        downloadBlob(blob, "九宫格-" + (i + 1) + "." + getExtension(format));
+      };
 
-      button.addEventListener("click", () => {
-        downloadCanvas(
-          canvas,
-          row * 3 + col + 1,
-          format
-        );
-      });
-
-      downloads.appendChild(button);
+      item.appendChild(button);
+      preview.appendChild(item);
     }
+
+    status.textContent = "切割完成！共生成 9 张图片。";
+
+  } catch (error) {
+    status.textContent = "处理失败：" + error.message;
   }
+};
 
-  status.textContent = "九宫格生成成功，共9张图片。";
-});
+// 创建九个图片上传位置
+const slots = document.getElementById("imageSlots");
+const mergeImages = Array(9).fill(null);
 
-function downloadCanvas(canvas, number, format) {
-  const extension = format.split("/")[1];
+for (let i = 0; i < 9; i++) {
+  const slot = document.createElement("div");
+  slot.className = "slot";
 
-  canvas.toBlob(blob => {
-    if (!blob) {
-      status.textContent = "图片导出失败，请重试。";
+  const number = document.createElement("div");
+  number.className = "slot-number";
+  number.textContent = "第 " + (i + 1) + " 张";
+
+  const img = document.createElement("img");
+  img.alt = "图片预览";
+
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = "image/png,image/jpeg,image/webp";
+
+  input.onchange = async () => {
+    const file = input.files[0];
+    if (!file) return;
+
+    if (file.size > 20 * 1024 * 1024) {
+      input.value = "";
+      document.getElementById("mergeStatus").textContent =
+        "单张图片不能超过 20MB。";
       return;
     }
 
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
+    try {
+      const image = await loadImage(file);
+      mergeImages[i] = image;
+      img.src = image.src;
+      document.getElementById("mergeStatus").textContent =
+        "已选择 " + mergeImages.filter(Boolean).length + " / 9 张图片。";
+      document.getElementById("downloadMerge").disabled = true;
+    } catch {
+      document.getElementById("mergeStatus").textContent =
+        "第 " + (i + 1) + " 张图片读取失败。";
+    }
+  };
 
-    link.href = url;
-    link.download = "taiga-grid-" + number + "." + extension;
+  slot.appendChild(number);
+  slot.appendChild(img);
+  slot.appendChild(input);
+  slots.appendChild(slot);
+}
 
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
+// 图片合成
+document.getElementById("mergeButton").onclick = async () => {
+  const status = document.getElementById("mergeStatus");
+  const canvas = document.getElementById("mergeCanvas");
+  const downloadButton = document.getElementById("downloadMerge");
 
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-  }, format);
+  if (mergeImages.some(image => !image)) {
+    status.textContent = "请先上传完整的九张图片。";
+    return;
+  }
+
+  const size = Number(document.getElementById("cellSize").value);
+  const ctx = canvas.getContext("2d");
+
+  canvas.width = size * 3;
+  canvas.height = size * 3;
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  for (let i = 0; i < 9; i++) {
+    const row = Math.floor(i / 3);
+    const col = i % 3;
+    const img = mergeImages[i];
+
+    // 将每张图片中心裁切为正方形
+    const side = Math.min(img.width, img.height);
+    const sx = (img.width - side) / 2;
+    const sy = (img.height - side) / 2;
+
+    ctx.drawImage(
+      img,
+      sx, sy, side, side,
+      col * size, row * size, size, size
+    );
+  }
+
+  canvas.classList.remove("hidden");
+  downloadButton.disabled = false;
+  status.textContent = "合成成功！最终图片尺寸：" +
+    canvas.width + " × " + canvas.height + "。";
+};
+
+// 下载合成图片
+document.getElementById("downloadMerge").onclick =
+async () => {
+  const format = document.getElementById("mergeFormat").value;
+  const canvas = document.getElementById("mergeCanvas");
+  const blob = await canvasBlob(canvas, format);
+
+  if (!blob) {
+    document.getElementById("mergeStatus").textContent =
+      "图片导出失败，请尝试其他格式。";
+    return;
+  }
+
+  downloadBlob(blob, "九宫格合成." + getExtension(format));
+};
+
+// 清空合成图片
+document.getElementById("clearMerge").onclick = () => {
+  mergeImages.fill(null);
+
+  document.querySelectorAll("#imageSlots input").forEach(input => {
+    input.value = "";
+  });
+
+  document.querySelectorAll("#imageSlots img").forEach(img => {
+    img.removeAttribute("src");
+  });
+
+  const canvas = document.getElementById("mergeCanvas");
+  canvas.classList.add("hidden");
+
+  document.getElementById("downloadMerge").disabled = true;
+  document.getElementById("mergeStatus").textContent =
+    "已清空，请重新上传九张图片。";
+};
+
+function getExtension(format) {
+  if (format === "image/jpeg") return "jpg";
+  if (format === "image/webp") return "webp";
+  return "png";
+}
+
+function downloadBlob(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 </script>
 
