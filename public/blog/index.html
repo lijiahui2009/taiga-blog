@@ -233,6 +233,11 @@ footer {
 
   <h2 class="section-title">文章列表</h2>
 
+  <div id="statusMessage"
+    style="font-size:13px;color:#817873;margin:10px 0;">
+    正在加载文章……
+  </div>
+
   <div class="article-list" id="articleList"></div>
 
 </div>
@@ -254,11 +259,10 @@ footer {
 
 <script>
 
-// 示例文章数据
-// 后续会将这里替换为数据库接口
-const articles = [
+// 原有示例文章
+const demoArticles = [
   {
-    id: 1,
+    id: "demo-1",
     title: "欢迎来到逢坂大河ws的综合站",
     category: "本站公告",
     date: "2026-10-31",
@@ -278,7 +282,7 @@ const articles = [
 本站会持续更新。`
   },
   {
-    id: 2,
+    id: "demo-2",
     title: "为什么建立自己的个人网站",
     category: "个人记录",
     date: "2026-10-31",
@@ -290,7 +294,7 @@ const articles = [
 这也是建立本站的一个重要原因。`
   },
   {
-    id: 3,
+    id: "demo-3",
     title: "从 HTML 开始学习网站开发",
     category: "技术",
     date: "2026-10-31",
@@ -307,23 +311,105 @@ JavaScript 负责网页交互。
   }
 ];
 
-// 获取分类
-const categories = [
-  "全部",
-  ...new Set(articles.map(article => article.category))
-];
-
+let articles = [...demoArticles];
 let currentCategory = "全部";
 let currentSearch = "";
 
 const categoryBox = document.getElementById("categories");
 const articleList = document.getElementById("articleList");
+const listPage = document.getElementById("listPage");
+const detail = document.getElementById("detail");
+const statusMessage = document.getElementById("statusMessage");
 
+// 日期格式处理
+function formatDate(value) {
+  if (!value) return "日期未知";
+  return String(value).slice(0, 10);
+}
+
+// 数据库文章转换
+function convertArticles(posts) {
+  return posts.map(post => ({
+    id: String(post.id),
+    title: post.title || "无标题",
+    category: post.category || "未分类",
+    date: formatDate(post.created_at),
+    summary: post.summary || "",
+    content: post.content || ""
+  }));
+}
+
+// 从 D1 数据库读取文章
+async function loadArticles() {
+  statusMessage.textContent = "正在从数据库读取文章……";
+
+  try {
+    const response = await fetch("/api/posts", {
+      cache: "no-store"
+    });
+
+    if (!response.ok) {
+      throw new Error("API 请求失败");
+    }
+
+    const data = await response.json();
+
+    if (!data.success || !Array.isArray(data.posts)) {
+      throw new Error("数据格式错误");
+    }
+
+    if (data.posts.length > 0) {
+      articles = convertArticles(data.posts);
+
+      statusMessage.textContent =
+        "已连接数据库 · 共 " + articles.length + " 篇文章";
+
+    } else {
+      articles = [...demoArticles];
+
+      statusMessage.textContent =
+        "数据库已连接，目前暂无已发布文章，正在显示示例文章。";
+    }
+
+  } catch (error) {
+    articles = [...demoArticles];
+
+    statusMessage.textContent =
+      "暂时无法读取数据库，当前显示的是示例文章。";
+
+    console.error("博客数据库读取失败：", error);
+  }
+
+  currentCategory = "全部";
+
+  renderCategories();
+  renderArticles();
+
+  // 支持通过网址直接打开文章
+  const initialId = new URLSearchParams(
+    window.location.search
+  ).get("article");
+
+  if (initialId) {
+    openArticle(initialId, false);
+  }
+}
+
+// 获取分类
+function getCategories() {
+  return [
+    "全部",
+    ...new Set(articles.map(article => article.category))
+  ];
+}
+
+// 渲染分类按钮
 function renderCategories() {
   categoryBox.innerHTML = "";
 
-  categories.forEach(category => {
+  getCategories().forEach(category => {
     const button = document.createElement("button");
+
     button.className =
       "category" +
       (category === currentCategory ? " active" : "");
@@ -340,21 +426,25 @@ function renderCategories() {
   });
 }
 
+// 渲染文章列表
 function renderArticles() {
   articleList.innerHTML = "";
+
+  const keyword = currentSearch.toLowerCase();
 
   const filtered = articles.filter(article => {
     const categoryMatch =
       currentCategory === "全部" ||
       article.category === currentCategory;
 
-    const keyword = currentSearch.toLowerCase();
-
-    const searchMatch =
-      article.title.toLowerCase().includes(keyword) ||
-      article.summary.toLowerCase().includes(keyword) ||
-      article.content.toLowerCase().includes(keyword) ||
-      article.category.toLowerCase().includes(keyword);
+    const searchMatch = [
+      article.title,
+      article.summary,
+      article.content,
+      article.category
+    ].some(value =>
+      String(value).toLowerCase().includes(keyword)
+    );
 
     return categoryMatch && searchMatch;
   });
@@ -385,19 +475,18 @@ function renderArticles() {
 
     card.append(category, title, summary, meta);
 
-    card.onclick = () => openArticle(article.id);
+    card.onclick = () => openArticle(article.id, true);
 
     articleList.appendChild(card);
   });
 }
 
-function openArticle(id) {
-  const article = articles.find(item => item.id === id);
+// 显示文章详情
+function showArticle(article) {
   if (!article) return;
 
-  document.getElementById("listPage").classList.add("hidden");
-
-  document.getElementById("detail").style.display = "block";
+  listPage.classList.add("hidden");
+  detail.style.display = "block";
 
   document.getElementById("detailCategory").textContent =
     article.category;
@@ -412,25 +501,55 @@ function openArticle(id) {
     article.content;
 
   window.scrollTo({ top: 0, behavior: "smooth" });
+}
 
-  history.pushState(
-    { articleId: id },
-    "",
-    "?article=" + id
+// 打开文章
+function openArticle(id, updateHistory = true) {
+  const article = articles.find(
+    item => String(item.id) === String(id)
   );
+
+  if (!article) return;
+
+  showArticle(article);
+
+  if (updateHistory) {
+    const url = new URL(window.location.href);
+    url.searchParams.set("article", id);
+
+    history.pushState(
+      { articleId: String(id) },
+      "",
+      url.pathname + url.search
+    );
+  }
 }
 
-function backToList() {
-  document.getElementById("detail").style.display = "none";
-  document.getElementById("listPage").classList.remove("hidden");
+// 返回文章列表
+function backToList(updateHistory = true) {
+  detail.style.display = "none";
+  listPage.classList.remove("hidden");
 
-  const url = new URL(window.location.href);
-  url.searchParams.delete("article");
-  history.replaceState({}, "", url.pathname);
+  if (updateHistory) {
+    const url = new URL(window.location.href);
+    url.searchParams.delete("article");
+
+    history.pushState(
+      {},
+      "",
+      url.pathname + url.search
+    );
+  }
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-document.getElementById("backButton").onclick = backToList;
+// 返回按钮
+document.getElementById("backButton").onclick = () => {
+  backToList(true);
+};
 
+// 搜索
 document.getElementById("searchInput").addEventListener(
   "input",
   event => {
@@ -439,33 +558,23 @@ document.getElementById("searchInput").addEventListener(
   }
 );
 
-window.addEventListener("popstate", event => {
-  if (event.state && event.state.articleId) {
-    openArticle(event.state.articleId);
+// 浏览器前进和后退
+window.addEventListener("popstate", () => {
+  const articleId = new URLSearchParams(
+    window.location.search
+  ).get("article");
+
+  if (articleId) {
+    openArticle(articleId, false);
   } else {
-    backToList();
+    backToList(false);
   }
 });
 
-renderCategories();
-renderArticles();
-
-const initialId = Number(
-  new URLSearchParams(window.location.search).get("article")
-);
-
-if (initialId) {
-  const article = articles.find(item => item.id === initialId);
-  if (article) {
-    document.getElementById("listPage").classList.add("hidden");
-    document.getElementById("detail").style.display = "block";
-    document.getElementById("detailCategory").textContent = article.category;
-    document.getElementById("detailTitle").textContent = article.title;
-    document.getElementById("detailMeta").textContent = "发布时间：" + article.date;
-    document.getElementById("detailContent").textContent = article.content;
-  }
-}
+// 启动博客
+loadArticles();
 
 </script>
 </body>
 </html>
+
