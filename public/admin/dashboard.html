@@ -14,11 +14,10 @@
   --muted: #857a73;
   --line: #eee7e2;
   --accent: #a87568;
+  --green: #56866a;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
@@ -111,7 +110,7 @@ main {
 
 .stats {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 16px;
   margin-bottom: 25px;
 }
@@ -167,8 +166,11 @@ main {
   cursor: pointer;
 }
 
-.btn:hover {
-  opacity: .85;
+.btn:hover { opacity: .85; }
+
+.btn-light {
+  background: #f3ebe7;
+  color: var(--accent);
 }
 
 .article {
@@ -200,10 +202,18 @@ main {
   padding: 25px 0;
 }
 
-@media (max-width: 700px) {
-  .layout {
-    display: block;
+.wall-number {
+  color: var(--accent);
+}
+
+@media (max-width: 950px) {
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
   }
+}
+
+@media (max-width: 700px) {
+  .layout { display: block; }
 
   .sidebar {
     width: 100%;
@@ -214,35 +224,25 @@ main {
     border-bottom: 1px solid var(--line);
   }
 
-  .nav-title {
-    display: none;
-  }
+  .nav-title { display: none; }
 
   .nav-item {
     white-space: nowrap;
     margin: 0 3px;
   }
 
-  main {
-    padding: 22px 15px;
-  }
+  main { padding: 22px 15px; }
 
   .stats {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 10px;
   }
 
-  .card {
-    padding: 17px;
-  }
+  .card { padding: 17px; }
 
-  header {
-    padding: 0 16px;
-  }
+  header { padding: 0 16px; }
 
-  .welcome h1 {
-    font-size: 23px;
-  }
+  .welcome h1 { font-size: 23px; }
 }
 </style>
 </head>
@@ -261,6 +261,7 @@ main {
     <a class="nav-item active" href="dashboard.html">管理首页</a>
     <a class="nav-item" href="write.html">写文章</a>
     <a class="nav-item" href="articles.html">文章管理</a>
+    <a class="nav-item" href="wall.html">大河墙审核</a>
     <a class="nav-item" href="settings.html">网站设置</a>
     <a class="nav-item" href="/">返回网站</a>
   </aside>
@@ -277,6 +278,11 @@ main {
       <div class="card">
         <div class="stat-label">已发布文章</div>
         <div class="stat-number" id="publishedCount">—</div>
+      </div>
+
+      <div class="card">
+        <div class="stat-label">待审核投稿</div>
+        <div class="stat-number wall-number" id="pendingCount">—</div>
       </div>
 
       <div class="card">
@@ -307,10 +313,24 @@ main {
     <section class="section">
 
       <div class="section-header">
+        <h2>大河墙投稿</h2>
+        <a class="btn" href="wall.html">进入审核</a>
+      </div>
+
+      <p style="font-size:13px;color:var(--muted);line-height:1.8;margin:0;">
+        管理访客投稿，审核通过后内容才会显示在大河墙。
+      </p>
+
+    </section>
+
+    <section class="section">
+
+      <div class="section-header">
         <h2>快捷操作</h2>
       </div>
 
       <a class="btn" href="write.html">＋ 写一篇新文章</a>
+      <a class="btn btn-light" href="wall.html">管理大河墙投稿</a>
 
     </section>
 
@@ -348,13 +368,15 @@ async function loadArticles() {
     count.textContent = posts.length;
     status.textContent = "已连接";
 
+    list.replaceChildren();
+
     if (posts.length === 0) {
-      list.innerHTML =
-        '<div class="empty">目前还没有已发布的文章。</div>';
+      const empty = document.createElement("div");
+      empty.className = "empty";
+      empty.textContent = "目前还没有已发布的文章。";
+      list.appendChild(empty);
       return;
     }
-
-    list.innerHTML = "";
 
     posts.slice(0, 8).forEach(post => {
       const item = document.createElement("div");
@@ -370,20 +392,51 @@ async function loadArticles() {
         (post.category || "未分类") + " · " +
         (post.created_at || "");
 
-      item.appendChild(title);
-      item.appendChild(info);
+      item.append(title, info);
       list.appendChild(item);
     });
 
   } catch (error) {
     count.textContent = "—";
     status.textContent = "未连接";
-    list.innerHTML =
-      '<div class="empty">暂时无法读取文章，请检查数据库接口。</div>';
+
+    const empty = document.createElement("div");
+    empty.className = "empty";
+    empty.textContent = "暂时无法读取文章，请检查数据库接口。";
+    list.replaceChildren(empty);
+  }
+}
+
+async function loadWallStats() {
+  const count = document.getElementById("pendingCount");
+
+  try {
+    const response = await fetch("/api/admin/wall", {
+      cache: "no-store",
+      credentials: "same-origin"
+    });
+
+    if (!response.ok) {
+      throw new Error("读取失败");
+    }
+
+    const result = await response.json();
+
+    if (!result.success || !Array.isArray(result.posts)) {
+      throw new Error("数据格式错误");
+    }
+
+    count.textContent = result.posts.filter(
+      post => post.status === "pending"
+    ).length;
+
+  } catch (error) {
+    count.textContent = "—";
   }
 }
 
 loadArticles();
+loadWallStats();
 </script>
 
 </body>
