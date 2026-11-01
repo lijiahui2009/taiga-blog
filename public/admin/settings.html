@@ -1,0 +1,255 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>网站设置中心</title>
+<style>
+:root {
+  --bg: #f7f5f3;
+  --card: #fff;
+  --text: #302b29;
+  --muted: #817873;
+  --accent: #b77b70;
+  --border: #ebe5e1;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  padding: 30px 18px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.container { max-width: 850px; margin: auto; }
+header { margin-bottom: 25px; }
+h1 { font-size: 27px; margin: 0 0 9px; }
+.subtitle { color: var(--muted); font-size: 14px; }
+nav { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+nav a {
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 14px;
+}
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  padding: 23px;
+  margin-bottom: 17px;
+}
+h2 { font-size: 18px; margin: 0 0 18px; }
+.field { margin-bottom: 17px; }
+label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+input, textarea {
+  width: 100%;
+  padding: 12px 13px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: #fff;
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+  outline: none;
+}
+input:focus, textarea:focus { border-color: var(--accent); }
+textarea { min-height: 105px; resize: vertical; line-height: 1.7; }
+.hint { color: var(--muted); font-size: 12px; margin-top: 6px; }
+.switch-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+.switch-row p { color: var(--muted); font-size: 13px; margin: 6px 0 0; }
+input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--accent); }
+button {
+  border: 0;
+  border-radius: 9px;
+  padding: 12px 22px;
+  background: var(--accent);
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+}
+button:disabled { opacity: .6; cursor: wait; }
+.actions { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
+#status { font-size: 13px; color: var(--muted); }
+@media(max-width:600px) {
+  body { padding: 22px 13px; }
+  .card { padding: 18px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>网站设置中心</h1>
+  <div class="subtitle">统一管理综合站的基本信息与展示内容</div>
+  <nav>
+    <a href="dashboard.html">← 返回管理首页</a>
+    <a href="articles.html">文章管理</a>
+    <a href="wall.html">大河墙审核</a>
+    <a href="../">访问网站</a>
+  </nav>
+</header>
+
+<section class="card">
+  <h2>基本信息</h2>
+  <div class="field">
+    <label for="site_name">网站名称</label>
+    <input id="site_name" maxlength="200">
+  </div>
+  <div class="field">
+    <label for="site_subtitle">网站副标题</label>
+    <input id="site_subtitle" maxlength="300">
+  </div>
+</section>
+
+<section class="card">
+  <h2>首页设置</h2>
+  <div class="field">
+    <label for="home_notice">首页公告</label>
+    <textarea id="home_notice" maxlength="5000" placeholder="留空则不显示公告"></textarea>
+  </div>
+</section>
+
+<section class="card">
+  <h2>关于本站</h2>
+  <div class="field">
+    <label for="about_intro">网站介绍</label>
+    <textarea id="about_intro" maxlength="5000"></textarea>
+  </div>
+</section>
+
+<section class="card">
+  <h2>大河墙设置</h2>
+  <div class="field">
+    <label for="wall_notice">大河墙公告</label>
+    <textarea id="wall_notice" maxlength="5000" placeholder="留空则不显示公告"></textarea>
+  </div>
+</section>
+
+<section class="card">
+  <h2>网站运行状态</h2>
+  <div class="switch-row">
+    <div>
+      <label for="maintenance_mode">维护模式</label>
+      <p>开启后，网站前台将显示维护提示。当前页面仅保存开关，前台拦截功能后续接入。</p>
+    </div>
+    <input type="checkbox" id="maintenance_mode">
+  </div>
+  <div class="field" style="margin-top:20px">
+    <label for="maintenance_message">维护提示内容</label>
+    <textarea id="maintenance_message" maxlength="1000"></textarea>
+  </div>
+</section>
+
+<section class="card">
+  <div class="actions">
+    <button id="saveBtn" onclick="saveSettings()">保存全部设置</button>
+    <span id="status">正在读取设置……</span>
+  </div>
+</section>
+</div>
+
+<script>
+const API = "/api/admin/settings";
+
+const fields = [
+  "site_name",
+  "site_subtitle",
+  "home_notice",
+  "about_intro",
+  "wall_notice",
+  "maintenance_message"
+];
+
+const statusEl = document.getElementById("status");
+const saveBtn = document.getElementById("saveBtn");
+
+async function loadSettings() {
+  try {
+    const response = await fetch(API, {
+      credentials: "same-origin"
+    });
+
+    if (response.status === 401 || response.status === 403) {
+      location.href = "/admin/";
+      return;
+    }
+
+    const data = await response.json();
+
+    if (!response.ok || !data.success) {
+      throw new Error(data.message || "读取失败");
+    }
+
+    for (const key of fields) {
+      document.getElementById(key).value =
+        data.settings[key] || "";
+    }
+
+    document.getElementById("maintenance_mode").checked =
+      data.settings.maintenance_mode === "true";
+
+    statusEl.textContent = "设置读取成功";
+  } catch (error) {
+    statusEl.textContent = "读取失败：" + error.message;
+  }
+}
+
+async function saveSettings() {
+  const settings = {};
+
+  for (const key of fields) {
+    settings[key] = document.getElementById(key).value;
+  }
+
+  settings.maintenance_mode =
+    document.getElementById("maintenance_mode").checked
+      ? "true"
+      : "false";
+
+  saveBtn.disabled = true;
+  statusEl.textContent = "正在保存……";
+
+  try {
+    const response = await fetch(API, {
+      method: "PUT",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(settings)
+    });
+
+    if (response.status === 401 || response.status === 403) {
+      location.href = "/admin/";
+      return;
+    }
+
+    const data = await response.json();
+
+    if (!response.ok || !data.success) {
+      throw new Error(data.message || "保存失败");
+    }
+
+    statusEl.textContent = "✓ 保存成功，设置已写入数据库";
+  } catch (error) {
+    statusEl.textContent = "保存失败：" + error.message;
+  } finally {
+    saveBtn.disabled = false;
+  }
+}
+
+loadSettings();
+</script>
+</body>
+</html>
