@@ -4,137 +4,354 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#faf7f5">
 <title>逢坂大河ws的综合站</title>
+
 <style>
+:root {
+  --bg: #faf7f5;
+  --white: #ffffff;
+  --text: #302b29;
+  --muted: #817873;
+  --accent: #b77b70;
+  --border: #eee5e1;
+}
+
 * {
   box-sizing: border-box;
 }
+
 body {
   margin: 0;
-  background: #f8f8f6;
-  color: #292929;
+  background: var(--bg);
+  color: var(--text);
   font-family: Arial, "Microsoft YaHei", sans-serif;
 }
-header {
-  padding: 22px 6%;
-  background: white;
-  border-bottom: 1px solid #eee;
+
+a {
+  color: inherit;
+  text-decoration: none;
 }
+
+header {
+  padding: 22px 7%;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+}
+
+.header-inner {
+  max-width: 1100px;
+  margin: auto;
+}
+
 .logo {
   font-size: 21px;
   font-weight: bold;
+  letter-spacing: .3px;
 }
+
 nav {
-  margin-top: 15px;
+  margin-top: 17px;
   display: flex;
   flex-wrap: wrap;
-  gap: 22px;
+  gap: 25px;
 }
+
 nav a {
-  text-decoration: none;
-  color: #777;
+  color: var(--muted);
   font-size: 14px;
+  transition: color .2s;
 }
+
+nav a:hover {
+  color: var(--accent);
+}
+
 .hero {
-  padding: 90px 8%;
-  border-bottom: 1px solid #eee;
+  padding: 100px 8%;
+  background: #f4eeeb;
+  border-bottom: 1px solid var(--border);
 }
-.hero h1 {
-  font-size: 43px;
-  line-height: 1.4;
-}
-.hero p {
-  color: #888;
-  line-height: 2;
-}
-.container {
+
+.hero-inner {
   max-width: 1000px;
   margin: auto;
-  padding: 50px 6%;
 }
+
+.hero-label {
+  color: var(--accent);
+  font-size: 13px;
+  letter-spacing: 2px;
+}
+
+.hero h1 {
+  font-size: 45px;
+  line-height: 1.45;
+  margin: 20px 0;
+  font-weight: 600;
+}
+
+.hero p {
+  color: var(--muted);
+  line-height: 2;
+  font-size: 15px;
+}
+
+.hero-link {
+  display: inline-block;
+  margin-top: 17px;
+  padding: 12px 21px;
+  background: var(--accent);
+  color: white;
+  border-radius: 7px;
+  font-size: 14px;
+  transition: opacity .2s;
+}
+
+.hero-link:hover {
+  opacity: .85;
+}
+
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 65px 7%;
+}
+
+.section-heading {
+  margin-bottom: 25px;
+}
+
+.section-heading h2 {
+  font-size: 23px;
+  margin: 0 0 9px;
+}
+
+.section-heading p {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 0;
+  line-height: 1.8;
+}
+
 .grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 17px;
 }
+
 .card {
-  background: white;
-  border: 1px solid #eee;
-  padding: 25px;
-  border-radius: 8px;
+  display: block;
+  background: var(--white);
+  border: 1px solid var(--border);
+  padding: 26px;
+  border-radius: 11px;
+  transition: transform .2s, border-color .2s;
 }
-.card h3 {
-  margin-top: 0;
+
+.card:hover {
+  transform: translateY(-3px);
+  border-color: #d9b9b0;
 }
-.card p {
-  color: #888;
-  font-size: 13px;
-}
-footer {
-  padding: 30px;
-  text-align: center;
-  color: #999;
+
+.card-number {
+  color: var(--accent);
   font-size: 12px;
+  letter-spacing: 1px;
 }
-@media(max-width:600px) {
+
+.card h3 {
+  font-size: 18px;
+  margin: 17px 0 10px;
+}
+
+.card p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.8;
+  margin: 0;
+}
+
+.card-more {
+  display: block;
+  color: var(--accent);
+  font-size: 12px;
+  margin-top: 20px;
+}
+
+.about-section {
+  background: var(--white);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.about-inner {
+  max-width: 1100px;
+  margin: auto;
+  padding: 55px 7%;
+}
+
+.about-inner h2 {
+  font-size: 22px;
+}
+
+.about-inner p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 2;
+  max-width: 700px;
+}
+
+.about-link {
+  display: inline-block;
+  color: var(--accent);
+  font-size: 13px;
+  margin-top: 10px;
+}
+
+footer {
+  padding: 35px 15px;
+  text-align: center;
+  color: #a39a95;
+  font-size: 12px;
+  line-height: 2;
+}
+
+@media(max-width: 600px) {
+  header {
+    padding: 20px 6%;
+  }
+
+  nav {
+    gap: 17px;
+  }
+
+  .hero {
+    padding: 70px 7%;
+  }
+
+  .hero h1 {
+    font-size: 34px;
+  }
+
+  .container {
+    padding: 45px 6%;
+  }
+
   .grid {
     grid-template-columns: 1fr;
   }
-  .hero h1 {
-    font-size: 34px;
+
+  .card {
+    padding: 23px;
   }
 }
 </style>
 </head>
+
 <body>
 
 <header>
-  <div class="logo">逢坂大河ws.</div>
-  <nav>
-    <a href="/">首页</a>
-    <a href="/blog/">博客</a>
-    <a href="/tools/nine-grid/">九宫格合成</a>
-    <a href="/about/">关于本站</a>
-  </nav>
+  <div class="header-inner">
+    <div class="logo">逢坂大河ws.</div>
+
+    <nav>
+      <a href="/">首页</a>
+      <a href="/blog/">个人博客</a>
+      <a href="/wall/">大河墙</a>
+      <a href="/tools/nine-grid/">九宫格工具</a>
+      <a href="/about/">关于本站</a>
+    </nav>
+  </div>
 </header>
 
 <section class="hero">
-  <h1>逢坂大河ws的<br>综合站</h1>
-  <p>
-    一个属于自己的互联网空间。<br>
-    记录生活、分享知识、探索技术。
-  </p>
+  <div class="hero-inner">
+    <div class="hero-label">PERSONAL WEBSITE</div>
+
+    <h1>逢坂大河ws的<br>综合站</h1>
+
+    <p>
+      一个属于自己的互联网空间。<br>
+      记录想法、分享知识、交流观点，也不断探索新的可能。
+    </p>
+
+    <a class="hero-link" href="/wall/">进入大河墙 →</a>
+  </div>
 </section>
 
 <main class="container">
-  <h2>网站功能</h2>
+
+  <div class="section-heading">
+    <h2>网站功能</h2>
+    <p>这里不只有博客，还有各种正在建设和持续更新的功能。</p>
+  </div>
 
   <div class="grid">
-    <div class="card">
+
+    <a class="card" href="/blog/">
+      <div class="card-number">01 / BLOG</div>
       <h3>个人博客</h3>
-      <p>记录想法，分享文章。</p>
-    </div>
+      <p>记录个人想法、日常观察、知识整理与文章分享。</p>
+      <span class="card-more">进入博客 →</span>
+    </a>
 
-    <div class="card">
-      <h3>九宫格合成</h3>
-      <p>图片切割与批量下载。</p>
-    </div>
+    <a class="card" href="/wall/">
+      <div class="card-number">02 / COMMUNITY</div>
+      <h3>大河墙</h3>
+      <p>一个自由交流的空间，支持表白、树洞、日常分享与匿名投稿。</p>
+      <span class="card-more">进入大河墙 →</span>
+    </a>
 
-    <div class="card">
-      <h3>资料库</h3>
-      <p>整理人物资料与图片。</p>
-    </div>
+    <a class="card" href="/tools/nine-grid/">
+      <div class="card-number">03 / TOOLS</div>
+      <h3>九宫格工具</h3>
+      <p>图片九宫格切割、九张图片合成等实用功能。</p>
+      <span class="card-more">使用工具 →</span>
+    </a>
 
-    <div class="card">
+    <a class="card" href="/about/">
+      <div class="card-number">04 / ABOUT</div>
       <h3>关于本站</h3>
-      <p>了解网站的建立初衷。</p>
+      <p>了解网站的建立初衷、设计理念与未来发展方向。</p>
+      <span class="card-more">了解更多 →</span>
+    </a>
+
+    <div class="card">
+      <div class="card-number">05 / ARCHIVE</div>
+      <h3>个人资料库</h3>
+      <p>整理人物资料、图片与背景信息，后续逐步建设。</p>
+      <span class="card-more">正在规划</span>
     </div>
+
+    <div class="card">
+      <div class="card-number">06 / FUTURE</div>
+      <h3>更多功能</h3>
+      <p>持续尝试新的想法，未来还会加入更多工具与内容。</p>
+      <span class="card-more">持续更新</span>
+    </div>
+
   </div>
 </main>
 
+<section class="about-section">
+  <div class="about-inner">
+    <h2>关于这个空间</h2>
+    <p>
+      这里是一个持续建设中的个人综合站。
+      它既是个人博客，也是一个可以容纳各种工具、
+      资料和交流功能的互联网空间。
+      网站没有固定的内容边界，未来会根据新的想法不断扩展。
+    </p>
+    <a class="about-link" href="/about/">了解本站 →</a>
+  </div>
+</section>
+
 <footer>
-  © 2026 逢坂大河ws的综合站
+  © 2026 逢坂大河ws的综合站<br>
+  一个持续建设中的个人互联网空间
 </footer>
 
 </body>
 </html>
+
