@@ -1,0 +1,422 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>大河墙 - 逢坂大河ws的综合站</title>
+<style>
+:root {
+  --bg: #faf7f5;
+  --card: #fff;
+  --text: #302b29;
+  --muted: #817873;
+  --accent: #b77b70;
+  --border: #eee5e1;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  padding: 24px 16px 60px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.container { max-width: 850px; margin: auto; }
+header { margin-bottom: 25px; }
+h1 { font-size: 30px; margin: 0 0 9px; }
+.subtitle { color: var(--muted); font-size: 14px; line-height: 1.7; }
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 20px 0;
+}
+nav a {
+  color: var(--accent);
+  text-decoration: none;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 9px 13px;
+  font-size: 13px;
+}
+.panel {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  padding: 19px;
+  margin-bottom: 18px;
+}
+h2 { font-size: 18px; margin: 0 0 15px; }
+.categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-bottom: 18px;
+}
+.category {
+  background: white;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  border-radius: 20px;
+  padding: 8px 13px;
+  cursor: pointer;
+  font-size: 13px;
+}
+.category.active {
+  background: #f2e8e4;
+  color: var(--accent);
+  border-color: #e7d5cf;
+}
+label {
+  display: block;
+  font-size: 13px;
+  margin: 13px 0 7px;
+  color: var(--muted);
+}
+input, textarea, select {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 12px;
+  font: inherit;
+  font-size: 14px;
+  background: white;
+  color: var(--text);
+}
+textarea {
+  min-height: 130px;
+  resize: vertical;
+  line-height: 1.7;
+}
+.identity {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 14px;
+  font-size: 13px;
+  color: var(--text);
+}
+.identity input { width: auto; }
+.submit {
+  width: 100%;
+  margin-top: 16px;
+  padding: 13px;
+  border: 0;
+  border-radius: 9px;
+  background: var(--accent);
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+}
+.submit:disabled { opacity: .6; cursor: wait; }
+.notice {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.7;
+  margin-top: 12px;
+}
+.post {
+  border-bottom: 1px solid var(--border);
+  padding: 17px 0;
+}
+.post:last-child { border-bottom: 0; }
+.post-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  color: var(--muted);
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+.post-category { color: var(--accent); }
+.post-content {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 1.8;
+  font-size: 14px;
+}
+.message { color: var(--muted); font-size: 13px; padding: 12px 0; }
+.error { color: #bd625c; }
+.hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+@media (max-width: 500px) {
+  body { padding-left: 13px; padding-right: 13px; }
+  .panel { padding: 15px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>大河墙</h1>
+    <div class="subtitle">
+      一个自由交流与分享的地方。<br>
+      可以表白、倾诉、分享日常，也可以提出问题或推荐资源。
+    </div>
+  </header>
+
+  <nav>
+    <a href="/">网站首页</a>
+    <a href="/blog/">个人博客</a>
+  </nav>
+
+  <section class="panel">
+    <h2>选择板块</h2>
+    <div class="categories" id="categories"></div>
+  </section>
+
+  <section class="panel">
+    <h2>发布投稿</h2>
+
+    <form id="postForm">
+      <label for="category">投稿板块</label>
+      <select id="category" required></select>
+
+      <label for="content">投稿内容</label>
+      <textarea id="content" minlength="2" maxlength="3000"
+        placeholder="写下你想分享的内容……" required></textarea>
+
+      <div class="identity">
+        <input type="checkbox" id="anonymous" checked>
+        <label for="anonymous" style="margin:0;color:var(--text)">
+          匿名投稿
+        </label>
+      </div>
+
+      <div id="nicknameArea" hidden>
+        <label for="nickname">显示昵称</label>
+        <input id="nickname" maxlength="30" placeholder="输入你想展示的昵称">
+      </div>
+
+      <div class="hp" aria-hidden="true">
+        <label for="website">网站</label>
+        <input id="website" name="website" tabindex="-1" autocomplete="off">
+      </div>
+
+      <button class="submit" id="submitButton" type="submit">提交投稿</button>
+
+      <div class="notice">
+        投稿提交后会进入审核，审核通过后才会显示在墙上。
+        匿名投稿不会展示昵称。请勿填写密码、联系方式等个人隐私信息。
+      </div>
+    </form>
+
+    <div id="submitMessage" class="message"></div>
+  </section>
+
+  <section class="panel">
+    <h2 id="listTitle">最新投稿</h2>
+    <div id="postList" class="message">正在加载投稿...</div>
+  </section>
+</div>
+
+<script>
+const categoryNames = [
+  "表白墙",
+  "树洞",
+  "日常分享",
+  "建议反馈",
+  "二次元交流",
+  "提问求助",
+  "资源推荐",
+  "自由投稿"
+];
+
+const categoryBox = document.getElementById("categories");
+const categorySelect = document.getElementById("category");
+const postList = document.getElementById("postList");
+const listTitle = document.getElementById("listTitle");
+const anonymousInput = document.getElementById("anonymous");
+const nicknameArea = document.getElementById("nicknameArea");
+const nicknameInput = document.getElementById("nickname");
+const contentInput = document.getElementById("content");
+const submitButton = document.getElementById("submitButton");
+const submitMessage = document.getElementById("submitMessage");
+
+let selectedCategory = "全部";
+let allPosts = [];
+
+function setupCategories() {
+  const allOption = document.createElement("option");
+  allOption.value = "全部";
+  allOption.textContent = "全部板块";
+  categorySelect.appendChild(allOption);
+
+  categoryNames.forEach(name => {
+    const option = document.createElement("option");
+    option.value = name;
+    option.textContent = name;
+    categorySelect.appendChild(option);
+  });
+
+  const allButton = document.createElement("button");
+  allButton.type = "button";
+  allButton.className = "category active";
+  allButton.textContent = "全部";
+  allButton.addEventListener("click", () => chooseCategory("全部"));
+  categoryBox.appendChild(allButton);
+
+  categoryNames.forEach(name => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "category";
+    button.textContent = name;
+    button.addEventListener("click", () => chooseCategory(name));
+    categoryBox.appendChild(button);
+  });
+}
+
+function chooseCategory(name) {
+  selectedCategory = name;
+  categorySelect.value = name === "全部" ? "自由投稿" : name;
+  categoryBox.querySelectorAll("button").forEach(button => {
+    button.classList.toggle("active", button.textContent === name);
+  });
+  renderPosts();
+}
+
+anonymousInput.addEventListener("change", () => {
+  nicknameArea.hidden = anonymousInput.checked;
+  nicknameInput.required = !anonymousInput.checked;
+});
+
+async function loadPosts() {
+  try {
+    const response = await fetch("/api/wall", {
+      method: "GET",
+      cache: "no-store"
+    });
+    const data = await response.json();
+
+    if (!response.ok || !data.success) {
+      throw new Error(data.error || "读取投稿失败");
+    }
+
+    allPosts = Array.isArray(data.posts) ? data.posts : [];
+    renderPosts();
+  } catch (error) {
+    postList.textContent = "投稿加载失败，请稍后刷新重试。";
+    postList.className = "message error";
+  }
+}
+
+function renderPosts() {
+  postList.replaceChildren();
+
+  const visiblePosts = allPosts.filter(post =>
+    selectedCategory === "全部" || post.category === selectedCategory
+  );
+
+  listTitle.textContent =
+    selectedCategory === "全部" ? "最新投稿" : selectedCategory;
+
+  if (visiblePosts.length === 0) {
+    postList.textContent = "这个板块暂时还没有公开投稿。";
+    postList.className = "message";
+    return;
+  }
+
+  postList.className = "";
+
+  visiblePosts.forEach(post => {
+    const article = document.createElement("article");
+    article.className = "post";
+
+    const meta = document.createElement("div");
+    meta.className = "post-meta";
+
+    const category = document.createElement("span");
+    category.className = "post-category";
+    category.textContent = post.category || "自由投稿";
+
+    const author = document.createElement("span");
+    author.textContent = post.is_anonymous
+      ? "匿名用户"
+      : (post.nickname || "用户");
+
+    const time = document.createElement("span");
+    time.textContent = post.created_at || "";
+
+    meta.append(category, author, time);
+
+    const content = document.createElement("div");
+    content.className = "post-content";
+    content.textContent = post.content || "";
+
+    article.append(meta, content);
+    postList.appendChild(article);
+  });
+}
+
+document.getElementById("postForm").addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const content = contentInput.value.trim();
+  const isAnonymous = anonymousInput.checked;
+  const nickname = nicknameInput.value.trim();
+
+  if (content.length < 2) {
+    submitMessage.textContent = "投稿内容至少需要 2 个字符。";
+    submitMessage.className = "message error";
+    return;
+  }
+
+  if (!isAnonymous && !nickname) {
+    submitMessage.textContent = "请填写昵称，或者选择匿名投稿。";
+    submitMessage.className = "message error";
+    return;
+  }
+
+  submitButton.disabled = true;
+  submitButton.textContent = "正在提交...";
+  submitMessage.textContent = "";
+
+  try {
+    const response = await fetch("/api/wall", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        category: categorySelect.value,
+        content,
+        is_anonymous: isAnonymous,
+        nickname: isAnonymous ? "" : nickname,
+        website: document.getElementById("website").value
+      })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok || !data.success) {
+      throw new Error(data.error || "投稿提交失败");
+    }
+
+    submitMessage.textContent =
+      "投稿成功！内容已进入审核，通过后就会显示在大河墙。";
+    submitMessage.className = "message";
+
+    contentInput.value = "";
+    nicknameInput.value = "";
+    anonymousInput.checked = true;
+    nicknameArea.hidden = true;
+    nicknameInput.required = false;
+  } catch (error) {
+    submitMessage.textContent = "提交失败：" + error.message;
+    submitMessage.className = "message error";
+  } finally {
+    submitButton.disabled = false;
+    submitButton.textContent = "提交投稿";
+  }
+});
+
+setupCategories();
+loadPosts();
+</script>
+</body>
+</html>
