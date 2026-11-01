@@ -1,0 +1,344 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>大河墙审核 - 逢坂大河ws</title>
+<style>
+:root {
+  --bg: #faf7f5;
+  --card: #ffffff;
+  --text: #302b29;
+  --muted: #817873;
+  --accent: #b77b70;
+  --border: #eee5e1;
+  --green: #4d8b68;
+  --red: #bd625c;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  padding: 24px 16px 50px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.container { max-width: 900px; margin: auto; }
+header { margin-bottom: 24px; }
+h1 { font-size: 25px; margin: 0 0 8px; }
+.subtitle { color: var(--muted); font-size: 13px; }
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 20px 0;
+}
+nav a {
+  color: var(--accent);
+  text-decoration: none;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 9px 13px;
+  font-size: 13px;
+}
+.panel {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 17px;
+  margin-bottom: 16px;
+}
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+input, select {
+  min-width: 0;
+  padding: 11px 12px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: white;
+  color: var(--text);
+  font-size: 14px;
+}
+input { flex: 1; }
+select { flex: 0 0 auto; }
+button {
+  border: 0;
+  border-radius: 8px;
+  padding: 9px 13px;
+  font-size: 13px;
+  cursor: pointer;
+}
+.refresh { background: #f1e8e4; color: var(--text); }
+.approve { background: #e5f1e8; color: var(--green); }
+.reject { background: #f8e9e7; color: var(--red); }
+.pending { background: #f1e8e4; color: var(--accent); }
+.delete { background: #f5eeee; color: #a44e4e; }
+.post {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 13px;
+}
+.post-top {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.meta { color: var(--muted); font-size: 12px; }
+.status {
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 20px;
+  background: #f3efec;
+}
+.status-approved { color: var(--green); background: #eaf3ec; }
+.status-rejected { color: var(--red); background: #f8e9e7; }
+.content {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 1.75;
+  font-size: 14px;
+  margin: 12px 0;
+}
+.actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.message {
+  color: var(--muted);
+  font-size: 13px;
+  padding: 18px 2px;
+}
+.error { color: var(--red); }
+@media (max-width: 500px) {
+  .toolbar { flex-direction: column; }
+  input, select { width: 100%; flex: auto; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>大河墙审核</h1>
+    <div class="subtitle">管理访客投稿，审核通过后才会公开显示。</div>
+  </header>
+
+  <nav>
+    <a href="dashboard.html">管理首页</a>
+    <a href="write.html">写文章</a>
+    <a href="articles.html">文章管理</a>
+    <a href="/">返回网站</a>
+  </nav>
+
+  <section class="panel">
+    <div class="toolbar">
+      <input id="search" placeholder="搜索投稿内容或昵称">
+      <select id="filter">
+        <option value="all">全部投稿</option>
+        <option value="pending">待审核</option>
+        <option value="approved">已通过</option>
+        <option value="rejected">已拒绝</option>
+      </select>
+      <button class="refresh" id="refresh">刷新投稿</button>
+    </div>
+    <div id="message" class="message">正在加载投稿...</div>
+    <div id="postList"></div>
+  </section>
+</div>
+
+<script>
+const postList = document.getElementById("postList");
+const message = document.getElementById("message");
+const searchInput = document.getElementById("search");
+const filterSelect = document.getElementById("filter");
+
+let posts = [];
+
+const statusNames = {
+  pending: "待审核",
+  approved: "已通过",
+  rejected: "已拒绝"
+};
+
+function showMessage(text, isError = false) {
+  message.textContent = text;
+  message.className = isError ? "message error" : "message";
+}
+
+function createButton(text, className, callback) {
+  const button = document.createElement("button");
+  button.textContent = text;
+  button.className = className;
+  button.addEventListener("click", callback);
+  return button;
+}
+
+async function loadPosts() {
+  showMessage("正在加载投稿...");
+  postList.replaceChildren();
+
+  try {
+    const response = await fetch("/api/admin/wall", {
+      method: "GET",
+      credentials: "same-origin",
+      cache: "no-store"
+    });
+
+    const data = await response.json();
+
+    if (!response.ok || !data.success) {
+      throw new Error(data.error || "读取投稿失败");
+    }
+
+    posts = Array.isArray(data.posts) ? data.posts : [];
+    renderPosts();
+  } catch (error) {
+    showMessage("加载失败：" + error.message + "。请检查管理员登录状态或 API 部署情况。", true);
+  }
+}
+
+function renderPosts() {
+  postList.replaceChildren();
+
+  const keyword = searchInput.value.trim().toLowerCase();
+  const filter = filterSelect.value;
+
+  const filtered = posts.filter(post => {
+    const matchesStatus = filter === "all" || post.status === filter;
+    const matchesKeyword =
+      String(post.content || "").toLowerCase().includes(keyword) ||
+      String(post.nickname || "").toLowerCase().includes(keyword);
+    return matchesStatus && matchesKeyword;
+  });
+
+  if (filtered.length === 0) {
+    showMessage(posts.length === 0 ? "目前还没有投稿。" : "没有找到符合条件的投稿。");
+    return;
+  }
+
+  showMessage("共找到 " + filtered.length + " 条投稿。");
+
+  filtered.forEach(post => {
+    const card = document.createElement("article");
+    card.className = "post";
+
+    const top = document.createElement("div");
+    top.className = "post-top";
+
+    const info = document.createElement("div");
+    info.className = "meta";
+    const author = post.is_anonymous
+      ? "匿名投稿"
+      : "昵称：" + (post.nickname || "未填写");
+
+    info.textContent =
+      (post.category || "未分类") + " · " + author +
+      " · " + (post.created_at || "");
+
+    const status = document.createElement("span");
+    status.className = "status status-" + post.status;
+    status.textContent = statusNames[post.status] || post.status;
+
+    top.appendChild(info);
+    top.appendChild(status);
+
+    const content = document.createElement("div");
+    content.className = "content";
+    content.textContent = post.content || "";
+
+    const actions = document.createElement("div");
+    actions.className = "actions";
+
+    if (post.status !== "approved") {
+      actions.appendChild(createButton("通过审核", "approve", () => {
+        updateStatus(post.id, "approved");
+      }));
+    }
+
+    if (post.status !== "rejected") {
+      actions.appendChild(createButton("拒绝投稿", "reject", () => {
+        updateStatus(post.id, "rejected");
+      }));
+    }
+
+    if (post.status !== "pending") {
+      actions.appendChild(createButton("恢复待审核", "pending", () => {
+        updateStatus(post.id, "pending");
+      }));
+    }
+
+    actions.appendChild(createButton("删除", "delete", () => {
+      deletePost(post.id);
+    }));
+
+    card.appendChild(top);
+    card.appendChild(content);
+    card.appendChild(actions);
+    postList.appendChild(card);
+  });
+}
+
+async function updateStatus(id, status) {
+  const actionName = statusNames[status] || status;
+
+  if (!confirm("确定要将这条投稿设为「" + actionName + "」吗？")) {
+    return;
+  }
+
+  try {
+    const response = await fetch("/api/admin/wall", {
+      method: "PUT",
+      credentials: "same-origin",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, status, review_note: "" })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok || !data.success) {
+      throw new Error(data.error || "操作失败");
+    }
+
+    await loadPosts();
+  } catch (error) {
+    alert("操作失败：" + error.message);
+  }
+}
+
+async function deletePost(id) {
+  if (!confirm("确定永久删除这条投稿吗？删除后无法恢复。")) {
+    return;
+  }
+
+  try {
+    const response = await fetch("/api/admin/wall", {
+      method: "DELETE",
+      credentials: "same-origin",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok || !data.success) {
+      throw new Error(data.error || "删除失败");
+    }
+
+    await loadPosts();
+  } catch (error) {
+    alert("删除失败：" + error.message);
+  }
+}
+
+searchInput.addEventListener("input", renderPosts);
+filterSelect.addEventListener("change", renderPosts);
+document.getElementById("refresh").addEventListener("click", loadPosts);
+
+loadPosts();
+</script>
+</body>
+</html>
