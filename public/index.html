@@ -17,9 +17,7 @@
   --border: #eee5e1;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
@@ -28,10 +26,7 @@ body {
   font-family: Arial, "Microsoft YaHei", sans-serif;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+a { color: inherit; text-decoration: none; }
 
 header {
   padding: 22px 7%;
@@ -63,9 +58,7 @@ nav a {
   transition: color .2s;
 }
 
-nav a:hover {
-  color: var(--accent);
-}
+nav a:hover { color: var(--accent); }
 
 .hero {
   padding: 100px 8%;
@@ -108,8 +101,21 @@ nav a:hover {
   transition: opacity .2s;
 }
 
-.hero-link:hover {
-  opacity: .85;
+.hero-link:hover { opacity: .85; }
+
+.notice {
+  display: none;
+  max-width: 1100px;
+  margin: 25px auto 0;
+  padding: 15px 20px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.8;
+  white-space: pre-wrap;
 }
 
 .container {
@@ -118,9 +124,7 @@ nav a:hover {
   padding: 65px 7%;
 }
 
-.section-heading {
-  margin-bottom: 25px;
-}
+.section-heading { margin-bottom: 25px; }
 
 .section-heading h2 {
   font-size: 23px;
@@ -191,15 +195,14 @@ nav a:hover {
   padding: 55px 7%;
 }
 
-.about-inner h2 {
-  font-size: 22px;
-}
+.about-inner h2 { font-size: 22px; }
 
 .about-inner p {
   color: var(--muted);
   font-size: 14px;
   line-height: 2;
   max-width: 700px;
+  white-space: pre-wrap;
 }
 
 .about-link {
@@ -218,33 +221,14 @@ footer {
 }
 
 @media(max-width: 600px) {
-  header {
-    padding: 20px 6%;
-  }
-
-  nav {
-    gap: 17px;
-  }
-
-  .hero {
-    padding: 70px 7%;
-  }
-
-  .hero h1 {
-    font-size: 34px;
-  }
-
-  .container {
-    padding: 45px 6%;
-  }
-
-  .grid {
-    grid-template-columns: 1fr;
-  }
-
-  .card {
-    padding: 23px;
-  }
+  header { padding: 20px 6%; }
+  nav { gap: 17px; }
+  .hero { padding: 70px 7%; }
+  .hero h1 { font-size: 34px; }
+  .container { padding: 45px 6%; }
+  .grid { grid-template-columns: 1fr; }
+  .card { padding: 23px; }
+  .notice { margin: 20px 6% 0; }
 }
 </style>
 </head>
@@ -253,7 +237,7 @@ footer {
 
 <header>
   <div class="header-inner">
-    <div class="logo">逢坂大河ws.</div>
+    <div class="logo" id="siteLogo">逢坂大河ws.</div>
 
     <nav>
       <a href="/">首页</a>
@@ -269,9 +253,9 @@ footer {
   <div class="hero-inner">
     <div class="hero-label">PERSONAL WEBSITE</div>
 
-    <h1>逢坂大河ws的<br>综合站</h1>
+    <h1 id="heroTitle">逢坂大河ws的<br>综合站</h1>
 
-    <p>
+    <p id="heroSubtitle">
       一个属于自己的互联网空间。<br>
       记录想法、分享知识、交流观点，也不断探索新的可能。
     </p>
@@ -279,6 +263,8 @@ footer {
     <a class="hero-link" href="/wall/">进入大河墙 →</a>
   </div>
 </section>
+
+<div class="notice" id="homeNotice"></div>
 
 <main class="container">
 
@@ -337,7 +323,7 @@ footer {
 <section class="about-section">
   <div class="about-inner">
     <h2>关于这个空间</h2>
-    <p>
+    <p id="aboutText">
       这里是一个持续建设中的个人综合站。
       它既是个人博客，也是一个可以容纳各种工具、
       资料和交流功能的互联网空间。
@@ -348,9 +334,59 @@ footer {
 </section>
 
 <footer>
-  © 2026 逢坂大河ws的综合站<br>
+  © 2026 <span id="footerName">逢坂大河ws的综合站</span><br>
   一个持续建设中的个人互联网空间
 </footer>
+
+<script>
+async function loadSiteSettings() {
+  try {
+    const response = await fetch("/api/settings", {
+      cache: "no-store"
+    });
+
+    if (!response.ok) return;
+
+    const data = await response.json();
+
+    if (!data.success || !data.settings) return;
+
+    const settings = data.settings;
+
+    const siteName = settings.site_name || "逢坂大河ws的综合站";
+    const subtitle = settings.site_subtitle || "";
+    const notice = settings.home_notice || "";
+    const aboutIntro = settings.about_intro || "";
+
+    document.title = siteName;
+
+    document.getElementById("siteLogo").textContent =
+      siteName.replace(/的综合站$/, "") + ".";
+
+    document.getElementById("heroTitle").textContent = siteName;
+
+    document.getElementById("heroSubtitle").textContent =
+      subtitle || "一个属于自己的互联网空间。记录想法、分享知识、交流观点，也不断探索新的可能。";
+
+    document.getElementById("footerName").textContent = siteName;
+
+    if (notice.trim()) {
+      const noticeElement = document.getElementById("homeNotice");
+      noticeElement.textContent = notice;
+      noticeElement.style.display = "block";
+    }
+
+    if (aboutIntro.trim()) {
+      document.getElementById("aboutText").textContent = aboutIntro;
+    }
+
+  } catch (error) {
+    console.log("网站设置读取失败，使用默认内容。");
+  }
+}
+
+loadSiteSettings();
+</script>
 
 </body>
 </html>
