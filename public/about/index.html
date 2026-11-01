@@ -1,0 +1,276 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#faf7f5">
+<title>关于本站 - 逢坂大河ws</title>
+
+<style>
+:root {
+  --bg: #faf7f5;
+  --white: #fff;
+  --text: #302b29;
+  --muted: #817873;
+  --accent: #b77b70;
+  --border: #eee5e1;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, "Microsoft YaHei", sans-serif;
+}
+
+header {
+  padding: 22px 7%;
+  background: white;
+  border-bottom: 1px solid var(--border);
+}
+
+.header-inner {
+  max-width: 1000px;
+  margin: auto;
+}
+
+.logo {
+  font-size: 21px;
+  font-weight: bold;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 23px;
+  margin-top: 16px;
+}
+
+nav a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 14px;
+}
+
+nav a:hover { color: var(--accent); }
+
+.hero {
+  padding: 75px 7%;
+  background: #f4eeeb;
+  border-bottom: 1px solid var(--border);
+}
+
+.hero-inner {
+  max-width: 900px;
+  margin: auto;
+}
+
+.eyebrow {
+  color: var(--accent);
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+.hero h1 {
+  font-size: 38px;
+  margin: 18px 0;
+}
+
+.hero p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 2;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 55px 7%;
+}
+
+.section {
+  margin-bottom: 48px;
+}
+
+.section h2 {
+  font-size: 21px;
+  margin-bottom: 17px;
+}
+
+.section p {
+  color: #716965;
+  font-size: 14px;
+  line-height: 2.1;
+  margin: 0 0 12px;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 13px;
+}
+
+.feature {
+  padding: 20px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.feature h3 {
+  font-size: 15px;
+  margin: 0 0 9px;
+}
+
+.feature p {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.8;
+  margin: 0;
+}
+
+.quote {
+  padding: 25px;
+  background: white;
+  border-left: 3px solid var(--accent);
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 2;
+}
+
+footer {
+  padding: 30px 15px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  color: #a39a95;
+  font-size: 12px;
+  line-height: 2;
+}
+
+@media(max-width: 600px) {
+  .hero { padding: 60px 7%; }
+  .hero h1 { font-size: 31px; }
+  .container { padding: 42px 6%; }
+  .features { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">逢坂大河ws.</div>
+    <nav>
+      <a href="/">首页</a>
+      <a href="/blog/">个人博客</a>
+      <a href="/wall/">大河墙</a>
+      <a href="/tools/nine-grid/">九宫格工具</a>
+      <a href="/about/">关于本站</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">ABOUT THIS WEBSITE</div>
+    <h1>关于本站</h1>
+    <p>
+      一个个人博客，也是一个不断扩展的综合性互联网空间。
+      <br>
+      不局限于一种用途，也不局限于一种可能。
+    </p>
+  </div>
+</section>
+
+<main class="container">
+
+  <section class="section">
+    <h2>01. 网站介绍</h2>
+    <p>
+      「逢坂大河ws的综合站」是一个个人建立和维护的网站。
+      它以个人博客为基础，同时整合各种不同类型的功能。
+    </p>
+    <p>
+      这里可以记录个人想法、分享文章、整理资料，
+      也可以使用实用工具，或者与其他访客交流。
+    </p>
+    <p>
+      与单一用途的网站不同，这个网站并没有给自己设定固定的边界。
+      它更像是一个可以不断增加内容和功能的个人互联网空间。
+    </p>
+  </section>
+
+  <section class="section">
+    <h2>02. 为什么建立这个网站</h2>
+    <p>
+      建立网站的初衷，是希望拥有一个自己能够掌控、
+      自由安排和持续完善的网络空间。
+    </p>
+    <p>
+      不只是发布文章，也不仅仅是展示个人信息。
+      我希望把各种有意思的想法逐渐变成实际功能，
+      让网站真正具备使用价值。
+    </p>
+  </section>
+
+  <section class="section">
+    <h2>03. 目前已有的功能</h2>
+
+    <div class="features">
+      <div class="feature">
+        <h3>个人博客</h3>
+        <p>发布文章、记录想法和整理内容。</p>
+      </div>
+
+      <div class="feature">
+        <h3>大河墙</h3>
+        <p>支持匿名投稿、表白、树洞和日常交流。</p>
+      </div>
+
+      <div class="feature">
+        <h3>九宫格工具</h3>
+        <p>图片切割与九张图片合成。</p>
+      </div>
+
+      <div class="feature">
+        <h3>个人资料库</h3>
+        <p>未来计划整理人物资料、图片和背景信息。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>04. 未来方向</h2>
+    <p>
+      网站会持续更新。未来可能加入更多实用工具、
+      资料整理功能、互动社区以及其他有趣的项目。
+    </p>
+    <p>
+      功能没有必要提前设定上限。
+      只要有值得尝试的想法，就可以逐步将它实现。
+    </p>
+  </section>
+
+  <section class="section">
+    <h2>05. 关于这个空间</h2>
+    <div class="quote">
+      这是一个持续建设中的个人项目。<br>
+      从一个简单的个人博客开始，逐渐发展成拥有多种功能的综合站。
+      网站的内容和方向，也会随着时间不断变化。
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  © 2026 逢坂大河ws的综合站
+  <br>
+  一个持续建设中的个人互联网空间
+</footer>
+
+</body>
+</html>
