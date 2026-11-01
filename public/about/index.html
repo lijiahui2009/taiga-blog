@@ -139,6 +139,7 @@ nav a:hover { color: var(--accent); }
   color: var(--muted);
   font-size: 14px;
   line-height: 2;
+  white-space: pre-wrap;
 }
 
 footer {
@@ -163,7 +164,7 @@ footer {
 
 <header>
   <div class="header-inner">
-    <div class="logo">逢坂大河ws.</div>
+    <div class="logo" id="siteLogo">逢坂大河ws.</div>
     <nav>
       <a href="/">首页</a>
       <a href="/blog/">个人博客</a>
@@ -257,8 +258,8 @@ footer {
 
   <section class="section">
     <h2>05. 关于这个空间</h2>
-    <div class="quote">
-      这是一个持续建设中的个人项目。<br>
+    <div class="quote" id="aboutIntro">
+      这是一个持续建设中的个人项目。
       从一个简单的个人博客开始，逐渐发展成拥有多种功能的综合站。
       网站的内容和方向，也会随着时间不断变化。
     </div>
@@ -267,10 +268,47 @@ footer {
 </main>
 
 <footer>
-  © 2026 逢坂大河ws的综合站
+  © 2026 <span id="footerName">逢坂大河ws的综合站</span>
   <br>
   一个持续建设中的个人互联网空间
 </footer>
 
+<script>
+async function loadSiteSettings() {
+  try {
+    const response = await fetch("/api/settings", {
+      cache: "no-store"
+    });
+
+    if (!response.ok) return;
+
+    const data = await response.json();
+
+    if (!data.success || !data.settings) return;
+
+    const settings = data.settings;
+    const siteName = settings.site_name || "逢坂大河ws的综合站";
+
+    document.title = "关于本站 - " + siteName;
+
+    document.getElementById("siteLogo").textContent =
+      siteName.replace(/的综合站$/, "") + ".";
+
+    document.getElementById("footerName").textContent = siteName;
+
+    if (settings.about_intro && settings.about_intro.trim()) {
+      document.getElementById("aboutIntro").textContent =
+        settings.about_intro;
+    }
+
+  } catch (error) {
+    console.log("设置读取失败，使用默认内容。");
+  }
+}
+
+loadSiteSettings();
+</script>
+
 </body>
 </html>
+
