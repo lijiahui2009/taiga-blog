@@ -6,324 +6,102 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#fff7f3">
 <title>二维码工具 - 荷萌 HEMENG</title>
-
 <style>
 :root {
-  --bg:#fff7f3;
-  --card:#fff;
-  --text:#493936;
-  --muted:#927d78;
-  --line:#f0dfd9;
-  --accent:#c77f78;
-  --accent-dark:#a9605c;
-  --soft:#fff0eb;
-  --shadow:0 12px 34px rgba(128,82,72,.08);
+  --bg:#fff7f3;--card:#fff;--text:#493936;--muted:#927d78;
+  --line:#f0dfd9;--accent:#c77f78;--accent-dark:#a9605c;
+  --soft:#fff0eb;--shadow:0 12px 34px rgba(128,82,72,.08);
 }
-
-* { box-sizing:border-box; }
-
-body {
+*{box-sizing:border-box}
+body{
   margin:0;
   background:radial-gradient(circle at 8% 4%,rgba(255,220,211,.55),transparent 25rem),var(--bg);
   color:var(--text);
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
-  line-height:1.65;
+  line-height:1.65
 }
-
-main {
-  width:min(960px,calc(100% - 36px));
-  margin:0 auto 55px;
+main{width:min(960px,calc(100% - 36px));margin:0 auto 55px}
+.site-nav{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:21px 0}
+.brand{display:flex;align-items:center;gap:11px;color:var(--text);text-decoration:none}
+.brand-mark{
+  width:42px;height:42px;display:grid;place-items:center;border-radius:15px;
+  background:var(--soft);border:1px solid var(--line);color:var(--accent-dark);font-size:23px
 }
-
-.site-nav {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:14px;
-  padding:21px 0;
+.brand-name{font-weight:800;letter-spacing:.04em;font-size:17px;display:block}
+.brand-en{display:block;color:var(--muted);font-size:10px;letter-spacing:.18em;margin-top:1px}
+.back{color:var(--accent-dark);text-decoration:none;font-size:13px;padding:9px 13px;border:1px solid var(--line);border-radius:999px;background:#ffffffb8}
+.hero{text-align:center;padding:28px 10px 20px}
+.eyebrow{display:inline-block;padding:6px 12px;border-radius:999px;background:var(--soft);color:var(--accent-dark);font-size:11px;letter-spacing:.13em;font-weight:750}
+h1{font-size:clamp(27px,5vw,36px);margin:13px 0 7px;letter-spacing:.02em}
+.sub,.hint{color:var(--muted);font-size:13px;line-height:1.8}
+.sub{margin:0}
+.tabs{display:flex;gap:8px;margin:23px 0 15px;padding:6px;background:#f8e9e4;border:1px solid var(--line);border-radius:15px}
+.tab,button{font:inherit;cursor:pointer}
+.tab{flex:1;border:0;background:transparent;color:var(--muted);padding:11px 15px;border-radius:10px;font-size:14px;font-weight:650}
+.tab.active{background:white;color:var(--accent-dark);box-shadow:0 3px 12px rgba(128,82,72,.09)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:clamp(18px,3vw,26px);box-shadow:var(--shadow)}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:24px;align-items:start}
+h2{font-size:18px;margin:0 0 14px}
+label{display:block;font-size:13px;font-weight:700;margin:15px 0 7px}
+textarea,select,input[type="color"],input[type="file"]{
+  width:100%;border:1px solid var(--line);border-radius:11px;background:#fff;
+  padding:11px 12px;color:var(--text);font:inherit;outline:none
 }
-
-.brand {
-  display:flex;
-  align-items:center;
-  gap:11px;
-  color:var(--text);
-  text-decoration:none;
+textarea{min-height:145px;resize:vertical}
+textarea:focus,select:focus{border-color:#c9958a;box-shadow:0 0 0 3px #b77b7018}
+input[type="color"]{height:44px;padding:5px;cursor:pointer}
+.hint{margin:8px 0 13px}
+.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:17px}
+button.primary,button.secondary{border:0;border-radius:11px;padding:11px 16px;font-size:13px;font-weight:700}
+.primary{background:var(--accent);color:white}
+.primary:hover{background:var(--accent-dark)}
+.secondary{background:#f3e9e5;color:var(--text)}
+.secondary:hover{background:#eadbd5}
+button:disabled{opacity:.45;cursor:not-allowed}
+.preview{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-height:330px;background:#fffbf9;border:1px dashed #e5d2cb;
+  border-radius:16px;padding:18px;text-align:center
 }
-
-.brand-mark {
-  width:42px;
-  height:42px;
-  display:grid;
-  place-items:center;
-  border-radius:15px;
-  background:var(--soft);
-  border:1px solid var(--line);
-  color:var(--accent-dark);
-  font-size:23px;
+#qrOutput{width:240px;min-height:240px;background:#fff;display:grid;place-items:center;border-radius:10px;padding:0;overflow:hidden}
+#qrOutput canvas,#qrOutput img{max-width:100%;height:auto;display:block}
+.placeholder{color:#aaa39e;font-size:13px}
+.status{font-size:12px;margin-top:12px;color:var(--muted);min-height:20px;line-height:1.6}
+.good{color:#477a60}.bad{color:#b65d55}
+.hidden{display:none!important}
+.filebox{border:1px dashed #dfbdb4;border-radius:13px;padding:18px;text-align:center;background:#fffbf9}
+.result{margin-top:15px;padding:14px;background:#fff8f5;border:1px solid var(--line);border-radius:11px;overflow-wrap:anywhere;font-size:14px;white-space:pre-wrap}
+.share-box{
+  width:100%;margin-top:14px;padding:12px;background:#fff8f5;
+  border:1px solid var(--line);border-radius:11px;text-align:left;
+  overflow-wrap:anywhere;font-size:12px;line-height:1.7
 }
-
-.brand-name {
-  font-weight:800;
-  letter-spacing:.04em;
-  font-size:17px;
-  display:block;
+.mode-switch{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:12px 0 18px}
+.mode-option{
+  padding:13px;border:1px solid var(--line);border-radius:12px;
+  background:#fff;color:var(--muted);text-align:left;cursor:pointer
 }
-
-.brand-en {
-  display:block;
-  color:var(--muted);
-  font-size:10px;
-  letter-spacing:.18em;
-  margin-top:1px;
+.mode-option.active{border-color:var(--accent);background:var(--soft);color:var(--accent-dark)}
+.mode-option strong{display:block;font-size:13px}
+.mode-option small{display:block;margin-top:4px;font-size:11px;line-height:1.5}
+.warning{padding:11px 13px;background:#fff8ed;border:1px solid #f1e3c9;border-radius:10px;color:#92734a;font-size:12px;line-height:1.7}
+footer{text-align:center;color:var(--muted);font-size:12px;margin-top:28px;line-height:1.8}
+footer strong{color:var(--accent-dark);letter-spacing:.08em}
+@media(max-width:720px){
+  main{width:min(100% - 24px,560px);margin-bottom:35px}
+  .site-nav{padding:15px 0}.hero{padding:22px 5px 15px}
+  .layout{grid-template-columns:1fr}.preview{min-height:290px}
+  .panel{padding:17px}h1{font-size:27px}
 }
-
-.back {
-  color:var(--accent-dark);
-  text-decoration:none;
-  font-size:13px;
-  padding:9px 13px;
-  border:1px solid var(--line);
-  border-radius:999px;
-  background:#ffffffb8;
-}
-
-.hero {
-  text-align:center;
-  padding:28px 10px 20px;
-}
-
-.eyebrow {
-  display:inline-block;
-  padding:6px 12px;
-  border-radius:999px;
-  background:var(--soft);
-  color:var(--accent-dark);
-  font-size:11px;
-  letter-spacing:.13em;
-  font-weight:750;
-}
-
-h1 {
-  font-size:clamp(27px,5vw,36px);
-  margin:13px 0 7px;
-  letter-spacing:.02em;
-}
-
-.sub,.hint {
-  color:var(--muted);
-  font-size:13px;
-  line-height:1.8;
-}
-
-.sub { margin:0; }
-
-.tabs {
-  display:flex;
-  gap:8px;
-  margin:23px 0 15px;
-  padding:6px;
-  background:#f8e9e4;
-  border:1px solid var(--line);
-  border-radius:15px;
-}
-
-.tab,button { font:inherit; cursor:pointer; }
-
-.tab {
-  flex:1;
-  border:0;
-  background:transparent;
-  color:var(--muted);
-  padding:11px 15px;
-  border-radius:10px;
-  font-size:14px;
-  font-weight:650;
-}
-
-.tab.active {
-  background:white;
-  color:var(--accent-dark);
-  box-shadow:0 3px 12px rgba(128,82,72,.09);
-}
-
-.panel {
-  background:var(--card);
-  border:1px solid var(--line);
-  border-radius:20px;
-  padding:clamp(18px,3vw,26px);
-  box-shadow:var(--shadow);
-}
-
-.layout {
-  display:grid;
-  grid-template-columns:minmax(0,1fr) 290px;
-  gap:24px;
-  align-items:start;
-}
-
-h2 { font-size:18px; margin:0 0 14px; }
-
-label {
-  display:block;
-  font-size:13px;
-  font-weight:700;
-  margin:15px 0 7px;
-}
-
-textarea,select,input[type="color"],input[type="file"] {
-  width:100%;
-  border:1px solid var(--line);
-  border-radius:11px;
-  background:#fff;
-  padding:11px 12px;
-  color:var(--text);
-  font:inherit;
-  outline:none;
-}
-
-textarea { min-height:145px; resize:vertical; }
-
-textarea:focus,select:focus {
-  border-color:#c9958a;
-  box-shadow:0 0 0 3px #b77b7018;
-}
-
-input[type="color"] {
-  height:44px;
-  padding:5px;
-  cursor:pointer;
-}
-
-.hint { margin:8px 0 13px; }
-
-.settings-grid {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:0 14px;
-}
-
-.actions {
-  display:flex;
-  gap:9px;
-  flex-wrap:wrap;
-  margin-top:17px;
-}
-
-button.primary,button.secondary {
-  border:0;
-  border-radius:11px;
-  padding:11px 16px;
-  font-size:13px;
-  font-weight:700;
-}
-
-.primary { background:var(--accent); color:white; }
-.primary:hover { background:var(--accent-dark); }
-.secondary { background:#f3e9e5; color:var(--text); }
-.secondary:hover { background:#eadbd5; }
-
-button:disabled {
-  opacity:.45;
-  cursor:not-allowed;
-}
-
-.preview {
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  min-height:330px;
-  background:#fffbf9;
-  border:1px dashed #e5d2cb;
-  border-radius:16px;
-  padding:18px;
-  text-align:center;
-}
-
-#qrOutput {
-  width:240px;
-  min-height:240px;
-  background:#fff;
-  display:grid;
-  place-items:center;
-  border-radius:10px;
-  padding:0;
-  overflow:hidden;
-}
-
-#qrOutput canvas,#qrOutput img {
-  max-width:100%;
-  height:auto;
-  display:block;
-}
-
-.placeholder { color:#aaa39e; font-size:13px; }
-
-.status {
-  font-size:12px;
-  margin-top:12px;
-  color:var(--muted);
-  min-height:20px;
-  line-height:1.6;
-}
-
-.good { color:#477a60; }
-.bad { color:#b65d55; }
-.hidden { display:none!important; }
-
-.filebox {
-  border:1px dashed #dfbdb4;
-  border-radius:13px;
-  padding:18px;
-  text-align:center;
-  background:#fffbf9;
-}
-
-.result {
-  margin-top:15px;
-  padding:14px;
-  background:#fff8f5;
-  border:1px solid var(--line);
-  border-radius:11px;
-  overflow-wrap:anywhere;
-  font-size:14px;
-  white-space:pre-wrap;
-}
-
-footer {
-  text-align:center;
-  color:var(--muted);
-  font-size:12px;
-  margin-top:28px;
-  line-height:1.8;
-}
-
-footer strong {
-  color:var(--accent-dark);
-  letter-spacing:.08em;
-}
-
-@media(max-width:720px) {
-  main { width:min(100% - 24px,560px); margin-bottom:35px; }
-  .site-nav { padding:15px 0; }
-  .hero { padding:22px 5px 15px; }
-  .layout { grid-template-columns:1fr; }
-  .preview { min-height:290px; }
-  .panel { padding:17px; }
-  h1 { font-size:27px; }
-}
-
-@media(max-width:390px) {
-  .settings-grid { grid-template-columns:1fr; }
-  .brand-mark { width:38px; height:38px; }
+@media(max-width:390px){
+  .settings-grid{grid-template-columns:1fr}
+  .brand-mark{width:38px;height:38px}
 }
 </style>
 </head>
-
 <body>
 <main>
-
 <nav class="site-nav">
   <a class="brand" href="/" aria-label="荷萌首页">
     <span class="brand-mark" aria-hidden="true">♡</span>
@@ -347,92 +125,103 @@ footer strong {
 </div>
 
 <section id="make" class="panel">
-  <div class="layout">
+<div class="layout">
+<div>
+  <h2>二维码生成</h2>
 
+  <div class="mode-switch">
+    <button class="mode-option active" data-mode="normal" type="button">
+      <strong>普通二维码</strong>
+      <small>直接编码文字或网址</small>
+    </button>
+    <button class="mode-option" data-mode="web" type="button">
+      <strong>网页展示二维码</strong>
+      <small>扫码打开荷萌页面查看文字</small>
+    </button>
+  </div>
+
+  <label for="qrText">输入要放进二维码的内容</label>
+  <textarea id="qrText" placeholder="例如：https://lowcrush.asia&#10;也可以输入普通文字、联系方式等"></textarea>
+
+  <p class="hint" id="modeHint">普通二维码直接保存文字或网址，扫码应用如何显示取决于其自身支持情况。</p>
+
+  <div id="webWarning" class="warning hidden">
+    网页展示模式会把文字保存到荷萌服务器，分享链接有效期为 30 天。任何获得链接的人都能查看内容，请勿填写密码或私人信息。
+  </div>
+
+  <div class="settings-grid">
     <div>
-      <h2>文字 / 网址生成</h2>
+      <label for="qrSize">二维码尺寸</label>
+      <select id="qrSize">
+        <option value="200">200 × 200</option>
+        <option value="280" selected>280 × 280</option>
+        <option value="360">360 × 360</option>
+        <option value="480">480 × 480</option>
+      </select>
+    </div>
+    <div>
+      <label for="qrLevel">纠错等级</label>
+      <select id="qrLevel">
+        <option value="L">低（L）</option>
+        <option value="M" selected>中（M）</option>
+        <option value="Q">较高（Q）</option>
+        <option value="H">高（H）</option>
+      </select>
+    </div>
+    <div>
+      <label for="darkColor">二维码颜色</label>
+      <input id="darkColor" type="color" value="#000000">
+    </div>
+    <div>
+      <label for="lightColor">背景颜色</label>
+      <input id="lightColor" type="color" value="#ffffff">
+    </div>
+  </div>
 
-      <label for="qrText">输入要放进二维码的内容</label>
-      <textarea id="qrText" placeholder="例如：https://lowcrush.asia&#10;也可以输入普通文字、联系方式等"></textarea>
+  <div class="actions">
+    <button class="primary" id="generateBtn" type="button">生成二维码</button>
+    <button class="secondary" id="clearBtn" type="button">清空</button>
+  </div>
+  <div id="makeStatus" class="status" aria-live="polite"></div>
+</div>
 
-      <p class="hint">网址通常可由手机相机或扫码应用识别；普通文字则由扫码应用显示。内容较长时，二维码会更复杂。</p>
+<aside>
+  <div class="preview">
+    <div id="qrOutput">
+      <span class="placeholder">二维码将在这里显示</span>
+    </div>
+    <div class="status" id="qrCaption">等待生成</div>
 
-      <div class="settings-grid">
-        <div>
-          <label for="qrSize">二维码尺寸</label>
-          <select id="qrSize">
-            <option value="200">200 × 200</option>
-            <option value="280" selected>280 × 280</option>
-            <option value="360">360 × 360</option>
-            <option value="480">480 × 480</option>
-          </select>
-        </div>
-
-        <div>
-          <label for="qrLevel">纠错等级</label>
-          <select id="qrLevel">
-            <option value="L">低（L）</option>
-            <option value="M" selected>中（M）</option>
-            <option value="Q">较高（Q）</option>
-            <option value="H">高（H）</option>
-          </select>
-        </div>
-
-        <div>
-          <label for="darkColor">二维码颜色</label>
-          <input id="darkColor" type="color" value="#000000">
-        </div>
-
-        <div>
-          <label for="lightColor">背景颜色</label>
-          <input id="lightColor" type="color" value="#ffffff">
-        </div>
-      </div>
-
-      <div class="actions">
-        <button class="primary" id="generateBtn" type="button">生成二维码</button>
-        <button class="secondary" id="clearBtn" type="button">清空</button>
-      </div>
-
-      <div id="makeStatus" class="status" aria-live="polite"></div>
+    <div class="actions" style="justify-content:center">
+      <button class="secondary" id="downloadBtn" type="button" disabled>下载 PNG</button>
+      <button class="primary" id="shareBtn" type="button" disabled>分享 / 保存图片</button>
     </div>
 
-    <aside>
-      <div class="preview">
-        <div id="qrOutput">
-          <span class="placeholder">二维码将在这里显示</span>
-        </div>
-
-        <div class="status" id="qrCaption">等待生成</div>
-
-        <div class="actions" style="justify-content:center">
-          <button class="secondary" id="downloadBtn" type="button" disabled>下载 PNG</button>
-          <button class="primary" id="shareBtn" type="button" disabled>分享 / 保存图片</button>
-        </div>
-
-        <p class="hint">二维码会自动添加标准留白。分享功能取决于设备和浏览器的支持情况。</p>
+    <div id="shareLinkBox" class="share-box hidden">
+      <strong>网页分享链接</strong>
+      <div id="shareLinkText" style="margin-top:6px"></div>
+      <div class="actions">
+        <button class="secondary" id="copyLinkBtn" type="button">复制分享链接</button>
       </div>
-    </aside>
-
+    </div>
+    <p class="hint">二维码会自动添加标准留白。分享功能取决于设备和浏览器的支持情况。</p>
   </div>
+</aside>
+</div>
 </section>
 
 <section id="read" class="panel hidden">
   <h2>识别二维码图片</h2>
   <p class="hint">选择设备中的二维码图片，浏览器会尝试在本地识别，不会主动上传图片。</p>
-
   <div class="filebox">
     <input id="qrFile" type="file" accept="image/*">
   </div>
-
   <div id="readStatus" class="status" aria-live="polite"></div>
   <div id="readResult" class="result hidden"></div>
-
   <div class="actions">
     <button class="secondary" id="copyResult" type="button" disabled>复制识别结果</button>
     <button class="secondary" id="clearRead" type="button">清除</button>
   </div>
-
   <canvas id="decodeCanvas" class="hidden"></canvas>
 </section>
 
@@ -440,26 +229,41 @@ footer strong {
   <strong>荷萌 HEMENG</strong> · 二维码工具<br>
   生成与识别尽可能在当前浏览器本地完成。
 </footer>
-
 </main>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
-
 <script>
+/* 页面标签切换 */
 const tabs=document.querySelectorAll(".tab");
-
 tabs.forEach(btn=>{
   btn.addEventListener("click",()=>{
     tabs.forEach(x=>x.classList.toggle("active",x===btn));
+    document.getElementById("make").classList.toggle("hidden",btn.dataset.tab!=="make");
+    document.getElementById("read").classList.toggle("hidden",btn.dataset.tab!=="read");
+  });
+});
 
-    document.getElementById("make").classList.toggle(
-      "hidden",btn.dataset.tab!=="make"
-    );
+/* 生成模式切换 */
+let currentMode="normal";
+const modeButtons=document.querySelectorAll(".mode-option");
+const modeHint=document.getElementById("modeHint");
+const webWarning=document.getElementById("webWarning");
 
-    document.getElementById("read").classList.toggle(
-      "hidden",btn.dataset.tab!=="read"
-    );
+modeButtons.forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    currentMode=btn.dataset.mode;
+    modeButtons.forEach(x=>x.classList.toggle("active",x===btn));
+
+    if(currentMode==="web"){
+      modeHint.textContent="文字会先保存到荷萌，再将专属网页链接生成二维码。";
+      webWarning.classList.remove("hidden");
+    }else{
+      modeHint.textContent="普通二维码直接保存文字或网址，扫码应用如何显示取决于其自身支持情况。";
+      webWarning.classList.add("hidden");
+    }
+
+    clearGenerated(false);
   });
 });
 
@@ -468,41 +272,82 @@ const output=document.getElementById("qrOutput");
 const makeStatus=document.getElementById("makeStatus");
 const downloadBtn=document.getElementById("downloadBtn");
 const shareBtn=document.getElementById("shareBtn");
+const shareLinkBox=document.getElementById("shareLinkBox");
+const shareLinkText=document.getElementById("shareLinkText");
 
 let generatedCanvas=null;
 let generatedBlob=null;
 let generatedFile=null;
 let generationToken=0;
+let currentShareUrl="";
 
 function setMakeStatus(message,type=""){
   makeStatus.textContent=message;
   makeStatus.className="status "+type;
 }
 
+function clearGenerated(clearText=true){
+  generationToken++;
+  if(clearText)textInput.value="";
+  output.innerHTML='<span class="placeholder">二维码将在这里显示</span>';
+  generatedCanvas=null;
+  generatedBlob=null;
+  generatedFile=null;
+  currentShareUrl="";
+  downloadBtn.disabled=true;
+  shareBtn.disabled=true;
+  shareLinkBox.classList.add("hidden");
+  document.getElementById("qrCaption").textContent="等待生成";
+  setMakeStatus("");
+}
+
 function getQrBlob(){
   return new Promise((resolve,reject)=>{
-    if(generatedBlob){
-      resolve(generatedBlob);
-      return;
-    }
-
-    if(!generatedCanvas){
-      reject(new Error("二维码尚未生成"));
-      return;
-    }
-
+    if(generatedBlob){resolve(generatedBlob);return;}
+    if(!generatedCanvas){reject(new Error("二维码尚未生成"));return;}
     generatedCanvas.toBlob(blob=>{
-      if(blob) resolve(blob);
+      if(blob)resolve(blob);
       else reject(new Error("图片导出失败"));
     },"image/png");
   });
 }
 
-document.getElementById("generateBtn").addEventListener("click",()=>{
+/* 网页模式：先向 API 保存文字 */
+async function createWebShare(content){
+  const response=await fetch("/api/qr-shares",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({content})
+  });
+
+  let data;
+  try{data=await response.json();}
+  catch{throw new Error("服务器返回了无法识别的内容，请稍后重试。");}
+
+  if(!response.ok||!data.success||!data.shareUrl){
+    throw new Error(data.message||"创建分享失败，请稍后重试。");
+  }
+
+  // 只接受本站生成的分享链接
+  const shareUrl=new URL(data.shareUrl,location.origin);
+  if(shareUrl.origin!==location.origin){
+    throw new Error("服务器返回的分享地址不正确。");
+  }
+
+  return shareUrl.href;
+}
+
+/* 生成二维码 */
+document.getElementById("generateBtn").addEventListener("click",async()=>{
   const value=textInput.value.trim();
 
   if(!value){
     setMakeStatus("请先输入文字或网址。","bad");
+    return;
+  }
+
+  if(currentMode==="web"&&value.length>3000){
+    setMakeStatus("网页分享内容不能超过 3000 个字符。","bad");
     return;
   }
 
@@ -512,39 +357,51 @@ document.getElementById("generateBtn").addEventListener("click",()=>{
   }
 
   const token=++generationToken;
-
   output.innerHTML="";
   generatedCanvas=null;
   generatedBlob=null;
   generatedFile=null;
-
+  currentShareUrl="";
   downloadBtn.disabled=true;
   shareBtn.disabled=true;
+  shareLinkBox.classList.add("hidden");
+  document.getElementById("qrCaption").textContent="正在准备……";
 
-  document.getElementById("qrCaption").textContent="正在生成……";
+  let qrValue=value;
 
+  try{
+    if(currentMode==="web"){
+      setMakeStatus("正在保存分享内容……");
+      qrValue=await createWebShare(value);
+      if(token!==generationToken)return;
+      currentShareUrl=qrValue;
+    }
+
+    renderQr(qrValue,token);
+
+  }catch(error){
+    if(token!==generationToken)return;
+    setMakeStatus(error.message||"生成失败，请稍后重试。","bad");
+    document.getElementById("qrCaption").textContent="生成失败";
+  }
+});
+
+function renderQr(value,token){
   const size=Number(document.getElementById("qrSize").value);
-
   const levelMap={
     L:QRCode.CorrectLevel.L,
     M:QRCode.CorrectLevel.M,
     Q:QRCode.CorrectLevel.Q,
     H:QRCode.CorrectLevel.H
   };
-
   const dark=document.getElementById("darkColor").value;
   const light=document.getElementById("lightColor").value;
 
   try{
     const qrInstance=new QRCode(output,{
-      text:value,
-      width:size,
-      height:size,
-      colorDark:dark,
-      colorLight:light,
-      correctLevel:levelMap[
-        document.getElementById("qrLevel").value
-      ] ?? QRCode.CorrectLevel.M
+      text:value,width:size,height:size,
+      colorDark:dark,colorLight:light,
+      correctLevel:levelMap[document.getElementById("qrLevel").value]??QRCode.CorrectLevel.M
     });
 
     setMakeStatus("正在生成二维码……");
@@ -554,16 +411,13 @@ document.getElementById("generateBtn").addEventListener("click",()=>{
 
       const sourceCanvas=output.querySelector("canvas");
       const sourceImg=output.querySelector("img");
-
       let baseCanvas=sourceCanvas;
 
       if(!baseCanvas&&sourceImg&&sourceImg.complete&&sourceImg.naturalWidth){
         baseCanvas=document.createElement("canvas");
         baseCanvas.width=size;
         baseCanvas.height=size;
-
-        const baseCtx=baseCanvas.getContext("2d");
-        baseCtx.drawImage(sourceImg,0,0,size,size);
+        baseCanvas.getContext("2d").drawImage(sourceImg,0,0,size,size);
       }
 
       if(!baseCanvas){
@@ -572,111 +426,70 @@ document.getElementById("generateBtn").addEventListener("click",()=>{
         return;
       }
 
-      /*
-        QR Code 标准静区：
-        四周至少留出 4 个模块的空白。
-      */
       let moduleCount=33;
+      try{moduleCount=qrInstance._oQRCode.getModuleCount();}
+      catch(error){moduleCount=33;}
 
-      try{
-        moduleCount=qrInstance._oQRCode.getModuleCount();
-      }catch(error){
-        moduleCount=33;
-      }
-
-      const moduleSize=size/moduleCount;
-      const margin=Math.ceil(moduleSize*4);
-
+      const margin=Math.ceil((size/moduleCount)*4);
       const exportCanvas=document.createElement("canvas");
-
       exportCanvas.width=size+margin*2;
       exportCanvas.height=size+margin*2;
 
       const ctx=exportCanvas.getContext("2d");
-
       ctx.fillStyle=light;
-      ctx.fillRect(
-        0,
-        0,
-        exportCanvas.width,
-        exportCanvas.height
-      );
-
-      ctx.drawImage(
-        baseCanvas,
-        margin,
-        margin,
-        size,
-        size
-      );
+      ctx.fillRect(0,0,exportCanvas.width,exportCanvas.height);
+      ctx.drawImage(baseCanvas,margin,margin,size,size);
 
       generatedCanvas=exportCanvas;
-
       output.innerHTML="";
       output.appendChild(exportCanvas);
 
-      generatedCanvas.toBlob(blob=>{
+      exportCanvas.toBlob(blob=>{
         if(token!==generationToken)return;
 
-        if(blob){
-          generatedBlob=blob;
-
-          generatedFile=new File(
-            [blob],
-            "hemeng-qrcode.png",
-            {type:"image/png"}
-          );
-
-          downloadBtn.disabled=false;
-          shareBtn.disabled=false;
-
-          document.getElementById("qrCaption").textContent=
-            "生成成功 · 可以下载或分享";
-
-          setMakeStatus(
-            "二维码已生成，已添加标准留白。建议用不同扫码应用实际测试。",
-            "good"
-          );
-        }else{
+        if(!blob){
           setMakeStatus("二维码已生成，但图片导出失败，请重试。","bad");
+          return;
+        }
+
+        generatedBlob=blob;
+        generatedFile=new File([blob],"hemeng-qrcode.png",{type:"image/png"});
+        downloadBtn.disabled=false;
+        shareBtn.disabled=false;
+
+        document.getElementById("qrCaption").textContent="生成成功 · 可以下载或分享";
+
+        if(currentMode==="web"){
+          shareLinkText.textContent=currentShareUrl;
+          shareLinkBox.classList.remove("hidden");
+          setMakeStatus("网页展示二维码已生成。扫码后将打开荷萌分享页面。","good");
+        }else{
+          setMakeStatus("普通二维码已生成，已添加标准留白。","good");
         }
       },"image/png");
 
     },250);
-
   }catch(error){
-    setMakeStatus(
-      "生成失败，内容可能过长或格式不受支持，请缩短内容后重试。",
-      "bad"
-    );
-
+    setMakeStatus("生成失败，内容可能过长或格式不受支持。","bad");
     document.getElementById("qrCaption").textContent="生成失败";
   }
-});
+}
 
 /* 下载 PNG */
 downloadBtn.addEventListener("click",async()=>{
   if(!generatedCanvas)return;
-
   try{
     const blob=await getQrBlob();
     const url=URL.createObjectURL(blob);
-
     const a=document.createElement("a");
     a.href=url;
     a.download="hemeng-qrcode.png";
     a.style.display="none";
-
     document.body.appendChild(a);
     a.click();
     a.remove();
-
-    setTimeout(()=>{
-      URL.revokeObjectURL(url);
-    },5000);
-
+    setTimeout(()=>URL.revokeObjectURL(url),5000);
     setMakeStatus("已发起 PNG 下载。","good");
-
   }catch(error){
     setMakeStatus("图片下载失败，请重新生成二维码。","bad");
   }
@@ -685,78 +498,48 @@ downloadBtn.addEventListener("click",async()=>{
 /* 系统分享 / 保存图片 */
 shareBtn.addEventListener("click",async()=>{
   if(!generatedFile)return;
-
   try{
-    if(
-      navigator.share&&
-      navigator.canShare&&
-      navigator.canShare({files:[generatedFile]})
-    ){
-      await navigator.share({
-        files:[generatedFile],
-        title:"荷萌 HEMENG 二维码"
-      });
-
-      setMakeStatus(
-        "已打开系统分享面板，可选择设备支持的分享或保存方式。",
-        "good"
-      );
-
+    if(navigator.share&&navigator.canShare&&navigator.canShare({files:[generatedFile]})){
+      await navigator.share({files:[generatedFile],title:"荷萌 HEMENG 二维码"});
+      setMakeStatus("已打开系统分享面板。","good");
     }else{
       downloadBtn.click();
-
-      setMakeStatus(
-        "当前浏览器不支持图片分享，已改用 PNG 下载。",
-        "good"
-      );
+      setMakeStatus("当前浏览器不支持图片分享，已改用 PNG 下载。","good");
     }
-
   }catch(error){
-    if(error.name==="AbortError"){
-      setMakeStatus("已取消分享。");
-    }else{
-      setMakeStatus(
-        "分享不可用，请尝试使用下载 PNG。",
-        "bad"
-      );
-    }
+    if(error.name==="AbortError")setMakeStatus("已取消分享。");
+    else setMakeStatus("分享不可用，请尝试使用下载 PNG。","bad");
+  }
+});
+
+/* 复制网页分享链接 */
+document.getElementById("copyLinkBtn").addEventListener("click",async()=>{
+  if(!currentShareUrl)return;
+  try{
+    await navigator.clipboard.writeText(currentShareUrl);
+    document.getElementById("copyLinkBtn").textContent="已复制";
+    setTimeout(()=>{
+      document.getElementById("copyLinkBtn").textContent="复制分享链接";
+    },1800);
+  }catch(error){
+    setMakeStatus("复制失败，请手动选择上方链接。","bad");
   }
 });
 
 /* 清空生成区域 */
-document.getElementById("clearBtn").addEventListener("click",()=>{
-  generationToken++;
+document.getElementById("clearBtn").addEventListener("click",()=>clearGenerated(true));
 
-  textInput.value="";
-  output.innerHTML=
-    '<span class="placeholder">二维码将在这里显示</span>';
-
-  setMakeStatus("");
-
-  document.getElementById("qrCaption").textContent="等待生成";
-
-  generatedCanvas=null;
-  generatedBlob=null;
-  generatedFile=null;
-
-  downloadBtn.disabled=true;
-  shareBtn.disabled=true;
-});
-
-/* 二维码图片识别 */
+/* 图片识别 */
 const fileInput=document.getElementById("qrFile");
 const readStatus=document.getElementById("readStatus");
 const readResult=document.getElementById("readResult");
 const copyBtn=document.getElementById("copyResult");
-
 let decodedText="";
 let readToken=0;
 
 fileInput.addEventListener("change",()=>{
   const file=fileInput.files&&fileInput.files[0];
-
   if(!file)return;
-
   const token=++readToken;
 
   if(!file.type.startsWith("image/")){
@@ -764,7 +547,6 @@ fileInput.addEventListener("change",()=>{
     readStatus.className="status bad";
     return;
   }
-
   if(typeof jsQR==="undefined"){
     readStatus.textContent="识别组件加载失败，请检查网络后刷新页面。";
     readStatus.className="status bad";
@@ -773,90 +555,41 @@ fileInput.addEventListener("change",()=>{
 
   const url=URL.createObjectURL(file);
   const img=new Image();
-
   readStatus.textContent="正在读取图片……";
   readStatus.className="status";
-
   copyBtn.disabled=true;
   readResult.classList.add("hidden");
 
   img.onload=()=>{
-    if(token!==readToken){
-      URL.revokeObjectURL(url);
-      return;
-    }
-
+    if(token!==readToken){URL.revokeObjectURL(url);return;}
     try{
       const canvas=document.getElementById("decodeCanvas");
+      const ctx=canvas.getContext("2d",{willReadFrequently:true});
+      const scale=Math.min(1,1600/Math.max(img.naturalWidth,img.naturalHeight));
+      canvas.width=Math.max(1,Math.round(img.naturalWidth*scale));
+      canvas.height=Math.max(1,Math.round(img.naturalHeight*scale));
+      ctx.drawImage(img,0,0,canvas.width,canvas.height);
 
-      const ctx=canvas.getContext("2d",{
-        willReadFrequently:true
-      });
-
-      const scale=Math.min(
-        1,
-        1600/Math.max(img.naturalWidth,img.naturalHeight)
-      );
-
-      canvas.width=Math.max(
-        1,
-        Math.round(img.naturalWidth*scale)
-      );
-
-      canvas.height=Math.max(
-        1,
-        Math.round(img.naturalHeight*scale)
-      );
-
-      ctx.drawImage(
-        img,
-        0,
-        0,
-        canvas.width,
-        canvas.height
-      );
-
-      const pixels=ctx.getImageData(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-      );
-
-      const code=jsQR(
-        pixels.data,
-        pixels.width,
-        pixels.height,
-        {inversionAttempts:"attemptBoth"}
-      );
-
+      const pixels=ctx.getImageData(0,0,canvas.width,canvas.height);
+      const code=jsQR(pixels.data,pixels.width,pixels.height,{inversionAttempts:"attemptBoth"});
       URL.revokeObjectURL(url);
 
       if(code){
         decodedText=code.data;
-
         readResult.textContent=decodedText;
         readResult.classList.remove("hidden");
-
         readStatus.textContent="识别成功。";
         readStatus.className="status good";
-
         copyBtn.disabled=false;
-
       }else{
         decodedText="";
         readResult.classList.add("hidden");
         copyBtn.disabled=true;
-
-        readStatus.textContent=
-          "没有识别到二维码，请尝试更清晰、完整的图片。";
-
+        readStatus.textContent="没有识别到二维码，请尝试更清晰、完整的图片。";
         readStatus.className="status bad";
       }
-
     }catch(error){
       URL.revokeObjectURL(url);
-
       readStatus.textContent="图片处理失败，请尝试其他图片。";
       readStatus.className="status bad";
     }
@@ -864,28 +597,21 @@ fileInput.addEventListener("change",()=>{
 
   img.onerror=()=>{
     URL.revokeObjectURL(url);
-
     readStatus.textContent="图片读取失败。";
     readStatus.className="status bad";
   };
-
   img.src=url;
 });
 
 /* 复制识别结果 */
 copyBtn.addEventListener("click",async()=>{
   if(!decodedText)return;
-
   try{
     await navigator.clipboard.writeText(decodedText);
-
     readStatus.textContent="已复制识别结果。";
     readStatus.className="status good";
-
   }catch(error){
-    readStatus.textContent=
-      "浏览器不允许自动复制，请长按识别结果手动复制。";
-
+    readStatus.textContent="浏览器不允许自动复制，请长按识别结果手动复制。";
     readStatus.className="status";
   }
 });
@@ -893,19 +619,15 @@ copyBtn.addEventListener("click",async()=>{
 /* 清除识别结果 */
 document.getElementById("clearRead").addEventListener("click",()=>{
   readToken++;
-
   fileInput.value="";
   decodedText="";
-
   readResult.textContent="";
   readResult.classList.add("hidden");
-
   readStatus.textContent="";
   readStatus.className="status";
-
   copyBtn.disabled=true;
 });
 </script>
-
 </body>
 </html>
+
