@@ -239,11 +239,54 @@ document.getElementById("generateBtn").addEventListener("click",()=>{
 });
 
 downloadBtn.addEventListener("click",()=>{
-  if(!generatedCanvas)return;
-  const a=document.createElement("a");
-  a.download="hemeng-qrcode.png";
-  a.href=generatedCanvas.toDataURL("image/png");
-  a.click();
+  if(!generatedCanvas){
+    makeStatus.textContent="当前没有可下载的二维码，请先重新生成。";
+    makeStatus.className="status bad";
+    return;
+  }
+
+  try{
+    // 将下载链接实际加入页面，再触发点击，兼容部分浏览器对临时链接的限制。
+    const triggerDownload=(url)=>{
+      const a=document.createElement("a");
+      a.href=url;
+      a.download="hemeng-qrcode.png";
+      a.style.display="none";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    };
+
+    if(typeof generatedCanvas.toBlob==="function"){
+      generatedCanvas.toBlob(blob=>{
+        if(!blob){
+          // 部分浏览器无法导出 Blob 时，回退到 PNG Data URL。
+          try{
+            triggerDownload(generatedCanvas.toDataURL("image/png"));
+            makeStatus.textContent="已发起 PNG 下载。如果没有弹出保存窗口，请检查浏览器下载权限。";
+            makeStatus.className="status good";
+          }catch(error){
+            makeStatus.textContent="下载失败：浏览器无法导出二维码图片。";
+            makeStatus.className="status bad";
+          }
+          return;
+        }
+
+        const url=URL.createObjectURL(blob);
+        triggerDownload(url);
+        makeStatus.textContent="已发起 PNG 下载。如果没有弹出保存窗口，请检查浏览器下载权限。";
+        makeStatus.className="status good";
+        setTimeout(()=>URL.revokeObjectURL(url),1500);
+      },"image/png");
+    }else{
+      triggerDownload(generatedCanvas.toDataURL("image/png"));
+      makeStatus.textContent="已发起 PNG 下载。如果没有弹出保存窗口，请检查浏览器下载权限。";
+      makeStatus.className="status good";
+    }
+  }catch(error){
+    makeStatus.textContent="下载失败，请刷新页面后重新生成二维码。";
+    makeStatus.className="status bad";
+  }
 });
 
 document.getElementById("clearBtn").addEventListener("click",()=>{
