@@ -3,59 +3,354 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#f7f5f2">
-<title>二维码工具 - 逢坂大河ws的综合站</title>
+<meta name="theme-color" content="#fff7f3">
+<title>二维码工具 - 荷萌 HEMENG</title>
 <style>
-:root{--bg:#f7f5f2;--card:#fff;--text:#302b29;--muted:#827873;--line:#ebe5e0;--accent:#b77b70;--soft:#f5eae6}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.6}
-main{width:min(920px,calc(100% - 32px));margin:36px auto 60px}header{margin-bottom:24px}.eyebrow{font-size:12px;color:#986258;letter-spacing:.12em}h1{font-size:30px;margin:5px 0 4px}.sub,.hint{color:var(--muted);font-size:13px}
-.tabs{display:flex;gap:8px;margin:24px 0 16px;flex-wrap:wrap}.tab,button{font:inherit;cursor:pointer}.tab{border:1px solid var(--line);background:white;color:var(--muted);padding:10px 17px;border-radius:12px;font-size:14px}.tab.active{background:var(--soft);border-color:#e5c9c1;color:#986258;font-weight:650}
-.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 8px 28px #49372b08}.layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:22px}h2{font-size:17px;margin:0 0 14px}
-label{display:block;font-size:13px;font-weight:650;margin:14px 0 7px}textarea,select{width:100%;border:1px solid var(--line);border-radius:11px;background:#fff;padding:12px;color:var(--text);font:inherit;outline:none}textarea{min-height:150px;resize:vertical}textarea:focus,select:focus{border-color:#c9958a;box-shadow:0 0 0 3px #b77b7018}
-.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}button.primary,button.secondary{border:0;border-radius:11px;padding:11px 16px;font-size:14px}.primary{background:var(--accent);color:white}.secondary{background:#f3efec;color:var(--text)}button:disabled{opacity:.45;cursor:not-allowed}
-.preview{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:300px;background:#fcfbfa;border:1px dashed #e5dcd6;border-radius:15px;padding:18px;text-align:center}#qrOutput{width:220px;min-height:220px;background:#fff;display:grid;place-items:center;border-radius:8px}#qrOutput canvas,#qrOutput img{max-width:100%;height:auto}.placeholder{color:#aaa39e;font-size:13px}.status{font-size:12px;margin-top:12px;color:var(--muted);min-height:20px}.good{color:#477a60}.bad{color:#b65d55}.hidden{display:none!important}
-.filebox{border:1px dashed #d9cec7;border-radius:12px;padding:18px;text-align:center;background:#fcfbfa}.result{margin-top:15px;padding:13px;background:#f8f5f2;border-radius:11px;overflow-wrap:anywhere;font-size:14px;white-space:pre-wrap}footer{text-align:center;color:#a49a94;font-size:12px;margin-top:22px}
-@media(max-width:700px){main{margin-top:24px}.layout{grid-template-columns:1fr}.preview{min-height:280px}.panel{padding:17px}h1{font-size:26px}}
+:root{
+  --bg:#fff7f3;--card:#fff;--text:#493936;--muted:#927d78;
+  --line:#f0dfd9;--accent:#c77f78;--accent-dark:#a9605c;
+  --soft:#fff0eb;--shadow:0 12px 34px rgba(128,82,72,.08)
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:radial-gradient(circle at 8% 4%,rgba(255,220,211,.55),transparent 25rem),var(--bg);
+  color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.65
+}
+main{width:min(960px,calc(100% - 36px));margin:0 auto 55px}
+.site-nav{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:21px 0}
+.brand{display:flex;align-items:center;gap:11px;color:var(--text);text-decoration:none}
+.brand-mark{width:42px;height:42px;display:grid;place-items:center;border-radius:15px;background:var(--soft);border:1px solid var(--line);color:var(--accent-dark);font-size:23px}
+.brand-name{font-weight:800;letter-spacing:.04em;font-size:17px;display:block}
+.brand-en{display:block;color:var(--muted);font-size:10px;letter-spacing:.18em;margin-top:1px}
+.back{color:var(--accent-dark);text-decoration:none;font-size:13px;padding:9px 13px;border:1px solid var(--line);border-radius:999px;background:#ffffffb8}
+.hero{text-align:center;padding:28px 10px 20px}
+.eyebrow{display:inline-block;padding:6px 12px;border-radius:999px;background:var(--soft);color:var(--accent-dark);font-size:11px;letter-spacing:.13em;font-weight:750}
+h1{font-size:clamp(27px,5vw,36px);margin:13px 0 7px;letter-spacing:.02em}
+.sub,.hint{color:var(--muted);font-size:13px;line-height:1.8}
+.sub{margin:0}
+.tabs{display:flex;gap:8px;margin:23px 0 15px;padding:6px;background:#f8e9e4;border:1px solid var(--line);border-radius:15px}
+.tab,button{font:inherit;cursor:pointer}
+.tab{flex:1;border:0;background:transparent;color:var(--muted);padding:11px 15px;border-radius:10px;font-size:14px;font-weight:650}
+.tab.active{background:white;color:var(--accent-dark);box-shadow:0 3px 12px rgba(128,82,72,.09)}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:clamp(18px,3vw,26px);box-shadow:var(--shadow)}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:24px;align-items:start}
+h2{font-size:18px;margin:0 0 14px}
+label{display:block;font-size:13px;font-weight:700;margin:15px 0 7px}
+textarea,select,input[type="color"],input[type="file"]{width:100%;border:1px solid var(--line);border-radius:11px;background:#fff;padding:11px 12px;color:var(--text);font:inherit;outline:none}
+textarea{min-height:145px;resize:vertical}
+textarea:focus,select:focus{border-color:#c9958a;box-shadow:0 0 0 3px #b77b7018}
+input[type="color"]{height:44px;padding:5px;cursor:pointer}
+.hint{margin:8px 0 13px}
+.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:17px}
+button.primary,button.secondary{border:0;border-radius:11px;padding:11px 16px;font-size:13px;font-weight:700}
+.primary{background:var(--accent);color:white}
+.primary:hover{background:var(--accent-dark)}
+.secondary{background:#f3e9e5;color:var(--text)}
+.secondary:hover{background:#eadbd5}
+button:disabled{opacity:.45;cursor:not-allowed}
+.preview{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:330px;background:#fffbf9;border:1px dashed #e5d2cb;border-radius:16px;padding:18px;text-align:center}
+#qrOutput{width:240px;min-height:240px;background:#fff;display:grid;place-items:center;border-radius:10px;padding:10px}
+#qrOutput canvas,#qrOutput img{max-width:100%;height:auto}
+.placeholder{color:#aaa39e;font-size:13px}
+.status{font-size:12px;margin-top:12px;color:var(--muted);min-height:20px;line-height:1.6}
+.good{color:#477a60}.bad{color:#b65d55}.hidden{display:none!important}
+.filebox{border:1px dashed #dfbdb4;border-radius:13px;padding:18px;text-align:center;background:#fffbf9}
+.result{margin-top:15px;padding:14px;background:#fff8f5;border:1px solid var(--line);border-radius:11px;overflow-wrap:anywhere;font-size:14px;white-space:pre-wrap}
+footer{text-align:center;color:var(--muted);font-size:12px;margin-top:28px;line-height:1.8}
+footer strong{color:var(--accent-dark);letter-spacing:.08em}
+@media(max-width:720px){
+  main{width:min(100% - 24px,560px);margin-bottom:35px}
+  .site-nav{padding:15px 0}.hero{padding:22px 5px 15px}
+  .layout{grid-template-columns:1fr}.preview{min-height:290px}
+  .panel{padding:17px}h1{font-size:27px}
+}
+@media(max-width:390px){.settings-grid{grid-template-columns:1fr}.brand-mark{width:38px;height:38px}}
 </style>
 </head>
-<body><main>
-<header><div class="eyebrow">TAIGA WS · ONLINE TOOLS</div><h1>二维码工具</h1><p class="sub">生成文字二维码，或识别已有二维码。内容优先在当前设备本地处理。</p></header>
-<div class="tabs"><button class="tab active" data-tab="make" type="button">生成二维码</button><button class="tab" data-tab="read" type="button">识别二维码</button></div>
-<section id="make" class="panel"><div class="layout"><div>
-<h2>文字 / 网址生成</h2><label for="qrText">输入要放进二维码的内容</label>
-<textarea id="qrText" placeholder="例如：https://lowcrush.asia&#10;也可以输入普通文字、联系方式等"></textarea>
-<p class="hint">内容会直接编码进二维码。网址通常可由微信、QQ及手机相机识别；普通文字则由扫码应用显示。</p>
-<label for="qrSize">二维码尺寸</label><select id="qrSize"><option value="200">200 × 200</option><option value="280" selected>280 × 280</option><option value="360">360 × 360</option><option value="480">480 × 480</option></select>
-<div class="actions"><button class="primary" id="generateBtn" type="button">生成二维码</button><button class="secondary" id="clearBtn" type="button">清空</button></div><div id="makeStatus" class="status"></div>
-</div><aside><div class="preview"><div id="qrOutput"><span class="placeholder">二维码将在这里显示</span></div><div class="status" id="qrCaption">等待生成</div><button class="secondary" id="downloadBtn" type="button" disabled>下载 PNG 图片</button></div></aside></div></section>
-<section id="read" class="panel hidden"><h2>识别二维码图片</h2><p class="hint">选择设备中的二维码图片，浏览器会尝试在本地识别，不会主动上传图片。</p><div class="filebox"><input id="qrFile" type="file" accept="image/*"></div><div id="readStatus" class="status"></div><div id="readResult" class="result hidden"></div><div class="actions"><button class="secondary" id="copyResult" type="button" disabled>复制识别结果</button><button class="secondary" id="clearRead" type="button">清除</button></div><canvas id="decodeCanvas" class="hidden"></canvas></section>
-<footer>逢坂大河ws的综合站 · 二维码工具</footer></main>
+<body>
+<main>
+  <nav class="site-nav">
+    <a class="brand" href="/" aria-label="荷萌首页">
+      <span class="brand-mark" aria-hidden="true">♡</span>
+      <span><span class="brand-name">荷萌</span><span class="brand-en">HEMENG</span></span>
+    </a>
+    <a class="back" href="/">← 返回首页</a>
+  </nav>
+
+  <header class="hero">
+    <div class="eyebrow">HEMENG · IMAGE TOOLS</div>
+    <h1>二维码工具</h1>
+    <p class="sub">生成二维码，也可以识别已有二维码。尽可能在当前设备本地处理。</p>
+  </header>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="make" type="button">生成二维码</button>
+    <button class="tab" data-tab="read" type="button">识别二维码</button>
+  </div>
+
+  <section id="make" class="panel">
+    <div class="layout">
+      <div>
+        <h2>文字 / 网址生成</h2>
+        <label for="qrText">输入要放进二维码的内容</label>
+        <textarea id="qrText" placeholder="例如：https://lowcrush.asia&#10;也可以输入普通文字、联系方式等"></textarea>
+        <p class="hint">网址通常可由手机相机或扫码应用识别；普通文字则由扫码应用显示。内容较长时，二维码会更复杂。</p>
+
+        <div class="settings-grid">
+          <div>
+            <label for="qrSize">二维码尺寸</label>
+            <select id="qrSize">
+              <option value="200">200 × 200</option>
+              <option value="280" selected>280 × 280</option>
+              <option value="360">360 × 360</option>
+              <option value="480">480 × 480</option>
+            </select>
+          </div>
+          <div>
+            <label for="qrLevel">纠错等级</label>
+            <select id="qrLevel">
+              <option value="L">低（L）</option>
+              <option value="M">中（M）</option>
+              <option value="Q" selected>较高（Q）</option>
+              <option value="H">高（H）</option>
+            </select>
+          </div>
+          <div>
+            <label for="darkColor">二维码颜色</label>
+            <input id="darkColor" type="color" value="#493936">
+          </div>
+          <div>
+            <label for="lightColor">背景颜色</label>
+            <input id="lightColor" type="color" value="#ffffff">
+          </div>
+        </div>
+        <div class="actions">
+          <button class="primary" id="generateBtn" type="button">生成二维码</button>
+          <button class="secondary" id="clearBtn" type="button">清空</button>
+        </div>
+        <div id="makeStatus" class="status" aria-live="polite"></div>
+      </div>
+
+      <aside>
+        <div class="preview">
+          <div id="qrOutput"><span class="placeholder">二维码将在这里显示</span></div>
+          <div class="status" id="qrCaption">等待生成</div>
+          <button class="secondary" id="downloadBtn" type="button" disabled>下载 PNG 图片</button>
+          <p class="hint">正式荷萌 Logo 之后再统一加入。现在先保留干净的二维码区域，避免影响扫码识别。</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section id="read" class="panel hidden">
+    <h2>识别二维码图片</h2>
+    <p class="hint">选择设备中的二维码图片，浏览器会尝试在本地识别，不会主动上传图片。</p>
+    <div class="filebox"><input id="qrFile" type="file" accept="image/*"></div>
+    <div id="readStatus" class="status" aria-live="polite"></div>
+    <div id="readResult" class="result hidden"></div>
+    <div class="actions">
+      <button class="secondary" id="copyResult" type="button" disabled>复制识别结果</button>
+      <button class="secondary" id="clearRead" type="button">清除</button>
+    </div>
+    <canvas id="decodeCanvas" class="hidden"></canvas>
+  </section>
+
+  <footer><strong>荷萌 HEMENG</strong> · 二维码工具<br>生成与识别尽可能在当前浏览器本地完成。</footer>
+</main>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
 <script>
 const tabs=document.querySelectorAll(".tab");
-tabs.forEach(btn=>btn.addEventListener("click",()=>{tabs.forEach(x=>x.classList.toggle("active",x===btn));document.getElementById("make").classList.toggle("hidden",btn.dataset.tab!=="make");document.getElementById("read").classList.toggle("hidden",btn.dataset.tab!=="read")}));
-const textInput=document.getElementById("qrText"),output=document.getElementById("qrOutput"),makeStatus=document.getElementById("makeStatus"),downloadBtn=document.getElementById("downloadBtn");let generatedCanvas=null;
+tabs.forEach(btn=>btn.addEventListener("click",()=>{
+  tabs.forEach(x=>x.classList.toggle("active",x===btn));
+  document.getElementById("make").classList.toggle("hidden",btn.dataset.tab!=="make");
+  document.getElementById("read").classList.toggle("hidden",btn.dataset.tab!=="read");
+}));
+
+const textInput=document.getElementById("qrText");
+const output=document.getElementById("qrOutput");
+const makeStatus=document.getElementById("makeStatus");
+const downloadBtn=document.getElementById("downloadBtn");
+let generatedCanvas=null;
+let generationToken=0;
+
 document.getElementById("generateBtn").addEventListener("click",()=>{
- const value=textInput.value.trim();if(!value){makeStatus.textContent="请先输入文字或网址。";makeStatus.className="status bad";return}
- if(typeof QRCode==="undefined"){makeStatus.textContent="二维码组件加载失败，请检查网络后刷新页面。";makeStatus.className="status bad";return}
- output.innerHTML="";generatedCanvas=null;downloadBtn.disabled=true;const size=Number(document.getElementById("qrSize").value);
- try{new QRCode(output,{text:value,width:size,height:size,colorDark:"#211d1b",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.M});
- setTimeout(()=>{const canvas=output.querySelector("canvas"),img=output.querySelector("img");if(canvas)generatedCanvas=canvas;else if(img&&img.complete){const c=document.createElement("canvas");c.width=size;c.height=size;c.getContext("2d").drawImage(img,0,0,size,size);generatedCanvas=c}
- if(generatedCanvas){downloadBtn.disabled=false;document.getElementById("qrCaption").textContent="生成成功 · 可下载 PNG"}else{makeStatus.textContent="二维码已生成，但暂时无法导出，请重试。";makeStatus.className="status bad"}},150);
- makeStatus.textContent="二维码已生成。";makeStatus.className="status good";
- }catch(e){makeStatus.textContent="生成失败，内容可能过长，请减少文字后重试。";makeStatus.className="status bad"}
+  const value=textInput.value.trim();
+  if(!value){
+    makeStatus.textContent="请先输入文字或网址。";
+    makeStatus.className="status bad";
+    return;
+  }
+  if(typeof QRCode==="undefined"){
+    makeStatus.textContent="二维码组件加载失败，请检查网络后刷新页面。";
+    makeStatus.className="status bad";
+    return;
+  }
+
+  const token=++generationToken;
+  output.innerHTML="";
+  generatedCanvas=null;
+  downloadBtn.disabled=true;
+  document.getElementById("qrCaption").textContent="正在生成……";
+
+  const size=Number(document.getElementById("qrSize").value);
+  const levelMap={L:QRCode.CorrectLevel.L,M:QRCode.CorrectLevel.M,Q:QRCode.CorrectLevel.Q,H:QRCode.CorrectLevel.H};
+  const dark=document.getElementById("darkColor").value;
+  const light=document.getElementById("lightColor").value;
+
+  try{
+    new QRCode(output,{
+      text:value,width:size,height:size,
+      colorDark:dark,colorLight:light,
+      correctLevel:levelMap[document.getElementById("qrLevel").value] ?? QRCode.CorrectLevel.Q
+    });
+
+    setTimeout(()=>{
+      if(token!==generationToken)return;
+      const canvas=output.querySelector("canvas");
+      const img=output.querySelector("img");
+      if(canvas){
+        generatedCanvas=canvas;
+      }else if(img&&img.complete&&img.naturalWidth){
+        const c=document.createElement("canvas");
+        c.width=size;c.height=size;
+        c.getContext("2d").drawImage(img,0,0,size,size);
+        generatedCanvas=c;
+      }
+      if(generatedCanvas){
+        downloadBtn.disabled=false;
+        document.getElementById("qrCaption").textContent="生成成功 · 可以下载 PNG";
+        makeStatus.textContent="二维码已生成。建议下载后用手机相机实际扫描测试。";
+        makeStatus.className="status good";
+      }else{
+        makeStatus.textContent="二维码已生成，但暂时无法导出，请重试。";
+        makeStatus.className="status bad";
+      }
+    },180);
+    makeStatus.textContent="正在生成二维码……";
+    makeStatus.className="status";
+  }catch(e){
+    makeStatus.textContent="生成失败，内容可能过长或格式不受支持，请缩短内容后重试。";
+    makeStatus.className="status bad";
+    document.getElementById("qrCaption").textContent="生成失败";
+  }
 });
-downloadBtn.addEventListener("click",()=>{if(!generatedCanvas)return;const a=document.createElement("a");a.download="qrcode.png";a.href=generatedCanvas.toDataURL("image/png");a.click()});
-document.getElementById("clearBtn").addEventListener("click",()=>{textInput.value="";output.innerHTML='<span class="placeholder">二维码将在这里显示</span>';makeStatus.textContent="";document.getElementById("qrCaption").textContent="等待生成";generatedCanvas=null;downloadBtn.disabled=true});
-const fileInput=document.getElementById("qrFile"),readStatus=document.getElementById("readStatus"),readResult=document.getElementById("readResult"),copyBtn=document.getElementById("copyResult");let decodedText="";
+
+downloadBtn.addEventListener("click",()=>{
+  if(!generatedCanvas)return;
+  const a=document.createElement("a");
+  a.download="hemeng-qrcode.png";
+  a.href=generatedCanvas.toDataURL("image/png");
+  a.click();
+});
+
+document.getElementById("clearBtn").addEventListener("click",()=>{
+  generationToken++;
+  textInput.value="";
+  output.innerHTML='<span class="placeholder">二维码将在这里显示</span>';
+  makeStatus.textContent="";
+  makeStatus.className="status";
+  document.getElementById("qrCaption").textContent="等待生成";
+  generatedCanvas=null;
+  downloadBtn.disabled=true;
+});
+
+const fileInput=document.getElementById("qrFile");
+const readStatus=document.getElementById("readStatus");
+const readResult=document.getElementById("readResult");
+const copyBtn=document.getElementById("copyResult");
+let decodedText="";
+let readToken=0;
+
 fileInput.addEventListener("change",()=>{
- const file=fileInput.files&&fileInput.files[0];if(!file)return;if(!file.type.startsWith("image/")){readStatus.textContent="请选择图片文件。";readStatus.className="status bad";return}
- if(typeof jsQR==="undefined"){readStatus.textContent="识别组件加载失败，请检查网络后刷新页面。";readStatus.className="status bad";return}
- const url=URL.createObjectURL(file),img=new Image();img.onload=()=>{const canvas=document.getElementById("decodeCanvas"),ctx=canvas.getContext("2d",{willReadFrequently:true}),scale=Math.min(1,1600/Math.max(img.naturalWidth,img.naturalHeight));canvas.width=Math.max(1,Math.round(img.naturalWidth*scale));canvas.height=Math.max(1,Math.round(img.naturalHeight*scale));ctx.drawImage(img,0,0,canvas.width,canvas.height);const pixels=ctx.getImageData(0,0,canvas.width,canvas.height),code=jsQR(pixels.data,pixels.width,pixels.height,{inversionAttempts:"attemptBoth"});URL.revokeObjectURL(url);
- if(code){decodedText=code.data;readResult.textContent=decodedText;readResult.classList.remove("hidden");readStatus.textContent="识别成功。";readStatus.className="status good";copyBtn.disabled=false}else{decodedText="";readResult.classList.add("hidden");copyBtn.disabled=true;readStatus.textContent="没有识别到二维码，请尝试更清晰、完整的图片。";readStatus.className="status bad"}};
- img.onerror=()=>{URL.revokeObjectURL(url);readStatus.textContent="图片读取失败。";readStatus.className="status bad"};img.src=url;
+  const file=fileInput.files&&fileInput.files[0];
+  if(!file)return;
+
+  const token=++readToken;
+  if(!file.type.startsWith("image/")){
+    readStatus.textContent="请选择图片文件。";
+    readStatus.className="status bad";
+    return;
+  }
+  if(typeof jsQR==="undefined"){
+    readStatus.textContent="识别组件加载失败，请检查网络后刷新页面。";
+    readStatus.className="status bad";
+    return;
+  }
+
+  const url=URL.createObjectURL(file);
+  const img=new Image();
+  readStatus.textContent="正在读取图片……";
+  readStatus.className="status";
+  copyBtn.disabled=true;
+  readResult.classList.add("hidden");
+
+  img.onload=()=>{
+    if(token!==readToken){URL.revokeObjectURL(url);return;}
+    try{
+      const canvas=document.getElementById("decodeCanvas");
+      const ctx=canvas.getContext("2d",{willReadFrequently:true});
+      const scale=Math.min(1,1600/Math.max(img.naturalWidth,img.naturalHeight));
+      canvas.width=Math.max(1,Math.round(img.naturalWidth*scale));
+      canvas.height=Math.max(1,Math.round(img.naturalHeight*scale));
+      ctx.drawImage(img,0,0,canvas.width,canvas.height);
+      const pixels=ctx.getImageData(0,0,canvas.width,canvas.height);
+      const code=jsQR(pixels.data,pixels.width,pixels.height,{inversionAttempts:"attemptBoth"});
+      URL.revokeObjectURL(url);
+
+      if(code){
+        decodedText=code.data;
+        readResult.textContent=decodedText;
+        readResult.classList.remove("hidden");
+        readStatus.textContent="识别成功。";
+        readStatus.className="status good";
+        copyBtn.disabled=false;
+      }else{
+        decodedText="";
+        readResult.classList.add("hidden");
+        copyBtn.disabled=true;
+        readStatus.textContent="没有识别到二维码，请尝试更清晰、完整的图片。";
+        readStatus.className="status bad";
+      }
+    }catch(error){
+      URL.revokeObjectURL(url);
+      readStatus.textContent="图片处理失败，请尝试其他图片。";
+      readStatus.className="status bad";
+    }
+  };
+
+  img.onerror=()=>{
+    URL.revokeObjectURL(url);
+    readStatus.textContent="图片读取失败。";
+    readStatus.className="status bad";
+  };
+  img.src=url;
 });
-copyBtn.addEventListener("click",async()=>{if(!decodedText)return;try{await navigator.clipboard.writeText(decodedText);readStatus.textContent="已复制识别结果。";readStatus.className="status good"}catch(e){readStatus.textContent="浏览器不允许自动复制，请长按识别结果手动复制。";readStatus.className="status"}});
-document.getElementById("clearRead").addEventListener("click",()=>{fileInput.value="";decodedText="";readResult.textContent="";readResult.classList.add("hidden");readStatus.textContent="";copyBtn.disabled=true});
-</script></body></html>
+
+copyBtn.addEventListener("click",async()=>{
+  if(!decodedText)return;
+  try{
+    await navigator.clipboard.writeText(decodedText);
+    readStatus.textContent="已复制识别结果。";
+    readStatus.className="status good";
+  }catch(e){
+    readStatus.textContent="浏览器不允许自动复制，请长按识别结果手动复制。";
+    readStatus.className="status";
+  }
+});
+
+document.getElementById("clearRead").addEventListener("click",()=>{
+  readToken++;
+  fileInput.value="";
+  decodedText="";
+  readResult.textContent="";
+  readResult.classList.add("hidden");
+  readStatus.textContent="";
+  readStatus.className="status";
+  copyBtn.disabled=true;
+});
+</script>
+</body>
+</html>
