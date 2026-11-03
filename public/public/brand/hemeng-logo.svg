@@ -1,29 +1,192 @@
-<svg xmlns="http://www.w3.org/2000/svg"
-     viewBox="0 0 800 900">
 
-<defs>
-  <linearGradient id="coral"
-    x1="0" y1="0" x2="1" y2="1">
-    <stop offset="0%" stop-color="#F6A18F"/>
-    <stop offset="100%" stop-color="#D9786D"/>
-  </linearGradient>
-</defs>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <defs>
+    <linearGradient id="pink" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F5A092"/>
+      <stop offset="1" stop-color="#B77B70"/>
+    </linearGradient>
+    <linearGradient id="fur" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFF9F2"/>
+      <stop offset="1" stop-color="#F8E6D9"/>
+    </linearGradient>
+    <g id="flower">
+      <g fill="#F18D80">
+        <ellipse cy="-17" rx="11" ry="18"/>
+        <ellipse cy="-17" rx="11" ry="18" transform="rotate(72)"/>
+        <ellipse cy="-17" rx="11" ry="18" transform="rotate(144)"/>
+        <ellipse cy="-17" rx="11" ry="18" transform="rotate(216)"/>
+        <ellipse cy="-17" rx="11" ry="18" transform="rotate(288)"/>
+      </g>
+      <circle r="5" fill="#FFF7F3"/>
+      <g stroke="#FFF7F3" stroke-width="2" stroke-linecap="round">
+        <path d="M0 0L0 -12M0 0L11 -5M0 0L-11 -5"/>
+      </g>
+    </g>
+    <style>
+      .brown {
+        fill: #6D4C49;
+        stroke: #FFFDFB;
+        stroke-width: 13;
+        stroke-linejoin: round;
+        paint-order: stroke fill;
+        font-family: "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+        font-weight: 900;
+      }
+      .line {
+        fill: none;
+        stroke: url(#pink);
+        stroke-width: 9;
+        stroke-linecap: round;
+      }
+    </style>
+  </defs>
 
-<!-- 背景 -->
-<rect width="800" height="900"
-      rx="42" fill="#FFF7F3"/>
+  <!-- 徽章外圆环 -->
+  <path class="line"
+    d="M455 100
+       A218 218 0 1 0 475 440
+       M180 570
+       Q300 600 420 555"/>
+  <path class="line" stroke-width="8"
+    d="M105 120L168 72"/>
+  <path class="line" stroke-width="7"
+    d="M505 260L512 310"/>
 
-<!-- 外部圆形徽章 -->
-<path
-  d="M196 510 A205 205 0 1 1 603 510"
-  fill="none"
-  stroke="url(#coral)"
-  stroke-width="12"
-  stroke-linecap="round"/>
+  <!-- 右下装饰线 -->
+  <g stroke="#D98275" stroke-width="9" stroke-linecap="round">
+    <path d="M463 475H515"/>
+    <path d="M452 493H496"/>
+  </g>
 
-<path
-  d="M215 530 A185 185 0 0 0 585 530"
-  fill="none"
-  stroke="#E88C7E"
-  stroke-width="5"
-  stroke-linecap="round"/>
+  <!-- 荷萌中文标题 -->
+  <g class="brown" text-anchor="middle">
+    <text x="300" y="195" font-size="126" letter-spacing="2">荷萌</text>
+  </g>
+
+  <!-- 右上小樱花 -->
+  <use href="#flower" transform="translate(488 190) scale(.82)"/>
+
+  <!-- 英文标题 -->
+  <g fill="#E98779" font-family="Arial,sans-serif"
+     font-size="29" font-weight="bold"
+     letter-spacing="10" text-anchor="middle">
+    <text x="300" y="280">HEMENG</text>
+  </g>
+  <g stroke="#E98779" stroke-width="3" stroke-linecap="round">
+    <path d="M205 266H225"/>
+    <path d="M375 266H395"/>
+  </g>
+
+  <!-- 左侧花瓣 -->
+  <path d="M105 200Q125 188 132 215Q120 234 105 200Z"
+        fill="#F18D80"/>
+  <path d="M470 330Q495 316 506 345Q484 358 470 330Z"
+        fill="#F18D80"/>
+
+  <!-- 左侧大樱花 -->
+  <use href="#flower" transform="translate(112 345) scale(1.85)"/>
+
+  <!-- 猫耳 -->
+  <path d="M205 455L230 350Q236 325 257 344
+           L300 390L345 344Q366 325 373 350
+           L397 455Z"
+        fill="url(#fur)" stroke="#6D4C49"
+        stroke-width="9" stroke-linejoin="round"/>
+
+  <!-- 耳朵内侧 -->
+  <path d="M229 410L242 359L279 398Z"
+        fill="#F5B5A9"/>
+  <path d="M365 398L387 359L390 410Z"
+        fill="#F5B5A9"/>
+
+  <!-- 猫咪头部 -->
+  <path d="M178 495
+           Q185 410 238 393
+           Q300 372 362 393
+           Q415 412 423 495
+           Q423 548 372 559
+           L228 559
+           Q178 548 178 495Z"
+        fill="url(#fur)" stroke="#6D4C49"
+        stroke-width="8"/>
+
+  <!-- 额头棕色斑纹 -->
+  <path d="M206 425
+           Q228 396 266 393
+           Q291 393 313 407
+           Q292 438 260 444
+           Q226 447 206 425Z"
+        fill="#D9A58C"/>
+  <path d="M205 425Q220 414 232 410"
+        fill="none" stroke="#B77B70" stroke-width="4"
+        stroke-linecap="round"/>
+
+  <!-- 额头小斑点 -->
+  <ellipse cx="334" cy="438" rx="6" ry="3"
+           fill="#B77B70"/>
+
+  <!-- 左眼 -->
+  <ellipse cx="246" cy="470" rx="14" ry="20"
+           fill="#6D4C49"/>
+
+  <!-- 右眼 -->
+  <path d="M344 464Q365 445 385 466"
+        fill="none" stroke="#6D4C49"
+        stroke-width="8" stroke-linecap="round"/>
+
+  <!-- 脸颊 -->
+  <ellipse cx="222" cy="500" rx="18" ry="11"
+           fill="#F5B2A6" opacity=".8"/>
+  <ellipse cx="390" cy="500" rx="18" ry="11"
+           fill="#F5B2A6" opacity=".8"/>
+
+  <!-- 嘴巴 -->
+  <path d="M286 474Q292 484 300 475
+           Q308 484 314 474"
+        fill="none" stroke="#6D4C49"
+        stroke-width="5" stroke-linecap="round"/>
+
+  <!-- 粉色底部托底 -->
+  <path d="M174 514
+           Q300 577 426 514
+           L413 550
+           Q300 600 187 550Z"
+        fill="url(#pink)"/>
+
+  <!-- 左爪 -->
+  <path d="M198 520
+           Q174 505 158 521
+           Q148 542 164 555
+           Q180 566 205 551
+           Q218 540 210 526Z"
+        fill="#FFF8F0" stroke="#6D4C49" stroke-width="6"/>
+
+  <!-- 右爪 -->
+  <path d="M402 520
+           Q426 505 442 521
+           Q452 542 436 555
+           Q420 566 395 551
+           Q382 540 390 526Z"
+        fill="#FFF8F0" stroke="#6D4C49" stroke-width="6"/>
+
+  <!-- 爪子细节 -->
+  <g fill="none" stroke="#B77B70" stroke-width="3"
+     stroke-linecap="round">
+    <path d="M174 540Q178 548 186 546"/>
+    <path d="M195 541Q198 550 205 547"/>
+    <path d="M414 541Q410 550 403 547"/>
+    <path d="M435 540Q431 548 423 546"/>
+  </g>
+
+  <!-- 中央白色猫爪印 -->
+  <g transform="translate(300 550)" fill="#FFF7F3">
+    <ellipse cx="-19" cy="-23" rx="9" ry="12"/>
+    <ellipse cx="19" cy="-23" rx="9" ry="12"/>
+    <ellipse cx="-9" cy="-39" rx="9" ry="11"/>
+    <ellipse cx="9" cy="-39" rx="9" ry="11"/>
+    <path d="M0 -17
+      C-23 -17 -29 5 -17 17
+      Q0 31 17 17
+      C29 5 23 -17 0 -17Z"/>
+  </g>
+</svg>
