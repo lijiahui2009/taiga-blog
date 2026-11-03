@@ -1,0 +1,231 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#faf7f5">
+<title>荷萌 · 分享内容</title>
+<style>
+:root {
+  --bg: #faf7f5;
+  --card: #ffffff;
+  --text: #302a29;
+  --muted: #8b817d;
+  --accent: #b77b70;
+  --border: #eee6e2;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  padding: 36px 18px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Microsoft YaHei", sans-serif;
+}
+.container {
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 34px;
+}
+.logo {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: #f0ded8;
+  font-size: 23px;
+}
+.brand-name {
+  font-size: 19px;
+  font-weight: 750;
+}
+.brand-sub {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.card {
+  padding: 28px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow: 0 12px 40px rgba(80, 50, 40, .045);
+}
+.eyebrow {
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+h1 {
+  margin: 12px 0 8px;
+  font-size: 25px;
+}
+.description {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+.content {
+  margin-top: 25px;
+  padding: 22px;
+  min-height: 130px;
+  border-radius: 13px;
+  background: #faf8f7;
+  border: 1px solid var(--border);
+  font-size: 16px;
+  line-height: 1.9;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  user-select: text;
+}
+.status {
+  padding: 22px 0;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.8;
+}
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+button, .home {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 11px;
+  font-size: 14px;
+  font-weight: 650;
+  text-decoration: none;
+  cursor: pointer;
+}
+button {
+  color: white;
+  background: var(--accent);
+}
+.home {
+  color: var(--text);
+  background: #f3eeeb;
+}
+button:disabled {
+  opacity: .5;
+  cursor: default;
+}
+.footer {
+  margin-top: 25px;
+  color: var(--muted);
+  font-size: 12px;
+  text-align: center;
+  line-height: 1.8;
+}
+@media (max-width: 480px) {
+  body { padding: 25px 14px; }
+  .card { padding: 21px 17px; }
+  h1 { font-size: 22px; }
+}
+</style>
+</head>
+<body>
+<main class="container">
+  <header class="brand">
+    <div class="logo">荷</div>
+    <div>
+      <div class="brand-name">荷萌 HEMENG</div>
+      <div class="brand-sub">让分享变得简单</div>
+    </div>
+  </header>
+
+  <section class="card">
+    <div class="eyebrow">HEMENG · SHARE</div>
+    <h1>分享内容</h1>
+    <div class="description">
+      有人通过荷萌二维码分享了一段文字。
+    </div>
+
+    <div id="status" class="status">正在读取分享内容……</div>
+    <div id="content" class="content" hidden></div>
+
+    <div class="actions" id="actions" hidden>
+      <button id="copyBtn" type="button">复制内容</button>
+      <a class="home" href="/">返回荷萌首页</a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    内容由分享者提供，请自行判断其真实性。<br>
+    分享链接有效期为 30 天。<br>
+    © HEMENG 荷萌
+  </footer>
+</main>
+
+<script>
+const statusEl = document.getElementById("status");
+const contentEl = document.getElementById("content");
+const actionsEl = document.getElementById("actions");
+const copyBtn = document.getElementById("copyBtn");
+
+let sharedContent = "";
+
+async function loadShare() {
+  const id = new URLSearchParams(location.search).get("id");
+
+  if (!id || !/^[a-f0-9]{32}$/.test(id)) {
+    statusEl.textContent = "分享链接无效，请检查二维码或链接。";
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      `/api/qr-shares?id=${encodeURIComponent(id)}`,
+      { cache: "no-store" }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok || !data.success) {
+      statusEl.textContent =
+        data.message || "内容不存在或已经过期。";
+      return;
+    }
+
+    sharedContent = data.content;
+    contentEl.textContent = sharedContent;
+    contentEl.hidden = false;
+    statusEl.hidden = true;
+    actionsEl.hidden = false;
+  } catch {
+    statusEl.textContent = "网络连接失败，请稍后刷新重试。";
+  }
+}
+
+copyBtn.addEventListener("click", async () => {
+  try {
+    await navigator.clipboard.writeText(sharedContent);
+    copyBtn.textContent = "已复制";
+    setTimeout(() => {
+      copyBtn.textContent = "复制内容";
+    }, 1800);
+  } catch {
+    copyBtn.textContent = "复制失败，请手动选择文字";
+  }
+});
+
+loadShare();
+</script>
+</body>
+</html>
