@@ -1,213 +1,138 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>博客 - 逢坂大河ws的综合站</title>
+<meta name="theme-color" content="#fff7f3">
+<meta name="description" content="荷萌 HEMENG 个人博客，记录想法、技术、生活与值得保存的信息。">
+<title>博客 - 荷萌 HEMENG</title>
 
 <style>
 :root {
-  --bg: #f7f5f3;
+  --bg: #fffaf7;
   --card: #ffffff;
-  --text: #302b29;
-  --muted: #817873;
+  --cream: #fff7f3;
+  --pink: #ffe8e0;
+  --pink-deep: #f5c8c0;
+  --text: #493735;
+  --muted: #95827c;
   --accent: #b77b70;
-  --border: #e9e2de;
+  --accent-dark: #956258;
+  --border: #f0e3de;
+  --shadow: 0 12px 35px rgba(120,75,65,.07);
 }
-
 * { box-sizing: border-box; }
-
+html { scroll-behavior: smooth; }
 body {
   margin: 0;
-  padding: 20px 15px 60px;
+  padding: 0 16px 55px;
   background: var(--bg);
   color: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
 }
-
-.container {
-  max-width: 900px;
+a { color: inherit; text-decoration: none; }
+.container { max-width: 920px; margin: auto; }
+.site-header {
+  max-width: 920px;
   margin: auto;
+  padding: 20px 0 0;
 }
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-header {
-  padding: 25px 0 30px;
-}
-
-.back {
-  color: var(--accent);
-  font-size: 14px;
-}
-
-header h1 {
-  font-size: 30px;
-  margin: 22px 0 8px;
-}
-
-header p {
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.7;
-}
-
-.search-box {
-  margin: 15px 0 20px;
-}
-
-.search-box input {
-  width: 100%;
-  padding: 14px 16px;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: white;
-  font-size: 15px;
-  outline: none;
-}
-
-.search-box input:focus {
-  border-color: var(--accent);
-}
-
-.categories {
+.topbar {
   display: flex;
-  flex-wrap: wrap;
-  gap: 9px;
-  margin: 20px 0;
-}
-
-.category {
-  padding: 9px 15px;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  padding: 13px 17px;
+  background: rgba(255,255,255,.82);
   border: 1px solid var(--border);
-  border-radius: 20px;
-  background: white;
-  color: var(--muted);
-  cursor: pointer;
-  font-size: 13px;
-}
-
-.category.active {
-  background: var(--accent);
-  color: white;
-  border-color: var(--accent);
-}
-
-.section-title {
-  font-size: 19px;
-  margin: 30px 0 15px;
-}
-
-.article-list {
-  display: grid;
-  gap: 14px;
-}
-
-.article {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 15px;
-  padding: 20px;
-  cursor: pointer;
-  transition: transform .2s, box-shadow .2s;
-}
-
-.article:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 20px #00000008;
-}
-
-.article-category {
-  display: inline-block;
-  color: var(--accent);
-  background: #f8eeeb;
-  padding: 5px 10px;
-  border-radius: 20px;
-  font-size: 12px;
-}
-
-.article h2 {
-  font-size: 19px;
-  margin: 13px 0 9px;
-}
-
-.article p {
-  font-size: 14px;
-  color: var(--muted);
-  line-height: 1.8;
-  margin: 0 0 13px;
-}
-
-.article-meta {
-  color: #a49a94;
-  font-size: 12px;
-}
-
-.empty {
-  background: white;
-  border-radius: 12px;
-  padding: 35px 15px;
-  text-align: center;
-  color: var(--muted);
-  font-size: 14px;
-}
-
-#detail {
-  display: none;
-  background: white;
-  padding: 25px;
   border-radius: 16px;
-  border: 1px solid var(--border);
-  margin-top: 20px;
 }
-
-#detail h2 {
-  font-size: 25px;
-  line-height: 1.5;
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand-icon {
+  width: 43px; height: 43px; border-radius: 14px;
+  display: grid; place-items: center;
+  background: var(--pink); border: 1px solid #f2d8d0;
 }
-
-.detail-meta {
-  color: var(--muted);
-  font-size: 13px;
-  margin: 12px 0 25px;
+.brand-icon svg { width: 33px; height: 33px; }
+.brand-name { font-weight: 800; font-size: 18px; letter-spacing: 1px; }
+.brand-en { color: var(--muted); font-size: 9px; letter-spacing: 2.5px; margin-top: 2px; }
+.back {
+  color: var(--accent-dark); font-size: 13px;
+  padding: 9px 13px; border-radius: 9px;
+  background: var(--cream); border: 1px solid var(--border);
 }
-
-.detail-content {
-  font-size: 15px;
-  line-height: 2;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
+header.page-heading { padding: 43px 4px 23px; }
+.eyebrow { color: var(--accent); font-size: 11px; letter-spacing: 3px; font-weight: 700; }
+header.page-heading h1 { font-size: clamp(29px,5vw,39px); margin: 12px 0 8px; }
+header.page-heading p { color: var(--muted); font-size: 14px; line-height: 1.9; margin: 0; }
+.search-box { margin: 14px 0 18px; }
+.search-box input {
+  width: 100%; padding: 15px 17px;
+  border: 1px solid var(--border); border-radius: 13px;
+  background: white; font-size: 14px; color: var(--text); outline: none;
+  box-shadow: 0 4px 15px rgba(120,75,65,.025);
 }
-
-.detail-content p {
-  margin: 0 0 16px;
+.search-box input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(183,123,112,.10); }
+.categories { display: flex; flex-wrap: wrap; gap: 9px; margin: 18px 0 27px; }
+.category {
+  padding: 9px 15px; border: 1px solid var(--border);
+  border-radius: 22px; background: white; color: var(--muted);
+  cursor: pointer; font-size: 12px; transition: .2s;
 }
-
+.category:hover { border-color: var(--pink-deep); color: var(--accent-dark); }
+.category.active { background: var(--accent); color: white; border-color: var(--accent); }
+.section-title { font-size: 19px; margin: 29px 0 15px; }
+.section-title::before { content: ""; display: inline-block; width: 4px; height: 17px; border-radius: 5px; background: var(--accent); margin-right: 10px; vertical-align: -2px; }
+#statusMessage { font-size: 12px; color: var(--muted); margin: 10px 0 15px; }
+.article-list { display: grid; gap: 14px; }
+.article {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 15px; padding: 22px 23px; cursor: pointer;
+  transition: transform .2s, box-shadow .2s, border-color .2s;
+}
+.article:hover { transform: translateY(-2px); border-color: var(--pink-deep); box-shadow: var(--shadow); }
+.article-category {
+  display: inline-block; color: var(--accent-dark);
+  background: var(--cream); border: 1px solid #f3e4df;
+  padding: 5px 10px; border-radius: 20px; font-size: 11px;
+}
+.article h2 { font-size: 18px; margin: 13px 0 8px; line-height: 1.6; }
+.article p { font-size: 13px; color: var(--muted); line-height: 1.9; margin: 0 0 13px; }
+.article-meta { color: #aa9690; font-size: 11px; }
+.empty {
+  background: white; border: 1px dashed var(--pink-deep);
+  border-radius: 13px; padding: 38px 15px; text-align: center;
+  color: var(--muted); font-size: 13px;
+}
+#detail {
+  display: none; background: white; padding: 27px;
+  border-radius: 17px; border: 1px solid var(--border); margin-top: 20px;
+  box-shadow: var(--shadow);
+}
+#detail h2 { font-size: 26px; line-height: 1.55; margin: 15px 0; }
+.detail-meta { color: var(--muted); font-size: 12px; margin: 12px 0 25px; }
+.detail-content { font-size: 15px; line-height: 2.1; white-space: pre-wrap; overflow-wrap: anywhere; }
+.detail-content p { margin: 0 0 16px; }
 .back-list {
-  color: var(--accent);
-  border: 0;
-  background: transparent;
-  padding: 10px 0;
-  cursor: pointer;
+  color: var(--accent-dark); border: 1px solid var(--border);
+  background: var(--cream); padding: 9px 13px; border-radius: 9px;
+  cursor: pointer; font-size: 12px;
 }
-
 footer {
-  text-align: center;
-  color: var(--muted);
-  font-size: 12px;
-  margin-top: 45px;
+  text-align: center; color: #aa9690; font-size: 11px;
+  margin-top: 55px; line-height: 2.2;
 }
-
+.footer-brand { color: var(--accent-dark); font-weight: 800; letter-spacing: 1px; }
 .hidden { display: none !important; }
-
-@media (max-width: 500px) {
-  header h1 { font-size: 26px; }
-  .article { padding: 17px; }
-  #detail { padding: 18px; }
+@media (max-width: 550px) {
+  body { padding: 0 13px 40px; }
+  .site-header { padding-top: 13px; }
+  .topbar { padding: 11px 12px; }
+  header.page-heading { padding: 35px 3px 20px; }
+  header.page-heading h1 { font-size: 29px; }
+  .article { padding: 18px; }
+  #detail { padding: 19px; }
+  #detail h2 { font-size: 22px; }
 }
 </style>
 </head>
@@ -215,44 +140,57 @@ footer {
 <body>
 <div class="container">
 
-<header>
-  <a class="back" href="/">← 返回综合站</a>
+<div class="site-header">
+  <div class="topbar">
+    <a class="brand" href="/" aria-label="荷萌首页">
+      <div class="brand-icon">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <path d="M17 43 L25 15 L45 34 L55 34 L75 15 L83 43 Q88 77 50 86 Q12 77 17 43Z"
+                fill="#fffaf7" stroke="#b77b70" stroke-width="4" stroke-linejoin="round"/>
+          <path d="M23 37 Q50 25 77 37" fill="none" stroke="#f5c8c0" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="37" cy="53" r="4" fill="#6d4c49"/>
+          <circle cx="63" cy="53" r="4" fill="#6d4c49"/>
+          <path d="M44 65 Q50 72 56 65" fill="none" stroke="#6d4c49" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="27" cy="62" r="5" fill="#f5c8c0"/>
+          <circle cx="73" cy="62" r="5" fill="#f5c8c0"/>
+        </svg>
+      </div>
+      <div>
+        <div class="brand-name">荷萌</div>
+        <div class="brand-en">HEMENG</div>
+      </div>
+    </a>
+    <a class="back" href="/">← 返回荷萌首页</a>
+  </div>
+</div>
+
+<header class="page-heading">
+  <div class="eyebrow">HEMENG · BLOG</div>
   <h1>个人博客</h1>
-  <p>记录想法、技术、生活与值得保存的信息。</p>
+  <p>记录想法、技术、生活与值得保存的信息。<br>把值得留下的内容，慢慢整理成自己的空间。</p>
 </header>
 
 <div id="listPage">
-
   <div class="search-box">
-    <input id="searchInput"
-      type="search"
-      placeholder="搜索文章标题、内容或分类……">
+    <input id="searchInput" type="search" placeholder="搜索文章标题、内容或分类……">
   </div>
-
   <div class="categories" id="categories"></div>
-
   <h2 class="section-title">文章列表</h2>
-
-  <div id="statusMessage"
-    style="font-size:13px;color:#817873;margin:10px 0;">
-    正在加载文章……
-  </div>
-
+  <div id="statusMessage">正在加载文章……</div>
   <div class="article-list" id="articleList"></div>
-
 </div>
 
 <div id="detail">
   <button class="back-list" id="backButton">← 返回文章列表</button>
-  <div id="detailCategory"></div>
+  <div id="detailCategory" style="margin-top:20px"></div>
   <h2 id="detailTitle"></h2>
   <div class="detail-meta" id="detailMeta"></div>
   <div class="detail-content" id="detailContent"></div>
 </div>
 
 <footer>
-  逢坂大河ws的综合站
-  <p>个人博客 · 独立记录 · 持续更新</p>
+  <div class="footer-brand">荷萌 HEMENG</div>
+  个人博客 · 独立记录 · 持续更新
 </footer>
 
 </div>
@@ -263,11 +201,11 @@ footer {
 const demoArticles = [
   {
     id: "demo-1",
-    title: "欢迎来到逢坂大河ws的综合站",
+    title: "欢迎来到荷萌 HEMENG",
     category: "本站公告",
     date: "2026-10-31",
     summary: "这是本站博客系统的第一篇示例文章，介绍网站的定位与未来规划。",
-    content: `欢迎来到逢坂大河ws的综合站。
+    content: `欢迎来到荷萌 HEMENG。
 
 这里是一个个人网站，主要用于记录个人想法、整理资料、分享技术与保存值得记录的信息。
 
@@ -577,4 +515,3 @@ loadArticles();
 </script>
 </body>
 </html>
-
