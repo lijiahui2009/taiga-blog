@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f7f5f2">
+<title>二维码工具 - 逢坂大河ws的综合站</title>
+<style>
+:root{--bg:#f7f5f2;--card:#fff;--text:#302b29;--muted:#827873;--line:#ebe5e0;--accent:#b77b70;--soft:#f5eae6}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.6}
+main{width:min(920px,calc(100% - 32px));margin:36px auto 60px}header{margin-bottom:24px}.eyebrow{font-size:12px;color:#986258;letter-spacing:.12em}h1{font-size:30px;margin:5px 0 4px}.sub,.hint{color:var(--muted);font-size:13px}
+.tabs{display:flex;gap:8px;margin:24px 0 16px;flex-wrap:wrap}.tab,button{font:inherit;cursor:pointer}.tab{border:1px solid var(--line);background:white;color:var(--muted);padding:10px 17px;border-radius:12px;font-size:14px}.tab.active{background:var(--soft);border-color:#e5c9c1;color:#986258;font-weight:650}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 8px 28px #49372b08}.layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:22px}h2{font-size:17px;margin:0 0 14px}
+label{display:block;font-size:13px;font-weight:650;margin:14px 0 7px}textarea,select{width:100%;border:1px solid var(--line);border-radius:11px;background:#fff;padding:12px;color:var(--text);font:inherit;outline:none}textarea{min-height:150px;resize:vertical}textarea:focus,select:focus{border-color:#c9958a;box-shadow:0 0 0 3px #b77b7018}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}button.primary,button.secondary{border:0;border-radius:11px;padding:11px 16px;font-size:14px}.primary{background:var(--accent);color:white}.secondary{background:#f3efec;color:var(--text)}button:disabled{opacity:.45;cursor:not-allowed}
+.preview{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:300px;background:#fcfbfa;border:1px dashed #e5dcd6;border-radius:15px;padding:18px;text-align:center}#qrOutput{width:220px;min-height:220px;background:#fff;display:grid;place-items:center;border-radius:8px}#qrOutput canvas,#qrOutput img{max-width:100%;height:auto}.placeholder{color:#aaa39e;font-size:13px}.status{font-size:12px;margin-top:12px;color:var(--muted);min-height:20px}.good{color:#477a60}.bad{color:#b65d55}.hidden{display:none!important}
+.filebox{border:1px dashed #d9cec7;border-radius:12px;padding:18px;text-align:center;background:#fcfbfa}.result{margin-top:15px;padding:13px;background:#f8f5f2;border-radius:11px;overflow-wrap:anywhere;font-size:14px;white-space:pre-wrap}footer{text-align:center;color:#a49a94;font-size:12px;margin-top:22px}
+@media(max-width:700px){main{margin-top:24px}.layout{grid-template-columns:1fr}.preview{min-height:280px}.panel{padding:17px}h1{font-size:26px}}
+</style>
+</head>
+<body><main>
+<header><div class="eyebrow">TAIGA WS · ONLINE TOOLS</div><h1>二维码工具</h1><p class="sub">生成文字二维码，或识别已有二维码。内容优先在当前设备本地处理。</p></header>
+<div class="tabs"><button class="tab active" data-tab="make" type="button">生成二维码</button><button class="tab" data-tab="read" type="button">识别二维码</button></div>
+<section id="make" class="panel"><div class="layout"><div>
+<h2>文字 / 网址生成</h2><label for="qrText">输入要放进二维码的内容</label>
+<textarea id="qrText" placeholder="例如：https://lowcrush.asia&#10;也可以输入普通文字、联系方式等"></textarea>
+<p class="hint">内容会直接编码进二维码。网址通常可由微信、QQ及手机相机识别；普通文字则由扫码应用显示。</p>
+<label for="qrSize">二维码尺寸</label><select id="qrSize"><option value="200">200 × 200</option><option value="280" selected>280 × 280</option><option value="360">360 × 360</option><option value="480">480 × 480</option></select>
+<div class="actions"><button class="primary" id="generateBtn" type="button">生成二维码</button><button class="secondary" id="clearBtn" type="button">清空</button></div><div id="makeStatus" class="status"></div>
+</div><aside><div class="preview"><div id="qrOutput"><span class="placeholder">二维码将在这里显示</span></div><div class="status" id="qrCaption">等待生成</div><button class="secondary" id="downloadBtn" type="button" disabled>下载 PNG 图片</button></div></aside></div></section>
+<section id="read" class="panel hidden"><h2>识别二维码图片</h2><p class="hint">选择设备中的二维码图片，浏览器会尝试在本地识别，不会主动上传图片。</p><div class="filebox"><input id="qrFile" type="file" accept="image/*"></div><div id="readStatus" class="status"></div><div id="readResult" class="result hidden"></div><div class="actions"><button class="secondary" id="copyResult" type="button" disabled>复制识别结果</button><button class="secondary" id="clearRead" type="button">清除</button></div><canvas id="decodeCanvas" class="hidden"></canvas></section>
+<footer>逢坂大河ws的综合站 · 二维码工具</footer></main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+<script>
+const tabs=document.querySelectorAll(".tab");
+tabs.forEach(btn=>btn.addEventListener("click",()=>{tabs.forEach(x=>x.classList.toggle("active",x===btn));document.getElementById("make").classList.toggle("hidden",btn.dataset.tab!=="make");document.getElementById("read").classList.toggle("hidden",btn.dataset.tab!=="read")}));
+const textInput=document.getElementById("qrText"),output=document.getElementById("qrOutput"),makeStatus=document.getElementById("makeStatus"),downloadBtn=document.getElementById("downloadBtn");let generatedCanvas=null;
+document.getElementById("generateBtn").addEventListener("click",()=>{
+ const value=textInput.value.trim();if(!value){makeStatus.textContent="请先输入文字或网址。";makeStatus.className="status bad";return}
+ if(typeof QRCode==="undefined"){makeStatus.textContent="二维码组件加载失败，请检查网络后刷新页面。";makeStatus.className="status bad";return}
+ output.innerHTML="";generatedCanvas=null;downloadBtn.disabled=true;const size=Number(document.getElementById("qrSize").value);
+ try{new QRCode(output,{text:value,width:size,height:size,colorDark:"#211d1b",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.M});
+ setTimeout(()=>{const canvas=output.querySelector("canvas"),img=output.querySelector("img");if(canvas)generatedCanvas=canvas;else if(img&&img.complete){const c=document.createElement("canvas");c.width=size;c.height=size;c.getContext("2d").drawImage(img,0,0,size,size);generatedCanvas=c}
+ if(generatedCanvas){downloadBtn.disabled=false;document.getElementById("qrCaption").textContent="生成成功 · 可下载 PNG"}else{makeStatus.textContent="二维码已生成，但暂时无法导出，请重试。";makeStatus.className="status bad"}},150);
+ makeStatus.textContent="二维码已生成。";makeStatus.className="status good";
+ }catch(e){makeStatus.textContent="生成失败，内容可能过长，请减少文字后重试。";makeStatus.className="status bad"}
+});
+downloadBtn.addEventListener("click",()=>{if(!generatedCanvas)return;const a=document.createElement("a");a.download="qrcode.png";a.href=generatedCanvas.toDataURL("image/png");a.click()});
+document.getElementById("clearBtn").addEventListener("click",()=>{textInput.value="";output.innerHTML='<span class="placeholder">二维码将在这里显示</span>';makeStatus.textContent="";document.getElementById("qrCaption").textContent="等待生成";generatedCanvas=null;downloadBtn.disabled=true});
+const fileInput=document.getElementById("qrFile"),readStatus=document.getElementById("readStatus"),readResult=document.getElementById("readResult"),copyBtn=document.getElementById("copyResult");let decodedText="";
+fileInput.addEventListener("change",()=>{
+ const file=fileInput.files&&fileInput.files[0];if(!file)return;if(!file.type.startsWith("image/")){readStatus.textContent="请选择图片文件。";readStatus.className="status bad";return}
+ if(typeof jsQR==="undefined"){readStatus.textContent="识别组件加载失败，请检查网络后刷新页面。";readStatus.className="status bad";return}
+ const url=URL.createObjectURL(file),img=new Image();img.onload=()=>{const canvas=document.getElementById("decodeCanvas"),ctx=canvas.getContext("2d",{willReadFrequently:true}),scale=Math.min(1,1600/Math.max(img.naturalWidth,img.naturalHeight));canvas.width=Math.max(1,Math.round(img.naturalWidth*scale));canvas.height=Math.max(1,Math.round(img.naturalHeight*scale));ctx.drawImage(img,0,0,canvas.width,canvas.height);const pixels=ctx.getImageData(0,0,canvas.width,canvas.height),code=jsQR(pixels.data,pixels.width,pixels.height,{inversionAttempts:"attemptBoth"});URL.revokeObjectURL(url);
+ if(code){decodedText=code.data;readResult.textContent=decodedText;readResult.classList.remove("hidden");readStatus.textContent="识别成功。";readStatus.className="status good";copyBtn.disabled=false}else{decodedText="";readResult.classList.add("hidden");copyBtn.disabled=true;readStatus.textContent="没有识别到二维码，请尝试更清晰、完整的图片。";readStatus.className="status bad"}};
+ img.onerror=()=>{URL.revokeObjectURL(url);readStatus.textContent="图片读取失败。";readStatus.className="status bad"};img.src=url;
+});
+copyBtn.addEventListener("click",async()=>{if(!decodedText)return;try{await navigator.clipboard.writeText(decodedText);readStatus.textContent="已复制识别结果。";readStatus.className="status good"}catch(e){readStatus.textContent="浏览器不允许自动复制，请长按识别结果手动复制。";readStatus.className="status"}});
+document.getElementById("clearRead").addEventListener("click",()=>{fileInput.value="";decodedText="";readResult.textContent="";readResult.classList.add("hidden");readStatus.textContent="";copyBtn.disabled=true});
+</script></body></html>
