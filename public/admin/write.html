@@ -4,277 +4,213 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>写文章 - 逢坂大河ws</title>
-
+<meta name="theme-color" content="#FFF7F3">
+<title>写文章 - 荷萌 HEMENG</title>
 <style>
 :root {
-  --bg: #faf7f5;
-  --card: #fff;
-  --text: #302925;
-  --muted: #857a73;
-  --line: #eee7e2;
-  --accent: #a87568;
+  --bg: #FFF7F3;
+  --card: #ffffff;
+  --pink: #FFE8E0;
+  --pink-deep: #F5C8C0;
+  --accent: #B77B70;
+  --text: #6D4C49;
+  --muted: #956258;
+  --line: #F0E2DC;
+  --shadow: 0 12px 35px rgba(109,76,73,.07);
 }
-
-* {
-  box-sizing: border-box;
-}
-
+* { box-sizing: border-box; }
 body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
-
 header {
-  background: white;
-  border-bottom: 1px solid var(--line);
-  padding: 17px 25px;
+  height: 76px;
+  padding: 0 6%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  background: rgba(255,255,255,.9);
+  border-bottom: 1px solid var(--line);
 }
-
-.logo {
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   font-size: 19px;
-  font-weight: bold;
+  font-weight: 750;
+  letter-spacing: .5px;
 }
-
+.brand img { width: 42px; height: 42px; object-fit: contain; }
 header a {
   color: var(--muted);
   text-decoration: none;
-  font-size: 13px;
-}
-
-main {
-  max-width: 950px;
-  margin: 35px auto;
-  padding: 0 18px;
-}
-
-h1 {
-  font-size: 27px;
-  margin-bottom: 8px;
-}
-
-.subtitle {
-  color: var(--muted);
   font-size: 14px;
-  margin-bottom: 25px;
+  padding: 10px 15px;
+  border-radius: 10px;
+  background: var(--bg);
 }
-
+header a:hover { background: var(--pink); }
+main {
+  width: min(920px, calc(100% - 32px));
+  margin: 42px auto 70px;
+}
+.heading { margin-bottom: 25px; }
+.eyebrow {
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+h1 { font-size: 29px; margin: 0 0 10px; }
+.subtitle { color: var(--muted); font-size: 14px; line-height: 1.8; }
 .editor {
-  background: white;
+  background: var(--card);
   border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 26px;
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: var(--shadow);
 }
-
-.field {
-  margin-bottom: 23px;
-}
-
+.field { margin-bottom: 25px; }
 label {
   display: block;
   font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 9px;
+  font-weight: 700;
+  margin-bottom: 10px;
 }
-
 input, textarea, select {
   width: 100%;
-  padding: 13px;
+  padding: 14px 15px;
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: #fff;
+  border-radius: 11px;
+  background: #FFFCFA;
   color: var(--text);
   font: inherit;
   font-size: 14px;
   outline: none;
+  transition: border-color .2s, box-shadow .2s;
 }
-
 input:focus, textarea:focus, select:focus {
   border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(183,123,112,.10);
 }
-
-textarea {
-  resize: vertical;
-  line-height: 1.8;
-}
-
-#summary {
-  min-height: 85px;
-}
-
-#content {
-  min-height: 350px;
-}
-
+input::placeholder, textarea::placeholder { color: #B9A49D; }
+textarea { resize: vertical; line-height: 1.9; }
+#summary { min-height: 100px; }
+#content { min-height: 420px; }
 .hint {
-  color: var(--muted);
+  color: #A28B83;
   font-size: 12px;
-  margin-top: 7px;
+  margin-top: 9px;
+  line-height: 1.7;
 }
-
 .actions {
   display: flex;
   gap: 12px;
   justify-content: flex-end;
   flex-wrap: wrap;
   border-top: 1px solid var(--line);
-  padding-top: 22px;
+  padding-top: 24px;
 }
-
 button {
   border: 0;
-  border-radius: 8px;
-  padding: 12px 22px;
+  border-radius: 11px;
+  padding: 13px 24px;
   font-size: 14px;
+  font-weight: 650;
   cursor: pointer;
+  transition: .2s;
 }
-
-.draft {
-  background: #f1ebe7;
-  color: var(--text);
-}
-
-.publish {
-  background: var(--accent);
-  color: white;
-}
-
-button:disabled {
-  opacity: .55;
-  cursor: not-allowed;
-}
-
+.draft { background: var(--pink); color: var(--text); }
+.publish { background: var(--accent); color: white; }
+.draft:hover { background: var(--pink-deep); }
+.publish:hover { background: #A66B61; transform: translateY(-1px); }
+button:disabled { opacity: .55; cursor: not-allowed; transform: none; }
 #message {
   display: none;
-  margin-top: 18px;
-  padding: 13px;
-  border-radius: 8px;
+  margin-top: 20px;
+  padding: 14px 16px;
+  border-radius: 11px;
   font-size: 14px;
-  line-height: 1.6;
+  line-height: 1.7;
 }
-
 #message.success {
   display: block;
-  background: #edf5ed;
-  color: #356b3d;
+  background: #F0F6EF;
+  color: #527653;
 }
-
 #message.error {
   display: block;
-  background: #f9eeee;
-  color: #a33e3e;
+  background: #FFF0EE;
+  color: #A34E48;
 }
-
 @media(max-width:600px) {
-  main {
-    margin-top: 24px;
-  }
-
-  .editor {
-    padding: 18px;
-  }
-
-  h1 {
-    font-size: 23px;
-  }
-
-  .actions button {
-    flex: 1;
-  }
+  header { height: 66px; padding: 0 17px; }
+  .brand { font-size: 16px; gap: 8px; }
+  .brand img { width: 36px; height: 36px; }
+  header a { font-size: 12px; padding: 9px 11px; }
+  main { margin-top: 28px; }
+  h1 { font-size: 24px; }
+  .editor { padding: 20px 16px; border-radius: 15px; }
+  #content { min-height: 320px; }
+  .actions button { flex: 1; padding: 13px 10px; }
 }
 </style>
 </head>
-
 <body>
 
 <header>
-  <div class="logo">逢坂大河ws</div>
+  <div class="brand">
+    <img src="/images/hemeng-logo.svg" alt="荷萌 HEMENG">
+    <span>荷萌 HEMENG</span>
+  </div>
   <a href="dashboard.html">返回管理首页</a>
 </header>
 
 <main>
-
-  <h1>写一篇新文章</h1>
-  <div class="subtitle">
-    在这里记录想法、整理资料，发布到你的个人博客。
+  <div class="heading">
+    <div class="eyebrow">HEMENG · ADMIN</div>
+    <h1>写一篇新文章</h1>
+    <div class="subtitle">记录想法、整理资料，把值得保存的内容放进博客。</div>
   </div>
 
   <section class="editor">
-
     <form id="articleForm">
-
       <div class="field">
         <label for="title">文章标题</label>
-        <input
-          id="title"
-          type="text"
-          maxlength="200"
-          placeholder="请输入文章标题"
-          required
-        >
+        <input id="title" type="text" maxlength="200"
+          placeholder="请输入文章标题" required>
       </div>
 
       <div class="field">
         <label for="category">文章分类</label>
-        <input
-          id="category"
-          type="text"
-          maxlength="50"
-          placeholder="例如：日常记录、技术、资料整理"
-        >
+        <input id="category" type="text" maxlength="50"
+          placeholder="例如：日常记录、技术、资料整理">
       </div>
 
       <div class="field">
         <label for="summary">文章摘要</label>
-        <textarea
-          id="summary"
-          maxlength="1000"
-          placeholder="简单介绍这篇文章的内容"
-        ></textarea>
+        <textarea id="summary" maxlength="1000"
+          placeholder="简单介绍这篇文章的内容"></textarea>
       </div>
 
       <div class="field">
         <label for="content">正文内容</label>
-        <textarea
-          id="content"
-          maxlength="100000"
-          placeholder="从这里开始写文章……"
-          required
-        ></textarea>
-        <div class="hint">
-          目前支持纯文本内容，换行会保留。
-        </div>
+        <textarea id="content" maxlength="100000"
+          placeholder="从这里开始写文章……" required></textarea>
+        <div class="hint">目前支持纯文本内容，换行会保留。</div>
       </div>
 
       <div class="actions">
-        <button
-          type="button"
-          class="draft"
-          id="draftButton"
-        >
-          保存草稿
-        </button>
-
-        <button
-          type="button"
-          class="publish"
-          id="publishButton"
-        >
-          正式发布
-        </button>
+        <button type="button" class="draft" id="draftButton">保存草稿</button>
+        <button type="button" class="publish" id="publishButton">正式发布</button>
       </div>
-
     </form>
 
     <div id="message"></div>
-
   </section>
-
 </main>
 
 <script>
@@ -310,7 +246,6 @@ async function saveArticle(status) {
 
   draftButton.disabled = true;
   publishButton.disabled = true;
-
   showMessage("正在保存，请稍候……", "success");
 
   try {
@@ -360,7 +295,5 @@ publishButton.addEventListener("click", function() {
   saveArticle("published");
 });
 </script>
-
 </body>
 </html>
-
