@@ -3,150 +3,366 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>大河墙 - 逢坂大河ws的综合站</title>
+<meta name="theme-color" content="#FFF7F3">
+<meta name="description" content="荷萌 HEMENG 大河墙，一个自由交流与分享的地方。">
+<title>大河墙 - 荷萌 HEMENG</title>
+
 <style>
 :root {
-  --bg: #faf7f5;
-  --card: #fff;
-  --text: #302b29;
-  --muted: #817873;
-  --accent: #b77b70;
-  --border: #eee5e1;
+  --bg: #FFF7F3;
+  --surface: #FFFFFF;
+  --surface-soft: #FFF0EA;
+  --pink: #FFE8E0;
+  --accent: #B77B70;
+  --accent-dark: #956258;
+  --text: #493B38;
+  --muted: #8B7C76;
+  --border: #F0E3DE;
+  --danger: #BD625C;
+  --shadow: 0 10px 30px rgba(109,76,73,.055);
+  --radius: 17px;
 }
-* { box-sizing: border-box; }
+
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
-  padding: 24px 16px 60px;
   background: var(--bg);
   color: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Microsoft YaHei", sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
-.container { max-width: 850px; margin: auto; }
-header { margin-bottom: 25px; }
-h1 { font-size: 30px; margin: 0 0 9px; }
-.subtitle { color: var(--muted); font-size: 14px; line-height: 1.7; }
+
+button, input, textarea, select {
+  font: inherit;
+}
+
+button, a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.site-header {
+  background: rgba(255,255,255,.94);
+  border-bottom: 1px solid var(--border);
+}
+
+.header-inner {
+  max-width: 1080px;
+  min-height: 75px;
+  margin: auto;
+  padding: 12px 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.logo img {
+  display: block;
+  width: auto;
+  height: 44px;
+  max-width: 190px;
+  object-fit: contain;
+}
+
 nav {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 20px 0;
+  align-items: center;
+  gap: 12px;
 }
+
 nav a {
-  color: var(--accent);
-  text-decoration: none;
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: 9px;
   padding: 9px 13px;
+  color: var(--muted);
+  text-decoration: none;
   font-size: 13px;
+  border-radius: 9px;
+  transition: .2s;
 }
+
+nav a:hover {
+  color: var(--accent-dark);
+  background: var(--surface-soft);
+}
+
+.hero {
+  padding: 55px 22px 48px;
+  background:
+    radial-gradient(circle at 85% 10%, rgba(255,255,255,.8), transparent 28%),
+    linear-gradient(135deg, #FFF0EA, #FFE8E0 55%, #FFF7F3);
+  border-bottom: 1px solid var(--border);
+}
+
+.hero-inner {
+  max-width: 900px;
+  margin: auto;
+}
+
+.eyebrow {
+  color: var(--accent-dark);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 3px;
+}
+
+.hero h1 {
+  margin: 16px 0 10px;
+  font-size: 36px;
+  letter-spacing: 1px;
+}
+
+.hero p {
+  margin: 0;
+  color: #806D67;
+  font-size: 14px;
+  line-height: 2;
+}
+
+.hero-tag {
+  display: inline-block;
+  margin-top: 18px;
+  padding: 7px 13px;
+  color: var(--accent-dark);
+  background: rgba(255,255,255,.55);
+  border: 1px solid rgba(183,123,112,.2);
+  border-radius: 30px;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 35px 22px 75px;
+}
+
 .panel {
-  background: var(--card);
+  margin-bottom: 19px;
+  padding: 23px;
+  background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 15px;
-  padding: 19px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   margin-bottom: 18px;
 }
-h2 { font-size: 18px; margin: 0 0 15px; }
+
+h2 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 650;
+}
+
+.heading-note {
+  color: #B4A49E;
+  font-size: 11px;
+}
+
 .categories {
   display: flex;
   flex-wrap: wrap;
   gap: 9px;
-  margin-bottom: 18px;
 }
+
 .category {
-  background: white;
-  border: 1px solid var(--border);
+  padding: 9px 15px;
   color: var(--muted);
-  border-radius: 20px;
-  padding: 8px 13px;
+  background: #FFFCFA;
+  border: 1px solid var(--border);
+  border-radius: 30px;
   cursor: pointer;
-  font-size: 13px;
+  font-size: 12px;
+  transition: .2s;
 }
+
+.category:hover {
+  color: var(--accent-dark);
+  border-color: #E8C9C1;
+}
+
 .category.active {
-  background: #f2e8e4;
-  color: var(--accent);
-  border-color: #e7d5cf;
+  color: white;
+  background: var(--accent);
+  border-color: var(--accent);
 }
+
 label {
   display: block;
+  margin: 16px 0 8px;
+  color: #786A65;
   font-size: 13px;
-  margin: 13px 0 7px;
-  color: var(--muted);
+  font-weight: 500;
 }
-input, textarea, select {
+
+input:not([type="checkbox"]),
+textarea,
+select {
+  display: block;
   width: 100%;
-  border: 1px solid var(--border);
-  border-radius: 9px;
-  padding: 12px;
-  font: inherit;
-  font-size: 14px;
-  background: white;
+  padding: 13px 14px;
   color: var(--text);
+  background: #FFFCFA;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  outline: none;
+  font-size: 14px;
+  transition: border-color .2s, box-shadow .2s;
 }
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #D9A69B;
+  box-shadow: 0 0 0 3px rgba(183,123,112,.09);
+}
+
 textarea {
-  min-height: 130px;
+  min-height: 155px;
   resize: vertical;
-  line-height: 1.7;
+  line-height: 1.85;
 }
+
+textarea::placeholder,
+input::placeholder {
+  color: #B9ACA6;
+}
+
 .identity {
   display: flex;
   align-items: center;
   gap: 9px;
-  margin-top: 14px;
-  font-size: 13px;
-  color: var(--text);
-}
-.identity input { width: auto; }
-.submit {
-  width: 100%;
   margin-top: 16px;
-  padding: 13px;
-  border: 0;
-  border-radius: 9px;
-  background: var(--accent);
-  color: white;
-  font-size: 14px;
+}
+
+.identity input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent);
   cursor: pointer;
 }
-.submit:disabled { opacity: .6; cursor: wait; }
-.notice {
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.7;
-  margin-top: 12px;
+
+.identity label {
+  margin: 0;
+  color: var(--text);
+  cursor: pointer;
 }
+
+#nicknameArea {
+  margin-top: 5px;
+}
+
+.submit {
+  display: block;
+  width: 100%;
+  margin-top: 19px;
+  padding: 14px;
+  color: white;
+  background: var(--accent);
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background .2s, transform .2s;
+}
+
+.submit:hover {
+  background: var(--accent-dark);
+}
+
+.submit:active {
+  transform: scale(.99);
+}
+
+.submit:disabled {
+  opacity: .6;
+  cursor: wait;
+}
+
+.notice {
+  margin-top: 13px;
+  color: #A3958F;
+  font-size: 11px;
+  line-height: 1.9;
+}
+
 .wall-announcement {
   display: none;
+  padding: 15px 17px;
+  color: #806D67;
+  background: var(--surface-soft);
+  border-radius: 11px;
+  font-size: 13px;
+  line-height: 1.9;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
-  color: var(--text);
-  font-size: 14px;
-  line-height: 1.8;
-  margin-top: 10px;
 }
+
 .post {
+  padding: 19px 0;
   border-bottom: 1px solid var(--border);
-  padding: 17px 0;
 }
-.post:last-child { border-bottom: 0; }
+
+.post:first-child {
+  padding-top: 3px;
+}
+
+.post:last-child {
+  padding-bottom: 3px;
+  border-bottom: 0;
+}
+
 .post-meta {
   display: flex;
+  align-items: center;
   flex-wrap: wrap;
   gap: 9px;
-  color: var(--muted);
-  font-size: 12px;
-  margin-bottom: 10px;
+  margin-bottom: 11px;
+  color: #A3958F;
+  font-size: 11px;
 }
-.post-category { color: var(--accent); }
+
+.post-category {
+  padding: 4px 9px;
+  color: var(--accent-dark);
+  background: var(--surface-soft);
+  border-radius: 20px;
+}
+
 .post-content {
+  color: #574944;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
-  line-height: 1.8;
+  line-height: 1.95;
   font-size: 14px;
 }
-.message { color: var(--muted); font-size: 13px; padding: 12px 0; }
-.error { color: #bd625c; }
+
+.message {
+  padding: 13px 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.error {
+  color: var(--danger);
+}
+
 .hp {
   position: absolute;
   left: -9999px;
@@ -154,66 +370,177 @@ textarea {
   height: 1px;
   overflow: hidden;
 }
-@media (max-width: 500px) {
-  body { padding-left: 13px; padding-right: 13px; }
-  .panel { padding: 15px; }
+
+footer {
+  padding: 30px 20px;
+  background: white;
+  border-top: 1px solid var(--border);
+  color: #A3958F;
+  text-align: center;
+  font-size: 11px;
+  line-height: 2.2;
+}
+
+footer strong {
+  color: var(--accent-dark);
+}
+
+[hidden] {
+  display: none !important;
+}
+
+@media (max-width: 650px) {
+  .header-inner {
+    padding: 12px 17px;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .logo img {
+    height: 39px;
+  }
+
+  nav {
+    width: 100%;
+    gap: 5px;
+    overflow-x: auto;
+  }
+
+  nav a {
+    flex-shrink: 0;
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+
+  .hero {
+    padding: 45px 20px 40px;
+  }
+
+  .hero h1 {
+    font-size: 31px;
+  }
+
+  .container {
+    padding: 24px 13px 55px;
+  }
+
+  .panel {
+    padding: 18px 16px;
+    border-radius: 14px;
+  }
+
+  .category {
+    padding: 8px 12px;
+    font-size: 11px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
 }
 </style>
 </head>
-<body>
-<div class="container">
-  <header>
-    <h1>大河墙</h1>
-    <div class="subtitle">
-      一个自由交流与分享的地方。<br>
-      可以表白、倾诉、分享日常，也可以提出问题或推荐资源。
-    </div>
-  </header>
 
-  <nav>
-    <a href="/">网站首页</a>
-    <a href="/blog/">个人博客</a>
-  </nav>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+
+    <a class="logo" href="/" aria-label="荷萌 HEMENG 首页">
+      <img src="/images/hemeng-logo.svg" alt="荷萌 HEMENG">
+    </a>
+
+    <nav aria-label="主导航">
+      <a href="/">网站首页</a>
+      <a href="/blog/">个人博客</a>
+      <a href="/about/">关于本站</a>
+    </nav>
+
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">HEMENG COMMUNITY</div>
+    <h1>大河墙</h1>
+    <p>
+      一个自由交流与分享的地方。
+      <br>
+      可以表白、倾诉、分享日常，也可以提出问题或推荐资源。
+    </p>
+    <div class="hero-tag">SHARE · EXPRESS · CONNECT</div>
+  </div>
+</section>
+
+<div class="container">
 
   <section class="panel" id="wallNoticePanel" hidden>
-    <h2>公告</h2>
+    <div class="panel-heading">
+      <h2>站点公告</h2>
+      <span class="heading-note">ANNOUNCEMENT</span>
+    </div>
     <div class="wall-announcement" id="wallNotice"></div>
   </section>
 
   <section class="panel">
-    <h2>选择板块</h2>
+    <div class="panel-heading">
+      <h2>选择板块</h2>
+      <span class="heading-note">EXPLORE</span>
+    </div>
     <div class="categories" id="categories"></div>
   </section>
 
   <section class="panel">
-    <h2>发布投稿</h2>
+    <div class="panel-heading">
+      <h2>发布投稿</h2>
+      <span class="heading-note">WRITE SOMETHING</span>
+    </div>
 
     <form id="postForm">
+
       <label for="category">投稿板块</label>
       <select id="category" required></select>
 
       <label for="content">投稿内容</label>
-      <textarea id="content" minlength="2" maxlength="3000"
-        placeholder="写下你想分享的内容……" required></textarea>
+      <textarea
+        id="content"
+        minlength="2"
+        maxlength="3000"
+        placeholder="写下你想分享的内容……"
+        required
+      ></textarea>
 
       <div class="identity">
         <input type="checkbox" id="anonymous" checked>
-        <label for="anonymous" style="margin:0;color:var(--text)">
-          匿名投稿
-        </label>
+        <label for="anonymous">匿名投稿</label>
       </div>
 
       <div id="nicknameArea" hidden>
         <label for="nickname">显示昵称</label>
-        <input id="nickname" maxlength="30" placeholder="输入你想展示的昵称">
+        <input
+          id="nickname"
+          maxlength="30"
+          placeholder="输入你想展示的昵称"
+        >
       </div>
 
       <div class="hp" aria-hidden="true">
         <label for="website">网站</label>
-        <input id="website" name="website" tabindex="-1" autocomplete="off">
+        <input
+          id="website"
+          name="website"
+          tabindex="-1"
+          autocomplete="off"
+        >
       </div>
 
-      <button class="submit" id="submitButton" type="submit">提交投稿</button>
+      <button class="submit" id="submitButton" type="submit">
+        提交投稿
+      </button>
 
       <div class="notice">
         投稿提交后会进入审核，审核通过后才会显示在墙上。
@@ -221,14 +548,24 @@ textarea {
       </div>
     </form>
 
-    <div id="submitMessage" class="message"></div>
+    <div id="submitMessage" class="message" role="status" aria-live="polite"></div>
   </section>
 
   <section class="panel">
-    <h2 id="listTitle">最新投稿</h2>
-    <div id="postList" class="message">正在加载投稿...</div>
+    <div class="panel-heading">
+      <h2 id="listTitle">最新投稿</h2>
+      <span class="heading-note">LATEST POSTS</span>
+    </div>
+    <div id="postList" class="message" aria-live="polite">正在加载投稿...</div>
   </section>
+
 </div>
+
+<footer>
+  <strong>荷萌 HEMENG</strong>
+  <br>
+  © 2026 HEMENG · 一个持续建设中的个人互联网空间
+</footer>
 
 <script>
 const categoryNames = [
@@ -280,7 +617,6 @@ async function loadWallNotice() {
       wallNoticePanel.hidden = true;
     }
   } catch (error) {
-    // 设置读取失败时不影响大河墙原有功能
     wallNoticePanel.hidden = true;
   }
 }
@@ -317,10 +653,13 @@ function setupCategories() {
 
 function chooseCategory(name) {
   selectedCategory = name;
+
   categorySelect.value = name === "全部" ? "自由投稿" : name;
+
   categoryBox.querySelectorAll("button").forEach(button => {
     button.classList.toggle("active", button.textContent === name);
   });
+
   renderPosts();
 }
 
@@ -329,12 +668,26 @@ anonymousInput.addEventListener("change", () => {
   nicknameInput.required = !anonymousInput.checked;
 });
 
+categorySelect.addEventListener("change", () => {
+  if (categorySelect.value !== "全部") {
+    selectedCategory = categorySelect.value;
+
+    categoryBox.querySelectorAll("button").forEach(button => {
+      button.classList.toggle(
+        "active",
+        button.textContent === selectedCategory
+      );
+    });
+  }
+});
+
 async function loadPosts() {
   try {
     const response = await fetch("/api/wall", {
       method: "GET",
       cache: "no-store"
     });
+
     const data = await response.json();
 
     if (!response.ok || !data.success) {
@@ -343,6 +696,7 @@ async function loadPosts() {
 
     allPosts = Array.isArray(data.posts) ? data.posts : [];
     renderPosts();
+
   } catch (error) {
     postList.textContent = "投稿加载失败，请稍后刷新重试。";
     postList.className = "message error";
@@ -353,11 +707,14 @@ function renderPosts() {
   postList.replaceChildren();
 
   const visiblePosts = allPosts.filter(post =>
-    selectedCategory === "全部" || post.category === selectedCategory
+    selectedCategory === "全部" ||
+    post.category === selectedCategory
   );
 
   listTitle.textContent =
-    selectedCategory === "全部" ? "最新投稿" : selectedCategory;
+    selectedCategory === "全部"
+      ? "最新投稿"
+      : selectedCategory;
 
   if (visiblePosts.length === 0) {
     postList.textContent = "这个板块暂时还没有公开投稿。";
@@ -423,7 +780,9 @@ document.getElementById("postForm").addEventListener("submit", async event => {
   try {
     const response = await fetch("/api/wall", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify({
         category: categorySelect.value,
         content,
@@ -448,9 +807,11 @@ document.getElementById("postForm").addEventListener("submit", async event => {
     anonymousInput.checked = true;
     nicknameArea.hidden = true;
     nicknameInput.required = false;
+
   } catch (error) {
     submitMessage.textContent = "提交失败：" + error.message;
     submitMessage.className = "message error";
+
   } finally {
     submitButton.disabled = false;
     submitButton.textContent = "提交投稿";
@@ -461,5 +822,6 @@ setupCategories();
 loadPosts();
 loadWallNotice();
 </script>
+
 </body>
 </html>
