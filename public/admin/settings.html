@@ -4,159 +4,137 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>网站设置中心</title>
+<meta name="theme-color" content="#FFF7F3">
+<title>网站设置 - 荷萌 HEMENG</title>
 <style>
-:root {
-  --bg: #f7f5f3;
-  --card: #fff;
-  --text: #302b29;
-  --muted: #817873;
-  --accent: #b77b70;
-  --border: #ebe5e1;
+:root{
+  --bg:#FFF7F3;--card:#fff;--pink:#FFE8E0;--pink-deep:#F5C8C0;
+  --accent:#B77B70;--text:#6D4C49;--muted:#956258;
+  --line:#F0E2DC;--shadow:0 10px 30px rgba(109,76,73,.05);
 }
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  padding: 30px 18px;
-  background: var(--bg);
-  color: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+*{box-sizing:border-box}
+body{margin:0;padding:0 0 50px;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+header{background:#fff;border-bottom:1px solid var(--line);padding:17px 5%}
+.brand{display:flex;align-items:center;gap:11px;font-size:19px;font-weight:750}
+.brand img{width:40px;height:40px;object-fit:contain}
+.container{max-width:850px;margin:35px auto;padding:0 17px}
+.eyebrow{font-size:11px;letter-spacing:2px;color:var(--accent);font-weight:700;margin-bottom:10px}
+h1{font-size:27px;margin:0 0 9px}
+.subtitle{color:var(--muted);font-size:14px;line-height:1.8}
+nav{display:flex;flex-wrap:wrap;gap:9px;margin:22px 0 25px}
+nav a{color:var(--muted);text-decoration:none;font-size:13px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 13px}
+nav a:hover{background:var(--pink);color:var(--accent)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;margin-bottom:16px;box-shadow:var(--shadow)}
+h2{font-size:17px;margin:0 0 20px}
+.field{margin-bottom:19px}
+.field:last-child{margin-bottom:0}
+label{display:block;font-size:14px;font-weight:700;margin-bottom:9px}
+input:not([type="checkbox"]),textarea{
+  width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:10px;
+  background:#FFFCFA;color:var(--text);font:inherit;font-size:14px;outline:none;
 }
-.container { max-width: 850px; margin: auto; }
-header { margin-bottom: 25px; }
-h1 { font-size: 27px; margin: 0 0 9px; }
-.subtitle { color: var(--muted); font-size: 14px; }
-nav { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
-nav a {
-  color: var(--accent);
-  text-decoration: none;
-  font-size: 14px;
-}
-.card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 15px;
-  padding: 23px;
-  margin-bottom: 17px;
-}
-h2 { font-size: 18px; margin: 0 0 18px; }
-.field { margin-bottom: 17px; }
-label {
-  display: block;
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 8px;
-}
-input, textarea {
-  width: 100%;
-  padding: 12px 13px;
-  border: 1px solid var(--border);
-  border-radius: 9px;
-  background: #fff;
-  color: var(--text);
-  font: inherit;
-  font-size: 14px;
-  outline: none;
-}
-input:focus, textarea:focus { border-color: var(--accent); }
-textarea { min-height: 105px; resize: vertical; line-height: 1.7; }
-.hint { color: var(--muted); font-size: 12px; margin-top: 6px; }
-.switch-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 15px;
-}
-.switch-row p { color: var(--muted); font-size: 13px; margin: 6px 0 0; }
-input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--accent); }
-button {
-  border: 0;
-  border-radius: 9px;
-  padding: 12px 22px;
-  background: var(--accent);
-  color: white;
-  font-size: 14px;
-  cursor: pointer;
-}
-button:disabled { opacity: .6; cursor: wait; }
-.actions { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
-#status { font-size: 13px; color: var(--muted); }
-@media(max-width:600px) {
-  body { padding: 22px 13px; }
-  .card { padding: 18px; }
+input:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(183,123,112,.09)}
+input::placeholder,textarea::placeholder{color:#B9A49D}
+textarea{min-height:110px;resize:vertical;line-height:1.8}
+.hint{color:#A28B83;font-size:12px;margin-top:7px;line-height:1.7}
+.switch-row{display:flex;align-items:center;justify-content:space-between;gap:15px}
+.switch-row p{color:var(--muted);font-size:13px;line-height:1.7;margin:7px 0 0}
+input[type="checkbox"]{width:21px;height:21px;accent-color:var(--accent);flex-shrink:0}
+.warning{background:#FFF7F1;border:1px solid #F4E4D8;border-radius:10px;padding:12px 14px;color:#98734F;font-size:12px;line-height:1.7;margin-top:15px}
+.actions{display:flex;align-items:center;gap:15px;flex-wrap:wrap}
+button{border:0;border-radius:10px;padding:13px 22px;background:var(--accent);color:white;font-size:14px;font-weight:650;cursor:pointer}
+button:hover{background:#A66B61}
+button:disabled{opacity:.6;cursor:wait}
+#status{font-size:13px;color:var(--muted);line-height:1.7}
+@media(max-width:600px){
+ .container{margin:26px auto}
+ h1{font-size:24px}
+ .card{padding:19px 16px}
+ .actions button{width:100%}
 }
 </style>
 </head>
 <body>
-<div class="container">
+
 <header>
-  <h1>网站设置中心</h1>
-  <div class="subtitle">统一管理综合站的基本信息与展示内容</div>
-  <nav>
-    <a href="dashboard.html">← 返回管理首页</a>
-    <a href="articles.html">文章管理</a>
-    <a href="wall.html">大河墙审核</a>
-    <a href="../">访问网站</a>
-  </nav>
+  <div class="brand">
+    <img src="/images/hemeng-logo.svg" alt="荷萌 HEMENG">
+    <span>荷萌 HEMENG</span>
+  </div>
 </header>
 
-<section class="card">
-  <h2>基本信息</h2>
-  <div class="field">
-    <label for="site_name">网站名称</label>
-    <input id="site_name" maxlength="200">
-  </div>
-  <div class="field">
-    <label for="site_subtitle">网站副标题</label>
-    <input id="site_subtitle" maxlength="300">
-  </div>
-</section>
+<div class="container">
+  <div class="eyebrow">HEMENG · SETTINGS</div>
+  <h1>网站设置中心</h1>
+  <div class="subtitle">管理荷萌的基本信息、首页展示内容与网站运行设置。</div>
 
-<section class="card">
-  <h2>首页设置</h2>
-  <div class="field">
-    <label for="home_notice">首页公告</label>
-    <textarea id="home_notice" maxlength="5000" placeholder="留空则不显示公告"></textarea>
-  </div>
-</section>
+  <nav>
+    <a href="dashboard.html">← 管理首页</a>
+    <a href="write.html">写文章</a>
+    <a href="articles.html">文章管理</a>
+    <a href="wall.html">大河墙审核</a>
+    <a href="/">访问网站</a>
+  </nav>
 
-<section class="card">
-  <h2>关于本站</h2>
-  <div class="field">
-    <label for="about_intro">网站介绍</label>
-    <textarea id="about_intro" maxlength="5000"></textarea>
-  </div>
-</section>
-
-<section class="card">
-  <h2>大河墙设置</h2>
-  <div class="field">
-    <label for="wall_notice">大河墙公告</label>
-    <textarea id="wall_notice" maxlength="5000" placeholder="留空则不显示公告"></textarea>
-  </div>
-</section>
-
-<section class="card">
-  <h2>网站运行状态</h2>
-  <div class="switch-row">
-    <div>
-      <label for="maintenance_mode">维护模式</label>
-      <p>开启后，网站前台将显示维护提示。当前页面仅保存开关，前台拦截功能后续接入。</p>
+  <section class="card">
+    <h2>基本信息</h2>
+    <div class="field">
+      <label for="site_name">网站名称</label>
+      <input id="site_name" maxlength="200" placeholder="请输入网站名称">
     </div>
-    <input type="checkbox" id="maintenance_mode">
-  </div>
-  <div class="field" style="margin-top:20px">
-    <label for="maintenance_message">维护提示内容</label>
-    <textarea id="maintenance_message" maxlength="1000"></textarea>
-  </div>
-</section>
+    <div class="field">
+      <label for="site_subtitle">网站副标题</label>
+      <input id="site_subtitle" maxlength="300" placeholder="请输入网站副标题">
+    </div>
+  </section>
 
-<section class="card">
-  <div class="actions">
-    <button id="saveBtn" onclick="saveSettings()">保存全部设置</button>
-    <span id="status">正在读取设置……</span>
-  </div>
-</section>
+  <section class="card">
+    <h2>首页设置</h2>
+    <div class="field">
+      <label for="home_notice">首页公告</label>
+      <textarea id="home_notice" maxlength="5000" placeholder="留空则不显示公告"></textarea>
+      <div class="hint">这段内容会显示在网站首页的公告区域。</div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>关于本站</h2>
+    <div class="field">
+      <label for="about_intro">网站介绍</label>
+      <textarea id="about_intro" maxlength="5000" placeholder="介绍一下这个网站……"></textarea>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>大河墙设置</h2>
+    <div class="field">
+      <label for="wall_notice">大河墙公告</label>
+      <textarea id="wall_notice" maxlength="5000" placeholder="留空则不显示公告"></textarea>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>网站运行状态</h2>
+    <div class="switch-row">
+      <div>
+        <label for="maintenance_mode">维护模式</label>
+        <p>开启后，网站前台将显示维护提示。当前页面仅保存开关，前台拦截功能后续接入。</p>
+      </div>
+      <input type="checkbox" id="maintenance_mode">
+    </div>
+    <div class="field" style="margin-top:22px">
+      <label for="maintenance_message">维护提示内容</label>
+      <textarea id="maintenance_message" maxlength="1000" placeholder="请输入维护期间展示的提示"></textarea>
+    </div>
+    <div class="warning">提示：目前维护模式开关只会保存到数据库，尚未接入前台访问拦截。不要把它当作已经启用的网站维护保护功能。</div>
+  </section>
+
+  <section class="card">
+    <div class="actions">
+      <button id="saveBtn" onclick="saveSettings()">保存全部设置</button>
+      <span id="status">正在读取设置……</span>
+    </div>
+  </section>
 </div>
 
 <script>
