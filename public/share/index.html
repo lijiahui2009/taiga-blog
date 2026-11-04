@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -141,6 +142,54 @@ h1 {
 .status.error {
   color: #BD625C;
   background: #FFF8F6;
+}
+
+.share-time {
+  margin-top: 18px;
+  padding: 17px;
+  background: #FFFBF9;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+}
+
+.share-time-title {
+  margin-bottom: 12px;
+  color: var(--accent-dark);
+  font-size: 12px;
+  font-weight: 750;
+  letter-spacing: 1px;
+}
+
+.time-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 7px 0;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.time-label {
+  color: var(--muted);
+}
+
+.time-value {
+  color: var(--text);
+  font-weight: 700;
+  text-align: right;
+}
+
+.countdown {
+  color: var(--accent-dark);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .03em;
+}
+
+.countdown.expired {
+  color: #BD625C;
 }
 
 .actions {
@@ -290,6 +339,25 @@ button:disabled {
       正在读取分享内容……
     </div>
 
+    <div id="shareTime" class="share-time" hidden>
+      <div class="share-time-title">分享时间信息</div>
+
+      <div class="time-row">
+        <span class="time-label">创作时间</span>
+        <span class="time-value" id="createdAt">--</span>
+      </div>
+
+      <div class="time-row">
+        <span class="time-label">到期时间</span>
+        <span class="time-value" id="expiresAt">--</span>
+      </div>
+
+      <div class="time-row">
+        <span class="time-label">剩余有效时间</span>
+        <span class="countdown" id="countdown">--</span>
+      </div>
+    </div>
+
     <div id="content" class="content" hidden></div>
 
     <div class="actions" id="actions" hidden>
@@ -315,16 +383,116 @@ const contentEl = document.getElementById("content");
 const actionsEl = document.getElementById("actions");
 const copyBtn = document.getElementById("copyBtn");
 
-let sharedContent = "";
+const shareTimeEl = document.getElementById("shareTime");
+const createdAtEl = document.getElementById("createdAt");
+const expiresAtEl = document.getElementById("expiresAt");
+const countdownEl = document.getElementById("countdown");
 
+let sharedContent = "";
+let shareExpiresAt = 0;
+let serverTimeOffset = 0;
+let countdownTimer = null;
+
+/* 显示错误 */
 function showError(message) {
   statusEl.textContent = message;
   statusEl.classList.add("error");
   statusEl.hidden = false;
+
   contentEl.hidden = true;
   actionsEl.hidden = true;
+  shareTimeEl.hidden = true;
+
+  stopCountdown();
 }
 
+/* 格式化时间 */
+function formatShareTime(timestamp) {
+  if (!timestamp) return "--";
+
+  const date = new Date(timestamp * 1000);
+
+  if (Number.isNaN(date.getTime())) return "--";
+
+  return date.toLocaleString("zh-CN", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false
+  });
+}
+
+/* 停止倒计时 */
+function stopCountdown() {
+  if (countdownTimer !== null) {
+    clearInterval(countdownTimer);
+    countdownTimer = null;
+  }
+}
+
+/* 更新倒计时 */
+function updateCountdown() {
+  if (!shareExpiresAt) return;
+
+  const now = (Date.now() + serverTimeOffset) / 1000;
+
+  const remaining = Math.max(
+    0,
+    Math.floor(shareExpiresAt - now)
+  );
+
+  if (remaining <= 0) {
+    countdownEl.textContent = "已过期";
+    countdownEl.classList.add("expired");
+    stopCountdown();
+    return;
+  }
+
+  countdownEl.classList.remove("expired");
+
+  const days = Math.floor(remaining / 86400);
+  const hours = Math.floor((remaining % 86400) / 3600);
+  const minutes = Math.floor((remaining % 3600) / 60);
+  const seconds = remaining % 60;
+
+  countdownEl.textContent =
+    `${days}天 ${String(hours).padStart(2, "0")}:` +
+    `${String(minutes).padStart(2, "0")}:` +
+    `${String(seconds).padStart(2, "0")}`;
+}
+
+/* 设置分享时间 */
+function setupShareTime(data) {
+  if (
+    !data.createdAt ||
+    !data.expiresAt ||
+    !data.serverNow
+  ) {
+    shareTimeEl.hidden = true;
+    return;
+  }
+
+  stopCountdown();
+
+  shareExpiresAt = data.expiresAt;
+
+  // 使用服务器时间校准本地设备时间
+  serverTimeOffset = (data.serverNow * 1000) - Date.now();
+
+  createdAtEl.textContent = formatShareTime(data.createdAt);
+  expiresAtEl.textContent = formatShareTime(data.expiresAt);
+
+  shareTimeEl.hidden = false;
+
+  updateCountdown();
+
+  countdownTimer = setInterval(updateCountdown, 1000);
+}
+
+/* 读取分享 */
 async function loadShare() {
   const id = new URLSearchParams(location.search).get("id");
 
@@ -359,11 +527,14 @@ async function loadShare() {
     statusEl.hidden = true;
     actionsEl.hidden = false;
 
+    setupShareTime(data);
+
   } catch (error) {
     showError("网络连接失败，请稍后刷新重试。");
   }
 }
 
+/* 复制内容 */
 copyBtn.addEventListener("click", async () => {
   if (!sharedContent) return;
 
@@ -383,6 +554,9 @@ copyBtn.addEventListener("click", async () => {
     copyBtn.disabled = false;
   }
 });
+
+/* 页面离开时清理倒计时 */
+window.addEventListener("pagehide", stopCountdown);
 
 loadShare();
 </script>
