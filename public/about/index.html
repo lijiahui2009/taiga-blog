@@ -1,161 +1,438 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#faf7f5">
-<title>关于本站 - 逢坂大河ws</title>
+<meta name="theme-color" content="#FFF7F3">
+<meta name="description" content="荷萌 HEMENG，一个持续建设中的个人互联网空间。">
+<title>关于本站 - 荷萌 HEMENG</title>
 
 <style>
 :root {
-  --bg: #faf7f5;
-  --white: #fff;
-  --text: #302b29;
-  --muted: #817873;
-  --accent: #b77b70;
-  --border: #eee5e1;
+  --bg: #FFF7F3;
+  --surface: #FFFFFF;
+  --surface-soft: #FFF0EA;
+  --pink: #FFE8E0;
+  --accent: #B77B70;
+  --accent-dark: #956258;
+  --text: #493B38;
+  --muted: #8B7C76;
+  --border: #F0E3DE;
+  --shadow: 0 12px 35px rgba(109, 76, 73, .06);
+  --radius: 18px;
 }
 
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
-  font-family: Arial, "Microsoft YaHei", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Microsoft YaHei", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
 }
 
 header {
-  padding: 22px 7%;
-  background: white;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(255, 255, 255, .94);
+  backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--border);
 }
 
 .header-inner {
-  max-width: 1000px;
+  max-width: 1120px;
+  min-height: 76px;
   margin: auto;
+  padding: 12px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
 }
 
 .logo {
-  font-size: 21px;
-  font-weight: bold;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.logo img {
+  display: block;
+  width: auto;
+  height: 46px;
+  max-width: 190px;
+  object-fit: contain;
 }
 
 nav {
   display: flex;
+  align-items: center;
   flex-wrap: wrap;
-  gap: 23px;
-  margin-top: 16px;
+  gap: 25px;
 }
 
 nav a {
+  position: relative;
+  padding: 9px 0;
   color: var(--muted);
   text-decoration: none;
-  font-size: 14px;
+  font-size: 13px;
+  transition: color .2s;
 }
 
-nav a:hover { color: var(--accent); }
+nav a:hover,
+nav a[aria-current="page"] {
+  color: var(--accent-dark);
+}
+
+nav a[aria-current="page"]::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 2px;
+  height: 2px;
+  border-radius: 5px;
+  background: var(--accent);
+}
 
 .hero {
-  padding: 75px 7%;
-  background: #f4eeeb;
+  position: relative;
+  overflow: hidden;
+  padding: 95px 24px 88px;
+  background:
+    radial-gradient(circle at 85% 15%, rgba(255,255,255,.75), transparent 28%),
+    linear-gradient(135deg, #FFF0EA 0%, #FFE8E0 55%, #FFF7F3 100%);
   border-bottom: 1px solid var(--border);
 }
 
+.hero::before,
+.hero::after {
+  content: "";
+  position: absolute;
+  border: 1px solid rgba(183, 123, 112, .13);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.hero::before {
+  width: 340px;
+  height: 340px;
+  right: -100px;
+  top: -180px;
+}
+
+.hero::after {
+  width: 220px;
+  height: 220px;
+  right: 80px;
+  bottom: -160px;
+}
+
 .hero-inner {
-  max-width: 900px;
+  position: relative;
+  z-index: 1;
+  max-width: 1000px;
   margin: auto;
 }
 
 .eyebrow {
-  color: var(--accent);
-  font-size: 12px;
-  letter-spacing: 2px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--accent-dark);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 3px;
+}
+
+.eyebrow::before {
+  content: "";
+  width: 23px;
+  height: 1px;
+  background: var(--accent);
 }
 
 .hero h1 {
-  font-size: 38px;
-  margin: 18px 0;
+  margin: 22px 0 15px;
+  font-size: clamp(36px, 6vw, 54px);
+  font-weight: 650;
+  letter-spacing: 1px;
 }
 
 .hero p {
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 2;
+  max-width: 560px;
+  margin: 0;
+  color: #806D67;
+  font-size: 15px;
+  line-height: 2.1;
 }
 
-.container {
-  max-width: 900px;
+.hero-tag {
+  display: inline-block;
+  margin-top: 27px;
+  padding: 9px 16px;
+  border: 1px solid rgba(183, 123, 112, .25);
+  border-radius: 30px;
+  color: var(--accent-dark);
+  background: rgba(255, 255, 255, .5);
+  font-size: 12px;
+}
+
+main {
+  max-width: 1000px;
   margin: auto;
-  padding: 55px 7%;
+  padding: 70px 28px 85px;
 }
 
 .section {
-  margin-bottom: 48px;
+  margin-bottom: 65px;
+}
+
+.section-heading {
+  margin-bottom: 23px;
+}
+
+.section-number {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
 }
 
 .section h2 {
-  font-size: 21px;
-  margin-bottom: 17px;
+  margin: 0;
+  font-size: 23px;
+  font-weight: 650;
+  letter-spacing: .3px;
 }
 
 .section p {
-  color: #716965;
+  margin: 0 0 14px;
+  color: #776963;
   font-size: 14px;
-  line-height: 2.1;
-  margin: 0 0 12px;
+  line-height: 2.15;
+}
+
+.intro-card {
+  padding: 30px 32px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.intro-card p:last-child {
+  margin-bottom: 0;
 }
 
 .features {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 13px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
 }
 
 .feature {
-  padding: 20px;
-  background: white;
+  position: relative;
+  min-height: 145px;
+  padding: 24px;
+  overflow: hidden;
+  background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: var(--radius);
+  transition: transform .25s, box-shadow .25s, border-color .25s;
+}
+
+.feature:hover {
+  transform: translateY(-4px);
+  border-color: #E8C9C1;
+  box-shadow: var(--shadow);
+}
+
+.feature-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 17px;
+}
+
+.feature-icon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: var(--surface-soft);
+  color: var(--accent-dark);
+  font-size: 17px;
+}
+
+.feature-index {
+  color: #C6B4AE;
+  font-size: 11px;
+  letter-spacing: 1px;
 }
 
 .feature h3 {
-  font-size: 15px;
-  margin: 0 0 9px;
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .feature p {
-  font-size: 12px;
-  color: var(--muted);
-  line-height: 1.8;
   margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.9;
+}
+
+.feature.future {
+  background: #FFFBF9;
+}
+
+.future-label {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 4px 9px;
+  color: var(--accent-dark);
+  background: var(--surface-soft);
+  border-radius: 20px;
+  font-size: 10px;
+}
+
+.direction-card {
+  padding: 30px;
+  background: linear-gradient(135deg, #FFF0EA, #FFFFFF);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.direction-card p:last-child {
+  margin-bottom: 0;
 }
 
 .quote {
-  padding: 25px;
-  background: white;
-  border-left: 3px solid var(--accent);
-  color: var(--muted);
+  position: relative;
+  padding: 30px 32px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  color: #806D67;
   font-size: 14px;
-  line-height: 2;
+  line-height: 2.1;
   white-space: pre-wrap;
+  box-shadow: var(--shadow);
+}
+
+.quote::before {
+  content: "“";
+  display: block;
+  margin-bottom: 4px;
+  color: #E8C9C1;
+  font-family: Georgia, serif;
+  font-size: 48px;
+  line-height: 1;
 }
 
 footer {
-  padding: 30px 15px;
+  padding: 32px 20px;
+  background: #FFFFFF;
   border-top: 1px solid var(--border);
   text-align: center;
-  color: #a39a95;
+  color: #A3958F;
   font-size: 12px;
-  line-height: 2;
+  line-height: 2.2;
 }
 
-@media(max-width: 600px) {
-  .hero { padding: 60px 7%; }
-  .hero h1 { font-size: 31px; }
-  .container { padding: 42px 6%; }
-  .features { grid-template-columns: 1fr; }
+footer .footer-brand {
+  color: var(--accent-dark);
+  font-weight: 600;
+}
+
+@media (max-width: 720px) {
+  .header-inner {
+    padding: 12px 20px;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .logo img {
+    height: 40px;
+  }
+
+  nav {
+    width: 100%;
+    gap: 19px;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 3px;
+  }
+
+  nav a {
+    flex-shrink: 0;
+    font-size: 12px;
+  }
+
+  .hero {
+    padding: 70px 23px;
+  }
+
+  main {
+    padding: 52px 20px 65px;
+  }
+
+  .section {
+    margin-bottom: 52px;
+  }
+}
+
+@media (max-width: 480px) {
+  .features {
+    grid-template-columns: 1fr;
+  }
+
+  .hero h1 {
+    font-size: 36px;
+  }
+
+  .intro-card,
+  .direction-card {
+    padding: 23px;
+  }
+
+  .feature {
+    min-height: 130px;
+  }
+
+  .quote {
+    padding: 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
 }
 </style>
 </head>
@@ -164,111 +441,177 @@ footer {
 
 <header>
   <div class="header-inner">
-    <div class="logo" id="siteLogo">逢坂大河ws.</div>
-    <nav>
+
+    <a class="logo" href="/" aria-label="荷萌 HEMENG 首页">
+      <img src="/images/hemeng-logo.svg" alt="荷萌 HEMENG">
+    </a>
+
+    <nav aria-label="主导航">
       <a href="/">首页</a>
       <a href="/blog/">个人博客</a>
       <a href="/wall/">大河墙</a>
       <a href="/tools/nine-grid/">九宫格工具</a>
-      <a href="/about/">关于本站</a>
+      <a href="/about/" aria-current="page">关于本站</a>
     </nav>
+
   </div>
 </header>
 
 <section class="hero">
   <div class="hero-inner">
+
     <div class="eyebrow">ABOUT THIS WEBSITE</div>
+
     <h1>关于本站</h1>
+
     <p>
-      一个个人博客，也是一个不断扩展的综合性互联网空间。
+      一个个人博客，也是一个不断扩展的互联网空间。
       <br>
-      不局限于一种用途，也不局限于一种可能。
+      记录想法、整理资料、制作工具，让想法逐渐成为现实。
     </p>
+
+    <div class="hero-tag">HEMENG · PERSONAL SPACE</div>
+
   </div>
 </section>
 
-<main class="container">
+<main>
 
   <section class="section">
-    <h2>01. 网站介绍</h2>
-    <p>
-      「逢坂大河ws的综合站」是一个个人建立和维护的网站。
-      它以个人博客为基础，同时整合各种不同类型的功能。
-    </p>
-    <p>
-      这里可以记录个人想法、分享文章、整理资料，
-      也可以使用实用工具，或者与其他访客交流。
-    </p>
-    <p>
-      与单一用途的网站不同，这个网站并没有给自己设定固定的边界。
-      它更像是一个可以不断增加内容和功能的个人互联网空间。
-    </p>
+
+    <div class="section-heading">
+      <span class="section-number">01 / INTRODUCTION</span>
+      <h2>这里是什么地方？</h2>
+    </div>
+
+    <div class="intro-card">
+      <p>
+        「荷萌 HEMENG」是一个个人建立和维护的网站。
+        它以个人博客为基础，同时整合不同类型的内容与功能。
+      </p>
+
+      <p>
+        这里可以记录个人想法、分享文章、整理资料，
+        也可以使用实用工具，或者与其他访客交流。
+      </p>
+
+      <p>
+        它不局限于某一种用途，也没有为未来的发展设定固定边界。
+        我希望它能够随着时间不断成长，逐渐形成一个属于自己的网络空间。
+      </p>
+    </div>
+
   </section>
 
   <section class="section">
-    <h2>02. 为什么建立这个网站</h2>
+
+    <div class="section-heading">
+      <span class="section-number">02 / PURPOSE</span>
+      <h2>为什么建立这个网站？</h2>
+    </div>
+
     <p>
       建立网站的初衷，是希望拥有一个自己能够掌控、
       自由安排和持续完善的网络空间。
     </p>
+
     <p>
       不只是发布文章，也不仅仅是展示个人信息。
       我希望把各种有意思的想法逐渐变成实际功能，
-      让网站真正具备使用价值。
+      让网站不仅能够浏览，也真正具备使用价值。
     </p>
+
   </section>
 
   <section class="section">
-    <h2>03. 目前已有的功能</h2>
+
+    <div class="section-heading">
+      <span class="section-number">03 / FEATURES</span>
+      <h2>网站目前有哪些内容？</h2>
+    </div>
 
     <div class="features">
-      <div class="feature">
+
+      <article class="feature">
+        <div class="feature-top">
+          <div class="feature-icon">✎</div>
+          <span class="feature-index">01</span>
+        </div>
         <h3>个人博客</h3>
-        <p>发布文章、记录想法和整理内容。</p>
-      </div>
+        <p>发布文章、记录想法，保存值得分享的内容。</p>
+      </article>
 
-      <div class="feature">
+      <article class="feature">
+        <div class="feature-top">
+          <div class="feature-icon">♡</div>
+          <span class="feature-index">02</span>
+        </div>
         <h3>大河墙</h3>
-        <p>支持匿名投稿、表白、树洞和日常交流。</p>
-      </div>
+        <p>匿名投稿、树洞和日常交流，让不同的想法有地方表达。</p>
+      </article>
 
-      <div class="feature">
+      <article class="feature">
+        <div class="feature-top">
+          <div class="feature-icon">▦</div>
+          <span class="feature-index">03</span>
+        </div>
         <h3>九宫格工具</h3>
-        <p>图片切割与九张图片合成。</p>
-      </div>
+        <p>提供图片切割与九张图片合成功能。</p>
+      </article>
 
-      <div class="feature">
+      <article class="feature future">
+        <div class="feature-top">
+          <div class="feature-icon">⌕</div>
+          <span class="feature-index">04</span>
+        </div>
         <h3>个人资料库</h3>
-        <p>未来计划整理人物资料、图片和背景信息。</p>
-      </div>
+        <p>未来计划整理人物资料、图片、时间线和背景信息。</p>
+        <span class="future-label">未来计划</span>
+      </article>
+
     </div>
+
   </section>
 
   <section class="section">
-    <h2>04. 未来方向</h2>
-    <p>
-      网站会持续更新。未来可能加入更多实用工具、
-      资料整理功能、互动社区以及其他有趣的项目。
-    </p>
-    <p>
-      功能没有必要提前设定上限。
-      只要有值得尝试的想法，就可以逐步将它实现。
-    </p>
+
+    <div class="section-heading">
+      <span class="section-number">04 / FUTURE</span>
+      <h2>未来的发展方向</h2>
+    </div>
+
+    <div class="direction-card">
+      <p>
+        网站会持续更新。未来可能加入更多实用工具、
+        资料整理功能、互动社区以及其他有趣的项目。
+      </p>
+
+      <p>
+        我不希望过早限制它的用途。
+        有值得尝试的想法，就可以逐步把它变成现实。
+      </p>
+    </div>
+
   </section>
 
   <section class="section">
-    <h2>05. 关于这个空间</h2>
-    <div class="quote" id="aboutIntro">
-      这是一个持续建设中的个人项目。
-      从一个简单的个人博客开始，逐渐发展成拥有多种功能的综合站。
-      网站的内容和方向，也会随着时间不断变化。
+
+    <div class="section-heading">
+      <span class="section-number">05 / NOTE</span>
+      <h2>关于这个空间</h2>
     </div>
+
+    <div class="quote" id="aboutIntro">这是一个持续建设中的个人项目。
+从一个简单的个人博客开始，逐渐发展成拥有多种功能的综合站。
+网站的内容和方向，也会随着时间不断变化。</div>
+
   </section>
 
 </main>
 
 <footer>
-  © 2026 <span id="footerName">逢坂大河ws的综合站</span>
+  <div class="footer-brand" id="footerName">荷萌 HEMENG</div>
+  © 2026 HEMENG
   <br>
   一个持续建设中的个人互联网空间
 </footer>
@@ -287,16 +630,17 @@ async function loadSiteSettings() {
     if (!data.success || !data.settings) return;
 
     const settings = data.settings;
-    const siteName = settings.site_name || "逢坂大河ws的综合站";
+
+    const siteName = settings.site_name || "荷萌 HEMENG";
 
     document.title = "关于本站 - " + siteName;
 
-    document.getElementById("siteLogo").textContent =
-      siteName.replace(/的综合站$/, "") + ".";
-
     document.getElementById("footerName").textContent = siteName;
 
-    if (settings.about_intro && settings.about_intro.trim()) {
+    if (
+      typeof settings.about_intro === "string" &&
+      settings.about_intro.trim()
+    ) {
       document.getElementById("aboutIntro").textContent =
         settings.about_intro;
     }
@@ -311,4 +655,3 @@ loadSiteSettings();
 
 </body>
 </html>
-
