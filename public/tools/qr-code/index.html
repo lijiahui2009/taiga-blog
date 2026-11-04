@@ -122,6 +122,21 @@ button:disabled{opacity:.45;cursor:not-allowed}
   border:1px solid var(--line);border-radius:11px;text-align:left;
   overflow-wrap:anywhere;font-size:12px;line-height:1.7
 }
+.share-time{
+  margin-top:12px;padding:12px;
+  background:#fff;border:1px solid var(--line);
+  border-radius:10px;line-height:1.9
+}
+.share-time-row{
+  display:flex;justify-content:space-between;
+  gap:10px;align-items:flex-start;flex-wrap:wrap
+}
+.share-time-label{color:var(--muted)}
+.share-time-value{font-weight:700;color:var(--text)}
+.share-countdown{
+  color:var(--accent-dark);font-weight:800;
+  font-variant-numeric:tabular-nums;letter-spacing:.03em
+}
 .mode-switch{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:12px 0 18px}
 .mode-option{
   padding:13px;border:1px solid var(--line);border-radius:12px;
@@ -257,10 +272,23 @@ footer strong{color:var(--accent-dark);letter-spacing:.08em}
     <div id="shareLinkBox" class="share-box hidden">
       <strong>网页分享链接</strong>
       <div id="shareLinkText" style="margin-top:6px"></div>
+
+      <div id="shareTimeInfo" class="share-time hidden">
+        <div class="share-time-row">
+          <span class="share-time-label">创作时间</span>
+          <span class="share-time-value" id="shareCreatedAt">--</span>
+        </div>
+        <div class="share-time-row">
+          <span class="share-time-label">剩余有效时间</span>
+          <span class="share-countdown" id="shareCountdown">--</span>
+        </div>
+      </div>
+
       <div class="actions">
         <button class="secondary" id="copyLinkBtn" type="button">复制分享链接</button>
       </div>
     </div>
+
     <p class="hint">二维码会自动添加标准留白。分享功能取决于设备和浏览器的支持情况。</p>
   </div>
 </aside>
@@ -330,29 +358,113 @@ const downloadBtn=document.getElementById("downloadBtn");
 const shareBtn=document.getElementById("shareBtn");
 const shareLinkBox=document.getElementById("shareLinkBox");
 const shareLinkText=document.getElementById("shareLinkText");
+const shareTimeInfo=document.getElementById("shareTimeInfo");
+const shareCreatedAt=document.getElementById("shareCreatedAt");
+const shareCountdown=document.getElementById("shareCountdown");
 
 let generatedCanvas=null;
 let generatedBlob=null;
 let generatedFile=null;
 let generationToken=0;
 let currentShareUrl="";
+let currentShareInfo=null;
+let countdownTimer=null;
+let serverTimeOffset=0;
 
 function setMakeStatus(message,type=""){
   makeStatus.textContent=message;
   makeStatus.className="status "+type;
 }
 
+/* 停止倒计时 */
+function stopShareCountdown(){
+  if(countdownTimer!==null){
+    clearInterval(countdownTimer);
+    countdownTimer=null;
+  }
+}
+
+/* 格式化时间 */
+function formatShareTime(timestamp){
+  if(!timestamp)return "--";
+  const date=new Date(timestamp*1000);
+  if(Number.isNaN(date.getTime()))return "--";
+
+  return date.toLocaleString("zh-CN",{
+    year:"numeric",
+    month:"2-digit",
+    day:"2-digit",
+    hour:"2-digit",
+    minute:"2-digit",
+    second:"2-digit",
+    hour12:false
+  });
+}
+
+/* 更新倒计时 */
+function updateShareCountdown(){
+  if(!currentShareInfo)return;
+
+  const now=(Date.now()+serverTimeOffset)/1000;
+  const remaining=Math.max(0,Math.floor(currentShareInfo.expiresAt-now));
+
+  if(remaining<=0){
+    shareCountdown.textContent="已过期";
+    stopShareCountdown();
+    return;
+  }
+
+  const days=Math.floor(remaining/86400);
+  const hours=Math.floor((remaining%86400)/3600);
+  const minutes=Math.floor((remaining%3600)/60);
+  const seconds=remaining%60;
+
+  shareCountdown.textContent=
+    `${days}天 ${String(hours).padStart(2,"0")}:`+
+    `${String(minutes).padStart(2,"0")}:`+
+    `${String(seconds).padStart(2,"0")}`;
+}
+
+/* 启动倒计时 */
+function startShareCountdown(shareInfo){
+  stopShareCountdown();
+
+  if(!shareInfo||!shareInfo.createdAt||!shareInfo.expiresAt){
+    shareTimeInfo.classList.add("hidden");
+    return;
+  }
+
+  currentShareInfo=shareInfo;
+  shareCreatedAt.textContent=formatShareTime(shareInfo.createdAt);
+  shareTimeInfo.classList.remove("hidden");
+
+  updateShareCountdown();
+  countdownTimer=setInterval(updateShareCountdown,1000);
+}
+
+/* 清空生成区域 */
 function clearGenerated(clearText=true){
   generationToken++;
+  stopShareCountdown();
+
   if(clearText)textInput.value="";
+
   output.innerHTML='<span class="placeholder">二维码将在这里显示</span>';
   generatedCanvas=null;
   generatedBlob=null;
   generatedFile=null;
   currentShareUrl="";
+  currentShareInfo=null;
+  serverTimeOffset=0;
+
   downloadBtn.disabled=true;
   shareBtn.disabled=true;
   shareLinkBox.classList.add("hidden");
+  shareTimeInfo.classList.add("hidden");
+
+  shareCreatedAt.textContent="--";
+  shareCountdown.textContent="--";
+
   document.getElementById("qrCaption").textContent="等待生成";
   setMakeStatus("");
 }
@@ -361,6 +473,7 @@ function getQrBlob(){
   return new Promise((resolve,reject)=>{
     if(generatedBlob){resolve(generatedBlob);return;}
     if(!generatedCanvas){reject(new Error("二维码尚未生成"));return;}
+
     generatedCanvas.toBlob(blob=>{
       if(blob)resolve(blob);
       else reject(new Error("图片导出失败"));
@@ -377,19 +490,32 @@ async function createWebShare(content){
   });
 
   let data;
-  try{data=await response.json();}
-  catch{throw new Error("服务器返回了无法识别的内容，请稍后重试。");}
+  try{
+    data=await response.json();
+  }catch{
+    throw new Error("服务器返回了无法识别的内容，请稍后重试。");
+  }
 
   if(!response.ok||!data.success||!data.shareUrl){
     throw new Error(data.message||"创建分享失败，请稍后重试。");
   }
 
   const shareUrl=new URL(data.shareUrl,location.origin);
+
   if(shareUrl.origin!==location.origin){
     throw new Error("服务器返回的分享地址不正确。");
   }
 
-  return shareUrl.href;
+  if(!data.createdAt||!data.expiresAt||!data.serverNow){
+    throw new Error("服务器没有返回完整的分享时间信息，请确认接口已经更新。");
+  }
+
+  return {
+    shareUrl:shareUrl.href,
+    createdAt:data.createdAt,
+    expiresAt:data.expiresAt,
+    serverNow:data.serverNow
+  };
 }
 
 /* 生成二维码 */
@@ -412,14 +538,21 @@ document.getElementById("generateBtn").addEventListener("click",async()=>{
   }
 
   const token=++generationToken;
+  stopShareCountdown();
+
   output.innerHTML="";
   generatedCanvas=null;
   generatedBlob=null;
   generatedFile=null;
   currentShareUrl="";
+  currentShareInfo=null;
+  serverTimeOffset=0;
+
   downloadBtn.disabled=true;
   shareBtn.disabled=true;
   shareLinkBox.classList.add("hidden");
+  shareTimeInfo.classList.add("hidden");
+
   document.getElementById("qrCaption").textContent="正在准备……";
 
   let qrValue=value;
@@ -427,15 +560,24 @@ document.getElementById("generateBtn").addEventListener("click",async()=>{
   try{
     if(currentMode==="web"){
       setMakeStatus("正在保存分享内容……");
-      qrValue=await createWebShare(value);
+
+      const shareInfo=await createWebShare(value);
+
       if(token!==generationToken)return;
-      currentShareUrl=qrValue;
+
+      qrValue=shareInfo.shareUrl;
+      currentShareUrl=shareInfo.shareUrl;
+      currentShareInfo=shareInfo;
+
+      // 记录服务器与本地设备的时间差
+      serverTimeOffset=(shareInfo.serverNow*1000)-Date.now();
     }
 
     renderQr(qrValue,token);
 
   }catch(error){
     if(token!==generationToken)return;
+
     setMakeStatus(error.message||"生成失败，请稍后重试。","bad");
     document.getElementById("qrCaption").textContent="生成失败";
   }
@@ -443,19 +585,24 @@ document.getElementById("generateBtn").addEventListener("click",async()=>{
 
 function renderQr(value,token){
   const size=Number(document.getElementById("qrSize").value);
+
   const levelMap={
     L:QRCode.CorrectLevel.L,
     M:QRCode.CorrectLevel.M,
     Q:QRCode.CorrectLevel.Q,
     H:QRCode.CorrectLevel.H
   };
+
   const dark=document.getElementById("darkColor").value;
   const light=document.getElementById("lightColor").value;
 
   try{
     const qrInstance=new QRCode(output,{
-      text:value,width:size,height:size,
-      colorDark:dark,colorLight:light,
+      text:value,
+      width:size,
+      height:size,
+      colorDark:dark,
+      colorLight:light,
       correctLevel:levelMap[document.getElementById("qrLevel").value]??QRCode.CorrectLevel.M
     });
 
@@ -482,11 +629,16 @@ function renderQr(value,token){
       }
 
       let moduleCount=33;
-      try{moduleCount=qrInstance._oQRCode.getModuleCount();}
-      catch(error){moduleCount=33;}
+
+      try{
+        moduleCount=qrInstance._oQRCode.getModuleCount();
+      }catch(error){
+        moduleCount=33;
+      }
 
       const margin=Math.ceil((size/moduleCount)*4);
       const exportCanvas=document.createElement("canvas");
+
       exportCanvas.width=size+margin*2;
       exportCanvas.height=size+margin*2;
 
@@ -509,6 +661,7 @@ function renderQr(value,token){
 
         generatedBlob=blob;
         generatedFile=new File([blob],"hemeng-qrcode.png",{type:"image/png"});
+
         downloadBtn.disabled=false;
         shareBtn.disabled=false;
 
@@ -517,6 +670,9 @@ function renderQr(value,token){
         if(currentMode==="web"){
           shareLinkText.textContent=currentShareUrl;
           shareLinkBox.classList.remove("hidden");
+
+          startShareCountdown(currentShareInfo);
+
           setMakeStatus("网页展示二维码已生成。扫码后将打开荷萌分享页面。","good");
         }else{
           setMakeStatus("普通二维码已生成，已添加标准留白。","good");
@@ -524,6 +680,7 @@ function renderQr(value,token){
       },"image/png");
 
     },250);
+
   }catch(error){
     setMakeStatus("生成失败，内容可能过长或格式不受支持。","bad");
     document.getElementById("qrCaption").textContent="生成失败";
@@ -533,18 +690,24 @@ function renderQr(value,token){
 /* 下载 PNG */
 downloadBtn.addEventListener("click",async()=>{
   if(!generatedCanvas)return;
+
   try{
     const blob=await getQrBlob();
     const url=URL.createObjectURL(blob);
     const a=document.createElement("a");
+
     a.href=url;
     a.download="hemeng-qrcode.png";
     a.style.display="none";
+
     document.body.appendChild(a);
     a.click();
     a.remove();
+
     setTimeout(()=>URL.revokeObjectURL(url),5000);
+
     setMakeStatus("已发起 PNG 下载。","good");
+
   }catch(error){
     setMakeStatus("图片下载失败，请重新生成二维码。","bad");
   }
@@ -553,48 +716,66 @@ downloadBtn.addEventListener("click",async()=>{
 /* 系统分享 / 保存图片 */
 shareBtn.addEventListener("click",async()=>{
   if(!generatedFile)return;
+
   try{
     if(navigator.share&&navigator.canShare&&navigator.canShare({files:[generatedFile]})){
-      await navigator.share({files:[generatedFile],title:"荷萌 HEMENG 二维码"});
+      await navigator.share({
+        files:[generatedFile],
+        title:"荷萌 HEMENG 二维码"
+      });
+
       setMakeStatus("已打开系统分享面板。","good");
+
     }else{
       downloadBtn.click();
       setMakeStatus("当前浏览器不支持图片分享，已改用 PNG 下载。","good");
     }
+
   }catch(error){
-    if(error.name==="AbortError")setMakeStatus("已取消分享。");
-    else setMakeStatus("分享不可用，请尝试使用下载 PNG。","bad");
+    if(error.name==="AbortError"){
+      setMakeStatus("已取消分享。");
+    }else{
+      setMakeStatus("分享不可用，请尝试使用下载 PNG。","bad");
+    }
   }
 });
 
 /* 复制网页分享链接 */
 document.getElementById("copyLinkBtn").addEventListener("click",async()=>{
   if(!currentShareUrl)return;
+
   try{
     await navigator.clipboard.writeText(currentShareUrl);
+
     document.getElementById("copyLinkBtn").textContent="已复制";
+
     setTimeout(()=>{
       document.getElementById("copyLinkBtn").textContent="复制分享链接";
     },1800);
+
   }catch(error){
     setMakeStatus("复制失败，请手动选择上方链接。","bad");
   }
 });
 
 /* 清空生成区域 */
-document.getElementById("clearBtn").addEventListener("click",()=>clearGenerated(true));
+document.getElementById("clearBtn").addEventListener("click",()=>{
+  clearGenerated(true);
+});
 
 /* 图片识别 */
 const fileInput=document.getElementById("qrFile");
 const readStatus=document.getElementById("readStatus");
 const readResult=document.getElementById("readResult");
 const copyBtn=document.getElementById("copyResult");
+
 let decodedText="";
 let readToken=0;
 
 fileInput.addEventListener("change",()=>{
   const file=fileInput.files&&fileInput.files[0];
   if(!file)return;
+
   const token=++readToken;
 
   if(!file.type.startsWith("image/")){
@@ -602,6 +783,7 @@ fileInput.addEventListener("change",()=>{
     readStatus.className="status bad";
     return;
   }
+
   if(typeof jsQR==="undefined"){
     readStatus.textContent="识别组件加载失败，请检查网络后刷新页面。";
     readStatus.className="status bad";
@@ -610,41 +792,63 @@ fileInput.addEventListener("change",()=>{
 
   const url=URL.createObjectURL(file);
   const img=new Image();
+
   readStatus.textContent="正在读取图片……";
   readStatus.className="status";
+
   copyBtn.disabled=true;
   readResult.classList.add("hidden");
 
   img.onload=()=>{
-    if(token!==readToken){URL.revokeObjectURL(url);return;}
+    if(token!==readToken){
+      URL.revokeObjectURL(url);
+      return;
+    }
+
     try{
       const canvas=document.getElementById("decodeCanvas");
       const ctx=canvas.getContext("2d",{willReadFrequently:true});
+
       const scale=Math.min(1,1600/Math.max(img.naturalWidth,img.naturalHeight));
+
       canvas.width=Math.max(1,Math.round(img.naturalWidth*scale));
       canvas.height=Math.max(1,Math.round(img.naturalHeight*scale));
+
       ctx.drawImage(img,0,0,canvas.width,canvas.height);
 
       const pixels=ctx.getImageData(0,0,canvas.width,canvas.height);
-      const code=jsQR(pixels.data,pixels.width,pixels.height,{inversionAttempts:"attemptBoth"});
+
+      const code=jsQR(
+        pixels.data,
+        pixels.width,
+        pixels.height,
+        {inversionAttempts:"attemptBoth"}
+      );
+
       URL.revokeObjectURL(url);
 
       if(code){
         decodedText=code.data;
         readResult.textContent=decodedText;
         readResult.classList.remove("hidden");
+
         readStatus.textContent="识别成功。";
         readStatus.className="status good";
+
         copyBtn.disabled=false;
+
       }else{
         decodedText="";
         readResult.classList.add("hidden");
         copyBtn.disabled=true;
+
         readStatus.textContent="没有识别到二维码，请尝试更清晰、完整的图片。";
         readStatus.className="status bad";
       }
+
     }catch(error){
       URL.revokeObjectURL(url);
+
       readStatus.textContent="图片处理失败，请尝试其他图片。";
       readStatus.className="status bad";
     }
@@ -652,19 +856,24 @@ fileInput.addEventListener("change",()=>{
 
   img.onerror=()=>{
     URL.revokeObjectURL(url);
+
     readStatus.textContent="图片读取失败。";
     readStatus.className="status bad";
   };
+
   img.src=url;
 });
 
 /* 复制识别结果 */
 copyBtn.addEventListener("click",async()=>{
   if(!decodedText)return;
+
   try{
     await navigator.clipboard.writeText(decodedText);
+
     readStatus.textContent="已复制识别结果。";
     readStatus.className="status good";
+
   }catch(error){
     readStatus.textContent="浏览器不允许自动复制，请长按识别结果手动复制。";
     readStatus.className="status";
@@ -676,12 +885,16 @@ document.getElementById("clearRead").addEventListener("click",()=>{
   readToken++;
   fileInput.value="";
   decodedText="";
+
   readResult.textContent="";
   readResult.classList.add("hidden");
+
   readStatus.textContent="";
   readStatus.className="status";
+
   copyBtn.disabled=true;
 });
 </script>
 </body>
 </html>
+
