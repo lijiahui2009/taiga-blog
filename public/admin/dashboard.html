@@ -1,248 +1,460 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>管理后台 - 逢坂大河ws</title>
+<meta name="theme-color" content="#fff7f3">
+<title>管理后台 - 荷萌 HEMENG</title>
 
 <style>
-:root {
-  --bg: #faf7f5;
-  --card: #ffffff;
-  --text: #302925;
-  --muted: #857a73;
-  --line: #eee7e2;
-  --accent: #a87568;
-  --green: #56866a;
+:root{
+  --bg:#fffaf7;
+  --white:#fff;
+  --cream:#fff7f3;
+  --pink:#ffe8e0;
+  --pink-deep:#f5c8c0;
+  --accent:#b77b70;
+  --accent-dark:#956258;
+  --text:#6d4c49;
+  --muted:#a18b84;
+  --border:#f0e3de;
+  --green:#56866a;
 }
 
-* { box-sizing: border-box; }
+*{box-sizing:border-box}
 
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont,
-    "Segoe UI", sans-serif;
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",
+    "Microsoft YaHei",sans-serif;
 }
 
-header {
-  height: 65px;
-  background: white;
-  border-bottom: 1px solid var(--line);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 24px;
+a{color:inherit;text-decoration:none}
+
+/* 顶部 */
+
+header{
+  height:68px;
+  background:rgba(255,255,255,.95);
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 28px;
+  position:sticky;
+  top:0;
+  z-index:10;
+  backdrop-filter:blur(12px);
 }
 
-.logo {
-  font-size: 19px;
-  font-weight: 700;
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
 }
 
-.header-right {
-  color: var(--muted);
-  font-size: 13px;
+.brand img{
+  width:42px;
+  height:42px;
+  object-fit:contain;
 }
 
-.layout {
-  display: flex;
-  min-height: calc(100vh - 65px);
+.brand-name{
+  font-size:18px;
+  font-weight:800;
+  letter-spacing:1px;
 }
 
-.sidebar {
-  width: 220px;
-  background: white;
-  border-right: 1px solid var(--line);
-  padding: 25px 15px;
-  flex-shrink: 0;
+.brand-en{
+  margin-top:3px;
+  color:var(--muted);
+  font-size:9px;
+  letter-spacing:3px;
 }
 
-.nav-title {
-  color: var(--muted);
-  font-size: 12px;
-  margin: 0 12px 15px;
+.header-right{
+  color:var(--muted);
+  font-size:12px;
+  letter-spacing:1px;
 }
 
-.nav-item {
-  display: block;
-  padding: 12px;
-  margin-bottom: 6px;
-  color: var(--text);
-  text-decoration: none;
-  border-radius: 9px;
-  font-size: 14px;
+/* 页面布局 */
+
+.layout{
+  display:flex;
+  min-height:calc(100vh - 68px);
 }
 
-.nav-item.active {
-  background: #f4ebe7;
-  color: var(--accent);
-  font-weight: 600;
+/* 侧边导航 */
+
+.sidebar{
+  width:225px;
+  flex-shrink:0;
+  padding:27px 16px;
+  background:white;
+  border-right:1px solid var(--border);
 }
 
-.nav-item:hover {
-  background: #f7f2ef;
+.nav-title{
+  color:var(--muted);
+  font-size:11px;
+  letter-spacing:2px;
+  margin:0 12px 17px;
 }
 
-main {
-  flex: 1;
-  min-width: 0;
-  padding: 35px;
-  max-width: 1200px;
+.nav-item{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:13px 14px;
+  margin-bottom:6px;
+  color:var(--text);
+  border-radius:11px;
+  font-size:13px;
+  transition:.2s;
 }
 
-.welcome {
-  margin-bottom: 28px;
+.nav-item:hover{
+  background:var(--cream);
+  color:var(--accent);
 }
 
-.welcome h1 {
-  margin: 0 0 9px;
-  font-size: 27px;
+.nav-item.active{
+  background:var(--pink);
+  color:var(--accent-dark);
+  font-weight:700;
 }
 
-.welcome p {
-  color: var(--muted);
-  margin: 0;
-  font-size: 14px;
+.nav-icon{
+  width:22px;
+  text-align:center;
+  font-size:16px;
 }
 
-.stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  margin-bottom: 25px;
+/* 主区域 */
+
+main{
+  flex:1;
+  min-width:0;
+  max-width:1300px;
+  padding:36px;
 }
 
-.card {
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: 13px;
-  padding: 22px;
+.welcome{
+  margin-bottom:28px;
 }
 
-.stat-label {
-  color: var(--muted);
-  font-size: 13px;
+.welcome-kicker{
+  color:var(--accent);
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:3px;
+  margin-bottom:10px;
 }
 
-.stat-number {
-  font-size: 30px;
-  font-weight: 700;
-  margin-top: 12px;
+.welcome h1{
+  margin:0 0 10px;
+  font-size:27px;
+  letter-spacing:1px;
 }
 
-.section {
-  background: white;
-  border: 1px solid var(--line);
-  border-radius: 13px;
-  padding: 23px;
-  margin-bottom: 20px;
+.welcome p{
+  margin:0;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.8;
 }
 
-.section-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 18px;
+/* 统计卡片 */
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:15px;
+  margin-bottom:25px;
 }
 
-.section-header h2 {
-  font-size: 17px;
-  margin: 0;
+.card{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:22px;
+  transition:.2s;
 }
 
-.btn {
-  display: inline-block;
-  padding: 10px 16px;
-  border: 0;
-  border-radius: 8px;
-  background: var(--accent);
-  color: white;
-  text-decoration: none;
-  font-size: 13px;
-  cursor: pointer;
+.card:hover{
+  border-color:var(--pink-deep);
+  box-shadow:0 9px 25px rgba(120,75,65,.05);
 }
 
-.btn:hover { opacity: .85; }
-
-.btn-light {
-  background: #f3ebe7;
-  color: var(--accent);
+.stat-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
 }
 
-.article {
-  padding: 15px 0;
-  border-top: 1px solid var(--line);
+.stat-label{
+  color:var(--muted);
+  font-size:12px;
 }
 
-.article-title {
-  font-weight: 600;
-  margin-bottom: 7px;
+.stat-icon{
+  width:35px;
+  height:35px;
+  display:grid;
+  place-items:center;
+  border-radius:11px;
+  background:var(--cream);
+  color:var(--accent);
+  font-size:17px;
 }
 
-.article-info {
-  color: var(--muted);
-  font-size: 12px;
+.stat-number{
+  margin-top:17px;
+  font-size:29px;
+  font-weight:750;
+  color:var(--text);
 }
 
-.empty {
-  color: var(--muted);
-  text-align: center;
-  padding: 35px 10px;
-  font-size: 14px;
+.wall-number{color:var(--accent)}
+
+.stat-description{
+  margin-top:7px;
+  color:#b7a49e;
+  font-size:10px;
 }
 
-.footer {
-  color: var(--muted);
-  font-size: 12px;
-  text-align: center;
-  padding: 25px 0;
+/* 内容模块 */
+
+.section{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:24px;
+  margin-bottom:19px;
 }
 
-.wall-number {
-  color: var(--accent);
+.section-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:17px;
 }
 
-@media (max-width: 950px) {
-  .stats {
-    grid-template-columns: repeat(2, 1fr);
+.section-header h2{
+  margin:0;
+  font-size:16px;
+}
+
+.section-subtitle{
+  margin-top:6px;
+  color:var(--muted);
+  font-size:11px;
+}
+
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  padding:10px 16px;
+  border:0;
+  border-radius:9px;
+  background:var(--accent);
+  color:white;
+  font-size:12px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.btn:hover{
+  background:var(--accent-dark);
+}
+
+.btn-light{
+  background:var(--cream);
+  color:var(--accent-dark);
+  border:1px solid var(--border);
+}
+
+.btn-light:hover{
+  background:var(--pink);
+}
+
+/* 文章列表 */
+
+.article{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  padding:16px 0;
+  border-top:1px solid var(--border);
+}
+
+.article-main{min-width:0}
+
+.article-title{
+  font-size:13px;
+  font-weight:650;
+  margin-bottom:7px;
+  overflow-wrap:anywhere;
+}
+
+.article-info{
+  color:var(--muted);
+  font-size:11px;
+}
+
+.article-tag{
+  flex-shrink:0;
+  padding:5px 9px;
+  border-radius:20px;
+  background:var(--cream);
+  color:var(--accent);
+  font-size:10px;
+}
+
+.empty{
+  color:var(--muted);
+  text-align:center;
+  padding:35px 10px;
+  font-size:13px;
+  line-height:1.9;
+}
+
+/* 投稿说明 */
+
+.wall-info{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:15px;
+  background:var(--cream);
+  border-radius:11px;
+}
+
+.wall-info-icon{
+  width:42px;
+  height:42px;
+  flex-shrink:0;
+  display:grid;
+  place-items:center;
+  background:white;
+  border-radius:13px;
+  color:var(--accent);
+  font-size:20px;
+}
+
+.wall-info p{
+  margin:0;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.9;
+}
+
+/* 快捷操作 */
+
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+/* 页脚 */
+
+.footer{
+  color:#aa9690;
+  font-size:11px;
+  text-align:center;
+  padding:25px 0 10px;
+  line-height:2;
+}
+
+@media(max-width:1050px){
+  .stats{
+    grid-template-columns:repeat(2,minmax(0,1fr));
   }
 }
 
-@media (max-width: 700px) {
-  .layout { display: block; }
+@media(max-width:700px){
+  .layout{display:block}
 
-  .sidebar {
-    width: 100%;
-    padding: 10px;
-    display: flex;
-    overflow-x: auto;
-    border-right: 0;
-    border-bottom: 1px solid var(--line);
+  .sidebar{
+    width:100%;
+    padding:10px;
+    display:flex;
+    gap:4px;
+    overflow-x:auto;
+    border-right:0;
+    border-bottom:1px solid var(--border);
+    scrollbar-width:none;
   }
 
-  .nav-title { display: none; }
+  .sidebar::-webkit-scrollbar{display:none}
 
-  .nav-item {
-    white-space: nowrap;
-    margin: 0 3px;
+  .nav-title{display:none}
+
+  .nav-item{
+    flex-shrink:0;
+    white-space:nowrap;
+    margin:0;
+    padding:11px 12px;
+    font-size:12px;
   }
 
-  main { padding: 22px 15px; }
+  .nav-icon{width:auto}
 
-  .stats {
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
+  main{padding:25px 16px}
+
+  header{
+    height:62px;
+    padding:0 16px;
   }
 
-  .card { padding: 17px; }
+  .brand img{
+    width:36px;
+    height:36px;
+  }
 
-  header { padding: 0 16px; }
+  .brand-name{font-size:16px}
 
-  .welcome h1 { font-size: 23px; }
+  .welcome h1{font-size:23px}
+
+  .stats{gap:10px}
+
+  .card{padding:16px}
+
+  .stat-number{font-size:25px}
+
+  .section{padding:19px}
+
+  .section-header{
+    align-items:flex-start;
+  }
+
+  .article{
+    align-items:flex-start;
+  }
+
+  .article-tag{display:none}
+}
+
+@media(max-width:380px){
+  .header-right{font-size:10px}
+  .stat-label{font-size:11px}
+  .stat-number{font-size:22px}
+  .section-header h2{font-size:14px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    transition:none!important;
+  }
 }
 </style>
 </head>
@@ -250,49 +462,102 @@ main {
 <body>
 
 <header>
-  <div class="logo">逢坂大河ws</div>
-  <div class="header-right">管理员控制台</div>
+
+  <a class="brand" href="/">
+    <img src="/images/hemeng-logo.svg" alt="荷萌 HEMENG">
+    <div>
+      <div class="brand-name">荷萌</div>
+      <div class="brand-en">HEMENG</div>
+    </div>
+  </a>
+
+  <div class="header-right">ADMINISTRATION · 管理控制台</div>
+
 </header>
 
 <div class="layout">
 
   <aside class="sidebar">
-    <div class="nav-title">管理菜单</div>
-    <a class="nav-item active" href="dashboard.html">管理首页</a>
-    <a class="nav-item" href="write.html">写文章</a>
-    <a class="nav-item" href="articles.html">文章管理</a>
-    <a class="nav-item" href="wall.html">大河墙审核</a>
-    <a class="nav-item" href="settings.html">网站设置</a>
-    <a class="nav-item" href="/">返回网站</a>
+
+    <div class="nav-title">MANAGEMENT</div>
+
+    <a class="nav-item active" href="dashboard.html">
+      <span class="nav-icon">⌂</span>
+      管理首页
+    </a>
+
+    <a class="nav-item" href="write.html">
+      <span class="nav-icon">✎</span>
+      写文章
+    </a>
+
+    <a class="nav-item" href="articles.html">
+      <span class="nav-icon">▤</span>
+      文章管理
+    </a>
+
+    <a class="nav-item" href="wall.html">
+      <span class="nav-icon">♡</span>
+      大河墙审核
+    </a>
+
+    <a class="nav-item" href="settings.html">
+      <span class="nav-icon">⚙</span>
+      网站设置
+    </a>
+
+    <a class="nav-item" href="/">
+      <span class="nav-icon">↗</span>
+      返回网站
+    </a>
+
   </aside>
 
   <main>
 
     <div class="welcome">
+      <div class="welcome-kicker">WELCOME BACK</div>
       <h1>欢迎回来</h1>
-      <p>这里是逢坂大河ws的内容管理中心。</p>
+      <p>这里是荷萌 HEMENG 的内容管理中心。</p>
     </div>
 
     <div class="stats">
 
       <div class="card">
-        <div class="stat-label">已发布文章</div>
+        <div class="stat-top">
+          <div class="stat-label">已发布文章</div>
+          <div class="stat-icon">✎</div>
+        </div>
         <div class="stat-number" id="publishedCount">—</div>
+        <div class="stat-description">当前已公开的文章数量</div>
       </div>
 
       <div class="card">
-        <div class="stat-label">待审核投稿</div>
+        <div class="stat-top">
+          <div class="stat-label">待审核投稿</div>
+          <div class="stat-icon">♡</div>
+        </div>
         <div class="stat-number wall-number" id="pendingCount">—</div>
+        <div class="stat-description">等待管理员审核的投稿</div>
       </div>
 
       <div class="card">
-        <div class="stat-label">文章状态</div>
+        <div class="stat-top">
+          <div class="stat-label">文章状态</div>
+          <div class="stat-icon">▤</div>
+        </div>
         <div class="stat-number">正常</div>
+        <div class="stat-description">内容管理功能</div>
       </div>
 
       <div class="card">
-        <div class="stat-label">数据库连接</div>
-        <div class="stat-number" id="dbStatus">检查中</div>
+        <div class="stat-top">
+          <div class="stat-label">数据库连接</div>
+          <div class="stat-icon">⌘</div>
+        </div>
+        <div class="stat-number" id="dbStatus"
+          style="font-size:22px">检查中</div>
+        <div class="stat-description">文章接口连接状态</div>
       </div>
 
     </div>
@@ -300,8 +565,12 @@ main {
     <section class="section">
 
       <div class="section-header">
-        <h2>最近发布的文章</h2>
-        <a class="btn" href="articles.html">管理文章</a>
+        <div>
+          <h2>最近发布的文章</h2>
+          <div class="section-subtitle">查看最近更新的内容</div>
+        </div>
+
+        <a class="btn" href="articles.html">管理文章 →</a>
       </div>
 
       <div id="articleList">
@@ -313,29 +582,45 @@ main {
     <section class="section">
 
       <div class="section-header">
-        <h2>大河墙投稿</h2>
-        <a class="btn" href="wall.html">进入审核</a>
+        <div>
+          <h2>大河墙投稿</h2>
+          <div class="section-subtitle">访客分享与内容审核</div>
+        </div>
+
+        <a class="btn btn-light" href="wall.html">进入审核 →</a>
       </div>
 
-      <p style="font-size:13px;color:var(--muted);line-height:1.8;margin:0;">
-        管理访客投稿，审核通过后内容才会显示在大河墙。
-      </p>
+      <div class="wall-info">
+        <div class="wall-info-icon">♡</div>
+        <p>
+          管理访客投稿，审核通过后内容才会显示在大河墙。
+          可以进入审核页面查看和处理投稿。
+        </p>
+      </div>
 
     </section>
 
     <section class="section">
 
       <div class="section-header">
-        <h2>快捷操作</h2>
+        <div>
+          <h2>快捷操作</h2>
+          <div class="section-subtitle">快速进入常用管理功能</div>
+        </div>
       </div>
 
-      <a class="btn" href="write.html">＋ 写一篇新文章</a>
-      <a class="btn btn-light" href="wall.html">管理大河墙投稿</a>
+      <div class="actions">
+        <a class="btn" href="write.html">＋ 写一篇新文章</a>
+        <a class="btn btn-light" href="articles.html">文章管理</a>
+        <a class="btn btn-light" href="wall.html">管理大河墙投稿</a>
+        <a class="btn btn-light" href="settings.html">网站设置</a>
+      </div>
 
     </section>
 
     <div class="footer">
-      逢坂大河ws · Administration
+      荷萌 HEMENG · Administration<br>
+      一个持续建设中的个人互联网空间
     </div>
 
   </main>
@@ -382,6 +667,9 @@ async function loadArticles() {
       const item = document.createElement("div");
       item.className = "article";
 
+      const main = document.createElement("div");
+      main.className = "article-main";
+
       const title = document.createElement("div");
       title.className = "article-title";
       title.textContent = post.title || "无标题";
@@ -392,7 +680,12 @@ async function loadArticles() {
         (post.category || "未分类") + " · " +
         (post.created_at || "");
 
-      item.append(title, info);
+      const tag = document.createElement("span");
+      tag.className = "article-tag";
+      tag.textContent = "已发布";
+
+      main.append(title, info);
+      item.append(main, tag);
       list.appendChild(item);
     });
 
