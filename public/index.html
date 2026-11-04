@@ -1,28 +1,27 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#fff7f3">
-<meta name="description" content="荷萌 HEMENG，一个属于自己的互联网空间。记录想法、分享知识、探索有趣的工具。">
+<meta name="description" content="荷萌 HEMENG，个人博客、数字资料库、在线工具与兴趣分享。">
 <title>荷萌 HEMENG</title>
 
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='28' fill='%23f5c8c0'/%3E%3Cpath d='M20 40 L30 12 L48 31 L52 31 L70 12 L80 40 Q87 76 50 83 Q13 76 20 40' fill='%23fff7f3' stroke='%23b77b70' stroke-width='4'/%3E%3Ccircle cx='38' cy='52' r='4' fill='%236d4c49'/%3E%3Ccircle cx='62' cy='52' r='4' fill='%236d4c49'/%3E%3Cpath d='M44 64 Q50 70 56 64' fill='none' stroke='%236d4c49' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="icon" href="/images/hemeng-logo.svg" type="image/svg+xml">
 
 <style>
 :root {
   --bg: #fffaf7;
-  --white: #ffffff;
   --cream: #fff7f3;
   --pink: #ffe8e0;
   --pink-deep: #f5c8c0;
   --accent: #b77b70;
   --accent-dark: #956258;
-  --text: #493735;
-  --muted: #95827c;
-  --border: #f0e3de;
-  --shadow: 0 12px 35px rgba(120, 75, 65, .07);
+  --text: #6d4c49;
+  --muted: #a18b84;
+  --border: #f2ded5;
+  --white: #ffffff;
+  --shadow: 0 12px 35px rgba(120,75,65,.07);
 }
 
 * {
@@ -51,7 +50,7 @@ header {
   position: sticky;
   top: 0;
   z-index: 20;
-  background: rgba(255, 250, 247, .94);
+  background: rgba(255,250,247,.94);
   backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--border);
 }
@@ -59,54 +58,42 @@ header {
 .header-inner {
   max-width: 1160px;
   margin: auto;
-  padding: 15px 28px;
+  padding: 13px 28px;
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   gap: 25px;
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: 11px;
-  flex-shrink: 0;
+  gap: 10px;
 }
 
 .brand-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 17px;
-  background: var(--pink);
-  display: grid;
-  place-items: center;
-  border: 1px solid #f2d8d0;
-  box-shadow: 0 4px 12px rgba(183,123,112,.10);
-}
-
-.brand-icon svg {
-  width: 36px;
-  height: 36px;
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
 }
 
 .brand-name {
-  font-size: 21px;
+  font-size: 19px;
   font-weight: 800;
   letter-spacing: 1px;
 }
 
 .brand-en {
+  margin-top: 2px;
+  font-size: 9px;
+  letter-spacing: 3px;
   color: var(--muted);
-  font-size: 10px;
-  letter-spacing: 2.5px;
-  margin-top: 3px;
 }
 
 nav {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 23px;
+  gap: 25px;
 }
 
 nav a {
@@ -119,214 +106,134 @@ nav a:hover {
   color: var(--accent);
 }
 
-/* 首屏 */
+/* 首页品牌区域 */
 
 .hero {
-  position: relative;
-  overflow: hidden;
+  padding: 48px 20px 42px;
+  text-align: center;
   background:
-    radial-gradient(circle at 85% 20%, rgba(245,200,192,.45), transparent 30%),
-    linear-gradient(135deg, #fff7f3, #fceee9);
+    radial-gradient(ellipse at 50% 38%, rgba(255,232,224,.48), transparent 58%),
+    linear-gradient(180deg, #fffaf7, #fff7f3);
   border-bottom: 1px solid var(--border);
 }
 
 .hero-inner {
-  max-width: 1160px;
-  min-height: 440px;
+  max-width: 850px;
   margin: auto;
-  padding: 85px 28px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 35px;
 }
 
-.hero-content {
-  max-width: 620px;
+.hero-logo {
+  display: block;
+  width: min(100%, 440px);
+  height: auto;
+  max-height: 490px;
+  object-fit: contain;
+  margin: 0 auto;
+  filter: drop-shadow(0 12px 20px rgba(120,75,65,.05));
 }
 
-.hero-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--accent);
-  font-size: 12px;
+.hero-description {
+  margin: 24px auto 0;
+  color: var(--accent-dark);
+  font-size: clamp(14px, 2vw, 20px);
   letter-spacing: 3px;
-  font-weight: bold;
+  line-height: 2;
+  font-weight: 500;
 }
 
-.hero-label::before {
-  content: "";
-  width: 20px;
-  height: 2px;
-  background: var(--accent);
+.hero-description .flower {
+  color: #e99586;
+  margin: 0 12px;
 }
 
-.hero h1 {
-  font-size: clamp(38px, 6vw, 60px);
-  line-height: 1.3;
-  margin: 22px 0 13px;
-  letter-spacing: 1px;
-  font-weight: 800;
-}
-
-.hero h1 span {
-  color: var(--accent);
-}
-
-.hero p {
+.hero-note {
+  margin: 13px auto 0;
   color: var(--muted);
-  line-height: 2.1;
-  font-size: 15px;
-  max-width: 510px;
-  white-space: pre-wrap;
-}
-
-.hero-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 27px;
-}
-
-.hero-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 13px 23px;
-  border-radius: 9px;
-  background: var(--accent);
-  color: white;
-  font-size: 14px;
-  font-weight: bold;
-  transition: .2s;
-}
-
-.hero-link:hover {
-  background: var(--accent-dark);
-  transform: translateY(-2px);
-}
-
-.hero-link.secondary {
-  color: var(--accent-dark);
-  background: rgba(255,255,255,.7);
-  border: 1px solid #e9cec6;
-}
-
-.hero-link.secondary:hover {
-  background: white;
-}
-
-/* 右侧吉祥物 */
-
-.hero-mascot {
-  width: 265px;
-  height: 265px;
-  flex-shrink: 0;
-  border-radius: 50%;
-  background: rgba(255,255,255,.62);
-  border: 1px solid rgba(183,123,112,.2);
-  display: grid;
-  place-items: center;
-  box-shadow: 0 20px 55px rgba(145,91,80,.10);
-  position: relative;
-}
-
-.mascot-inner {
-  width: 220px;
-  height: 220px;
-  border-radius: 50%;
-  background: linear-gradient(145deg, #ffe8e0, #f8d2ca);
-  display: grid;
-  place-items: center;
-  position: relative;
-}
-
-.mascot-inner svg {
-  width: 185px;
-  height: 185px;
-}
-
-.mascot-caption {
-  position: absolute;
-  bottom: -15px;
-  background: white;
-  border: 1px solid var(--border);
-  padding: 9px 19px;
-  border-radius: 30px;
-  color: var(--accent-dark);
-  font-size: 11px;
-  letter-spacing: 2px;
-  box-shadow: var(--shadow);
+  font-size: 13px;
+  letter-spacing: 1px;
 }
 
 /* 公告 */
 
 .notice {
   display: none;
-  max-width: 1100px;
+  max-width: 1080px;
   margin: 25px auto 0;
-  padding: 16px 20px;
+  padding: 15px 20px;
   background: white;
   border: 1px solid var(--border);
   border-left: 4px solid var(--accent);
-  border-radius: 10px;
+  border-radius: 12px;
   color: var(--text);
   font-size: 14px;
   line-height: 1.9;
   white-space: pre-wrap;
 }
 
-/* 内容区域 */
+/* 主要内容 */
 
 .container {
   max-width: 1160px;
   margin: auto;
-  padding: 75px 28px;
+  padding: 65px 28px 75px;
 }
 
 .section-heading {
-  margin-bottom: 30px;
+  text-align: center;
+  margin-bottom: 32px;
 }
 
 .section-kicker {
   color: var(--accent);
-  font-size: 11px;
+  font-size: 10px;
   letter-spacing: 3px;
   font-weight: bold;
   margin-bottom: 10px;
 }
 
 .section-heading h2 {
-  font-size: 27px;
   margin: 0 0 10px;
+  font-size: 27px;
+  letter-spacing: 2px;
 }
 
 .section-heading p {
+  margin: 0;
   color: var(--muted);
   font-size: 13px;
-  margin: 0;
-  line-height: 1.8;
+  line-height: 1.9;
 }
 
 /* 功能卡片 */
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 19px;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: 18px;
 }
 
 .card {
-  display: block;
   position: relative;
+  display: block;
+  min-height: 205px;
+  padding: 26px;
   overflow: hidden;
   background: var(--white);
   border: 1px solid var(--border);
-  padding: 27px;
-  border-radius: 15px;
-  min-height: 205px;
+  border-radius: 16px;
   transition: transform .25s, box-shadow .25s, border-color .25s;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  width: 110px;
+  height: 110px;
+  right: -48px;
+  bottom: -55px;
+  border-radius: 50%;
+  background: var(--cream);
+  transition: transform .3s;
 }
 
 .card:hover {
@@ -335,49 +242,60 @@ nav a:hover {
   box-shadow: var(--shadow);
 }
 
+.card:hover::before {
+  transform: scale(1.5);
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .card-number {
   color: var(--accent);
-  font-size: 11px;
-  letter-spacing: 1.8px;
+  font-size: 10px;
+  letter-spacing: 2px;
   font-weight: bold;
 }
 
 .card-icon {
-  position: absolute;
-  right: 23px;
-  top: 20px;
   width: 42px;
   height: 42px;
-  border-radius: 13px;
   display: grid;
   place-items: center;
+  border-radius: 14px;
   background: var(--cream);
   color: var(--accent);
   font-size: 20px;
 }
 
 .card h3 {
+  position: relative;
+  margin: 19px 0 9px;
   font-size: 18px;
-  margin: 22px 0 10px;
 }
 
 .card p {
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.9;
+  position: relative;
   margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 2;
 }
 
 .card-more {
+  position: relative;
   display: inline-block;
+  margin-top: 17px;
   color: var(--accent);
   font-size: 12px;
-  margin-top: 19px;
   font-weight: bold;
 }
 
 .card.disabled {
   background: #fffdfc;
+  cursor: default;
 }
 
 .card.disabled:hover {
@@ -386,10 +304,14 @@ nav a:hover {
   border-color: var(--border);
 }
 
+.card.disabled::before {
+  display: none;
+}
+
 /* 品牌介绍 */
 
 .about-section {
-  background: white;
+  background: #fff7f3;
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
 }
@@ -397,11 +319,11 @@ nav a:hover {
 .about-inner {
   max-width: 1160px;
   margin: auto;
-  padding: 65px 28px;
+  padding: 55px 28px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 35px;
+  gap: 30px;
 }
 
 .about-content {
@@ -409,154 +331,153 @@ nav a:hover {
 }
 
 .about-inner h2 {
-  font-size: 24px;
-  margin: 0 0 15px;
+  margin: 0 0 13px;
+  font-size: 23px;
+  letter-spacing: 1px;
 }
 
 .about-inner p {
   color: var(--muted);
-  font-size: 14px;
+  font-size: 13px;
   line-height: 2.1;
   white-space: pre-wrap;
 }
 
 .about-link {
   display: inline-block;
+  margin-top: 8px;
   color: var(--accent);
   font-size: 13px;
-  margin-top: 10px;
   font-weight: bold;
 }
 
 .about-stamp {
-  width: 150px;
-  height: 150px;
+  width: 135px;
+  height: 135px;
+  flex-shrink: 0;
   border: 2px dashed #e9c8bf;
   border-radius: 50%;
   display: grid;
   place-items: center;
-  flex-shrink: 0;
-  color: var(--accent);
   text-align: center;
   transform: rotate(-8deg);
+  color: var(--accent);
 }
 
 .about-stamp strong {
   display: block;
-  font-size: 23px;
+  font-size: 24px;
   letter-spacing: 3px;
 }
 
 .about-stamp span {
   display: block;
-  font-size: 10px;
-  letter-spacing: 2px;
   margin-top: 5px;
+  font-size: 9px;
+  letter-spacing: 2px;
 }
 
 /* 页脚 */
 
 footer {
-  padding: 37px 15px;
+  padding: 35px 15px;
   text-align: center;
   color: #aa9690;
-  font-size: 12px;
+  font-size: 11px;
   line-height: 2.2;
 }
 
 .footer-brand {
   color: var(--accent-dark);
+  font-size: 15px;
   font-weight: bold;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
 }
 
-/* 手机适配 */
+/* 平板 */
 
 @media(max-width: 800px) {
   .header-inner {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 14px;
-    padding: 14px 6%;
+    padding: 12px 5%;
   }
 
   nav {
-    gap: 17px;
-  }
-
-  .hero-inner {
-    padding: 65px 7%;
-    min-height: auto;
-  }
-
-  .hero-mascot {
-    width: 190px;
-    height: 190px;
-  }
-
-  .mascot-inner {
-    width: 155px;
-    height: 155px;
-  }
-
-  .mascot-inner svg {
-    width: 135px;
-    height: 135px;
+    gap: 14px;
   }
 
   .grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(2,minmax(0,1fr));
+  }
+
+  .hero-logo {
+    width: min(82vw, 400px);
   }
 }
 
+/* 手机 */
+
 @media(max-width: 560px) {
-  .hero-inner {
+  .header-inner {
     flex-direction: column;
-    align-items: flex-start;
-    padding: 55px 7% 65px;
+    gap: 12px;
   }
 
-  .hero h1 {
-    font-size: 39px;
+  nav {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px 18px;
   }
 
-  .hero-mascot {
-    width: 180px;
-    height: 180px;
-    align-self: center;
-    margin-top: 15px;
+  nav a {
+    font-size: 12px;
   }
 
-  .mascot-inner {
-    width: 148px;
-    height: 148px;
+  .hero {
+    padding: 32px 15px 30px;
   }
 
-  .mascot-inner svg {
-    width: 130px;
-    height: 130px;
+  .hero-logo {
+    width: min(92vw, 370px);
+  }
+
+  .hero-description {
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+
+  .hero-description .flower {
+    margin: 0 5px;
+  }
+
+  .hero-note {
+    font-size: 11px;
   }
 
   .container {
-    padding: 52px 6%;
+    padding: 48px 6% 55px;
+  }
+
+  .section-heading h2 {
+    font-size: 23px;
   }
 
   .grid {
     grid-template-columns: 1fr;
-    gap: 14px;
+    gap: 13px;
   }
 
   .card {
-    min-height: 185px;
-    padding: 24px;
+    min-height: 175px;
+    padding: 23px;
   }
 
   .notice {
-    margin: 20px 6% 0;
+    margin: 18px 6% 0;
   }
 
   .about-inner {
-    padding: 50px 7%;
+    padding: 42px 7%;
   }
 
   .about-stamp {
@@ -572,23 +493,11 @@ footer {
   <div class="header-inner">
 
     <a class="brand" href="/" aria-label="荷萌首页">
-      <div class="brand-icon">
-        <svg viewBox="0 0 100 100" aria-hidden="true">
-          <path d="M17 43 L25 15 L45 34 L55 34 L75 15 L83 43 Q88 77 50 86 Q12 77 17 43Z"
-                fill="#fffaf7" stroke="#b77b70" stroke-width="4"
-                stroke-linejoin="round"/>
-          <path d="M23 37 Q50 25 77 37" fill="none"
-                stroke="#f5c8c0" stroke-width="5" stroke-linecap="round"/>
-          <circle cx="37" cy="53" r="4" fill="#6d4c49"/>
-          <circle cx="63" cy="53" r="4" fill="#6d4c49"/>
-          <path d="M44 65 Q50 72 56 65" fill="none"
-                stroke="#6d4c49" stroke-width="3"
-                stroke-linecap="round"/>
-          <circle cx="27" cy="62" r="5" fill="#f5c8c0"/>
-          <circle cx="73" cy="62" r="5" fill="#f5c8c0"/>
-        </svg>
-      </div>
-
+      <img
+        class="brand-icon"
+        src="/images/hemeng-logo.svg"
+        alt=""
+      >
       <div>
         <div class="brand-name">荷萌</div>
         <div class="brand-en">HEMENG</div>
@@ -610,76 +519,21 @@ footer {
 <section class="hero">
   <div class="hero-inner">
 
-    <div class="hero-content">
-      <div class="hero-label">WELCOME TO HEMENG</div>
+    <!-- 首页中央完整徽章 -->
+    <img
+      class="hero-logo"
+      src="/images/hemeng-logo.svg"
+      alt="荷萌 HEMENG 品牌徽章"
+    >
 
-      <h1>
-        你好，欢迎来到<br>
-        <span>荷萌 HEMENG</span>
-      </h1>
-
-      <p id="heroSubtitle">
-        一个属于自己的互联网空间。
-        记录想法、分享知识、交流观点，
-        也不断探索新的可能。
-      </p>
-
-      <div class="hero-actions">
-        <a class="hero-link" href="/blog/">探索博客 →</a>
-        <a class="hero-link secondary" href="/tools/qr-code/">使用在线工具</a>
-      </div>
+    <div class="hero-description">
+      <span class="flower">✿</span>
+      个人博客 · 数字资料库 · 在线工具 · 兴趣分享
+      <span class="flower">✿</span>
     </div>
 
-    <div class="hero-mascot">
-      <div class="mascot-inner">
-        <svg viewBox="0 0 200 200" aria-hidden="true">
-          <!-- 耳朵 -->
-          <path d="M36 78 L43 20 Q46 9 57 23 L80 51
-                   M164 78 L157 20 Q154 9 143 23 L120 51"
-                fill="#fffaf7" stroke="#956258"
-                stroke-width="5" stroke-linecap="round"
-                stroke-linejoin="round"/>
-
-          <!-- 脸 -->
-          <path d="M35 73 Q35 43 100 43 Q165 43 165 73
-                   L165 117 Q165 168 100 174
-                   Q35 168 35 117Z"
-                fill="#fffaf7" stroke="#956258" stroke-width="5"/>
-
-          <!-- 头顶装饰 -->
-          <path d="M72 47 Q100 28 128 47"
-                fill="none" stroke="#b77b70" stroke-width="5"
-                stroke-linecap="round"/>
-
-          <!-- 眼睛 -->
-          <ellipse cx="75" cy="101" rx="6" ry="9" fill="#6d4c49"/>
-          <ellipse cx="125" cy="101" rx="6" ry="9" fill="#6d4c49"/>
-
-          <!-- 腮红 -->
-          <ellipse cx="55" cy="119" rx="12" ry="6" fill="#f5c8c0"/>
-          <ellipse cx="145" cy="119" rx="12" ry="6" fill="#f5c8c0"/>
-
-          <!-- 嘴巴 -->
-          <path d="M91 120 Q100 130 109 120"
-                fill="none" stroke="#956258"
-                stroke-width="4" stroke-linecap="round"/>
-
-          <!-- 小蝴蝶结 -->
-          <path d="M100 39 Q84 24 83 38 Q83 51 100 44
-                   Q117 51 117 38 Q116 24 100 39Z"
-                fill="#e5a69d" stroke="#b77b70" stroke-width="2"/>
-          <circle cx="100" cy="41" r="4" fill="#fff7f3"/>
-
-          <!-- 小星星 -->
-          <path d="M24 83 L28 91 L36 95 L28 99 L24 107
-                   L20 99 L12 95 L20 91Z"
-                fill="#fff7f3"/>
-          <path d="M177 67 L180 73 L186 76 L180 79
-                   L177 85 L174 79 L168 76 L174 73Z"
-                fill="#fff7f3"/>
-        </svg>
-      </div>
-      <div class="mascot-caption">HEMENG · 荷萌</div>
+    <div class="hero-note">
+      一个属于自己的互联网空间
     </div>
 
   </div>
@@ -692,57 +546,69 @@ footer {
   <div class="section-heading">
     <div class="section-kicker">EXPLORE HEMENG</div>
     <h2>探索荷萌</h2>
-    <p>从个人记录到实用工具，这里还有许多值得探索的内容。</p>
+    <p>记录想法，整理资料，发现有趣的工具。</p>
   </div>
 
   <div class="grid">
 
     <a class="card" href="/blog/">
-      <div class="card-number">01 / BLOG</div>
-      <div class="card-icon">✎</div>
+      <div class="card-top">
+        <div class="card-number">01 / BLOG</div>
+        <div class="card-icon">✎</div>
+      </div>
       <h3>个人博客</h3>
       <p>记录个人想法、日常观察、知识整理与文章分享。</p>
       <span class="card-more">进入博客 →</span>
     </a>
 
     <a class="card" href="/wall/">
-      <div class="card-number">02 / COMMUNITY</div>
-      <div class="card-icon">♡</div>
+      <div class="card-top">
+        <div class="card-number">02 / COMMUNITY</div>
+        <div class="card-icon">♡</div>
+      </div>
       <h3>大河墙</h3>
       <p>一个自由交流的空间，支持日常分享与匿名投稿。</p>
       <span class="card-more">进入大河墙 →</span>
     </a>
 
     <a class="card" href="/tools/nine-grid/">
-      <div class="card-number">03 / IMAGE TOOLS</div>
-      <div class="card-icon">▦</div>
+      <div class="card-top">
+        <div class="card-number">03 / IMAGE TOOLS</div>
+        <div class="card-icon">▦</div>
+      </div>
       <h3>九宫格工具</h3>
       <p>图片九宫格切割、九张图片合成等实用功能。</p>
       <span class="card-more">使用工具 →</span>
     </a>
 
     <a class="card" href="/tools/qr-code/">
-      <div class="card-number">04 / QR CODE</div>
-      <div class="card-icon">▧</div>
+      <div class="card-top">
+        <div class="card-number">04 / QR CODE</div>
+        <div class="card-icon">▧</div>
+      </div>
       <h3>二维码工具</h3>
       <p>生成二维码、识别二维码，为日常使用提供便利。</p>
       <span class="card-more">使用工具 →</span>
     </a>
 
     <a class="card" href="/about/">
-      <div class="card-number">05 / ABOUT</div>
-      <div class="card-icon">✿</div>
+      <div class="card-top">
+        <div class="card-number">05 / ABOUT</div>
+        <div class="card-icon">✿</div>
+      </div>
       <h3>关于荷萌</h3>
       <p>了解品牌的建立初衷、设计理念与未来发展方向。</p>
       <span class="card-more">了解更多 →</span>
     </a>
 
     <div class="card disabled">
-      <div class="card-number">06 / ARCHIVE</div>
-      <div class="card-icon">▤</div>
+      <div class="card-top">
+        <div class="card-number">06 / ARCHIVE</div>
+        <div class="card-icon">▤</div>
+      </div>
       <h3>个人资料库</h3>
-      <p>整理人物资料、图片与背景信息，后续逐步建设。</p>
-      <span class="card-more">正在规划</span>
+      <p>整理人物资料、图片与背景信息，逐步建设专属资料空间。</p>
+      <span class="card-more">持续建设中</span>
     </div>
 
   </div>
@@ -755,14 +621,11 @@ footer {
       <div class="section-kicker">ABOUT OUR SPACE</div>
       <h2>一个不断生长的互联网空间</h2>
 
-      <p id="aboutText">
-        荷萌是一个持续建设中的个人综合站。
-        它既是个人博客，也是一个可以容纳各种工具、
-        资料和交流功能的互联网空间。
+      <p id="aboutText">荷萌是一个持续建设中的个人综合站。
+它既是个人博客，也是一个可以容纳各种工具、
+资料和交流功能的互联网空间。
 
-        我们希望这里不仅仅是一个网站，
-        也能成为记录想法、探索兴趣和分享知识的地方。
-      </p>
+希望这里能够成为记录想法、探索兴趣和分享知识的地方。</p>
 
       <a class="about-link" href="/about/">了解荷萌 →</a>
     </div>
@@ -799,16 +662,10 @@ async function loadSiteSettings() {
 
     const settings = data.settings;
 
-    // 品牌名称固定为荷萌，不再被旧后台名称覆盖
     document.title = "荷萌 HEMENG";
 
-    const subtitle = settings.site_subtitle || "";
     const notice = settings.home_notice || "";
     const aboutIntro = settings.about_intro || "";
-
-    if (subtitle.trim()) {
-      document.getElementById("heroSubtitle").textContent = subtitle;
-    }
 
     if (notice.trim()) {
       const noticeElement = document.getElementById("homeNotice");
