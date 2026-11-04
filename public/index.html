@@ -6,482 +6,699 @@
 <meta name="theme-color" content="#fff7f3">
 <meta name="description" content="荷萌 HEMENG，个人博客、数字资料库、在线工具与兴趣分享。">
 <title>荷萌 HEMENG</title>
-
 <link rel="icon" href="/images/hemeng-logo.svg" type="image/svg+xml">
 
 <style>
 :root {
-  --bg: #fffaf7;
-  --cream: #fff7f3;
-  --pink: #ffe8e0;
-  --pink-deep: #f5c8c0;
-  --accent: #b77b70;
-  --accent-dark: #956258;
-  --text: #6d4c49;
-  --muted: #a18b84;
-  --border: #f2ded5;
-  --white: #ffffff;
-  --shadow: 0 12px 35px rgba(120,75,65,.07);
+  --bg:#fffaf7;
+  --cream:#fff7f3;
+  --pink:#ffe8e0;
+  --pink-deep:#f5c8c0;
+  --accent:#b77b70;
+  --accent-dark:#956258;
+  --text:#6d4c49;
+  --muted:#a18b84;
+  --border:#f2ded5;
+  --white:#fff;
+  --shadow:0 12px 35px rgba(120,75,65,.07);
 }
 
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box}
+
+html{
+  scroll-behavior:smooth;
+  scroll-padding-top:90px;
 }
 
-html {
-  scroll-behavior: smooth;
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,"Microsoft YaHei",sans-serif;
 }
 
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font-family: Arial, "Microsoft YaHei", sans-serif;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
+a{color:inherit;text-decoration:none}
 
 /* 顶部导航 */
 
-header {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  background: rgba(255,250,247,.94);
-  backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--border);
+header{
+  position:sticky;
+  top:0;
+  z-index:20;
+  background:rgba(255,250,247,.94);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);
 }
 
-.header-inner {
-  max-width: 1160px;
-  margin: auto;
-  padding: 13px 28px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 25px;
+.header-inner{
+  max-width:1160px;
+  margin:auto;
+  padding:13px 28px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:25px;
 }
 
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-shrink:0;
 }
 
-.brand-icon {
-  width: 42px;
-  height: 42px;
-  object-fit: contain;
+.brand-icon{
+  width:42px;
+  height:42px;
+  object-fit:contain;
 }
 
-.brand-name {
-  font-size: 19px;
-  font-weight: 800;
-  letter-spacing: 1px;
+.brand-name{
+  font-size:19px;
+  font-weight:800;
+  letter-spacing:1px;
 }
 
-.brand-en {
-  margin-top: 2px;
-  font-size: 9px;
-  letter-spacing: 3px;
-  color: var(--muted);
+.brand-en{
+  margin-top:2px;
+  font-size:9px;
+  letter-spacing:3px;
+  color:var(--muted);
 }
 
-nav {
-  display: flex;
-  align-items: center;
-  gap: 25px;
+nav{
+  display:flex;
+  align-items:center;
+  gap:25px;
 }
 
-nav a {
-  font-size: 13px;
-  color: var(--muted);
-  transition: color .2s;
+nav a{
+  flex-shrink:0;
+  font-size:13px;
+  color:var(--muted);
+  transition:color .2s;
 }
 
-nav a:hover {
-  color: var(--accent);
-}
+nav a:hover{color:var(--accent)}
 
-/* 首页品牌区域 */
+/* Hero */
 
-.hero {
-  padding: 48px 20px 42px;
-  text-align: center;
+.hero{
+  padding:48px 20px 42px;
+  text-align:center;
   background:
-    radial-gradient(ellipse at 50% 38%, rgba(255,232,224,.48), transparent 58%),
-    linear-gradient(180deg, #fffaf7, #fff7f3);
-  border-bottom: 1px solid var(--border);
+    radial-gradient(ellipse at 50% 38%,rgba(255,232,224,.48),transparent 58%),
+    linear-gradient(180deg,#fffaf7,#fff7f3);
+  border-bottom:1px solid var(--border);
 }
 
-.hero-inner {
-  max-width: 850px;
-  margin: auto;
+.hero-inner{
+  max-width:850px;
+  margin:auto;
 }
 
-.hero-logo {
-  display: block;
-  width: min(100%, 440px);
-  height: auto;
-  max-height: 490px;
-  object-fit: contain;
-  margin: 0 auto;
-  filter: drop-shadow(0 12px 20px rgba(120,75,65,.05));
+.hero-logo{
+  display:block;
+  width:min(100%,440px);
+  height:auto;
+  max-height:490px;
+  object-fit:contain;
+  margin:0 auto;
+  filter:drop-shadow(0 12px 20px rgba(120,75,65,.05));
 }
 
-.hero-description {
-  margin: 24px auto 0;
-  color: var(--accent-dark);
-  font-size: clamp(14px, 2vw, 20px);
-  letter-spacing: 3px;
-  line-height: 2;
-  font-weight: 500;
+.hero-description{
+  margin:24px auto 0;
+  color:var(--accent-dark);
+  font-size:clamp(14px,2vw,20px);
+  letter-spacing:3px;
+  line-height:2;
+  font-weight:500;
 }
 
-.hero-description .flower {
-  color: #e99586;
-  margin: 0 12px;
+.flower{
+  color:#e99586;
+  margin:0 12px;
 }
 
-.hero-note {
-  margin: 13px auto 0;
-  color: var(--muted);
-  font-size: 13px;
-  letter-spacing: 1px;
+.hero-note{
+  margin:13px auto 0;
+  color:var(--muted);
+  font-size:13px;
+  letter-spacing:1px;
 }
 
 /* 公告 */
 
-.notice {
-  display: none;
-  max-width: 1080px;
-  margin: 25px auto 0;
-  padding: 15px 20px;
-  background: white;
-  border: 1px solid var(--border);
-  border-left: 4px solid var(--accent);
-  border-radius: 12px;
-  color: var(--text);
-  font-size: 14px;
-  line-height: 1.9;
-  white-space: pre-wrap;
+.notice{
+  display:none;
+  max-width:1080px;
+  margin:25px auto 0;
+  padding:15px 20px;
+  background:white;
+  border:1px solid var(--border);
+  border-left:4px solid var(--accent);
+  border-radius:12px;
+  color:var(--text);
+  font-size:14px;
+  line-height:1.9;
+  white-space:pre-wrap;
 }
 
-/* 主要内容 */
+/* 通用内容区域 */
 
-.container {
-  max-width: 1160px;
-  margin: auto;
-  padding: 65px 28px 75px;
+.container{
+  max-width:1160px;
+  margin:auto;
+  padding:65px 28px 75px;
 }
 
-.section-heading {
-  text-align: center;
-  margin-bottom: 32px;
+.section-heading{
+  text-align:center;
+  margin-bottom:32px;
 }
 
-.section-kicker {
-  color: var(--accent);
-  font-size: 10px;
-  letter-spacing: 3px;
-  font-weight: bold;
-  margin-bottom: 10px;
+.section-kicker{
+  color:var(--accent);
+  font-size:10px;
+  letter-spacing:3px;
+  font-weight:bold;
+  margin-bottom:10px;
 }
 
-.section-heading h2 {
-  margin: 0 0 10px;
-  font-size: 27px;
-  letter-spacing: 2px;
+.section-heading h2{
+  margin:0 0 10px;
+  font-size:27px;
+  letter-spacing:2px;
 }
 
-.section-heading p {
-  margin: 0;
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.9;
+.section-heading p{
+  margin:0;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.9;
 }
 
 /* 功能卡片 */
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0,1fr));
-  gap: 18px;
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:18px;
 }
 
-.card {
-  position: relative;
-  display: block;
-  min-height: 205px;
-  padding: 26px;
-  overflow: hidden;
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  transition: transform .25s, box-shadow .25s, border-color .25s;
+.card{
+  position:relative;
+  display:block;
+  min-height:205px;
+  padding:26px;
+  overflow:hidden;
+  background:var(--white);
+  border:1px solid var(--border);
+  border-radius:16px;
+  transition:transform .25s,box-shadow .25s,border-color .25s;
 }
 
-.card::before {
-  content: "";
-  position: absolute;
-  width: 110px;
-  height: 110px;
-  right: -48px;
-  bottom: -55px;
-  border-radius: 50%;
-  background: var(--cream);
-  transition: transform .3s;
+.card::before{
+  content:"";
+  position:absolute;
+  width:110px;
+  height:110px;
+  right:-48px;
+  bottom:-55px;
+  border-radius:50%;
+  background:var(--cream);
+  transition:transform .3s;
 }
 
-.card:hover {
-  transform: translateY(-5px);
-  border-color: var(--pink-deep);
-  box-shadow: var(--shadow);
+.card:hover{
+  transform:translateY(-5px);
+  border-color:var(--pink-deep);
+  box-shadow:var(--shadow);
 }
 
-.card:hover::before {
-  transform: scale(1.5);
+.card:hover::before{transform:scale(1.5)}
+
+.card-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
 
-.card-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.card-number{
+  color:var(--accent);
+  font-size:10px;
+  letter-spacing:2px;
+  font-weight:bold;
 }
 
-.card-number {
-  color: var(--accent);
-  font-size: 10px;
-  letter-spacing: 2px;
-  font-weight: bold;
+.card-icon{
+  width:42px;
+  height:42px;
+  display:grid;
+  place-items:center;
+  border-radius:14px;
+  background:var(--cream);
+  color:var(--accent);
+  font-size:20px;
 }
 
-.card-icon {
-  width: 42px;
-  height: 42px;
-  display: grid;
-  place-items: center;
-  border-radius: 14px;
-  background: var(--cream);
-  color: var(--accent);
-  font-size: 20px;
+.card h3{
+  position:relative;
+  margin:19px 0 9px;
+  font-size:18px;
 }
 
-.card h3 {
-  position: relative;
-  margin: 19px 0 9px;
-  font-size: 18px;
+.card p{
+  position:relative;
+  margin:0;
+  color:var(--muted);
+  font-size:12px;
+  line-height:2;
 }
 
-.card p {
-  position: relative;
-  margin: 0;
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 2;
+.card-more{
+  position:relative;
+  display:inline-block;
+  margin-top:17px;
+  color:var(--accent);
+  font-size:12px;
+  font-weight:bold;
 }
 
-.card-more {
-  position: relative;
-  display: inline-block;
-  margin-top: 17px;
-  color: var(--accent);
-  font-size: 12px;
-  font-weight: bold;
+.card.disabled{
+  background:#fffdfc;
+  cursor:default;
 }
 
-.card.disabled {
-  background: #fffdfc;
-  cursor: default;
+.card.disabled:hover{
+  transform:none;
+  box-shadow:none;
+  border-color:var(--border);
 }
 
-.card.disabled:hover {
-  transform: none;
-  box-shadow: none;
-  border-color: var(--border);
+.card.disabled::before{display:none}
+
+/* 最近文章 */
+
+.article-section{
+  padding-top:5px;
 }
 
-.card.disabled::before {
-  display: none;
+.article-list{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:18px;
+}
+
+.article-card{
+  display:flex;
+  flex-direction:column;
+  min-height:190px;
+  padding:23px;
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:15px;
+  transition:.25s;
+}
+
+.article-card:hover{
+  transform:translateY(-4px);
+  border-color:var(--pink-deep);
+  box-shadow:var(--shadow);
+}
+
+.article-category{
+  display:inline-block;
+  width:max-content;
+  padding:5px 10px;
+  border-radius:20px;
+  background:var(--cream);
+  color:var(--accent);
+  font-size:11px;
+}
+
+.article-card h3{
+  margin:16px 0 9px;
+  font-size:17px;
+  line-height:1.6;
+}
+
+.article-summary{
+  margin:0;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.9;
+  display:-webkit-box;
+  -webkit-line-clamp:3;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+
+.article-date{
+  margin-top:auto;
+  padding-top:16px;
+  color:#b7a49e;
+  font-size:11px;
+}
+
+.empty-message{
+  grid-column:1/-1;
+  padding:35px 20px;
+  text-align:center;
+  background:#fff;
+  border:1px dashed var(--border);
+  border-radius:14px;
+  color:var(--muted);
+  font-size:13px;
+  line-height:2;
+}
+
+.retry-button{
+  margin-top:12px;
+  padding:8px 17px;
+  border:1px solid var(--border);
+  border-radius:20px;
+  background:var(--cream);
+  color:var(--accent);
+  cursor:pointer;
+  font-size:12px;
+}
+
+.section-more{
+  display:block;
+  width:max-content;
+  margin:25px auto 0;
+  padding:11px 24px;
+  border:1px solid var(--pink-deep);
+  border-radius:25px;
+  color:var(--accent);
+  background:#fff;
+  font-size:13px;
+  transition:.2s;
+}
+
+.section-more:hover{
+  background:var(--cream);
+}
+
+/* 工具快捷入口 */
+
+.quick-tools{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:18px;
+}
+
+.quick-tool{
+  display:flex;
+  align-items:center;
+  gap:19px;
+  padding:24px;
+  background:white;
+  border:1px solid var(--border);
+  border-radius:15px;
+  transition:.25s;
+}
+
+.quick-tool:hover{
+  transform:translateY(-4px);
+  border-color:var(--pink-deep);
+  box-shadow:var(--shadow);
+}
+
+.quick-icon{
+  width:58px;
+  height:58px;
+  flex-shrink:0;
+  display:grid;
+  place-items:center;
+  border-radius:18px;
+  background:var(--cream);
+  color:var(--accent);
+  font-size:27px;
+}
+
+.quick-tool h3{
+  margin:0 0 7px;
+  font-size:16px;
+}
+
+.quick-tool p{
+  margin:0;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.8;
+}
+
+.quick-arrow{
+  margin-left:auto;
+  color:var(--accent);
+  font-size:19px;
+}
+
+/* 网站动态 */
+
+.timeline{
+  max-width:750px;
+  margin:0 auto;
+  padding:5px 0;
+}
+
+.timeline-item{
+  position:relative;
+  display:grid;
+  grid-template-columns:115px 1fr;
+  gap:20px;
+  padding:0 0 30px 25px;
+  border-left:1px solid var(--pink-deep);
+}
+
+.timeline-item:last-child{
+  padding-bottom:0;
+  border-left-color:transparent;
+}
+
+.timeline-item::before{
+  content:"";
+  position:absolute;
+  left:-6px;
+  top:4px;
+  width:11px;
+  height:11px;
+  border-radius:50%;
+  background:var(--accent);
+  border:2px solid var(--bg);
+  box-shadow:0 0 0 3px var(--pink);
+}
+
+.timeline-date{
+  color:var(--accent);
+  font-size:12px;
+  line-height:1.8;
+}
+
+.timeline-content h3{
+  margin:0 0 7px;
+  font-size:15px;
+}
+
+.timeline-content p{
+  margin:0;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.9;
 }
 
 /* 品牌介绍 */
 
-.about-section {
-  background: #fff7f3;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
+.about-section{
+  background:#fff7f3;
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
 }
 
-.about-inner {
-  max-width: 1160px;
-  margin: auto;
-  padding: 55px 28px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 30px;
+.about-inner{
+  max-width:1160px;
+  margin:auto;
+  padding:55px 28px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:30px;
 }
 
-.about-content {
-  max-width: 680px;
+.about-content{max-width:680px}
+
+.about-inner h2{
+  margin:0 0 13px;
+  font-size:23px;
+  letter-spacing:1px;
 }
 
-.about-inner h2 {
-  margin: 0 0 13px;
-  font-size: 23px;
-  letter-spacing: 1px;
+.about-inner p{
+  color:var(--muted);
+  font-size:13px;
+  line-height:2.1;
+  white-space:pre-wrap;
 }
 
-.about-inner p {
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 2.1;
-  white-space: pre-wrap;
+.about-link{
+  display:inline-block;
+  margin-top:8px;
+  color:var(--accent);
+  font-size:13px;
+  font-weight:bold;
 }
 
-.about-link {
-  display: inline-block;
-  margin-top: 8px;
-  color: var(--accent);
-  font-size: 13px;
-  font-weight: bold;
+.about-stamp{
+  width:135px;
+  height:135px;
+  flex-shrink:0;
+  border:2px dashed #e9c8bf;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  text-align:center;
+  transform:rotate(-8deg);
+  color:var(--accent);
 }
 
-.about-stamp {
-  width: 135px;
-  height: 135px;
-  flex-shrink: 0;
-  border: 2px dashed #e9c8bf;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  text-align: center;
-  transform: rotate(-8deg);
-  color: var(--accent);
+.about-stamp strong{
+  display:block;
+  font-size:24px;
+  letter-spacing:3px;
 }
 
-.about-stamp strong {
-  display: block;
-  font-size: 24px;
-  letter-spacing: 3px;
-}
-
-.about-stamp span {
-  display: block;
-  margin-top: 5px;
-  font-size: 9px;
-  letter-spacing: 2px;
+.about-stamp span{
+  display:block;
+  margin-top:5px;
+  font-size:9px;
+  letter-spacing:2px;
 }
 
 /* 页脚 */
 
-footer {
-  padding: 35px 15px;
-  text-align: center;
-  color: #aa9690;
-  font-size: 11px;
-  line-height: 2.2;
+footer{
+  padding:35px 15px;
+  text-align:center;
+  color:#aa9690;
+  font-size:11px;
+  line-height:2.2;
 }
 
-.footer-brand {
-  color: var(--accent-dark);
-  font-size: 15px;
-  font-weight: bold;
-  letter-spacing: 2px;
+.footer-brand{
+  color:var(--accent-dark);
+  font-size:15px;
+  font-weight:bold;
+  letter-spacing:2px;
 }
 
 /* 平板 */
 
-@media(max-width: 800px) {
-  .header-inner {
-    padding: 12px 5%;
+@media(max-width:800px){
+  .header-inner{
+    padding:12px 5%;
   }
 
-  nav {
-    gap: 14px;
+  nav{gap:14px}
+
+  .grid,.article-list{
+    grid-template-columns:repeat(2,minmax(0,1fr));
   }
 
-  .grid {
-    grid-template-columns: repeat(2,minmax(0,1fr));
-  }
-
-  .hero-logo {
-    width: min(82vw, 400px);
+  .hero-logo{
+    width:min(82vw,400px);
   }
 }
 
 /* 手机 */
 
-@media(max-width: 560px) {
-  .header-inner {
-    flex-direction: column;
-    gap: 12px;
+@media(max-width:560px){
+  .header-inner{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:10px;
+    padding:10px 5% 12px;
   }
 
-  nav {
-    width: 100%;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 12px 18px;
+  nav{
+    width:100%;
+    justify-content:flex-start;
+    flex-wrap:nowrap;
+    overflow-x:auto;
+    gap:21px;
+    padding:5px 0 7px;
+    scrollbar-width:none;
   }
 
-  nav a {
-    font-size: 12px;
+  nav::-webkit-scrollbar{display:none}
+
+  nav a{
+    font-size:12px;
   }
 
-  .hero {
-    padding: 32px 15px 30px;
+  .hero{
+    padding:32px 15px 30px;
   }
 
-  .hero-logo {
-    width: min(92vw, 370px);
+  .hero-logo{
+    width:min(92vw,370px);
   }
 
-  .hero-description {
-    font-size: 13px;
-    letter-spacing: 1px;
+  .hero-description{
+    font-size:13px;
+    letter-spacing:1px;
   }
 
-  .hero-description .flower {
-    margin: 0 5px;
+  .flower{margin:0 5px}
+
+  .hero-note{font-size:11px}
+
+  .container{
+    padding:48px 6% 55px;
   }
 
-  .hero-note {
-    font-size: 11px;
+  .section-heading h2{font-size:23px}
+
+  .grid,.article-list{
+    grid-template-columns:1fr;
+    gap:13px;
   }
 
-  .container {
-    padding: 48px 6% 55px;
+  .card{
+    min-height:175px;
+    padding:23px;
   }
 
-  .section-heading h2 {
-    font-size: 23px;
+  .notice{
+    margin:18px 6% 0;
   }
 
-  .grid {
-    grid-template-columns: 1fr;
-    gap: 13px;
+  .quick-tools{
+    grid-template-columns:1fr;
+    gap:12px;
   }
 
-  .card {
-    min-height: 175px;
-    padding: 23px;
+  .quick-tool{padding:19px}
+
+  .timeline-item{
+    grid-template-columns:85px 1fr;
+    gap:12px;
   }
 
-  .notice {
-    margin: 18px 6% 0;
+  .about-inner{
+    padding:42px 7%;
   }
 
-  .about-inner {
-    padding: 42px 7%;
-  }
+  .about-stamp{display:none}
+}
 
-  .about-stamp {
-    display: none;
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{
+    transition:none!important;
+    animation:none!important;
   }
 }
 </style>
@@ -493,11 +710,7 @@ footer {
   <div class="header-inner">
 
     <a class="brand" href="/" aria-label="荷萌首页">
-      <img
-        class="brand-icon"
-        src="/images/hemeng-logo.svg"
-        alt=""
-      >
+      <img class="brand-icon" src="/images/hemeng-logo.svg" alt="">
       <div>
         <div class="brand-name">荷萌</div>
         <div class="brand-en">HEMENG</div>
@@ -519,7 +732,6 @@ footer {
 <section class="hero">
   <div class="hero-inner">
 
-    <!-- 首页中央完整徽章 -->
     <img
       class="hero-logo"
       src="/images/hemeng-logo.svg"
@@ -541,78 +753,171 @@ footer {
 
 <div class="notice" id="homeNotice"></div>
 
-<main class="container">
+<main>
 
-  <div class="section-heading">
-    <div class="section-kicker">EXPLORE HEMENG</div>
-    <h2>探索荷萌</h2>
-    <p>记录想法，整理资料，发现有趣的工具。</p>
-  </div>
+  <!-- 功能入口 -->
 
-  <div class="grid">
-
-    <a class="card" href="/blog/">
-      <div class="card-top">
-        <div class="card-number">01 / BLOG</div>
-        <div class="card-icon">✎</div>
-      </div>
-      <h3>个人博客</h3>
-      <p>记录个人想法、日常观察、知识整理与文章分享。</p>
-      <span class="card-more">进入博客 →</span>
-    </a>
-
-    <a class="card" href="/wall/">
-      <div class="card-top">
-        <div class="card-number">02 / COMMUNITY</div>
-        <div class="card-icon">♡</div>
-      </div>
-      <h3>大河墙</h3>
-      <p>一个自由交流的空间，支持日常分享与匿名投稿。</p>
-      <span class="card-more">进入大河墙 →</span>
-    </a>
-
-    <a class="card" href="/tools/nine-grid/">
-      <div class="card-top">
-        <div class="card-number">03 / IMAGE TOOLS</div>
-        <div class="card-icon">▦</div>
-      </div>
-      <h3>九宫格工具</h3>
-      <p>图片九宫格切割、九张图片合成等实用功能。</p>
-      <span class="card-more">使用工具 →</span>
-    </a>
-
-    <a class="card" href="/tools/qr-code/">
-      <div class="card-top">
-        <div class="card-number">04 / QR CODE</div>
-        <div class="card-icon">▧</div>
-      </div>
-      <h3>二维码工具</h3>
-      <p>生成二维码、识别二维码，为日常使用提供便利。</p>
-      <span class="card-more">使用工具 →</span>
-    </a>
-
-    <a class="card" href="/about/">
-      <div class="card-top">
-        <div class="card-number">05 / ABOUT</div>
-        <div class="card-icon">✿</div>
-      </div>
-      <h3>关于荷萌</h3>
-      <p>了解品牌的建立初衷、设计理念与未来发展方向。</p>
-      <span class="card-more">了解更多 →</span>
-    </a>
-
-    <div class="card disabled">
-      <div class="card-top">
-        <div class="card-number">06 / ARCHIVE</div>
-        <div class="card-icon">▤</div>
-      </div>
-      <h3>个人资料库</h3>
-      <p>整理人物资料、图片与背景信息，逐步建设专属资料空间。</p>
-      <span class="card-more">持续建设中</span>
+  <section class="container">
+    <div class="section-heading">
+      <div class="section-kicker">EXPLORE HEMENG</div>
+      <h2>探索荷萌</h2>
+      <p>记录想法，整理资料，发现有趣的工具。</p>
     </div>
 
-  </div>
+    <div class="grid">
+
+      <a class="card" href="/blog/">
+        <div class="card-top">
+          <div class="card-number">01 / BLOG</div>
+          <div class="card-icon">✎</div>
+        </div>
+        <h3>个人博客</h3>
+        <p>记录个人想法、日常观察、知识整理与文章分享。</p>
+        <span class="card-more">进入博客 →</span>
+      </a>
+
+      <a class="card" href="/wall/">
+        <div class="card-top">
+          <div class="card-number">02 / COMMUNITY</div>
+          <div class="card-icon">♡</div>
+        </div>
+        <h3>大河墙</h3>
+        <p>一个自由交流的空间，支持日常分享与匿名投稿。</p>
+        <span class="card-more">进入大河墙 →</span>
+      </a>
+
+      <a class="card" href="/tools/nine-grid/">
+        <div class="card-top">
+          <div class="card-number">03 / IMAGE TOOLS</div>
+          <div class="card-icon">▦</div>
+        </div>
+        <h3>九宫格工具</h3>
+        <p>图片九宫格切割、九张图片合成等实用功能。</p>
+        <span class="card-more">使用工具 →</span>
+      </a>
+
+      <a class="card" href="/tools/qr-code/">
+        <div class="card-top">
+          <div class="card-number">04 / QR CODE</div>
+          <div class="card-icon">▧</div>
+        </div>
+        <h3>二维码工具</h3>
+        <p>生成二维码、识别二维码，为日常使用提供便利。</p>
+        <span class="card-more">使用工具 →</span>
+      </a>
+
+      <a class="card" href="/about/">
+        <div class="card-top">
+          <div class="card-number">05 / ABOUT</div>
+          <div class="card-icon">✿</div>
+        </div>
+        <h3>关于荷萌</h3>
+        <p>了解品牌的建立初衷、设计理念与未来发展方向。</p>
+        <span class="card-more">了解更多 →</span>
+      </a>
+
+      <div class="card disabled">
+        <div class="card-top">
+          <div class="card-number">06 / ARCHIVE</div>
+          <div class="card-icon">▤</div>
+        </div>
+        <h3>个人资料库</h3>
+        <p>整理人物资料、图片与背景信息，逐步建设专属资料空间。</p>
+        <span class="card-more">持续建设中</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 最近文章 -->
+
+  <section class="container article-section" id="recentArticles">
+    <div class="section-heading">
+      <div class="section-kicker">LATEST ARTICLES</div>
+      <h2>最近文章</h2>
+      <p>看看最近记录了哪些想法与内容。</p>
+    </div>
+
+    <div class="article-list" id="articleList">
+      <div class="empty-message">正在读取文章……</div>
+    </div>
+
+    <a class="section-more" href="/blog/">查看全部文章 →</a>
+  </section>
+
+  <!-- 工具快捷入口 -->
+
+  <section class="container">
+    <div class="section-heading">
+      <div class="section-kicker">ONLINE TOOLS</div>
+      <h2>实用工具</h2>
+      <p>无需安装，打开网页即可使用。</p>
+    </div>
+
+    <div class="quick-tools">
+
+      <a class="quick-tool" href="/tools/nine-grid/">
+        <div class="quick-icon">▦</div>
+        <div>
+          <h3>九宫格图片工具</h3>
+          <p>图片切割、九张图片合成与下载。</p>
+        </div>
+        <span class="quick-arrow">→</span>
+      </a>
+
+      <a class="quick-tool" href="/tools/qr-code/">
+        <div class="quick-icon">▧</div>
+        <div>
+          <h3>二维码工具</h3>
+          <p>二维码生成、识别与网页分享。</p>
+        </div>
+        <span class="quick-arrow">→</span>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- 网站动态 -->
+
+  <section class="container">
+    <div class="section-heading">
+      <div class="section-kicker">SITE UPDATES</div>
+      <h2>网站动态</h2>
+      <p>记录荷萌的建设与完善过程。</p>
+    </div>
+
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="timeline-date">2026 · 11</div>
+        <div class="timeline-content">
+          <h3>首页体验持续优化</h3>
+          <p>逐步完善首页布局、内容展示与移动端浏览体验。</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">2026 · 10</div>
+        <div class="timeline-content">
+          <h3>在线工具逐步完善</h3>
+          <p>持续改进九宫格与二维码等网页工具。</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">持续进行</div>
+        <div class="timeline-content">
+          <h3>荷萌仍在建设中</h3>
+          <p>博客、资料整理与更多功能将逐步完善。</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
 </main>
+
+<!-- 关于荷萌 -->
 
 <section class="about-section">
   <div class="about-inner">
@@ -648,41 +953,158 @@ footer {
 </footer>
 
 <script>
-async function loadSiteSettings() {
-  try {
-    const response = await fetch("/api/settings", {
-      cache: "no-store"
+
+/* 读取网站后台设置 */
+
+async function loadSiteSettings(){
+  try{
+    const response=await fetch("/api/settings",{
+      cache:"no-store"
     });
 
-    if (!response.ok) return;
+    if(!response.ok)return;
 
-    const data = await response.json();
+    const data=await response.json();
 
-    if (!data.success || !data.settings) return;
+    if(!data.success||!data.settings)return;
 
-    const settings = data.settings;
+    const settings=data.settings;
 
-    document.title = "荷萌 HEMENG";
+    document.title="荷萌 HEMENG";
 
-    const notice = settings.home_notice || "";
-    const aboutIntro = settings.about_intro || "";
+    const notice=settings.home_notice||"";
+    const aboutIntro=settings.about_intro||"";
 
-    if (notice.trim()) {
-      const noticeElement = document.getElementById("homeNotice");
-      noticeElement.textContent = notice;
-      noticeElement.style.display = "block";
+    if(notice.trim()){
+      const noticeElement=document.getElementById("homeNotice");
+      noticeElement.textContent=notice;
+      noticeElement.style.display="block";
     }
 
-    if (aboutIntro.trim()) {
-      document.getElementById("aboutText").textContent = aboutIntro;
+    if(aboutIntro.trim()){
+      document.getElementById("aboutText").textContent=aboutIntro;
     }
 
-  } catch (error) {
+  }catch(error){
     console.log("网站设置读取失败，使用默认内容。");
   }
 }
 
+
+/* 最近文章 */
+
+function formatArticleDate(value){
+  if(!value)return "发布时间未知";
+
+  const date=new Date(value);
+
+  if(Number.isNaN(date.getTime())){
+    return "发布时间未知";
+  }
+
+  return date.toLocaleDateString("zh-CN",{
+    year:"numeric",
+    month:"2-digit",
+    day:"2-digit"
+  });
+}
+
+
+function renderArticles(posts){
+  const container=document.getElementById("articleList");
+
+  container.replaceChildren();
+
+  if(!Array.isArray(posts)||posts.length===0){
+    const empty=document.createElement("div");
+    empty.className="empty-message";
+    empty.textContent="目前还没有已发布的文章。";
+    container.appendChild(empty);
+    return;
+  }
+
+  posts.slice(0,3).forEach(post=>{
+    const article=document.createElement("a");
+
+    article.className="article-card";
+    article.href="/blog/?article="+encodeURIComponent(post.id);
+
+    const category=document.createElement("span");
+    category.className="article-category";
+    category.textContent=post.category||"未分类";
+
+    const title=document.createElement("h3");
+    title.textContent=post.title||"未命名文章";
+
+    const summary=document.createElement("p");
+    summary.className="article-summary";
+    summary.textContent=post.summary||"暂无文章摘要。";
+
+    const date=document.createElement("div");
+    date.className="article-date";
+    date.textContent=formatArticleDate(post.created_at);
+
+    article.append(category,title,summary,date);
+    container.appendChild(article);
+  });
+}
+
+
+async function loadRecentArticles(){
+  const container=document.getElementById("articleList");
+
+  container.replaceChildren();
+
+  const loading=document.createElement("div");
+  loading.className="empty-message";
+  loading.textContent="正在读取文章……";
+  container.appendChild(loading);
+
+  try{
+    const response=await fetch("/api/posts",{
+      cache:"no-store"
+    });
+
+    if(!response.ok){
+      throw new Error("文章接口请求失败");
+    }
+
+    const data=await response.json();
+
+    if(!data.success||!Array.isArray(data.posts)){
+      throw new Error("文章数据格式异常");
+    }
+
+    renderArticles(data.posts);
+
+  }catch(error){
+    console.error("最近文章读取失败：",error);
+
+    container.replaceChildren();
+
+    const message=document.createElement("div");
+    message.className="empty-message";
+    message.textContent="最近文章暂时无法加载，请稍后重试。";
+
+    const button=document.createElement("button");
+    button.className="retry-button";
+    button.type="button";
+    button.textContent="重新加载";
+    button.addEventListener("click",loadRecentArticles);
+
+    message.appendChild(document.createElement("br"));
+    message.appendChild(button);
+
+    container.appendChild(message);
+  }
+}
+
+
+/* 初始化 */
+
 loadSiteSettings();
+loadRecentArticles();
+
 </script>
 
 </body>
