@@ -80,7 +80,9 @@ export async function onRequestPost({ request, env }) {
       success: true,
       id,
       shareUrl,
+      createdAt: now,
       expiresAt,
+      serverNow: now,
       message: "分享创建成功"
     });
 
@@ -126,7 +128,8 @@ export async function onRequestGet({ request, env }) {
       success: true,
       content: result.content,
       createdAt: result.created_at,
-      expiresAt: result.expires_at
+      expiresAt: result.expires_at,
+      serverNow: now
     });
 
   } catch {
@@ -136,3 +139,4 @@ export async function onRequestGet({ request, env }) {
     }, 500);
   }
 }
+
