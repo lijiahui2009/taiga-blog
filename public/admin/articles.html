@@ -4,331 +4,116 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>文章管理 - 逢坂大河ws</title>
-
+<meta name="theme-color" content="#FFF7F3">
+<title>文章管理 - 荷萌 HEMENG</title>
 <style>
 :root {
-  --bg: #faf7f5;
-  --card: #fff;
-  --text: #302925;
-  --muted: #857a73;
-  --line: #eee7e2;
-  --accent: #a87568;
+  --bg:#FFF7F3;--card:#fff;--pink:#FFE8E0;--pink-deep:#F5C8C0;
+  --accent:#B77B70;--text:#6D4C49;--muted:#956258;
+  --line:#F0E2DC;--shadow:0 10px 30px rgba(109,76,73,.06);
 }
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-}
-
-header {
-  height: 65px;
-  background: white;
-  border-bottom: 1px solid var(--line);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 22px;
-}
-
-.logo {
-  font-size: 19px;
-  font-weight: bold;
-}
-
-header a {
-  color: var(--muted);
-  text-decoration: none;
-  font-size: 13px;
-}
-
-.layout {
-  display: flex;
-  min-height: calc(100vh - 65px);
-}
-
-.sidebar {
-  width: 210px;
-  background: white;
-  border-right: 1px solid var(--line);
-  padding: 25px 14px;
-  flex-shrink: 0;
-}
-
-.nav-title {
-  color: var(--muted);
-  font-size: 12px;
-  margin: 0 12px 15px;
-}
-
-.nav-item {
-  display: block;
-  padding: 12px;
-  margin-bottom: 6px;
-  color: var(--text);
-  text-decoration: none;
-  border-radius: 9px;
-  font-size: 14px;
-}
-
-.nav-item.active {
-  background: #f4ebe7;
-  color: var(--accent);
-  font-weight: 600;
-}
-
-main {
-  flex: 1;
-  min-width: 0;
-  max-width: 1100px;
-  padding: 32px;
-}
-
-h1 {
-  font-size: 26px;
-  margin: 0 0 8px;
-}
-
-.subtitle {
-  color: var(--muted);
-  font-size: 14px;
-  margin-bottom: 25px;
-}
-
-.toolbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-bottom: 18px;
-}
-
-.filters {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-select, input {
-  padding: 10px 12px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: white;
-  color: var(--text);
-  font-size: 13px;
-}
-
-button, .btn {
-  border: 0;
-  border-radius: 8px;
-  padding: 10px 15px;
-  cursor: pointer;
-  font-size: 13px;
-  text-decoration: none;
-}
-
-.primary {
-  background: var(--accent);
-  color: white;
-}
-
-.refresh {
-  background: #f1ebe7;
-  color: var(--text);
-}
-
-.table-card {
-  background: white;
-  border: 1px solid var(--line);
-  border-radius: 13px;
-  overflow: hidden;
-}
-
-.article {
-  padding: 19px 20px;
-  border-bottom: 1px solid var(--line);
-}
-
-.article:last-child {
-  border-bottom: 0;
-}
-
-.article-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 12px;
-}
-
-.article-title {
-  font-weight: 650;
-  font-size: 15px;
-  margin-bottom: 9px;
-  overflow-wrap: anywhere;
-}
-
-.article-meta {
-  color: var(--muted);
-  font-size: 12px;
-  line-height: 1.8;
-  overflow-wrap: anywhere;
-}
-
-.status {
-  display: inline-block;
-  padding: 5px 9px;
-  border-radius: 20px;
-  font-size: 11px;
-  white-space: nowrap;
-}
-
-.status.published {
-  background: #edf5ed;
-  color: #39734a;
-}
-
-.status.draft {
-  background: #f4eee7;
-  color: #92704e;
-}
-
-.article-actions {
-  display: flex;
-  gap: 8px;
-  margin-top: 13px;
-}
-
-.delete {
-  background: #f9eeee;
-  color: #a33e3e;
-}
-
-.empty {
-  text-align: center;
-  padding: 45px 15px;
-  color: var(--muted);
-  font-size: 14px;
-}
-
-#message {
-  display: none;
-  padding: 12px;
-  margin-bottom: 15px;
-  border-radius: 8px;
-  font-size: 13px;
-}
-
-#message.error {
-  display: block;
-  background: #f9eeee;
-  color: #a33e3e;
-}
-
-@media(max-width:700px) {
-  .layout {
-    display: block;
-  }
-
-  .sidebar {
-    width: 100%;
-    display: flex;
-    overflow-x: auto;
-    padding: 9px;
-    border-right: 0;
-    border-bottom: 1px solid var(--line);
-  }
-
-  .nav-title {
-    display: none;
-  }
-
-  .nav-item {
-    white-space: nowrap;
-    margin: 0 3px;
-  }
-
-  main {
-    padding: 22px 14px;
-  }
-
-  .article {
-    padding: 17px 14px;
-  }
-
-  h1 {
-    font-size: 23px;
-  }
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+header{height:72px;background:rgba(255,255,255,.94);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 5%}
+.brand{display:flex;align-items:center;gap:11px;font-size:19px;font-weight:750}
+.brand img{width:40px;height:40px;object-fit:contain}
+header a{color:var(--muted);text-decoration:none;font-size:13px}
+.layout{display:flex;min-height:calc(100vh - 72px)}
+.sidebar{width:220px;background:#fff;border-right:1px solid var(--line);padding:27px 15px;flex-shrink:0}
+.nav-title{color:#B19A91;font-size:11px;letter-spacing:1.5px;margin:0 12px 15px}
+.nav-item{display:block;padding:12px 13px;margin-bottom:6px;color:var(--text);text-decoration:none;border-radius:10px;font-size:14px}
+.nav-item:hover{background:#FFFAF8}
+.nav-item.active{background:var(--pink);color:var(--accent);font-weight:700}
+main{flex:1;min-width:0;max-width:1200px;padding:36px}
+.eyebrow{font-size:11px;letter-spacing:2px;color:var(--accent);font-weight:700;margin-bottom:10px}
+h1{font-size:27px;margin:0 0 9px}
+.subtitle{color:var(--muted);font-size:14px;margin-bottom:28px;line-height:1.7}
+.toolbar{display:flex;justify-content:space-between;align-items:center;gap:13px;flex-wrap:wrap;margin-bottom:18px}
+.filters{display:flex;gap:9px;flex-wrap:wrap;flex:1}
+select,input{padding:11px 13px;border:1px solid var(--line);border-radius:10px;background:white;color:var(--text);font-size:13px;outline:none}
+select:focus,input:focus{border-color:var(--accent)}
+#search{width:min(260px,100%)}
+button,.btn{border:0;border-radius:10px;padding:11px 15px;cursor:pointer;font-size:13px;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+.primary{background:var(--accent);color:white}
+.primary:hover{background:#A66B61}
+.refresh{background:var(--pink);color:var(--text)}
+.refresh:hover{background:var(--pink-deep)}
+.table-card{background:white;border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
+.article{padding:21px 23px;border-bottom:1px solid var(--line)}
+.article:last-child{border-bottom:0}
+.article-top{display:flex;justify-content:space-between;align-items:flex-start;gap:14px}
+.article-title{font-weight:700;font-size:15px;margin-bottom:9px;overflow-wrap:anywhere}
+.article-meta{color:var(--muted);font-size:12px;line-height:1.9;white-space:pre-line;overflow-wrap:anywhere}
+.status{display:inline-block;padding:6px 11px;border-radius:20px;font-size:11px;white-space:nowrap}
+.status.published{background:#EFF6EF;color:#527653}
+.status.draft{background:#FFF3E7;color:#98734F}
+.article-actions{display:flex;gap:9px;margin-top:15px}
+.delete{background:#FFF0EE;color:#A34E48}
+.delete:hover{background:#FADBD7}
+.empty{text-align:center;padding:55px 15px;color:var(--muted);font-size:14px}
+#message{display:none;padding:13px 15px;margin-bottom:16px;border-radius:10px;font-size:13px;line-height:1.7}
+#message.error{display:block;background:#FFF0EE;color:#A34E48}
+@media(max-width:700px){
+ .layout{display:block}
+ .sidebar{width:100%;display:flex;overflow-x:auto;padding:9px;border-right:0;border-bottom:1px solid var(--line)}
+ .nav-title{display:none}
+ .nav-item{white-space:nowrap;margin:0 3px;padding:10px}
+ main{padding:25px 14px}
+ h1{font-size:24px}
+ .article{padding:18px 14px}
+ .toolbar>div:last-child{display:flex;gap:8px;width:100%}
+ .toolbar>div:last-child>*{flex:1}
+ #search{width:100%;min-width:0}
+ .filters{width:100%}
 }
 </style>
 </head>
-
 <body>
-
 <header>
-  <div class="logo">逢坂大河ws</div>
+  <div class="brand">
+    <img src="/images/hemeng-logo.svg" alt="荷萌 HEMENG">
+    <span>荷萌 HEMENG</span>
+  </div>
   <a href="dashboard.html">返回管理首页</a>
 </header>
 
 <div class="layout">
-
   <aside class="sidebar">
-    <div class="nav-title">管理菜单</div>
+    <div class="nav-title">HEMENG ADMIN</div>
     <a class="nav-item" href="dashboard.html">管理首页</a>
     <a class="nav-item" href="write.html">写文章</a>
     <a class="nav-item active" href="articles.html">文章管理</a>
+    <a class="nav-item" href="wall.html">大河墙审核</a>
+    <a class="nav-item" href="settings.html">网站设置</a>
     <a class="nav-item" href="/">返回网站</a>
   </aside>
 
   <main>
-
+    <div class="eyebrow">HEMENG · CONTENT</div>
     <h1>文章管理</h1>
-    <div class="subtitle">
-      查看、筛选和管理你保存的全部文章。
-    </div>
+    <div class="subtitle">在这里查看、筛选和管理你保存的文章。</div>
 
     <div id="message"></div>
 
     <div class="toolbar">
-
       <div class="filters">
         <select id="filter">
           <option value="all">全部文章</option>
           <option value="published">已发布</option>
           <option value="draft">草稿</option>
         </select>
-
-        <input
-          id="search"
-          type="search"
-          placeholder="搜索文章标题"
-        >
+        <input id="search" type="search" placeholder="搜索文章标题">
       </div>
-
       <div>
-        <button class="refresh" id="refreshButton">
-          刷新列表
-        </button>
-
-        <a class="btn primary" href="write.html">
-          ＋ 写文章
-        </a>
+        <button class="refresh" id="refreshButton">刷新列表</button>
+        <a class="btn primary" href="write.html">＋ 写文章</a>
       </div>
-
     </div>
 
     <div class="table-card" id="articleList">
       <div class="empty">正在读取文章……</div>
     </div>
-
   </main>
-
 </div>
 
 <script>
@@ -345,9 +130,7 @@ function showError(text) {
 }
 
 async function loadArticles() {
-  articleList.innerHTML =
-    '<div class="empty">正在读取文章……</div>';
-
+  articleList.innerHTML = '<div class="empty">正在读取文章……</div>';
   message.className = "";
 
   try {
@@ -359,18 +142,14 @@ async function loadArticles() {
     const result = await response.json();
 
     if (!response.ok || !result.success) {
-      throw new Error(
-        result.message || "读取文章失败"
-      );
+      throw new Error(result.message || "读取文章失败");
     }
 
     allPosts = result.posts || [];
     renderArticles();
 
   } catch (error) {
-    articleList.innerHTML =
-      '<div class="empty">无法读取文章列表。</div>';
-
+    articleList.innerHTML = '<div class="empty">无法读取文章列表。</div>';
     showError(error.message);
   }
 }
@@ -383,8 +162,7 @@ function renderArticles() {
 
   const posts = allPosts.filter(post => {
     const matchesStatus =
-      selectedStatus === "all" ||
-      post.status === selectedStatus;
+      selectedStatus === "all" || post.status === selectedStatus;
 
     const matchesSearch =
       (post.title || "").toLowerCase().includes(keyword);
@@ -429,34 +207,35 @@ function renderArticles() {
 
     left.appendChild(title);
     left.appendChild(meta);
-
     top.appendChild(left);
     top.appendChild(status);
-const actions = document.createElement("div");
-actions.className = "article-actions";
 
-const editButton = document.createElement("button");
-editButton.className = "refresh";
-editButton.textContent = "编辑文章";
-editButton.addEventListener("click", () => {
-  location.href = "edit.html?id=" + encodeURIComponent(post.id);
-});
+    const actions = document.createElement("div");
+    actions.className = "article-actions";
 
-const deleteButton = document.createElement("button");
-deleteButton.className = "delete";
-deleteButton.textContent = "删除文章";
-deleteButton.addEventListener("click", () => {
-  deleteArticle(post.id, post.title);
-});
+    const editButton = document.createElement("button");
+    editButton.className = "refresh";
+    editButton.textContent = "编辑文章";
+    editButton.addEventListener("click", () => {
+      location.href = "edit.html?id=" + encodeURIComponent(post.id);
+    });
 
-actions.appendChild(editButton);
-actions.appendChild(deleteButton);
+    const deleteButton = document.createElement("button");
+    deleteButton.className = "delete";
+    deleteButton.textContent = "删除文章";
+    deleteButton.addEventListener("click", () => {
+      deleteArticle(post.id, post.title);
+    });
 
-article.appendChild(top);
-article.appendChild(actions);
-articleList.appendChild(article);
-});  
+    actions.appendChild(editButton);
+    actions.appendChild(deleteButton);
+
+    article.appendChild(top);
+    article.appendChild(actions);
+    articleList.appendChild(article);
+  });
 }
+
 async function deleteArticle(id, title) {
   const confirmed = confirm(
     "确定要删除文章《" + title + "》吗？此操作无法撤销。"
@@ -495,7 +274,5 @@ document.getElementById("refreshButton")
 
 loadArticles();
 </script>
-
 </body>
 </html>
-
