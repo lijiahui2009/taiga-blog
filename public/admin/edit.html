@@ -3,229 +3,129 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>编辑文章 - 逢坂大河ws</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#fff7f3">
+<title>编辑文章 - 荷萌 HEMENG</title>
 <style>
 :root {
-  --bg: #faf7f5;
-  --card: #fff;
-  --text: #302925;
-  --muted: #857a73;
-  --line: #eee7e2;
-  --accent: #a87568;
+  --bg:#fff7f3;
+  --surface:#fff;
+  --soft:#fff0eb;
+  --pink:#f5c8c0;
+  --accent:#b77b70;
+  --text:#6d4c49;
+  --muted:#956258;
+  --line:#f0dfd9;
+  --shadow:0 12px 35px rgba(109,76,73,.07);
 }
-
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 }
-
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+header{
+  min-height:76px;padding:14px 5%;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:16px;background:rgba(255,255,255,.92);
+  border-bottom:1px solid var(--line);
 }
-
-header {
-  background: white;
-  border-bottom: 1px solid var(--line);
-  padding: 17px 24px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.brand{display:flex;align-items:center;gap:12px;font-weight:700}
+.brand img{width:42px;height:42px;object-fit:contain}
+.brand-name{font-size:18px}
+header a{
+  color:var(--muted);text-decoration:none;font-size:14px;
+  padding:10px 15px;border-radius:12px;background:var(--soft);
 }
-
-.logo {
-  font-size: 19px;
-  font-weight: bold;
+main{max-width:920px;margin:38px auto;padding:0 20px 60px}
+.eyebrow{font-size:12px;letter-spacing:2px;color:var(--accent);font-weight:700}
+h1{font-size:28px;margin:9px 0}
+.subtitle{color:var(--muted);font-size:14px;margin-bottom:25px}
+.editor{
+  background:var(--surface);border:1px solid var(--line);
+  border-radius:22px;padding:30px;box-shadow:var(--shadow);
 }
-
-header a {
-  color: var(--muted);
-  text-decoration: none;
-  font-size: 13px;
+.field{margin-bottom:23px}
+label{display:block;font-size:14px;font-weight:700;margin-bottom:9px}
+input,textarea,select{
+  width:100%;padding:14px 15px;border:1px solid var(--line);
+  border-radius:12px;background:#fffdfc;color:var(--text);
+  font:inherit;font-size:14px;outline:none;transition:.2s;
 }
-
-main {
-  max-width: 950px;
-  margin: 35px auto;
-  padding: 0 18px;
+input:focus,textarea:focus,select:focus{
+  border-color:var(--accent);box-shadow:0 0 0 3px rgba(183,123,112,.1);
 }
-
-h1 {
-  font-size: 27px;
-  margin-bottom: 8px;
+textarea{resize:vertical;line-height:1.85}
+#summary{min-height:100px}
+#content{min-height:380px}
+.hint{font-size:12px;color:#aa918a;margin-top:7px}
+.actions{
+  display:flex;justify-content:flex-end;gap:12px;flex-wrap:wrap;
+  border-top:1px solid var(--line);padding-top:23px;margin-top:8px;
 }
-
-.subtitle {
-  color: var(--muted);
-  font-size: 14px;
-  margin-bottom: 25px;
+button{
+  border:0;border-radius:12px;padding:13px 23px;
+  font-size:14px;font-weight:700;cursor:pointer;transition:.2s;
 }
-
-.editor {
-  background: white;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 26px;
+button:hover{transform:translateY(-1px)}
+button:disabled{opacity:.55;cursor:not-allowed;transform:none}
+.draft{background:var(--soft);color:var(--text)}
+.publish{background:var(--accent);color:white}
+#message{
+  display:none;margin-top:18px;padding:14px 16px;
+  border-radius:12px;font-size:14px;line-height:1.7;
 }
-
-.field {
-  margin-bottom: 23px;
-}
-
-label {
-  display: block;
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 9px;
-}
-
-input, textarea, select {
-  width: 100%;
-  padding: 13px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: white;
-  color: var(--text);
-  font: inherit;
-  font-size: 14px;
-  outline: none;
-}
-
-input:focus, textarea:focus, select:focus {
-  border-color: var(--accent);
-}
-
-textarea {
-  resize: vertical;
-  line-height: 1.8;
-}
-
-#summary {
-  min-height: 85px;
-}
-
-#content {
-  min-height: 350px;
-}
-
-.actions {
-  display: flex;
-  gap: 12px;
-  justify-content: flex-end;
-  flex-wrap: wrap;
-  border-top: 1px solid var(--line);
-  padding-top: 22px;
-}
-
-button {
-  border: 0;
-  border-radius: 8px;
-  padding: 12px 22px;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.draft {
-  background: #f1ebe7;
-  color: var(--text);
-}
-
-.publish {
-  background: var(--accent);
-  color: white;
-}
-
-button:disabled {
-  opacity: .55;
-  cursor: not-allowed;
-}
-
-#message {
-  display: none;
-  margin-top: 18px;
-  padding: 13px;
-  border-radius: 8px;
-  font-size: 14px;
-  line-height: 1.6;
-}
-
-#message.success {
-  display: block;
-  background: #edf5ed;
-  color: #356b3d;
-}
-
-#message.error {
-  display: block;
-  background: #f9eeee;
-  color: #a33e3e;
-}
-
-@media(max-width:600px) {
-  main {
-    margin-top: 24px;
-  }
-
-  .editor {
-    padding: 18px;
-  }
-
-  h1 {
-    font-size: 23px;
-  }
-
-  .actions button {
-    flex: 1;
-  }
+#message.success{display:block;background:#f0f7ef;color:#47704a}
+#message.error{display:block;background:#fff0ef;color:#a34e49}
+@media(max-width:600px){
+  header{padding:12px 16px}
+  .brand-name{font-size:16px}
+  .brand img{width:36px;height:36px}
+  main{margin-top:25px;padding:0 14px 40px}
+  h1{font-size:24px}
+  .editor{padding:19px;border-radius:17px}
+  .actions button{flex:1;padding:13px 10px}
+  #content{min-height:300px}
 }
 </style>
 </head>
-
 <body>
-
 <header>
-  <div class="logo">逢坂大河ws</div>
+  <div class="brand">
+    <img src="/images/hemeng-logo.svg" alt="荷萌 HEMENG">
+    <span class="brand-name">荷萌 HEMENG</span>
+  </div>
   <a href="articles.html">返回文章列表</a>
 </header>
 
 <main>
-
+  <div class="eyebrow">HEMENG · ADMIN</div>
   <h1>编辑文章</h1>
-  <div class="subtitle">
-    修改文章内容，并保存或重新发布。
-  </div>
+  <div class="subtitle">修改文章内容，保存草稿或重新发布。</div>
 
   <section class="editor">
-
     <div class="field">
       <label for="title">文章标题</label>
-      <input id="title" type="text" maxlength="200"
-        placeholder="请输入文章标题">
+      <input id="title" type="text" maxlength="200" placeholder="请输入文章标题">
     </div>
 
     <div class="field">
       <label for="category">文章分类</label>
-      <input id="category" type="text" maxlength="50"
-        placeholder="例如：日常记录、技术">
+      <input id="category" type="text" maxlength="50" placeholder="例如：日常记录、技术">
     </div>
 
     <div class="field">
       <label for="summary">文章摘要</label>
-      <textarea id="summary" maxlength="1000"
-        placeholder="文章简介"></textarea>
+      <textarea id="summary" maxlength="1000" placeholder="用简短文字介绍这篇文章"></textarea>
     </div>
 
     <div class="field">
       <label for="content">正文内容</label>
-      <textarea id="content" maxlength="100000"
-        placeholder="文章正文"></textarea>
+      <textarea id="content" maxlength="100000" placeholder="请输入文章正文"></textarea>
+      <div class="hint">支持普通文本内容，保存时会保留原有文章字段。</div>
     </div>
 
     <div class="field">
-      <label for="status">文章状态</label>
+      <label for="status">当前文章状态</label>
       <select id="status">
         <option value="draft">草稿</option>
         <option value="published">已发布</option>
@@ -233,14 +133,11 @@ button:disabled {
     </div>
 
     <div class="actions">
-      <button class="draft" id="saveDraft">保存草稿</button>
-      <button class="publish" id="publish">保存并发布</button>
+      <button class="draft" id="saveDraft" type="button">保存为草稿</button>
+      <button class="publish" id="publish" type="button">保存并发布</button>
     </div>
-
-    <div id="message"></div>
-
+    <div id="message" role="status" aria-live="polite"></div>
   </section>
-
 </main>
 
 <script>
@@ -252,7 +149,6 @@ const categoryInput = document.getElementById("category");
 const summaryInput = document.getElementById("summary");
 const contentInput = document.getElementById("content");
 const statusInput = document.getElementById("status");
-
 const message = document.getElementById("message");
 const draftButton = document.getElementById("saveDraft");
 const publishButton = document.getElementById("publish");
@@ -264,44 +160,49 @@ function showMessage(text, type) {
   message.className = type;
 }
 
+async function readJson(response) {
+  const result = await response.json();
+  if (!response.ok || !result.success) {
+    throw new Error(result.message || "请求失败，请稍后重试。");
+  }
+  return result;
+}
+
 async function loadArticle() {
   if (!Number.isInteger(id) || id <= 0) {
     showMessage("文章编号无效，请从文章列表进入。", "error");
+    draftButton.disabled = true;
+    publishButton.disabled = true;
     return;
   }
+
+  draftButton.disabled = true;
+  publishButton.disabled = true;
+  showMessage("正在读取文章……", "success");
 
   try {
     const response = await fetch("/api/admin/posts", {
       credentials: "same-origin",
       cache: "no-store"
     });
+    const result = await readJson(response);
 
-    const result = await response.json();
-
-    if (!response.ok || !result.success) {
-      throw new Error(result.message || "读取文章失败");
-    }
-
-    const article = result.posts.find(
-      post => Number(post.id) === id
-    );
-
-    if (!article) {
-      throw new Error("没有找到这篇文章");
-    }
+    const article = result.posts.find(post => Number(post.id) === id);
+    if (!article) throw new Error("没有找到这篇文章。");
 
     titleInput.value = article.title || "";
     categoryInput.value = article.category || "";
     summaryInput.value = article.summary || "";
     contentInput.value = article.content || "";
     statusInput.value = article.status || "draft";
-
     currentSlug = article.slug || "";
 
     showMessage("文章读取成功，可以开始编辑。", "success");
-
   } catch (error) {
-    showMessage(error.message, "error");
+    showMessage(error.message || "读取文章失败。", "error");
+  } finally {
+    draftButton.disabled = false;
+    publishButton.disabled = false;
   }
 }
 
@@ -316,34 +217,26 @@ async function saveArticle(status) {
 
   draftButton.disabled = true;
   publishButton.disabled = true;
-
-  showMessage("正在保存……", "success");
+  showMessage("正在保存文章……", "success");
 
   try {
     const response = await fetch("/api/admin/posts", {
       method: "PUT",
       credentials: "same-origin",
       cache: "no-store",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      headers: {"Content-Type":"application/json"},
       body: JSON.stringify({
-        id: id,
-        title: title,
+        id,
+        title,
         slug: currentSlug,
         category: categoryInput.value.trim() || "未分类",
         summary: summaryInput.value.trim(),
-        content: content,
-        status: status
+        content,
+        status
       })
     });
 
-    const result = await response.json();
-
-    if (!response.ok || !result.success) {
-      throw new Error(result.message || "保存失败");
-    }
-
+    await readJson(response);
     statusInput.value = status;
 
     showMessage(
@@ -352,26 +245,18 @@ async function saveArticle(status) {
         : "文章修改成功，已保存为草稿。",
       "success"
     );
-
   } catch (error) {
-    showMessage(error.message, "error");
+    showMessage(error.message || "保存失败，请稍后重试。", "error");
   } finally {
     draftButton.disabled = false;
     publishButton.disabled = false;
   }
 }
 
-draftButton.addEventListener("click", function() {
-  saveArticle("draft");
-});
-
-publishButton.addEventListener("click", function() {
-  saveArticle("published");
-});
+draftButton.addEventListener("click", () => saveArticle("draft"));
+publishButton.addEventListener("click", () => saveArticle("published"));
 
 loadArticle();
 </script>
-
 </body>
 </html>
-
