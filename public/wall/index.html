@@ -9,437 +9,387 @@
 
 <style>
 :root {
-  --bg: #FFF7F3;
-  --surface: #FFFFFF;
-  --surface-soft: #FFF0EA;
-  --pink: #FFE8E0;
-  --accent: #B77B70;
-  --accent-dark: #956258;
-  --text: #493B38;
-  --muted: #8B7C76;
-  --border: #F0E3DE;
-  --danger: #BD625C;
-  --shadow: 0 10px 30px rgba(109,76,73,.055);
-  --radius: 17px;
+  --bg:#FFF7F3;
+  --surface:#FFFFFF;
+  --surface-soft:#FFF0EA;
+  --pink:#FFE8E0;
+  --accent:#B77B70;
+  --accent-dark:#956258;
+  --text:#493B38;
+  --muted:#8B7C76;
+  --border:#F0E3DE;
+  --danger:#BD625C;
+  --shadow:0 10px 30px rgba(109,76,73,.055);
+  --radius:17px;
 }
 
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",
+    "Microsoft YaHei",sans-serif;
+  -webkit-font-smoothing:antialiased;
 }
 
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
-    "Microsoft YaHei", sans-serif;
-  -webkit-font-smoothing: antialiased;
+button,input,textarea,select{font:inherit}
+button,a{-webkit-tap-highlight-color:transparent}
+
+.site-header{
+  background:rgba(255,255,255,.94);
+  border-bottom:1px solid var(--border);
 }
 
-button, input, textarea, select {
-  font: inherit;
+.header-inner{
+  max-width:1080px;
+  min-height:75px;
+  margin:auto;
+  padding:12px 25px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:25px;
 }
 
-button, a {
-  -webkit-tap-highlight-color: transparent;
+.logo{display:flex;align-items:center;flex-shrink:0}
+
+.logo img{
+  display:block;
+  width:auto;
+  height:44px;
+  max-width:190px;
+  object-fit:contain;
 }
 
-.site-header {
-  background: rgba(255,255,255,.94);
-  border-bottom: 1px solid var(--border);
+.header-right{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  flex-wrap:wrap;
+  gap:12px;
 }
 
-.header-inner {
-  max-width: 1080px;
-  min-height: 75px;
-  margin: auto;
-  padding: 12px 25px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 25px;
+nav{display:flex;align-items:center;gap:12px}
+
+nav a{
+  padding:9px 13px;
+  color:var(--muted);
+  text-decoration:none;
+  font-size:13px;
+  border-radius:9px;
+  transition:.2s;
 }
 
-.logo {
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
+nav a:hover{
+  color:var(--accent-dark);
+  background:var(--surface-soft);
 }
 
-.logo img {
-  display: block;
-  width: auto;
-  height: 44px;
-  max-width: 190px;
-  object-fit: contain;
+.language-select{
+  width:auto;
+  min-width:115px;
+  padding:9px 28px 9px 11px;
+  color:var(--accent-dark);
+  background:#FFFCFA;
+  border:1px solid var(--border);
+  border-radius:9px;
+  font-size:12px;
+  cursor:pointer;
 }
 
-nav {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-nav a {
-  padding: 9px 13px;
-  color: var(--muted);
-  text-decoration: none;
-  font-size: 13px;
-  border-radius: 9px;
-  transition: .2s;
-}
-
-nav a:hover {
-  color: var(--accent-dark);
-  background: var(--surface-soft);
-}
-
-.hero {
-  padding: 55px 22px 48px;
+.hero{
+  padding:55px 22px 48px;
   background:
-    radial-gradient(circle at 85% 10%, rgba(255,255,255,.8), transparent 28%),
-    linear-gradient(135deg, #FFF0EA, #FFE8E0 55%, #FFF7F3);
-  border-bottom: 1px solid var(--border);
+    radial-gradient(circle at 85% 10%,rgba(255,255,255,.8),transparent 28%),
+    linear-gradient(135deg,#FFF0EA,#FFE8E0 55%,#FFF7F3);
+  border-bottom:1px solid var(--border);
 }
 
-.hero-inner {
-  max-width: 900px;
-  margin: auto;
+.hero-inner{max-width:900px;margin:auto}
+
+.eyebrow{
+  color:var(--accent-dark);
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:3px;
 }
 
-.eyebrow {
-  color: var(--accent-dark);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 3px;
+.hero h1{
+  margin:16px 0 10px;
+  font-size:36px;
+  letter-spacing:1px;
 }
 
-.hero h1 {
-  margin: 16px 0 10px;
-  font-size: 36px;
-  letter-spacing: 1px;
+.hero p{
+  margin:0;
+  color:#806D67;
+  font-size:14px;
+  line-height:2;
 }
 
-.hero p {
-  margin: 0;
-  color: #806D67;
-  font-size: 14px;
-  line-height: 2;
+.hero-tag{
+  display:inline-block;
+  margin-top:18px;
+  padding:7px 13px;
+  color:var(--accent-dark);
+  background:rgba(255,255,255,.55);
+  border:1px solid rgba(183,123,112,.2);
+  border-radius:30px;
+  font-size:11px;
+  letter-spacing:1px;
 }
 
-.hero-tag {
-  display: inline-block;
-  margin-top: 18px;
-  padding: 7px 13px;
-  color: var(--accent-dark);
-  background: rgba(255,255,255,.55);
-  border: 1px solid rgba(183,123,112,.2);
-  border-radius: 30px;
-  font-size: 11px;
-  letter-spacing: 1px;
+.container{
+  max-width:900px;
+  margin:auto;
+  padding:35px 22px 75px;
 }
 
-.container {
-  max-width: 900px;
-  margin: auto;
-  padding: 35px 22px 75px;
+.panel{
+  margin-bottom:19px;
+  padding:23px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
 }
 
-.panel {
-  margin-bottom: 19px;
-  padding: 23px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
+.panel-heading{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:18px;
 }
 
-.panel-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 18px;
+h2{margin:0;font-size:17px;font-weight:650}
+
+.heading-note{color:#B4A49E;font-size:11px}
+
+.categories{display:flex;flex-wrap:wrap;gap:9px}
+
+.category{
+  padding:9px 15px;
+  color:var(--muted);
+  background:#FFFCFA;
+  border:1px solid var(--border);
+  border-radius:30px;
+  cursor:pointer;
+  font-size:12px;
+  transition:.2s;
 }
 
-h2 {
-  margin: 0;
-  font-size: 17px;
-  font-weight: 650;
+.category:hover{
+  color:var(--accent-dark);
+  border-color:#E8C9C1;
 }
 
-.heading-note {
-  color: #B4A49E;
-  font-size: 11px;
+.category.active{
+  color:white;
+  background:var(--accent);
+  border-color:var(--accent);
 }
 
-.categories {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 9px;
+label{
+  display:block;
+  margin:16px 0 8px;
+  color:#786A65;
+  font-size:13px;
+  font-weight:500;
 }
 
-.category {
-  padding: 9px 15px;
-  color: var(--muted);
-  background: #FFFCFA;
-  border: 1px solid var(--border);
-  border-radius: 30px;
-  cursor: pointer;
-  font-size: 12px;
-  transition: .2s;
+input:not([type="checkbox"]),textarea,select{
+  display:block;
+  width:100%;
+  padding:13px 14px;
+  color:var(--text);
+  background:#FFFCFA;
+  border:1px solid var(--border);
+  border-radius:10px;
+  outline:none;
+  font-size:14px;
+  transition:border-color .2s,box-shadow .2s;
 }
 
-.category:hover {
-  color: var(--accent-dark);
-  border-color: #E8C9C1;
+input:focus,textarea:focus,select:focus{
+  border-color:#D9A69B;
+  box-shadow:0 0 0 3px rgba(183,123,112,.09);
 }
 
-.category.active {
-  color: white;
-  background: var(--accent);
-  border-color: var(--accent);
+textarea{
+  min-height:155px;
+  resize:vertical;
+  line-height:1.85;
 }
 
-label {
-  display: block;
-  margin: 16px 0 8px;
-  color: #786A65;
-  font-size: 13px;
-  font-weight: 500;
+textarea::placeholder,input::placeholder{color:#B9ACA6}
+
+.identity{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  margin-top:16px;
 }
 
-input:not([type="checkbox"]),
-textarea,
-select {
-  display: block;
-  width: 100%;
-  padding: 13px 14px;
-  color: var(--text);
-  background: #FFFCFA;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  outline: none;
-  font-size: 14px;
-  transition: border-color .2s, box-shadow .2s;
+.identity input{
+  width:16px;
+  height:16px;
+  accent-color:var(--accent);
+  cursor:pointer;
 }
 
-input:focus,
-textarea:focus,
-select:focus {
-  border-color: #D9A69B;
-  box-shadow: 0 0 0 3px rgba(183,123,112,.09);
+.identity label{
+  margin:0;
+  color:var(--text);
+  cursor:pointer;
 }
 
-textarea {
-  min-height: 155px;
-  resize: vertical;
-  line-height: 1.85;
+#nicknameArea{margin-top:5px}
+
+.submit{
+  display:block;
+  width:100%;
+  margin-top:19px;
+  padding:14px;
+  color:white;
+  background:var(--accent);
+  border:0;
+  border-radius:10px;
+  cursor:pointer;
+  font-size:14px;
+  font-weight:600;
+  transition:background .2s,transform .2s;
 }
 
-textarea::placeholder,
-input::placeholder {
-  color: #B9ACA6;
+.submit:hover{background:var(--accent-dark)}
+.submit:active{transform:scale(.99)}
+.submit:disabled{opacity:.6;cursor:wait}
+
+.notice{
+  margin-top:13px;
+  color:#A3958F;
+  font-size:11px;
+  line-height:1.9;
 }
 
-.identity {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  margin-top: 16px;
+.wall-announcement{
+  display:none;
+  padding:15px 17px;
+  color:#806D67;
+  background:var(--surface-soft);
+  border-radius:11px;
+  font-size:13px;
+  line-height:1.9;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
 }
 
-.identity input {
-  width: 16px;
-  height: 16px;
-  accent-color: var(--accent);
-  cursor: pointer;
+.post{
+  padding:19px 0;
+  border-bottom:1px solid var(--border);
 }
 
-.identity label {
-  margin: 0;
-  color: var(--text);
-  cursor: pointer;
+.post:first-child{padding-top:3px}
+.post:last-child{padding-bottom:3px;border-bottom:0}
+
+.post-meta{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:9px;
+  margin-bottom:11px;
+  color:#A3958F;
+  font-size:11px;
 }
 
-#nicknameArea {
-  margin-top: 5px;
+.post-category{
+  padding:4px 9px;
+  color:var(--accent-dark);
+  background:var(--surface-soft);
+  border-radius:20px;
 }
 
-.submit {
-  display: block;
-  width: 100%;
-  margin-top: 19px;
-  padding: 14px;
-  color: white;
-  background: var(--accent);
-  border: 0;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 600;
-  transition: background .2s, transform .2s;
+.post-content{
+  color:#574944;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+  line-height:1.95;
+  font-size:14px;
 }
 
-.submit:hover {
-  background: var(--accent-dark);
+.message{
+  padding:13px 0;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.8;
 }
 
-.submit:active {
-  transform: scale(.99);
+.error{color:var(--danger)}
+
+.hp{
+  position:absolute;
+  left:-9999px;
+  width:1px;
+  height:1px;
+  overflow:hidden;
 }
 
-.submit:disabled {
-  opacity: .6;
-  cursor: wait;
+footer{
+  padding:30px 20px;
+  background:white;
+  border-top:1px solid var(--border);
+  color:#A3958F;
+  text-align:center;
+  font-size:11px;
+  line-height:2.2;
 }
 
-.notice {
-  margin-top: 13px;
-  color: #A3958F;
-  font-size: 11px;
-  line-height: 1.9;
-}
+footer strong{color:var(--accent-dark)}
 
-.wall-announcement {
-  display: none;
-  padding: 15px 17px;
-  color: #806D67;
-  background: var(--surface-soft);
-  border-radius: 11px;
-  font-size: 13px;
-  line-height: 1.9;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-}
+[hidden]{display:none!important}
 
-.post {
-  padding: 19px 0;
-  border-bottom: 1px solid var(--border);
-}
-
-.post:first-child {
-  padding-top: 3px;
-}
-
-.post:last-child {
-  padding-bottom: 3px;
-  border-bottom: 0;
-}
-
-.post-meta {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 9px;
-  margin-bottom: 11px;
-  color: #A3958F;
-  font-size: 11px;
-}
-
-.post-category {
-  padding: 4px 9px;
-  color: var(--accent-dark);
-  background: var(--surface-soft);
-  border-radius: 20px;
-}
-
-.post-content {
-  color: #574944;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-  line-height: 1.95;
-  font-size: 14px;
-}
-
-.message {
-  padding: 13px 0;
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.8;
-}
-
-.error {
-  color: var(--danger);
-}
-
-.hp {
-  position: absolute;
-  left: -9999px;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-}
-
-footer {
-  padding: 30px 20px;
-  background: white;
-  border-top: 1px solid var(--border);
-  color: #A3958F;
-  text-align: center;
-  font-size: 11px;
-  line-height: 2.2;
-}
-
-footer strong {
-  color: var(--accent-dark);
-}
-
-[hidden] {
-  display: none !important;
-}
-
-@media (max-width: 650px) {
-  .header-inner {
-    padding: 12px 17px;
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 8px;
+@media(max-width:650px){
+  .header-inner{
+    padding:12px 17px;
+    align-items:flex-start;
+    flex-direction:column;
+    gap:10px;
   }
 
-  .logo img {
-    height: 39px;
+  .logo img{height:39px}
+
+  .header-right{
+    width:100%;
+    justify-content:space-between;
+    gap:8px;
   }
 
-  nav {
-    width: 100%;
-    gap: 5px;
-    overflow-x: auto;
+  nav{gap:3px;overflow-x:auto}
+
+  nav a{
+    flex-shrink:0;
+    padding:8px 9px;
+    font-size:12px;
   }
 
-  nav a {
-    flex-shrink: 0;
-    padding: 8px 10px;
-    font-size: 12px;
+  .language-select{
+    min-width:105px;
+    max-width:125px;
   }
 
-  .hero {
-    padding: 45px 20px 40px;
-  }
-
-  .hero h1 {
-    font-size: 31px;
-  }
-
-  .container {
-    padding: 24px 13px 55px;
-  }
-
-  .panel {
-    padding: 18px 16px;
-    border-radius: 14px;
-  }
-
-  .category {
-    padding: 8px 12px;
-    font-size: 11px;
-  }
+  .hero{padding:45px 20px 40px}
+  .hero h1{font-size:31px}
+  .container{padding:24px 13px 55px}
+  .panel{padding:18px 16px;border-radius:14px}
+  .category{padding:8px 12px;font-size:11px}
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    scroll-behavior: auto !important;
-    transition-duration: .01ms !important;
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    scroll-behavior:auto!important;
+    transition-duration:.01ms!important;
   }
 }
 </style>
@@ -450,15 +400,26 @@ footer strong {
 <header class="site-header">
   <div class="header-inner">
 
-    <a class="logo" href="/" aria-label="荷萌 HEMENG 首页">
+    <a class="logo" href="/" aria-label="荷萌 HEMENG">
       <img src="/images/hemeng-logo.svg" alt="荷萌 HEMENG">
     </a>
 
-    <nav aria-label="主导航">
-      <a href="/">网站首页</a>
-      <a href="/blog/">个人博客</a>
-      <a href="/about/">关于本站</a>
-    </nav>
+    <div class="header-right">
+      <nav aria-label="主导航">
+        <a href="/" data-i18n="navHome">网站首页</a>
+        <a href="/blog/" data-i18n="navBlog">个人博客</a>
+        <a href="/about/" data-i18n="navAbout">关于本站</a>
+      </nav>
+
+      <select id="languageSelect" class="language-select"
+        aria-label="选择语言">
+        <option value="zh-CN">简体中文</option>
+        <option value="zh-TW">繁體中文</option>
+        <option value="en">English</option>
+        <option value="ja">日本語</option>
+        <option value="ko">한국어</option>
+      </select>
+    </div>
 
   </div>
 </header>
@@ -466,8 +427,8 @@ footer strong {
 <section class="hero">
   <div class="hero-inner">
     <div class="eyebrow">HEMENG COMMUNITY</div>
-    <h1>大河墙</h1>
-    <p>
+    <h1 data-i18n="heroTitle">大河墙</h1>
+    <p data-i18n="heroDescription">
       一个自由交流与分享的地方。
       <br>
       可以表白、倾诉、分享日常，也可以提出问题或推荐资源。
@@ -480,7 +441,7 @@ footer strong {
 
   <section class="panel" id="wallNoticePanel" hidden>
     <div class="panel-heading">
-      <h2>站点公告</h2>
+      <h2 data-i18n="announcement">站点公告</h2>
       <span class="heading-note">ANNOUNCEMENT</span>
     </div>
     <div class="wall-announcement" id="wallNotice"></div>
@@ -488,7 +449,7 @@ footer strong {
 
   <section class="panel">
     <div class="panel-heading">
-      <h2>选择板块</h2>
+      <h2 data-i18n="chooseCategory">选择板块</h2>
       <span class="heading-note">EXPLORE</span>
     </div>
     <div class="categories" id="categories"></div>
@@ -496,67 +457,61 @@ footer strong {
 
   <section class="panel">
     <div class="panel-heading">
-      <h2>发布投稿</h2>
+      <h2 data-i18n="publishTitle">发布投稿</h2>
       <span class="heading-note">WRITE SOMETHING</span>
     </div>
 
     <form id="postForm">
 
-      <label for="category">投稿板块</label>
+      <label for="category" data-i18n="categoryLabel">投稿板块</label>
       <select id="category" required></select>
 
-      <label for="content">投稿内容</label>
-      <textarea
-        id="content"
-        minlength="2"
-        maxlength="3000"
-        placeholder="写下你想分享的内容……"
-        required
-      ></textarea>
+      <label for="content" data-i18n="contentLabel">投稿内容</label>
+      <textarea id="content" minlength="2" maxlength="3000"
+        data-i18n-placeholder="contentPlaceholder"
+        placeholder="写下你想分享的内容……" required></textarea>
 
       <div class="identity">
         <input type="checkbox" id="anonymous" checked>
-        <label for="anonymous">匿名投稿</label>
+        <label for="anonymous" data-i18n="anonymous">匿名投稿</label>
       </div>
 
       <div id="nicknameArea" hidden>
-        <label for="nickname">显示昵称</label>
-        <input
-          id="nickname"
-          maxlength="30"
-          placeholder="输入你想展示的昵称"
-        >
+        <label for="nickname" data-i18n="nicknameLabel">显示昵称</label>
+        <input id="nickname" maxlength="30"
+          data-i18n-placeholder="nicknamePlaceholder"
+          placeholder="输入你想展示的昵称">
       </div>
 
       <div class="hp" aria-hidden="true">
-        <label for="website">网站</label>
-        <input
-          id="website"
-          name="website"
-          tabindex="-1"
-          autocomplete="off"
-        >
+        <label for="website">Website</label>
+        <input id="website" name="website" tabindex="-1"
+          autocomplete="off">
       </div>
 
-      <button class="submit" id="submitButton" type="submit">
+      <button class="submit" id="submitButton" type="submit"
+        data-i18n="submit">
         提交投稿
       </button>
 
-      <div class="notice">
+      <div class="notice" data-i18n="submissionNotice">
         投稿提交后会进入审核，审核通过后才会显示在墙上。
         匿名投稿不会展示昵称。请勿填写密码、联系方式等个人隐私信息。
       </div>
     </form>
 
-    <div id="submitMessage" class="message" role="status" aria-live="polite"></div>
+    <div id="submitMessage" class="message" role="status"
+      aria-live="polite"></div>
   </section>
 
   <section class="panel">
     <div class="panel-heading">
-      <h2 id="listTitle">最新投稿</h2>
+      <h2 id="listTitle" data-i18n="latestPosts">最新投稿</h2>
       <span class="heading-note">LATEST POSTS</span>
     </div>
-    <div id="postList" class="message" aria-live="polite">正在加载投稿...</div>
+    <div id="postList" class="message" aria-live="polite">
+      正在加载投稿...
+    </div>
   </section>
 
 </div>
@@ -564,11 +519,11 @@ footer strong {
 <footer>
   <strong>荷萌 HEMENG</strong>
   <br>
-  © 2026 HEMENG · 一个持续建设中的个人互联网空间
+  © 2026 HEMENG · <span data-i18n="footerText">一个持续建设中的个人互联网空间</span>
 </footer>
 
 <script>
-const categoryNames = [
+const canonicalCategories = [
   "表白墙",
   "树洞",
   "日常分享",
@@ -579,6 +534,189 @@ const categoryNames = [
   "自由投稿"
 ];
 
+const translations = {
+  "zh-CN": {
+    navHome:"网站首页",
+    navBlog:"个人博客",
+    navAbout:"关于本站",
+    heroTitle:"大河墙",
+    heroDescription:"一个自由交流与分享的地方。<br>可以表白、倾诉、分享日常，也可以提出问题或推荐资源。",
+    announcement:"站点公告",
+    chooseCategory:"选择板块",
+    publishTitle:"发布投稿",
+    categoryLabel:"投稿板块",
+    contentLabel:"投稿内容",
+    contentPlaceholder:"写下你想分享的内容……",
+    anonymous:"匿名投稿",
+    nicknameLabel:"显示昵称",
+    nicknamePlaceholder:"输入你想展示的昵称",
+    submit:"提交投稿",
+    submitting:"正在提交...",
+    submissionNotice:"投稿提交后会进入审核，审核通过后才会显示在墙上。匿名投稿不会展示昵称。请勿填写密码、联系方式等个人隐私信息。",
+    latestPosts:"最新投稿",
+    loading:"正在加载投稿...",
+    loadFailed:"投稿加载失败，请稍后刷新重试。",
+    empty:"这个板块暂时还没有公开投稿。",
+    all:"全部",
+    allCategories:"全部板块",
+    anonymousUser:"匿名用户",
+    normalUser:"用户",
+    contentTooShort:"投稿内容至少需要 2 个字符。",
+    nicknameRequired:"请填写昵称，或者选择匿名投稿。",
+    success:"投稿成功！内容已进入审核，通过后就会显示在大河墙。",
+    failed:"提交失败：",
+    requestFailed:"投稿提交失败",
+    readFailed:"读取投稿失败",
+    footerText:"一个持续建设中的个人互联网空间",
+    categories:["表白墙","树洞","日常分享","建议反馈","二次元交流","提问求助","资源推荐","自由投稿"]
+  },
+
+  "zh-TW": {
+    navHome:"網站首頁",
+    navBlog:"個人部落格",
+    navAbout:"關於本站",
+    heroTitle:"大河牆",
+    heroDescription:"一個自由交流與分享的地方。<br>可以表白、傾訴、分享日常，也可以提出問題或推薦資源。",
+    announcement:"網站公告",
+    chooseCategory:"選擇分類",
+    publishTitle:"發布投稿",
+    categoryLabel:"投稿分類",
+    contentLabel:"投稿內容",
+    contentPlaceholder:"寫下你想分享的內容……",
+    anonymous:"匿名投稿",
+    nicknameLabel:"顯示暱稱",
+    nicknamePlaceholder:"輸入你想展示的暱稱",
+    submit:"提交投稿",
+    submitting:"正在提交……",
+    submissionNotice:"投稿提交後會進入審核，審核通過後才會顯示在牆上。匿名投稿不會展示暱稱。請勿填寫密碼、聯絡方式等個人隱私資訊。",
+    latestPosts:"最新投稿",
+    loading:"正在載入投稿……",
+    loadFailed:"投稿載入失敗，請稍後重新整理。",
+    empty:"這個分類暫時還沒有公開投稿。",
+    all:"全部",
+    allCategories:"全部分類",
+    anonymousUser:"匿名使用者",
+    normalUser:"使用者",
+    contentTooShort:"投稿內容至少需要 2 個字元。",
+    nicknameRequired:"請填寫暱稱，或選擇匿名投稿。",
+    success:"投稿成功！內容已進入審核，通過後就會顯示在大河牆。",
+    failed:"提交失敗：",
+    requestFailed:"投稿提交失敗",
+    readFailed:"讀取投稿失敗",
+    footerText:"一個持續建設中的個人網路空間",
+    categories:["告白牆","樹洞","日常分享","建議回饋","動漫交流","提問求助","資源推薦","自由投稿"]
+  },
+
+  "en": {
+    navHome:"Home",
+    navBlog:"Blog",
+    navAbout:"About",
+    heroTitle:"Taiga Wall",
+    heroDescription:"A place for open communication and sharing.<br>Confess, express yourself, share daily moments, ask questions or recommend resources.",
+    announcement:"Announcement",
+    chooseCategory:"Categories",
+    publishTitle:"Create a Post",
+    categoryLabel:"Post Category",
+    contentLabel:"Your Post",
+    contentPlaceholder:"Write something you'd like to share...",
+    anonymous:"Post anonymously",
+    nicknameLabel:"Display Name",
+    nicknamePlaceholder:"Enter a display name",
+    submit:"Submit Post",
+    submitting:"Submitting...",
+    submissionNotice:"Posts are reviewed before becoming public. Anonymous posts will not display a name. Do not include passwords, contact details or other private information.",
+    latestPosts:"Latest Posts",
+    loading:"Loading posts...",
+    loadFailed:"Unable to load posts. Please refresh and try again.",
+    empty:"There are no public posts in this category yet.",
+    all:"All",
+    allCategories:"All Categories",
+    anonymousUser:"Anonymous",
+    normalUser:"User",
+    contentTooShort:"Your post must contain at least 2 characters.",
+    nicknameRequired:"Please enter a display name or choose anonymous posting.",
+    success:"Post submitted! It is awaiting review and will appear after approval.",
+    failed:"Submission failed: ",
+    requestFailed:"Unable to submit your post",
+    readFailed:"Unable to load posts",
+    footerText:"A personal corner of the internet, always growing",
+    categories:["Confessions","Thoughts","Daily Life","Suggestions","Anime & Manga","Questions","Resources","Open Posts"]
+  },
+
+  "ja": {
+    navHome:"ホーム",
+    navBlog:"ブログ",
+    navAbout:"サイトについて",
+    heroTitle:"大河ウォール",
+    heroDescription:"自由に交流し、共有できる場所です。<br>気持ちを伝えたり、日常を共有したり、質問やおすすめを投稿できます。",
+    announcement:"お知らせ",
+    chooseCategory:"カテゴリー",
+    publishTitle:"投稿する",
+    categoryLabel:"投稿カテゴリー",
+    contentLabel:"投稿内容",
+    contentPlaceholder:"共有したいことを書いてください……",
+    anonymous:"匿名で投稿",
+    nicknameLabel:"表示名",
+    nicknamePlaceholder:"表示する名前を入力",
+    submit:"投稿する",
+    submitting:"送信中...",
+    submissionNotice:"投稿は審査後に公開されます。匿名投稿では名前は表示されません。パスワードや連絡先などの個人情報は入力しないでください。",
+    latestPosts:"最新の投稿",
+    loading:"投稿を読み込み中...",
+    loadFailed:"投稿を読み込めませんでした。ページを更新してください。",
+    empty:"このカテゴリーにはまだ公開投稿がありません。",
+    all:"すべて",
+    allCategories:"すべてのカテゴリー",
+    anonymousUser:"匿名ユーザー",
+    normalUser:"ユーザー",
+    contentTooShort:"投稿内容は2文字以上で入力してください。",
+    nicknameRequired:"表示名を入力するか、匿名投稿を選択してください。",
+    success:"投稿しました！審査が完了すると大河ウォールに表示されます。",
+    failed:"送信失敗：",
+    requestFailed:"投稿を送信できませんでした",
+    readFailed:"投稿を読み込めませんでした",
+    footerText:"成長を続ける個人のインターネット空間",
+    categories:["告白","心の声","日常共有","提案・意見","アニメ交流","質問・相談","おすすめ情報","自由投稿"]
+  },
+
+  "ko": {
+    navHome:"홈",
+    navBlog:"블로그",
+    navAbout:"사이트 소개",
+    heroTitle:"타이가 월",
+    heroDescription:"자유롭게 소통하고 공유하는 공간입니다.<br>마음을 전하고 일상을 공유하거나 질문과 추천을 남겨보세요.",
+    announcement:"공지사항",
+    chooseCategory:"카테고리 선택",
+    publishTitle:"게시글 작성",
+    categoryLabel:"게시글 카테고리",
+    contentLabel:"게시글 내용",
+    contentPlaceholder:"공유하고 싶은 내용을 작성하세요...",
+    anonymous:"익명으로 게시",
+    nicknameLabel:"표시 이름",
+    nicknamePlaceholder:"표시할 이름을 입력하세요",
+    submit:"게시글 제출",
+    submitting:"제출 중...",
+    submissionNotice:"게시글은 검토 후 공개됩니다. 익명 게시글에는 이름이 표시되지 않습니다. 비밀번호나 연락처 등 개인정보를 입력하지 마세요.",
+    latestPosts:"최신 게시글",
+    loading:"게시글을 불러오는 중...",
+    loadFailed:"게시글을 불러오지 못했습니다. 새로고침 후 다시 시도하세요.",
+    empty:"이 카테고리에는 아직 공개된 게시글이 없습니다.",
+    all:"전체",
+    allCategories:"전체 카테고리",
+    anonymousUser:"익명 사용자",
+    normalUser:"사용자",
+    contentTooShort:"게시글은 최소 2자 이상이어야 합니다.",
+    nicknameRequired:"표시 이름을 입력하거나 익명 게시를 선택하세요.",
+    success:"게시글이 제출되었습니다! 검토가 완료되면 타이가 월에 표시됩니다.",
+    failed:"제출 실패: ",
+    requestFailed:"게시글을 제출하지 못했습니다",
+    readFailed:"게시글을 불러오지 못했습니다",
+    footerText:"계속 성장하는 개인 인터넷 공간",
+    categories:["고백","마음의 이야기","일상 공유","제안 및 의견","애니메이션 교류","질문과 도움","자료 추천","자유 게시"]
+  }
+};
+
+const languageSelect = document.getElementById("languageSelect");
 const categoryBox = document.getElementById("categories");
 const categorySelect = document.getElementById("category");
 const postList = document.getElementById("postList");
@@ -592,21 +730,181 @@ const submitMessage = document.getElementById("submitMessage");
 const wallNoticePanel = document.getElementById("wallNoticePanel");
 const wallNotice = document.getElementById("wallNotice");
 
+let currentLanguage = "zh-CN";
 let selectedCategory = "全部";
 let allPosts = [];
+
+function detectLanguage() {
+  const saved = localStorage.getItem("hemeng-wall-language");
+
+  if (saved && translations[saved]) {
+    return saved;
+  }
+
+  const browserLanguages = navigator.languages || [navigator.language || "en"];
+
+  for (const language of browserLanguages) {
+    const code = language.toLowerCase();
+
+    if (
+      code.startsWith("zh-tw") ||
+      code.startsWith("zh-hk") ||
+      code.startsWith("zh-mo") ||
+      code.includes("hant")
+    ) {
+      return "zh-TW";
+    }
+
+    if (code.startsWith("zh")) return "zh-CN";
+    if (code.startsWith("ja")) return "ja";
+    if (code.startsWith("ko")) return "ko";
+    if (code.startsWith("en")) return "en";
+  }
+
+  return "en";
+}
+
+function t(key) {
+  return translations[currentLanguage][key] ??
+    translations["en"][key] ??
+    key;
+}
+
+function applyStaticTranslations() {
+  document.documentElement.lang = currentLanguage;
+
+  document.title = currentLanguage === "en"
+    ? "Taiga Wall - HEMENG"
+    : currentLanguage === "ja"
+      ? "大河ウォール - HEMENG"
+      : currentLanguage === "ko"
+        ? "타이가 월 - HEMENG"
+        : currentLanguage === "zh-TW"
+          ? "大河牆 - 荷萌 HEMENG"
+          : "大河墙 - 荷萌 HEMENG";
+
+  document.querySelectorAll("[data-i18n]").forEach(element => {
+    const key = element.dataset.i18n;
+    if (t(key) !== undefined) {
+      element.textContent = t(key);
+    }
+  });
+
+  document.querySelectorAll("[data-i18n-placeholder]").forEach(element => {
+    element.placeholder = t(element.dataset.i18nPlaceholder);
+  });
+
+  languageSelect.value = currentLanguage;
+}
+
+function getCategoryLabel(category) {
+  const index = canonicalCategories.indexOf(category);
+
+  if (index < 0) return category;
+
+  return t("categories")[index];
+}
+
+function setupCategories() {
+  categoryBox.replaceChildren();
+  categorySelect.replaceChildren();
+
+  canonicalCategories.forEach(category => {
+    const option = document.createElement("option");
+    option.value = category;
+    option.textContent = getCategoryLabel(category);
+    categorySelect.appendChild(option);
+  });
+
+  const allButton = document.createElement("button");
+  allButton.type = "button";
+  allButton.className = "category";
+  allButton.addEventListener("click", () => chooseCategory("全部"));
+  categoryBox.appendChild(allButton);
+
+  canonicalCategories.forEach(category => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "category";
+    button.dataset.category = category;
+    button.addEventListener("click", () => chooseCategory(category));
+    categoryBox.appendChild(button);
+  });
+
+  updateCategoryLabels();
+}
+
+function updateCategoryLabels() {
+  const allButton = categoryBox.querySelector("button:first-child");
+
+  if (allButton) {
+    allButton.textContent = t("all");
+  }
+
+  categoryBox.querySelectorAll("button[data-category]").forEach(button => {
+    button.textContent = getCategoryLabel(button.dataset.category);
+  });
+
+  Array.from(categorySelect.options).forEach(option => {
+    option.textContent = getCategoryLabel(option.value);
+  });
+
+  categorySelect.value = canonicalCategories.includes(selectedCategory)
+    ? selectedCategory
+    : "自由投稿";
+
+  categoryBox.querySelectorAll("button").forEach(button => {
+    const isActive = button.dataset.category
+      ? button.dataset.category === selectedCategory
+      : selectedCategory === "全部";
+
+    button.classList.toggle("active", isActive);
+  });
+}
+
+function chooseCategory(category) {
+  selectedCategory = category;
+
+  if (category === "全部") {
+    categorySelect.value = "自由投稿";
+  } else {
+    categorySelect.value = category;
+  }
+
+  updateCategoryLabels();
+  renderPosts();
+}
+
+function changeLanguage(language) {
+  if (!translations[language]) return;
+
+  currentLanguage = language;
+  localStorage.setItem("hemeng-wall-language", language);
+
+  applyStaticTranslations();
+  updateCategoryLabels();
+  renderPosts();
+
+  if (!submitMessage.dataset.persistent) {
+    submitMessage.textContent = "";
+  }
+}
+
+languageSelect.addEventListener("change", () => {
+  changeLanguage(languageSelect.value);
+});
 
 async function loadWallNotice() {
   try {
     const response = await fetch("/api/settings", {
-      method: "GET",
-      cache: "no-store"
+      method:"GET",
+      cache:"no-store"
     });
 
     if (!response.ok) return;
 
     const data = await response.json();
     const settings = data.settings || data;
-
     const announcement = String(settings.wall_notice || "").trim();
 
     if (announcement) {
@@ -621,84 +919,38 @@ async function loadWallNotice() {
   }
 }
 
-function setupCategories() {
-  const allOption = document.createElement("option");
-  allOption.value = "全部";
-  allOption.textContent = "全部板块";
-  categorySelect.appendChild(allOption);
-
-  categoryNames.forEach(name => {
-    const option = document.createElement("option");
-    option.value = name;
-    option.textContent = name;
-    categorySelect.appendChild(option);
-  });
-
-  const allButton = document.createElement("button");
-  allButton.type = "button";
-  allButton.className = "category active";
-  allButton.textContent = "全部";
-  allButton.addEventListener("click", () => chooseCategory("全部"));
-  categoryBox.appendChild(allButton);
-
-  categoryNames.forEach(name => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "category";
-    button.textContent = name;
-    button.addEventListener("click", () => chooseCategory(name));
-    categoryBox.appendChild(button);
-  });
-}
-
-function chooseCategory(name) {
-  selectedCategory = name;
-
-  categorySelect.value = name === "全部" ? "自由投稿" : name;
-
-  categoryBox.querySelectorAll("button").forEach(button => {
-    button.classList.toggle("active", button.textContent === name);
-  });
-
-  renderPosts();
-}
-
 anonymousInput.addEventListener("change", () => {
   nicknameArea.hidden = anonymousInput.checked;
   nicknameInput.required = !anonymousInput.checked;
 });
 
 categorySelect.addEventListener("change", () => {
-  if (categorySelect.value !== "全部") {
-    selectedCategory = categorySelect.value;
-
-    categoryBox.querySelectorAll("button").forEach(button => {
-      button.classList.toggle(
-        "active",
-        button.textContent === selectedCategory
-      );
-    });
-  }
+  selectedCategory = categorySelect.value;
+  updateCategoryLabels();
+  renderPosts();
 });
 
 async function loadPosts() {
+  postList.textContent = t("loading");
+  postList.className = "message";
+
   try {
     const response = await fetch("/api/wall", {
-      method: "GET",
-      cache: "no-store"
+      method:"GET",
+      cache:"no-store"
     });
 
     const data = await response.json();
 
     if (!response.ok || !data.success) {
-      throw new Error(data.error || "读取投稿失败");
+      throw new Error(data.message || data.error || t("readFailed"));
     }
 
     allPosts = Array.isArray(data.posts) ? data.posts : [];
     renderPosts();
 
   } catch (error) {
-    postList.textContent = "投稿加载失败，请稍后刷新重试。";
+    postList.textContent = t("loadFailed");
     postList.className = "message error";
   }
 }
@@ -711,13 +963,12 @@ function renderPosts() {
     post.category === selectedCategory
   );
 
-  listTitle.textContent =
-    selectedCategory === "全部"
-      ? "最新投稿"
-      : selectedCategory;
+  listTitle.textContent = selectedCategory === "全部"
+    ? t("latestPosts")
+    : getCategoryLabel(selectedCategory);
 
   if (visiblePosts.length === 0) {
-    postList.textContent = "这个板块暂时还没有公开投稿。";
+    postList.textContent = t("empty");
     postList.className = "message";
     return;
   }
@@ -733,12 +984,12 @@ function renderPosts() {
 
     const category = document.createElement("span");
     category.className = "post-category";
-    category.textContent = post.category || "自由投稿";
+    category.textContent = getCategoryLabel(post.category || "自由投稿");
 
     const author = document.createElement("span");
     author.textContent = post.is_anonymous
-      ? "匿名用户"
-      : (post.nickname || "用户");
+      ? t("anonymousUser")
+      : (post.nickname || t("normalUser"));
 
     const time = document.createElement("span");
     time.textContent = post.created_at || "";
@@ -761,46 +1012,48 @@ document.getElementById("postForm").addEventListener("submit", async event => {
   const isAnonymous = anonymousInput.checked;
   const nickname = nicknameInput.value.trim();
 
+  submitMessage.dataset.persistent = "";
+
   if (content.length < 2) {
-    submitMessage.textContent = "投稿内容至少需要 2 个字符。";
+    submitMessage.textContent = t("contentTooShort");
     submitMessage.className = "message error";
     return;
   }
 
   if (!isAnonymous && !nickname) {
-    submitMessage.textContent = "请填写昵称，或者选择匿名投稿。";
+    submitMessage.textContent = t("nicknameRequired");
     submitMessage.className = "message error";
     return;
   }
 
   submitButton.disabled = true;
-  submitButton.textContent = "正在提交...";
+  submitButton.textContent = t("submitting");
   submitMessage.textContent = "";
 
   try {
     const response = await fetch("/api/wall", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json"
       },
-      body: JSON.stringify({
-        category: categorySelect.value,
+      body:JSON.stringify({
+        category:categorySelect.value,
         content,
-        is_anonymous: isAnonymous,
-        nickname: isAnonymous ? "" : nickname,
-        website: document.getElementById("website").value
+        is_anonymous:isAnonymous,
+        nickname:isAnonymous ? "" : nickname,
+        website:document.getElementById("website").value
       })
     });
 
     const data = await response.json();
 
     if (!response.ok || !data.success) {
-      throw new Error(data.error || "投稿提交失败");
+      throw new Error(data.message || data.error || t("requestFailed"));
     }
 
-    submitMessage.textContent =
-      "投稿成功！内容已进入审核，通过后就会显示在大河墙。";
+    submitMessage.textContent = t("success");
     submitMessage.className = "message";
+    submitMessage.dataset.persistent = "true";
 
     contentInput.value = "";
     nicknameInput.value = "";
@@ -809,15 +1062,17 @@ document.getElementById("postForm").addEventListener("submit", async event => {
     nicknameInput.required = false;
 
   } catch (error) {
-    submitMessage.textContent = "提交失败：" + error.message;
+    submitMessage.textContent = t("failed") + error.message;
     submitMessage.className = "message error";
 
   } finally {
     submitButton.disabled = false;
-    submitButton.textContent = "提交投稿";
+    submitButton.textContent = t("submit");
   }
 });
 
+currentLanguage = detectLanguage();
+applyStaticTranslations();
 setupCategories();
 loadPosts();
 loadWallNotice();
