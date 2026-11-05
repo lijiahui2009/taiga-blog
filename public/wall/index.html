@@ -311,6 +311,14 @@ textarea::placeholder,input::placeholder{color:#B9ACA6}
   border-radius:20px;
 }
 
+.post-language{
+  padding:4px 9px;
+  color:#806D67;
+  background:#FFF7F3;
+  border:1px solid var(--border);
+  border-radius:20px;
+}
+
 .post-content{
   color:#574944;
   white-space:pre-wrap;
@@ -466,6 +474,17 @@ footer strong{color:var(--accent-dark)}
       <label for="category" data-i18n="categoryLabel">投稿板块</label>
       <select id="category" required></select>
 
+      <label for="postLanguage" data-i18n="languageLabel">
+        投稿原文语言
+      </label>
+      <select id="postLanguage" required>
+        <option value="zh-CN">简体中文</option>
+        <option value="zh-TW">繁體中文</option>
+        <option value="en">English</option>
+        <option value="ja">日本語</option>
+        <option value="ko">한국어</option>
+      </select>
+
       <label for="content" data-i18n="contentLabel">投稿内容</label>
       <textarea id="content" minlength="2" maxlength="3000"
         data-i18n-placeholder="contentPlaceholder"
@@ -509,6 +528,20 @@ footer strong{color:var(--accent-dark)}
       <h2 id="listTitle" data-i18n="latestPosts">最新投稿</h2>
       <span class="heading-note">LATEST POSTS</span>
     </div>
+
+    <label for="languageFilter" data-i18n="languageFilterLabel">
+      按投稿语言筛选
+    </label>
+    <select id="languageFilter">
+      <option value="all">全部语言</option>
+      <option value="zh-CN">简体中文</option>
+      <option value="zh-TW">繁體中文</option>
+      <option value="en">English</option>
+      <option value="ja">日本語</option>
+      <option value="ko">한국어</option>
+      <option value="unknown">未知语言</option>
+    </select>
+
     <div id="postList" class="message" aria-live="polite">
       正在加载投稿...
     </div>
@@ -545,6 +578,10 @@ const translations = {
     chooseCategory:"选择板块",
     publishTitle:"发布投稿",
     categoryLabel:"投稿板块",
+    languageLabel:"投稿原文语言",
+    languageFilterLabel:"按投稿语言筛选",
+    allLanguages:"全部语言",
+    unknownLanguage:"未知语言",
     contentLabel:"投稿内容",
     contentPlaceholder:"写下你想分享的内容……",
     anonymous:"匿名投稿",
@@ -556,9 +593,8 @@ const translations = {
     latestPosts:"最新投稿",
     loading:"正在加载投稿...",
     loadFailed:"投稿加载失败，请稍后刷新重试。",
-    empty:"这个板块暂时还没有公开投稿。",
+    empty:"没有符合条件的公开投稿。",
     all:"全部",
-    allCategories:"全部板块",
     anonymousUser:"匿名用户",
     normalUser:"用户",
     contentTooShort:"投稿内容至少需要 2 个字符。",
@@ -581,6 +617,10 @@ const translations = {
     chooseCategory:"選擇分類",
     publishTitle:"發布投稿",
     categoryLabel:"投稿分類",
+    languageLabel:"投稿原文語言",
+    languageFilterLabel:"依投稿語言篩選",
+    allLanguages:"全部語言",
+    unknownLanguage:"未知語言",
     contentLabel:"投稿內容",
     contentPlaceholder:"寫下你想分享的內容……",
     anonymous:"匿名投稿",
@@ -592,9 +632,8 @@ const translations = {
     latestPosts:"最新投稿",
     loading:"正在載入投稿……",
     loadFailed:"投稿載入失敗，請稍後重新整理。",
-    empty:"這個分類暫時還沒有公開投稿。",
+    empty:"沒有符合條件的公開投稿。",
     all:"全部",
-    allCategories:"全部分類",
     anonymousUser:"匿名使用者",
     normalUser:"使用者",
     contentTooShort:"投稿內容至少需要 2 個字元。",
@@ -617,6 +656,10 @@ const translations = {
     chooseCategory:"Categories",
     publishTitle:"Create a Post",
     categoryLabel:"Post Category",
+    languageLabel:"Original Post Language",
+    languageFilterLabel:"Filter by Language",
+    allLanguages:"All Languages",
+    unknownLanguage:"Unknown Language",
     contentLabel:"Your Post",
     contentPlaceholder:"Write something you'd like to share...",
     anonymous:"Post anonymously",
@@ -628,9 +671,8 @@ const translations = {
     latestPosts:"Latest Posts",
     loading:"Loading posts...",
     loadFailed:"Unable to load posts. Please refresh and try again.",
-    empty:"There are no public posts in this category yet.",
+    empty:"There are no public posts matching these filters.",
     all:"All",
-    allCategories:"All Categories",
     anonymousUser:"Anonymous",
     normalUser:"User",
     contentTooShort:"Your post must contain at least 2 characters.",
@@ -653,6 +695,10 @@ const translations = {
     chooseCategory:"カテゴリー",
     publishTitle:"投稿する",
     categoryLabel:"投稿カテゴリー",
+    languageLabel:"投稿の原文言語",
+    languageFilterLabel:"投稿言語で絞り込む",
+    allLanguages:"すべての言語",
+    unknownLanguage:"不明な言語",
     contentLabel:"投稿内容",
     contentPlaceholder:"共有したいことを書いてください……",
     anonymous:"匿名で投稿",
@@ -664,9 +710,8 @@ const translations = {
     latestPosts:"最新の投稿",
     loading:"投稿を読み込み中...",
     loadFailed:"投稿を読み込めませんでした。ページを更新してください。",
-    empty:"このカテゴリーにはまだ公開投稿がありません。",
+    empty:"条件に一致する公開投稿はありません。",
     all:"すべて",
-    allCategories:"すべてのカテゴリー",
     anonymousUser:"匿名ユーザー",
     normalUser:"ユーザー",
     contentTooShort:"投稿内容は2文字以上で入力してください。",
@@ -689,6 +734,10 @@ const translations = {
     chooseCategory:"카테고리 선택",
     publishTitle:"게시글 작성",
     categoryLabel:"게시글 카테고리",
+    languageLabel:"게시글 원문 언어",
+    languageFilterLabel:"언어별 게시글 필터",
+    allLanguages:"모든 언어",
+    unknownLanguage:"알 수 없는 언어",
     contentLabel:"게시글 내용",
     contentPlaceholder:"공유하고 싶은 내용을 작성하세요...",
     anonymous:"익명으로 게시",
@@ -700,9 +749,8 @@ const translations = {
     latestPosts:"최신 게시글",
     loading:"게시글을 불러오는 중...",
     loadFailed:"게시글을 불러오지 못했습니다. 새로고침 후 다시 시도하세요.",
-    empty:"이 카테고리에는 아직 공개된 게시글이 없습니다.",
+    empty:"조건에 맞는 공개 게시글이 없습니다.",
     all:"전체",
-    allCategories:"전체 카테고리",
     anonymousUser:"익명 사용자",
     normalUser:"사용자",
     contentTooShort:"게시글은 최소 2자 이상이어야 합니다.",
@@ -716,9 +764,20 @@ const translations = {
   }
 };
 
+const languageNames = {
+  "zh-CN":"简体中文",
+  "zh-TW":"繁體中文",
+  "en":"English",
+  "ja":"日本語",
+  "ko":"한국어",
+  "unknown":null
+};
+
 const languageSelect = document.getElementById("languageSelect");
 const categoryBox = document.getElementById("categories");
 const categorySelect = document.getElementById("category");
+const postLanguageSelect = document.getElementById("postLanguage");
+const languageFilter = document.getElementById("languageFilter");
 const postList = document.getElementById("postList");
 const listTitle = document.getElementById("listTitle");
 const anonymousInput = document.getElementById("anonymous");
@@ -732,6 +791,7 @@ const wallNotice = document.getElementById("wallNotice");
 
 let currentLanguage = "zh-CN";
 let selectedCategory = "全部";
+let selectedLanguage = "all";
 let allPosts = [];
 
 function detectLanguage() {
@@ -741,7 +801,9 @@ function detectLanguage() {
     return saved;
   }
 
-  const browserLanguages = navigator.languages || [navigator.language || "en"];
+  const browserLanguages = navigator.languages || [
+    navigator.language || "en"
+  ];
 
   for (const language of browserLanguages) {
     const code = language.toLowerCase();
@@ -785,7 +847,10 @@ function applyStaticTranslations() {
 
   document.querySelectorAll("[data-i18n]").forEach(element => {
     const key = element.dataset.i18n;
-    if (t(key) !== undefined) {
+
+    if (key === "heroDescription") {
+      element.innerHTML = t(key);
+    } else {
       element.textContent = t(key);
     }
   });
@@ -795,6 +860,8 @@ function applyStaticTranslations() {
   });
 
   languageSelect.value = currentLanguage;
+
+  updateLanguageFilterOptions();
 }
 
 function getCategoryLabel(category) {
@@ -803,6 +870,33 @@ function getCategoryLabel(category) {
   if (index < 0) return category;
 
   return t("categories")[index];
+}
+
+function updateLanguageFilterOptions() {
+  const currentValue = languageFilter.value || selectedLanguage;
+
+  languageFilter.replaceChildren();
+
+  const options = [
+    ["all", t("allLanguages")],
+    ["zh-CN", "简体中文"],
+    ["zh-TW", "繁體中文"],
+    ["en", "English"],
+    ["ja", "日本語"],
+    ["ko", "한국어"],
+    ["unknown", t("unknownLanguage")]
+  ];
+
+  options.forEach(([value, label]) => {
+    const option = document.createElement("option");
+    option.value = value;
+    option.textContent = label;
+    languageFilter.appendChild(option);
+  });
+
+  languageFilter.value = options.some(item => item[0] === currentValue)
+    ? currentValue
+    : "all";
 }
 
 function setupCategories() {
@@ -882,6 +976,7 @@ function changeLanguage(language) {
   localStorage.setItem("hemeng-wall-language", language);
 
   applyStaticTranslations();
+  postLanguageSelect.value = language;
   updateCategoryLabels();
   renderPosts();
 
@@ -892,6 +987,11 @@ function changeLanguage(language) {
 
 languageSelect.addEventListener("change", () => {
   changeLanguage(languageSelect.value);
+});
+
+languageFilter.addEventListener("change", () => {
+  selectedLanguage = languageFilter.value;
+  renderPosts();
 });
 
 async function loadWallNotice() {
@@ -955,13 +1055,26 @@ async function loadPosts() {
   }
 }
 
+function getLanguageLabel(language) {
+  return languageNames[language] || t("unknownLanguage");
+}
+
 function renderPosts() {
   postList.replaceChildren();
 
-  const visiblePosts = allPosts.filter(post =>
-    selectedCategory === "全部" ||
-    post.category === selectedCategory
-  );
+  const visiblePosts = allPosts.filter(post => {
+    const categoryMatch =
+      selectedCategory === "全部" ||
+      post.category === selectedCategory;
+
+    const language = post.language || "unknown";
+
+    const languageMatch =
+      selectedLanguage === "all" ||
+      language === selectedLanguage;
+
+    return categoryMatch && languageMatch;
+  });
 
   listTitle.textContent = selectedCategory === "全部"
     ? t("latestPosts")
@@ -986,6 +1099,10 @@ function renderPosts() {
     category.className = "post-category";
     category.textContent = getCategoryLabel(post.category || "自由投稿");
 
+    const language = document.createElement("span");
+    language.className = "post-language";
+    language.textContent = getLanguageLabel(post.language);
+
     const author = document.createElement("span");
     author.textContent = post.is_anonymous
       ? t("anonymousUser")
@@ -994,7 +1111,7 @@ function renderPosts() {
     const time = document.createElement("span");
     time.textContent = post.created_at || "";
 
-    meta.append(category, author, time);
+    meta.append(category, language, author, time);
 
     const content = document.createElement("div");
     content.className = "post-content";
@@ -1039,6 +1156,7 @@ document.getElementById("postForm").addEventListener("submit", async event => {
       body:JSON.stringify({
         category:categorySelect.value,
         content,
+        language:postLanguageSelect.value,
         is_anonymous:isAnonymous,
         nickname:isAnonymous ? "" : nickname,
         website:document.getElementById("website").value
@@ -1074,6 +1192,9 @@ document.getElementById("postForm").addEventListener("submit", async event => {
 currentLanguage = detectLanguage();
 applyStaticTranslations();
 setupCategories();
+postLanguageSelect.value = currentLanguage;
+languageFilter.value = "all";
+
 loadPosts();
 loadWallNotice();
 </script>
