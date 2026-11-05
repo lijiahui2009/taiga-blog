@@ -1,4 +1,3 @@
-
 const CATEGORIES = [
   "表白墙",
   "树洞",
@@ -8,6 +7,14 @@ const CATEGORIES = [
   "提问求助",
   "资源推荐",
   "自由投稿"
+];
+
+const LANGUAGES = [
+  "zh-CN",
+  "zh-TW",
+  "en",
+  "ja",
+  "ko"
 ];
 
 function json(data, status = 200) {
@@ -29,7 +36,9 @@ export async function onRequestGet({ env }) {
         nickname,
         is_anonymous,
         content,
-        created_at
+        created_at,
+        language,
+        language_source
       FROM wall_posts
       WHERE status = 'approved'
       ORDER BY created_at DESC
@@ -62,7 +71,7 @@ export async function onRequestPost({ request, env }) {
 
     const body = await request.json();
 
-    // 隐藏的反垃圾字段，正常访客应保持为空
+    // 隐藏的反垃圾字段
     if (body.website) {
       return json({
         success: true,
@@ -85,6 +94,19 @@ export async function onRequestPost({ request, env }) {
       : (typeof body.nickname === "string"
           ? body.nickname.trim()
           : "");
+
+    // 语言标记：只接受网站支持的语言
+    const requestedLanguage = typeof body.language === "string"
+      ? body.language.trim()
+      : "";
+
+    const language = LANGUAGES.includes(requestedLanguage)
+      ? requestedLanguage
+      : "unknown";
+
+    const languageSource = language === "unknown"
+      ? "unknown"
+      : "user";
 
     if (!CATEGORIES.includes(category)) {
       return json({
@@ -113,14 +135,18 @@ export async function onRequestPost({ request, env }) {
         nickname,
         is_anonymous,
         content,
-        status
+        status,
+        language,
+        language_source
       )
-      VALUES (?, ?, ?, ?, 'pending')
+      VALUES (?, ?, ?, ?, 'pending', ?, ?)
     `).bind(
       category,
       nickname,
       isAnonymous ? 1 : 0,
-      content
+      content,
+      language,
+      languageSource
     ).run();
 
     return json({
