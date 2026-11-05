@@ -1059,6 +1059,39 @@ function getLanguageLabel(language) {
   return languageNames[language] || t("unknownLanguage");
 }
 
+// 将数据库 UTC 时间转换为访问者设备所在时区的时间
+function formatPostTime(value) {
+  if (!value) return "";
+
+  const raw = String(value).trim();
+
+  // SQLite CURRENT_TIMESTAMP 格式按 UTC 解析
+  const match = raw.match(
+    /^(\d{4}-\d{2}-\d{2})[ T](\d{2}:\d{2}:\d{2})(\.\d+)?$/
+  );
+
+  const isoTime = match
+    ? `${match[1]}T${match[2]}${match[3] || ""}Z`
+    : raw;
+
+  const date = new Date(isoTime);
+
+  if (Number.isNaN(date.getTime())) {
+    return raw;
+  }
+
+  return new Intl.DateTimeFormat(currentLanguage, {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+    timeZoneName: "short"
+  }).format(date);
+}
+
 function renderPosts() {
   postList.replaceChildren();
 
@@ -1109,7 +1142,7 @@ function renderPosts() {
       : (post.nickname || t("normalUser"));
 
     const time = document.createElement("span");
-    time.textContent = post.created_at || "";
+    time.textContent = formatPostTime(post.created_at);
 
     meta.append(category, language, author, time);
 
