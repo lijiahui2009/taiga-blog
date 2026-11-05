@@ -23,7 +23,6 @@
       "EXPLORE HEMENG": "EXPLORE HEMENG",
       "探索荷萌": "探索荷萌",
       "记录想法，整理资料，发现有趣的工具。": "记录想法，整理资料，发现有趣的工具。",
-      "个人博客": "个人博客",
       "记录个人想法、日常观察、知识整理与文章分享。": "记录个人想法、日常观察、知识整理与文章分享。",
       "进入博客 →": "进入博客 →",
       "一个自由交流的空间，支持日常分享与匿名投稿。": "一个自由交流的空间，支持日常分享与匿名投稿。",
@@ -85,7 +84,7 @@
       "荷萌 HEMENG 品牌徽章": "荷萌 HEMENG 品牌徽章",
       "个人博客 · 数字资料库 · 在线工具 · 兴趣分享": "個人部落格 · 數位資料庫 · 線上工具 · 興趣分享",
       "一个属于自己的互联网空间": "一個屬於自己的網路空間",
-      "EXPLORE HEMENG": "EXPLORE HEMENG",
+      "EXPLORE HEMENG": "探索荷萌",
       "探索荷萌": "探索荷萌",
       "记录想法，整理资料，发现有趣的工具。": "記錄想法、整理資料，發現有趣的工具。",
       "记录个人想法、日常观察、知识整理与文章分享。": "記錄個人想法、日常觀察、知識整理與文章分享。",
@@ -95,21 +94,26 @@
       "九宫格工具": "九宮格工具",
       "图片九宫格切割、九张图片合成等实用功能。": "圖片九宮格切割、九張圖片合成等實用功能。",
       "使用工具 →": "使用工具 →",
+      "二维码工具": "QR Code 工具",
       "生成二维码、识别二维码，为日常使用提供便利。": "產生 QR Code、辨識 QR Code，讓日常使用更加便利。",
       "关于荷萌": "關於荷萌",
       "了解品牌的建立初衷、设计理念与未来发展方向。": "了解品牌的創立初衷、設計理念與未來發展方向。",
       "了解更多 →": "了解更多 →",
+      "个人资料库": "個人資料庫",
       "整理人物资料、图片与背景信息，逐步建设专属资料空间。": "整理人物資料、圖片與背景資訊，逐步建立專屬資料空間。",
       "持续建设中": "持續建置中",
+      "LATEST ARTICLES": "最新文章",
       "最近文章": "最新文章",
       "看看最近记录了哪些想法与内容。": "看看最近記錄了哪些想法與內容。",
       "正在读取文章……": "正在讀取文章……",
       "查看全部文章 →": "查看所有文章 →",
+      "ONLINE TOOLS": "線上工具",
       "实用工具": "實用工具",
       "无需安装，打开网页即可使用。": "無需安裝，開啟網頁即可使用。",
       "九宫格图片工具": "九宮格圖片工具",
       "图片切割、九张图片合成与下载。": "圖片切割、九張圖片合成與下載。",
       "二维码生成、识别与网页分享。": "QR Code 產生、辨識與網頁分享。",
+      "SITE UPDATES": "網站動態",
       "网站动态": "網站動態",
       "记录荷萌的建设与完善过程。": "記錄荷萌的建置與完善過程。",
       "首页体验持续优化": "首頁體驗持續最佳化",
@@ -119,6 +123,7 @@
       "持续进行": "持續進行",
       "荷萌仍在建设中": "荷萌仍在建置中",
       "博客、资料整理与更多功能将逐步完善。": "部落格、資料整理與更多功能將逐步完善。",
+      "ABOUT OUR SPACE": "關於我們的空間",
       "一个不断生长的互联网空间": "一個持續成長的網路空間",
       "了解荷萌 →": "了解荷萌 →",
       "一个持续建设中的个人互联网空间": "一個持續建置中的個人網路空間",
@@ -133,7 +138,7 @@
 
     "en": {
       "首页": "Home",
-      "个人博客": "Blog",
+      "个人博客": "Personal Blog",
       "大河墙": "Taiga Wall",
       "九宫格": "Nine-grid",
       "二维码": "QR Code",
@@ -145,7 +150,6 @@
       "EXPLORE HEMENG": "EXPLORE HEMENG",
       "探索荷萌": "Explore HEMENG",
       "记录想法，整理资料，发现有趣的工具。": "Record ideas, organize information, and discover useful tools.",
-      "个人博客": "Personal Blog",
       "记录个人想法、日常观察、知识整理与文章分享。": "A place for personal thoughts, observations, knowledge, and articles.",
       "进入博客 →": "Visit Blog →",
       "一个自由交流的空间，支持日常分享与匿名投稿。": "An open space for sharing thoughts and anonymous submissions.",
@@ -184,6 +188,7 @@
       "博客、资料整理与更多功能将逐步完善。": "The blog, archive, and more features will continue to grow.",
       "ABOUT OUR SPACE": "ABOUT OUR SPACE",
       "一个不断生长的互联网空间": "A Growing Space on the Internet",
+      "荷萌是一个持续建设中的个人综合站。\n它既是个人博客，也是一个可以容纳各种工具、\n资料和交流功能的互联网空间。\n\n希望这里能够成为记录想法、探索兴趣和分享知识的地方。": "HEMENG is a personal website that is continuously evolving.\nIt is a blog, as well as a space for tools,\nresources, and communication.\n\nMay it become a place to record ideas, explore interests, and share knowledge.",
       "了解荷萌 →": "About HEMENG →",
       "一个持续建设中的个人互联网空间": "A personal space on the internet, always evolving",
       "发布时间未知": "Date unavailable",
@@ -209,7 +214,6 @@
       "EXPLORE HEMENG": "EXPLORE HEMENG",
       "探索荷萌": "荷萌を探索する",
       "记录想法，整理资料，发现有趣的工具。": "考えを記録し、情報を整理し、便利なツールを見つけましょう。",
-      "个人博客": "個人ブログ",
       "记录个人想法、日常观察、知识整理与文章分享。": "日々の考えや観察、知識、記事を記録します。",
       "进入博客 →": "ブログへ →",
       "一个自由交流的空间，支持日常分享与匿名投稿。": "日常の共有や匿名投稿ができる自由な交流スペースです。",
@@ -217,6 +221,7 @@
       "九宫格工具": "9分割ツール",
       "图片九宫格切割、九张图片合成等实用功能。": "画像の9分割や、9枚の画像を1枚にまとめる機能です。",
       "使用工具 →": "ツールを使う →",
+      "二维码工具": "QRコードツール",
       "生成二维码、识别二维码，为日常使用提供便利。": "QRコードの作成と読み取りができます。",
       "关于荷萌": "荷萌について",
       "了解品牌的建立初衷、设计理念与未来发展方向。": "設立の目的、デザイン理念、今後の方向性を紹介します。",
@@ -247,6 +252,7 @@
       "博客、资料整理与更多功能将逐步完善。": "ブログや資料庫などの機能を順次追加していきます。",
       "ABOUT OUR SPACE": "ABOUT OUR SPACE",
       "一个不断生长的互联网空间": "成長し続けるインターネット空間",
+      "荷萌是一个持续建设中的个人综合站。\n它既是个人博客，也是一个可以容纳各种工具、\n资料和交流功能的互联网空间。\n\n希望这里能够成为记录想法、探索兴趣和分享知识的地方。": "荷萌は現在も開発を続けている個人総合サイトです。\n個人ブログであり、さまざまなツールや資料、\n交流機能を備えたインターネット空間でもあります。\n\n考えを記録し、興味を探求し、知識を共有する場所を目指しています。",
       "了解荷萌 →": "荷萌について →",
       "一个持续建设中的个人互联网空间": "成長を続ける個人インターネット空間",
       "发布时间未知": "公開日不明",
@@ -272,7 +278,6 @@
       "EXPLORE HEMENG": "EXPLORE HEMENG",
       "探索荷萌": "荷萌 둘러보기",
       "记录想法，整理资料，发现有趣的工具。": "생각을 기록하고 자료를 정리하며 유용한 도구를 찾아보세요.",
-      "个人博客": "개인 블로그",
       "记录个人想法、日常观察、知识整理与文章分享。": "개인적인 생각과 일상, 지식, 글을 기록합니다.",
       "进入博客 →": "블로그 방문 →",
       "一个自由交流的空间，支持日常分享与匿名投稿。": "일상 공유와 익명投稿을 지원하는 자유로운 소통 공간입니다.",
@@ -280,6 +285,7 @@
       "九宫格工具": "9분할 도구",
       "图片九宫格切割、九张图片合成等实用功能。": "이미지 9분할 및 9장의 이미지를 하나로 합치는 기능입니다.",
       "使用工具 →": "도구 사용 →",
+      "二维码工具": "QR 코드 도구",
       "生成二维码、识别二维码，为日常使用提供便利。": "QR 코드를 생성하고 인식할 수 있습니다.",
       "关于荷萌": "荷萌 소개",
       "了解品牌的建立初衷、设计理念与未来发展方向。": "브랜드의 시작, 디자인 철학과 앞으로의 방향을 소개합니다.",
@@ -310,6 +316,7 @@
       "博客、资料整理与更多功能将逐步完善。": "블로그, 자료실 및 다양한 기능을 계속 추가할 예정입니다.",
       "ABOUT OUR SPACE": "ABOUT OUR SPACE",
       "一个不断生长的互联网空间": "계속 성장하는 인터넷 공간",
+      "荷萌是一个持续建设中的个人综合站。\n它既是个人博客，也是一个可以容纳各种工具、\n资料和交流功能的互联网空间。\n\n希望这里能够成为记录想法、探索兴趣和分享知识的地方。": "荷萌은 계속 개발 중인 개인 종합 사이트입니다.\n개인 블로그이자 다양한 도구와 자료,\n소통 기능을 담을 수 있는 인터넷 공간입니다.\n\n생각을 기록하고 관심사를 탐구하며 지식을 나누는 공간이 되기를 바랍니다.",
       "了解荷萌 →": "荷萌 소개 →",
       "一个持续建设中的个人互联网空间": "계속 발전하는 개인 인터넷 공간",
       "发布时间未知": "게시 날짜 없음",
@@ -322,32 +329,74 @@
     }
   };
 
+  // 标准化文字，兼容换行和多余空格
   function normalizeText(value) {
-    return value.replace(/\s+/g, " ").trim();
+    return String(value).replace(/\s+/g, " ").trim();
   }
 
+  // 将翻译词典的键也标准化
+  function prepareDictionary(language) {
+    const source = translations[language] || translations.en;
+    const dictionary = {};
+
+    Object.keys(source).forEach(function (key) {
+      dictionary[normalizeText(key)] = source[key];
+    });
+
+    return dictionary;
+  }
+
+  // 保存原始文字，确保可以反复切换语言
+  const originalTexts = new WeakMap();
+
   function translateTextNode(node, dictionary) {
-    if (!node || !node.nodeValue || !node.nodeValue.trim()) return;
+    if (!node || !node.nodeValue || !node.nodeValue.trim()) {
+      return;
+    }
 
-    const original = normalizeText(node.nodeValue);
-    const translated = dictionary[original];
+    if (!originalTexts.has(node)) {
+      originalTexts.set(node, node.nodeValue);
+    }
 
-    if (translated === undefined) return;
+    const original = originalTexts.get(node);
+    const key = normalizeText(original);
+    const translated = dictionary[key];
 
-    const leading = node.nodeValue.match(/^\s*/)[0];
-    const trailing = node.nodeValue.match(/\s*$/)[0];
+    if (translated === undefined) {
+      node.nodeValue = original;
+      return;
+    }
+
+    const leading = original.match(/^\s*/)[0];
+    const trailing = original.match(/\s*$/)[0];
 
     node.nodeValue = leading + translated + trailing;
   }
 
-  function translatePage(language) {
-    const dictionary = translations[language] || translations.en;
-
-    document.documentElement.lang = language;
+  // 翻译指定区域内的文字
+  function translateSubtree(root, dictionary) {
+    if (!root) return;
 
     const walker = document.createTreeWalker(
-      document.body,
-      NodeFilter.SHOW_TEXT
+      root,
+      NodeFilter.SHOW_TEXT,
+      {
+        acceptNode: function (node) {
+          const parent = node.parentElement;
+
+          if (!parent) {
+            return NodeFilter.FILTER_REJECT;
+          }
+
+          if (
+            parent.closest("script, style, select, option, textarea, input")
+          ) {
+            return NodeFilter.FILTER_REJECT;
+          }
+
+          return NodeFilter.FILTER_ACCEPT;
+        }
+      }
     );
 
     let node;
@@ -355,19 +404,36 @@
     while ((node = walker.nextNode())) {
       translateTextNode(node, dictionary);
     }
+  }
 
+  // 翻译整个页面
+  function translatePage(language) {
+    const dictionary = prepareDictionary(language);
+
+    document.documentElement.lang = language;
+
+    translateSubtree(document.body, dictionary);
+
+    // 翻译辅助标签
     document.querySelectorAll("[aria-label]").forEach(function (element) {
-      const original = element.getAttribute("aria-label");
+      if (!element.dataset.originalAriaLabel) {
+        element.dataset.originalAriaLabel =
+          element.getAttribute("aria-label");
+      }
+
+      const original = element.dataset.originalAriaLabel;
       const translated = dictionary[normalizeText(original)];
 
-      if (translated) {
-        element.setAttribute("aria-label", translated);
-      }
+      element.setAttribute(
+        "aria-label",
+        translated === undefined ? original : translated
+      );
     });
 
     document.title = "荷萌 HEMENG";
   }
 
+  // 创建语言选择器
   function createLanguageSelector() {
     const header = document.querySelector(".header-inner");
 
@@ -376,6 +442,7 @@
     }
 
     const select = document.createElement("select");
+
     select.id = "hemengLanguageSelect";
     select.setAttribute("aria-label", "Language");
 
@@ -393,8 +460,10 @@
 
     i18n.getLanguages().forEach(function (language) {
       const option = document.createElement("option");
+
       option.value = language.code;
       option.textContent = language.name;
+
       select.appendChild(option);
     });
 
@@ -402,16 +471,42 @@
 
     select.addEventListener("change", function () {
       i18n.setLanguage(select.value);
-      translatePage(select.value);
     });
 
     header.appendChild(select);
   }
 
+  // 监听动态添加的内容，例如最近文章
+  function observeDynamicContent() {
+    const observer = new MutationObserver(function (mutations) {
+      const dictionary = prepareDictionary(i18n.getLanguage());
+
+      mutations.forEach(function (mutation) {
+        mutation.addedNodes.forEach(function (node) {
+          if (node.nodeType === Node.TEXT_NODE) {
+            translateTextNode(node, dictionary);
+          } else if (node.nodeType === Node.ELEMENT_NODE) {
+            translateSubtree(node, dictionary);
+          }
+        });
+      });
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+  }
+
+  // 初始化
   function initialize() {
     createLanguageSelector();
+
     translatePage(i18n.getLanguage());
 
+    observeDynamicContent();
+
+    // 监听其他页面或组件触发的语言变化
     window.addEventListener("hemeng-language-change", function (event) {
       const language = event.detail.language;
       const select = document.getElementById("hemengLanguageSelect");
