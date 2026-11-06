@@ -1,4 +1,3 @@
-
 (function () {
   "use strict";
 
@@ -17,6 +16,7 @@
       "网页展示二维码": "网页展示二维码",
       "扫码打开荷萌页面查看文字": "扫码打开荷萌页面查看文字",
       "输入要放进二维码的内容": "输入要放进二维码的内容",
+      "例如：https://lowcrush.asia\n也可以输入普通文字、联系方式等": "例如：https://lowcrush.asia\n也可以输入普通文字、联系方式等",
       "普通二维码直接保存文字或网址，扫码应用如何显示取决于其自身支持情况。": "普通二维码直接保存文字或网址，扫码应用如何显示取决于其自身支持情况。",
       "文字会先保存到荷萌，再将专属网页链接生成二维码。": "文字会先保存到荷萌，再将专属网页链接生成二维码。",
       "网页展示模式会把文字保存到荷萌服务器，分享链接有效期为 30 天。任何获得链接的人都能查看内容，请勿填写密码或私人信息。": "网页展示模式会把文字保存到荷萌服务器，分享链接有效期为 30 天。任何获得链接的人都能查看内容，请勿填写密码或私人信息。",
@@ -41,7 +41,6 @@
       "识别二维码图片": "识别二维码图片",
       "选择设备中的二维码图片，浏览器会尝试在本地识别，不会主动上传图片。": "选择设备中的二维码图片，浏览器会尝试在本地识别，不会主动上传图片。",
       "复制识别结果": "复制识别结果",
-      "清除": "清除",
       "生成与识别尽可能在当前浏览器本地完成。": "生成与识别尽可能在当前浏览器本地完成。",
       "请先输入文字或网址。": "请先输入文字或网址。",
       "网页分享内容不能超过 3000 个字符。": "网页分享内容不能超过 3000 个字符。",
@@ -56,6 +55,9 @@
       "普通二维码已生成，已添加标准留白。": "普通二维码已生成，已添加标准留白。",
       "二维码尚未生成": "二维码尚未生成",
       "图片导出失败": "图片导出失败",
+      "二维码已生成，但图片导出失败，请重试。": "二维码已生成，但图片导出失败，请重试。",
+      "生成失败，内容可能过长或格式不受支持。": "生成失败，内容可能过长或格式不受支持。",
+      "生成失败，请稍后重试。": "生成失败，请稍后重试。",
       "服务器返回了无法识别的内容，请稍后重试。": "服务器返回了无法识别的内容，请稍后重试。",
       "创建分享失败，请稍后重试。": "创建分享失败，请稍后重试。",
       "服务器返回的分享地址不正确。": "服务器返回的分享地址不正确。",
@@ -81,9 +83,11 @@
     },
 
     "zh-TW": {
+      title: "QR Code 工具 - 荷萌 HEMENG",
       "荷萌首页": "荷萌首頁",
       "← 返回首页": "← 返回首頁",
       "二维码工具": "QR Code 工具",
+      "生成二维码，也可以识别已有二维码。尽可能在当前设备本地处理。": "可以產生 QR Code，也可以辨識現有的 QR Code。盡可能在目前裝置本機處理。",
       "生成二维码": "產生 QR Code",
       "识别二维码": "辨識 QR Code",
       "二维码生成": "QR Code 產生",
@@ -92,28 +96,10 @@
       "网页展示二维码": "網頁展示 QR Code",
       "扫码打开荷萌页面查看文字": "掃描後開啟荷萌頁面查看文字",
       "输入要放进二维码的内容": "輸入要放進 QR Code 的內容",
-      "例如：https://lowcrush.asia\n也可以输入普通文字、联系方式等": "例如：https://lowcrush.asia\n也可以输入普通文字、联系方式等",
-"二维码已生成，但图片导出失败，请重试。": "二维码已生成，但图片导出失败，请重试。",
-"生成失败，内容可能过长或格式不受支持。": "生成失败，内容可能过长或格式不受支持。",
-"生成失败，请稍后重试。": "生成失败，请稍后重试。",
       "例如：https://lowcrush.asia\n也可以输入普通文字、联系方式等": "例如：https://lowcrush.asia\n也可以輸入一般文字、聯絡方式等",
-"二维码已生成，但图片导出失败，请重试。": "QR Code 已產生，但圖片匯出失敗，請再試一次。",
-"生成失败，内容可能过长或格式不受支持。": "產生失敗，內容可能過長或格式不受支援。",
-"生成失败，请稍后重试。": "產生失敗，請稍後再試。",
-      "例如：https://lowcrush.asia\n也可以输入普通文字、联系方式等": "Example: https://lowcrush.asia\nYou can also enter text or contact details.",
-"二维码已生成，但图片导出失败，请重试。": "QR code created, but image export failed. Please try again.",
-"生成失败，内容可能过长或格式不受支持。": "Generation failed. The content may be too long or unsupported.",
-"生成失败，请稍后重试。": "Generation failed. Please try again later.",
-      "例如：https://lowcrush.asia\n也可以输入普通文字、联系方式等": "例：https://lowcrush.asia\n通常のテキストや連絡先も入力できます。",
-"二维码已生成，但图片导出失败，请重试。": "QRコードは作成されましたが、画像の書き出しに失敗しました。もう一度お試しください。",
-"生成失败，内容可能过长或格式不受支持。": "作成に失敗しました。内容が長すぎるか、対応していない形式の可能性があります。",
-"生成失败，请稍后重试。": "作成に失敗しました。しばらくしてからもう一度お試しください。",
-      "例如：https://lowcrush.asia\n也可以输入普通文字、联系方式等": "예: https://lowcrush.asia\n일반 텍스트나 연락처 정보도 입력할 수 있습니다.",
-"二维码已生成，但图片导出失败，请重试。": "QR 코드는 생성되었지만 이미지 내보내기에 실패했습니다. 다시 시도하세요.",
-"生成失败，内容可能过长或格式不受支持。": "생성에 실패했습니다. 내용이 너무 길거나 지원되지 않는 형식일 수 있습니다.",
-"生成失败，请稍后重试。": "생성에 실패했습니다. 나중에 다시 시도하세요.",
       "普通二维码直接保存文字或网址，扫码应用如何显示取决于其自身支持情况。": "一般 QR Code 直接儲存文字或網址，掃描應用如何顯示取決於其本身的支援情況。",
       "文字会先保存到荷萌，再将专属网页链接生成二维码。": "文字會先儲存到荷萌，再將專屬網頁連結產生為 QR Code。",
+      "网页展示模式会把文字保存到荷萌服务器，分享链接有效期为 30 天。任何获得链接的人都能查看内容，请勿填写密码或私人信息。": "網頁展示模式會將文字儲存到荷萌伺服器，分享連結有效期限為 30 天。任何取得連結的人都能查看內容，請勿填寫密碼或私人資訊。",
       "二维码尺寸": "QR Code 尺寸",
       "纠错等级": "錯誤修正等級",
       "低（L）": "低（L）",
@@ -135,7 +121,6 @@
       "识别二维码图片": "辨識 QR Code 圖片",
       "选择设备中的二维码图片，浏览器会尝试在本地识别，不会主动上传图片。": "選擇裝置中的 QR Code 圖片，瀏覽器會嘗試在本機辨識，不會主動上傳圖片。",
       "复制识别结果": "複製辨識結果",
-      "清除": "清除",
       "生成与识别尽可能在当前浏览器本地完成。": "產生與辨識會盡可能在目前瀏覽器本機完成。",
       "请先输入文字或网址。": "請先輸入文字或網址。",
       "网页分享内容不能超过 3000 个字符。": "網頁分享內容不能超過 3000 個字元。",
@@ -150,6 +135,9 @@
       "普通二维码已生成，已添加标准留白。": "一般 QR Code 已產生，並已加入標準留白。",
       "二维码尚未生成": "QR Code 尚未產生",
       "图片导出失败": "圖片匯出失敗",
+      "二维码已生成，但图片导出失败，请重试。": "QR Code 已產生，但圖片匯出失敗，請再試一次。",
+      "生成失败，内容可能过长或格式不受支持。": "產生失敗，內容可能過長或格式不受支援。",
+      "生成失败，请稍后重试。": "產生失敗，請稍後再試。",
       "服务器返回了无法识别的内容，请稍后重试。": "伺服器回傳了無法辨識的內容，請稍後再試。",
       "创建分享失败，请稍后重试。": "建立分享失敗，請稍後再試。",
       "服务器返回的分享地址不正确。": "伺服器回傳的分享網址不正確。",
@@ -188,6 +176,7 @@
       "网页展示二维码": "Web Display QR Code",
       "扫码打开荷萌页面查看文字": "Open a HEMENG page to view text",
       "输入要放进二维码的内容": "Enter the content for your QR code",
+      "例如：https://lowcrush.asia\n也可以输入普通文字、联系方式等": "Example: https://lowcrush.asia\nYou can also enter text or contact details.",
       "普通二维码直接保存文字或网址，扫码应用如何显示取决于其自身支持情况。": "A standard QR code stores text or a URL directly. How it appears depends on the scanning app.",
       "文字会先保存到荷萌，再将专属网页链接生成二维码。": "Your text will be saved to HEMENG, and a unique page link will be encoded into the QR code.",
       "网页展示模式会把文字保存到荷萌服务器，分享链接有效期为 30 天。任何获得链接的人都能查看内容，请勿填写密码或私人信息。": "Web display mode saves your text on HEMENG servers. The link is valid for 30 days. Anyone with the link can view it. Do not enter passwords or private information.",
@@ -212,7 +201,6 @@
       "识别二维码图片": "Scan a QR Code Image",
       "选择设备中的二维码图片，浏览器会尝试在本地识别，不会主动上传图片。": "Choose a QR code image from your device. Your browser will try to scan it locally; the image is not uploaded.",
       "复制识别结果": "Copy Scan Result",
-      "清除": "Clear",
       "生成与识别尽可能在当前浏览器本地完成。": "Generation and scanning are performed locally in your browser whenever possible.",
       "请先输入文字或网址。": "Please enter some text or a URL first.",
       "网页分享内容不能超过 3000 个字符。": "Web share content cannot exceed 3,000 characters.",
@@ -227,6 +215,9 @@
       "普通二维码已生成，已添加标准留白。": "Standard QR code created with margins.",
       "二维码尚未生成": "QR code has not been generated yet",
       "图片导出失败": "Image export failed",
+      "二维码已生成，但图片导出失败，请重试。": "QR code created, but image export failed. Please try again.",
+      "生成失败，内容可能过长或格式不受支持。": "Generation failed. The content may be too long or unsupported.",
+      "生成失败，请稍后重试。": "Generation failed. Please try again later.",
       "服务器返回了无法识别的内容，请稍后重试。": "The server returned an unreadable response. Please try again later.",
       "创建分享失败，请稍后重试。": "Could not create the share. Please try again later.",
       "服务器返回的分享地址不正确。": "The server returned an invalid share URL.",
@@ -265,6 +256,7 @@
       "网页展示二维码": "ウェブ表示QRコード",
       "扫码打开荷萌页面查看文字": "読み取ると荷萌のページでテキストを表示",
       "输入要放进二维码的内容": "QRコードに含める内容を入力",
+      "例如：https://lowcrush.asia\n也可以输入普通文字、联系方式等": "例：https://lowcrush.asia\n通常のテキストや連絡先も入力できます。",
       "普通二维码直接保存文字或网址，扫码应用如何显示取决于其自身支持情况。": "通常のQRコードにはテキストやURLが直接保存されます。表示方法は読み取りアプリによって異なります。",
       "文字会先保存到荷萌，再将专属网页链接生成二维码。": "テキストを荷萌に保存し、専用ページのリンクをQRコードにします。",
       "网页展示模式会把文字保存到荷萌服务器，分享链接有效期为 30 天。任何获得链接的人都能查看内容，请勿填写密码或私人信息。": "ウェブ表示モードではテキストが荷萌のサーバーに保存されます。リンクの有効期限は30日です。リンクを知っている人は誰でも内容を閲覧できます。パスワードや個人情報は入力しないでください。",
@@ -289,7 +281,6 @@
       "识别二维码图片": "QRコード画像を読み取る",
       "选择设备中的二维码图片，浏览器会尝试在本地识别，不会主动上传图片。": "端末内のQRコード画像を選択してください。画像はアップロードされず、ブラウザ内で読み取りを試みます。",
       "复制识别结果": "読み取り結果をコピー",
-      "清除": "消去",
       "生成与识别尽可能在当前浏览器本地完成。": "作成と読み取りは可能な限りブラウザ内で処理されます。",
       "请先输入文字或网址。": "テキストまたはURLを入力してください。",
       "网页分享内容不能超过 3000 个字符。": "共有するテキストは3000文字以内にしてください。",
@@ -304,6 +295,9 @@
       "普通二维码已生成，已添加标准留白。": "通常のQRコードを作成しました。標準の余白を追加済みです。",
       "二维码尚未生成": "QRコードはまだ作成されていません",
       "图片导出失败": "画像の書き出しに失敗しました",
+      "二维码已生成，但图片导出失败，请重试。": "QRコードは作成されましたが、画像の書き出しに失敗しました。もう一度お試しください。",
+      "生成失败，内容可能过长或格式不受支持。": "作成に失敗しました。内容が長すぎるか、対応していない形式の可能性があります。",
+      "生成失败，请稍后重试。": "作成に失敗しました。しばらくしてからもう一度お試しください。",
       "服务器返回了无法识别的内容，请稍后重试。": "サーバーから認識できない応答が返されました。後でもう一度お試しください。",
       "创建分享失败，请稍后重试。": "共有リンクを作成できませんでした。後でもう一度お試しください。",
       "服务器返回的分享地址不正确。": "サーバーから不正な共有URLが返されました。",
@@ -342,6 +336,7 @@
       "网页展示二维码": "웹 표시 QR 코드",
       "扫码打开荷萌页面查看文字": "스캔하면 荷萌 페이지에서 텍스트 확인",
       "输入要放进二维码的内容": "QR 코드에 넣을 내용 입력",
+      "例如：https://lowcrush.asia\n也可以输入普通文字、联系方式等": "예: https://lowcrush.asia\n일반 텍스트나 연락처 정보도 입력할 수 있습니다.",
       "普通二维码直接保存文字或网址，扫码应用如何显示取决于其自身支持情况。": "일반 QR 코드는 텍스트나 URL을 직접 저장합니다. 표시 방식은 스캔 앱에 따라 다릅니다.",
       "文字会先保存到荷萌，再将专属网页链接生成二维码。": "텍스트를 荷萌에 저장한 다음 전용 웹페이지 링크를 QR 코드로 만듭니다.",
       "网页展示模式会把文字保存到荷萌服务器，分享链接有效期为 30 天。任何获得链接的人都能查看内容，请勿填写密码或私人信息。": "웹 표시 모드에서는 텍스트가 荷萌 서버에 저장됩니다. 공유 링크는 30일 동안 유효하며 링크를 가진 사람은 누구나 내용을 볼 수 있습니다. 비밀번호나 개인정보를 입력하지 마세요.",
@@ -366,7 +361,6 @@
       "识别二维码图片": "QR 코드 이미지 인식",
       "选择设备中的二维码图片，浏览器会尝试在本地识别，不会主动上传图片。": "기기에서 QR 코드 이미지를 선택하세요. 브라우저가 로컬에서 인식하며 이미지를 업로드하지 않습니다.",
       "复制识别结果": "인식 결과 복사",
-      "清除": "지우기",
       "生成与识别尽可能在当前浏览器本地完成。": "생성과 인식은 가능한 한 현재 브라우저에서 로컬로 처리됩니다.",
       "请先输入文字或网址。": "텍스트 또는 URL을 먼저 입력하세요.",
       "网页分享内容不能超过 3000 个字符。": "웹 공유 내용은 3,000자를 초과할 수 없습니다.",
@@ -381,6 +375,9 @@
       "普通二维码已生成，已添加标准留白。": "일반 QR 코드가 생성되었으며 표준 여백이 추가되었습니다.",
       "二维码尚未生成": "아직 QR 코드가 생성되지 않았습니다",
       "图片导出失败": "이미지 내보내기에 실패했습니다",
+      "二维码已生成，但图片导出失败，请重试。": "QR 코드는 생성되었지만 이미지 내보내기에 실패했습니다. 다시 시도하세요.",
+      "生成失败，内容可能过长或格式不受支持。": "생성에 실패했습니다. 내용이 너무 길거나 지원되지 않는 형식일 수 있습니다.",
+      "生成失败，请稍后重试。": "생성에 실패했습니다. 나중에 다시 시도하세요.",
       "服务器返回了无法识别的内容，请稍后重试。": "서버에서 읽을 수 없는 응답을 받았습니다. 나중에 다시 시도하세요.",
       "创建分享失败，请稍后重试。": "공유 링크 생성에 실패했습니다. 나중에 다시 시도하세요.",
       "服务器返回的分享地址不正确。": "서버에서 잘못된 공유 주소를 반환했습니다.",
@@ -410,7 +407,7 @@
   const originalAttributes = new WeakMap();
   let observer = null;
 
-  function language() {
+  function getLanguage() {
     return window.HemengI18n
       ? window.HemengI18n.getLanguage()
       : "zh-CN";
@@ -418,34 +415,49 @@
 
   function translateText(value, lang) {
     const dictionary = I18N[lang] || I18N["zh-CN"];
-    const text = value.trim();
+    const trimmed = value.trim();
 
-    if (!text) return value;
+    if (!trimmed) return value;
 
-    if (dictionary[text] !== undefined) {
-      return value.replace(text, dictionary[text]);
+    if (dictionary[trimmed] !== undefined) {
+      return value.replace(trimmed, dictionary[trimmed]);
     }
 
-    // 动态时间倒计时
-    if (lang !== "zh-CN") {
-      const match = text.match(/^(\d+)天 (\d{2}):(\d{2}):(\d{2})$/);
+    // 动态倒计时
+    const match = trimmed.match(/^(\d+)天\s+(\d{2}):(\d{2}):(\d{2})$/);
 
-      if (match) {
-        const units = {
-          "zh-TW": ["天", "小時", "分鐘", "秒"],
-          en: ["d", "h", "m", "s"],
-          ja: ["日", "時間", "分", "秒"],
-          ko: ["일", "시간", "분", "초"]
-        }[lang];
+    if (match && lang !== "zh-CN") {
+      const units = {
+        "zh-TW": ["天", "小時", "分鐘", "秒"],
+        en: ["d", "h", "m", "s"],
+        ja: ["日", "時間", "分", "秒"],
+        ko: ["일", "시간", "분", "초"]
+      }[lang];
 
-        return `${match[1]}${units[0]} ${match[2]}${units[1]} ${match[3]}${units[2]} ${match[4]}${units[3]}`;
-      }
+      return `${match[1]}${units[0]} ${match[2]}${units[1]} ${match[3]}${units[2]} ${match[4]}${units[3]}`;
     }
 
     return value;
   }
 
-  const original = originalTexts.get(node);
+  function isProtected(element) {
+    return !!element.closest(
+      "script, style, textarea, #readResult, #shareLinkText, .hemeng-language-select"
+    );
+  }
+
+  function translateNode(node, lang) {
+    if (!node) return;
+
+    // 文本节点
+    if (node.nodeType === Node.TEXT_NODE) {
+      if (!node.parentElement || isProtected(node.parentElement)) return;
+
+      if (!originalTexts.has(node)) {
+        originalTexts.set(node, node.nodeValue);
+      }
+
+      const original = originalTexts.get(node);
       const translated = translateText(original, lang);
 
       if (node.nodeValue !== translated) {
@@ -456,25 +468,48 @@
 
     if (node.nodeType !== Node.ELEMENT_NODE) return;
 
-    // 不翻译用户输入、识别结果及分享链接
+    const element = node;
+
+    // 输入框只翻译 placeholder 等属性，不改动用户输入内容
+    const attributes = ["placeholder", "title", "aria-label", "alt"];
+
+    let savedAttributes = originalAttributes.get(element);
+
+    if (!savedAttributes) {
+      savedAttributes = {};
+      originalAttributes.set(element, savedAttributes);
+    }
+
+    attributes.forEach(function (attribute) {
+      if (!element.hasAttribute(attribute)) return;
+
+      if (!(attribute in savedAttributes)) {
+        savedAttributes[attribute] = element.getAttribute(attribute);
+      }
+
+      const original = savedAttributes[attribute];
+      const translated = translateText(original, lang);
+
+      if (element.getAttribute(attribute) !== translated) {
+        element.setAttribute(attribute, translated);
+      }
+    });
+
+    // 不翻译输入内容和用户生成的内容
     if (
-      node.matches("textarea, input, #readResult, #shareLinkText") ||
-      node.closest("textarea, input, #readResult, #shareLinkText")
+      element.matches(
+        "input, textarea, #readResult, #shareLinkText, script, style"
+      ) ||
+      element.closest("#readResult, #shareLinkText")
     ) {
       return;
     }
 
-    const attributes = ["placeholder", "title", "aria-label", "alt"];
+    Array.from(element.childNodes).forEach(function (child) {
+      translateNode(child, lang);
+    });
+  }
 
-    attributes.forEach(function (attribute) {
-      if (!node.hasAttribute(attribute)) return;
-
-      let saved = originalAttributes.get(node);
-
-      if (!saved) {
-        saved = {};
-        originalAttributes.set(node, saved);
-    
   function addLanguageSelector() {
     const nav = document.querySelector(".site-nav");
     if (!nav || nav.querySelector(".hemeng-language-select")) return;
@@ -506,7 +541,7 @@
       select.appendChild(option);
     });
 
-    select.value = language();
+    select.value = getLanguage();
 
     select.addEventListener("change", function () {
       if (window.HemengI18n) {
@@ -518,18 +553,15 @@
   }
 
   function applyLanguage() {
-    const lang = language();
+    const lang = getLanguage();
+    const dictionary = I18N[lang] || I18N["zh-CN"];
 
     document.documentElement.lang = lang;
-
-    const dictionary = I18N[lang] || I18N["zh-CN"];
     document.title = dictionary.title || I18N["zh-CN"].title;
 
     addLanguageSelector();
 
-    document.querySelectorAll("body *").forEach(function (element) {
-      translateNode(element, lang);
-    });
+    translateNode(document.body, lang);
 
     const selector = document.querySelector(".hemeng-language-select");
     if (selector) selector.value = lang;
@@ -539,14 +571,16 @@
     if (observer) observer.disconnect();
 
     observer = new MutationObserver(function (mutations) {
-      const lang = language();
+      const lang = getLanguage();
 
       mutations.forEach(function (mutation) {
         if (mutation.type === "childList") {
           mutation.addedNodes.forEach(function (node) {
             translateNode(node, lang);
           });
-        } else if (mutation.type === "characterData") {
+        }
+
+        if (mutation.type === "characterData") {
           translateNode(mutation.target, lang);
         }
       });
