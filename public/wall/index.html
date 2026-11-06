@@ -555,6 +555,8 @@ footer strong{color:var(--accent-dark)}
   © 2026 HEMENG · <span data-i18n="footerText">一个持续建设中的个人互联网空间</span>
 </footer>
 
+<script src="/js/i18n.js"></script>
+
 <script>
 const canonicalCategories = [
   "表白墙",
@@ -795,32 +797,12 @@ let selectedLanguage = "all";
 let allPosts = [];
 
 function detectLanguage() {
-  const saved = localStorage.getItem("hemeng-wall-language");
+  if (window.HemengI18n) {
+    const language = window.HemengI18n.getLanguage();
 
-  if (saved && translations[saved]) {
-    return saved;
-  }
-
-  const browserLanguages = navigator.languages || [
-    navigator.language || "en"
-  ];
-
-  for (const language of browserLanguages) {
-    const code = language.toLowerCase();
-
-    if (
-      code.startsWith("zh-tw") ||
-      code.startsWith("zh-hk") ||
-      code.startsWith("zh-mo") ||
-      code.includes("hant")
-    ) {
-      return "zh-TW";
+    if (translations[language]) {
+      return language;
     }
-
-    if (code.startsWith("zh")) return "zh-CN";
-    if (code.startsWith("ja")) return "ja";
-    if (code.startsWith("ko")) return "ko";
-    if (code.startsWith("en")) return "en";
   }
 
   return "en";
@@ -973,7 +955,12 @@ function changeLanguage(language) {
   if (!translations[language]) return;
 
   currentLanguage = language;
-  localStorage.setItem("hemeng-wall-language", language);
+
+  if (window.HemengI18n) {
+    window.HemengI18n.setLanguage(language);
+  } else {
+    localStorage.setItem("hemeng-wall-language", language);
+  }
 
   applyStaticTranslations();
   postLanguageSelect.value = language;
@@ -1222,6 +1209,7 @@ document.getElementById("postForm").addEventListener("submit", async event => {
   }
 });
 
+// 初始化：优先读取全站统一语言设置
 currentLanguage = detectLanguage();
 applyStaticTranslations();
 setupCategories();
@@ -1230,6 +1218,19 @@ languageFilter.value = "all";
 
 loadPosts();
 loadWallNotice();
+
+// 监听其他页面的语言变化，实现全站同步
+window.addEventListener("hemeng-language-change", event => {
+  const language = event.detail?.language;
+
+  if (language && translations[language] && language !== currentLanguage) {
+    currentLanguage = language;
+    applyStaticTranslations();
+    postLanguageSelect.value = language;
+    updateCategoryLabels();
+    renderPosts();
+  }
+});
 </script>
 
 </body>
