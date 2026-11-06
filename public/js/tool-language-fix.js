@@ -1,5 +1,12 @@
+
 (() => {
   "use strict";
+
+  // 二维码页面由 qr-code-i18n.js 独立管理语言。
+  // 不在这里启动 MutationObserver，避免重复监听和翻译。
+  if (location.pathname.includes("/tools/qr-code")) {
+    return;
+  }
 
   const core = window.HemengI18n;
   if (!core) return;
@@ -97,7 +104,6 @@
   }
 
   function translateNode(node) {
-    if (location.pathname.includes("/tools/qr-code")) return;
     if (node.nodeType === Node.TEXT_NODE) {
       const original = originalText.get(node) ?? node.nodeValue;
       originalText.set(node, original);
@@ -156,6 +162,7 @@
 
     const filename = document.createElement("span");
     filename.textContent = t("noFile");
+
     filename.style.cssText = `
       color:#927d78;
       font-size:12px;
