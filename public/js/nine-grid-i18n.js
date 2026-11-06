@@ -1,4 +1,3 @@
-
 (function () {
   "use strict";
 
@@ -30,8 +29,6 @@
       ja: "画像を分割",
       ko: "이미지 분할"
     },
-
-    // 兼容浏览器自动翻译后出现的文字
     "分割图像": {
       "zh-CN": "图片切割",
       "zh-TW": "圖片切割",
@@ -39,7 +36,6 @@
       ja: "画像を分割",
       ko: "이미지 분할"
     },
-
     "图片合成": {
       "zh-TW": "圖片合成",
       en: "Merge Images",
@@ -285,8 +281,7 @@
 
     const entry = translations[clean];
     if (entry) {
-      const translated = entry[language] || clean;
-      return value.replace(clean, translated);
+      return value.replace(clean, entry[language] || clean);
     }
 
     for (const pattern of dynamicPatterns) {
@@ -297,11 +292,42 @@
       }
     }
 
+    const errorPrefix = "处理失败：";
+
+    if (clean.startsWith(errorPrefix)) {
+      const errorText = clean.slice(errorPrefix.length);
+      const errorTranslation = translations[errorText];
+      const translatedError =
+        errorTranslation && errorTranslation[language]
+          ? errorTranslation[language]
+          : errorText;
+
+      const translatedPrefix = {
+        "zh-CN": "处理失败：",
+        "zh-TW": "處理失敗：",
+        en: "Processing failed: ",
+        ja: "処理に失敗しました：",
+        ko: "처리에 실패했습니다: "
+      }[language] || errorPrefix;
+
+      return translatedPrefix + translatedError;
+    }
+
     return value;
   }
 
+  function isProtected(element) {
+    return !!element.closest(
+      "script, style, input, textarea, canvas, .hemeng-language-select"
+    );
+  }
+
   function translateNode(node, language) {
+    if (!node) return;
+
     if (node.nodeType === Node.TEXT_NODE) {
+      if (!node.parentElement || isProtected(node.parentElement)) return;
+
       if (!originalText.has(node)) {
         originalText.set(node, node.nodeValue);
       }
@@ -312,41 +338,59 @@
       if (node.nodeValue !== translated) {
         node.nodeValue = translated;
       }
+
       return;
     }
 
     if (node.nodeType !== Node.ELEMENT_NODE) return;
 
+    const element = node;
+
+    if (isProtected(element)) return;
+
     const attributes = ["placeholder", "title", "aria-label", "alt"];
+    let saved = originalAttributes.get(element);
+
+    if (!saved) {
+      saved = {};
+      originalAttributes.set(element, saved);
+    }
 
     attributes.forEach(function (attribute) {
-      if (!node.hasAttribute(attribute)) return;
-
-      let saved = originalAttributes.get(node);
-      if (!saved) {
-        saved = {};
-        originalAttributes.set(node, saved);
-      }
+      if (!element.hasAttribute(attribute)) return;
 
       if (!(attribute in saved)) {
-        saved[attribute] = node.getAttribute(attribute);
+        saved[attribute] = element.getAttribute(attribute);
       }
 
-      const original = saved[attribute];
-      const translated = translateText(original, language);
+      const translated = translateText(saved[attribute], language);
 
-      if (node.getAttribute(attribute) !== translated) {
-        node.setAttribute(attribute, translated);
+      if (element.getAttribute(attribute) !== translated) {
+        element.setAttribute(attribute, translated);
       }
     });
 
-    Array.from(node.childNodes).forEach(function (child) {
+    Array.from(element.childNodes).forEach(function (child) {
       translateNode(child, language);
     });
   }
 
+  function setText(element, original) {
+    if (!element) return;
+
+    element.textContent = original;
+
+    const textNode = element.firstChild;
+
+    if (textNode && textNode.nodeType === Node.TEXT_NODE) {
+      originalText.set(textNode, original);
+      textNode.nodeValue = translateText(original, i18n.getLanguage());
+    }
+  }
+
   function addLanguageSelector() {
     const nav = document.querySelector(".site-nav");
+
     if (!nav || nav.querySelector(".hemeng-language-select")) return;
 
     const select = document.createElement("select");
@@ -380,19 +424,9 @@
     nav.appendChild(select);
   }
 
-  let observer = null;
-
-  const observerOptions = {
-    childList: true,
-    subtree: true
-  };
-
   function applyLanguage(language) {
-    if (!translations) return;
-
-    if (observer) {
-      observer.disconnect();
-    }
+    const root = document.querySelector(".container");
+    if (!root) return;
 
     document.documentElement.lang = language;
 
@@ -406,37 +440,29 @@
 
     document.title = titles[language] || titles["zh-CN"];
 
-    translateNode(document.body, language);
+    translateNode(root, language);
 
     const selector = document.querySelector(".hemeng-language-select");
     if (selector) selector.value = language;
-
-    if (observer) {
-      observer.observe(document.body, observerOptions);
-    }
   }
 
-  addLanguageSelector();
+  function init() {
+    addLanguageSelector();
+    applyLanguage(i18n.getLanguage());
 
-  observer = new MutationObserver(function (records) {
-    const language = i18n.getLanguage();
-
-    records.forEach(function (record) {
-      if (record.type === "characterData") {
-        translateNode(record.target, language);
-      }
-
-      record.addedNodes.forEach(function (node) {
-        translateNode(node, language);
-      });
+    window.addEventListener("hemeng-language-change", function (event) {
+      applyLanguage(event.detail.language);
     });
-  });
+  }
 
-  applyLanguage(i18n.getLanguage());
+  window.HemengNineGridI18n = {
+    translateText,
+    setText
+  };
 
-  observer.observe(document.body, observerOptions);
-
-  window.addEventListener("hemeng-language-change", function (event) {
-    applyLanguage(event.detail.language);
-  });
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
 })();
