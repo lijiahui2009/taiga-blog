@@ -4,9 +4,12 @@
 
   // 二维码页面由 qr-code-i18n.js 独立管理语言。
   // 不在这里启动 MutationObserver，避免重复监听和翻译。
-  if (location.pathname.includes("/tools/qr-code")) {
-    return;
-  }
+  if (
+  location.pathname.includes("/tools/qr-code") ||
+  location.pathname.includes("/tools/nine-grid")
+) {
+  return;
+}
 
   const core = window.HemengI18n;
   if (!core) return;
