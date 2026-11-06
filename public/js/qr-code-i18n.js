@@ -405,7 +405,6 @@
 
   const originalTexts = new WeakMap();
   const originalAttributes = new WeakMap();
-  let observer = null;
 
   function getLanguage() {
     return window.HemengI18n
@@ -423,7 +422,6 @@
       return value.replace(trimmed, dictionary[trimmed]);
     }
 
-    // 动态倒计时
     const match = trimmed.match(/^(\d+)天\s+(\d{2}):(\d{2}):(\d{2})$/);
 
     if (match && lang !== "zh-CN") {
@@ -449,7 +447,6 @@
   function translateNode(node, lang) {
     if (!node) return;
 
-    // 文本节点
     if (node.nodeType === Node.TEXT_NODE) {
       if (!node.parentElement || isProtected(node.parentElement)) return;
 
@@ -469,8 +466,6 @@
     if (node.nodeType !== Node.ELEMENT_NODE) return;
 
     const element = node;
-
-    // 输入框只翻译 placeholder 等属性，不改动用户输入内容
     const attributes = ["placeholder", "title", "aria-label", "alt"];
 
     let savedAttributes = originalAttributes.get(element);
@@ -495,7 +490,6 @@
       }
     });
 
-    // 不翻译输入内容和用户生成的内容
     if (
       element.matches(
         "input, textarea, #readResult, #shareLinkText, script, style"
@@ -512,6 +506,7 @@
 
   function addLanguageSelector() {
     const nav = document.querySelector(".site-nav");
+
     if (!nav || nav.querySelector(".hemeng-language-select")) return;
 
     const select = document.createElement("select");
@@ -561,47 +556,36 @@
 
     addLanguageSelector();
 
+    // 每次切换语言时只翻译一次页面
     translateNode(document.body, lang);
-    const qrInput = document.getElementById("qrText");
-    const placeholderKey = "例如：https://lowcrush.asia\n也可以输入普通文字、联系方式等";
 
-if (qrInput && dictionary[placeholderKey]) {
-  qrInput.placeholder = dictionary[placeholderKey];
-}
+    // 单独设置二维码输入框提示，不依赖文本节点翻译
+    const qrInput = document.getElementById("qrText");
+
+    const placeholders = {
+      "zh-CN": "例如：https://lowcrush.asia\n也可以输入普通文字、联系方式等",
+      "zh-TW": "例如：https://lowcrush.asia\n也可以輸入一般文字、聯絡方式等",
+      "en": "Example: https://lowcrush.asia\nYou can also enter text or contact details.",
+      "ja": "例：https://lowcrush.asia\n通常のテキストや連絡先も入力できます。",
+      "ko": "예: https://lowcrush.asia\n일반 텍스트나 연락처 정보도 입력할 수 있습니다."
+    };
+
+    if (qrInput) {
+      qrInput.setAttribute(
+        "placeholder",
+        placeholders[lang] || placeholders["zh-CN"]
+      );
+    }
 
     const selector = document.querySelector(".hemeng-language-select");
-    if (selector) selector.value = lang;
-  }
 
-  function startObserver() {
-    if (observer) observer.disconnect();
-
-    observer = new MutationObserver(function (mutations) {
-      const lang = getLanguage();
-
-      mutations.forEach(function (mutation) {
-        if (mutation.type === "childList") {
-          mutation.addedNodes.forEach(function (node) {
-            translateNode(node, lang);
-          });
-        }
-
-        if (mutation.type === "characterData") {
-          translateNode(mutation.target, lang);
-        }
-      });
-    });
-
-    observer.observe(document.body, {
-      childList: true,
-      subtree: true,
-      characterData: true
-    });
+    if (selector) {
+      selector.value = lang;
+    }
   }
 
   function init() {
     applyLanguage();
-    startObserver();
 
     window.addEventListener("hemeng-language-change", function () {
       applyLanguage();
