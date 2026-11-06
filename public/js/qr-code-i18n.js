@@ -562,6 +562,12 @@
     addLanguageSelector();
 
     translateNode(document.body, lang);
+    const qrInput = document.getElementById("qrText");
+    const placeholderKey = "例如：https://lowcrush.asia\n也可以输入普通文字、联系方式等";
+
+if (qrInput && dictionary[placeholderKey]) {
+  qrInput.placeholder = dictionary[placeholderKey];
+}
 
     const selector = document.querySelector(".hemeng-language-select");
     if (selector) selector.value = lang;
