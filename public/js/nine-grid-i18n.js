@@ -375,7 +375,6 @@
   const observerOptions = {
     childList: true,
     subtree: true,
-    characterData: true
   };
 
   function applyLanguage(language) {
