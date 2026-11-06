@@ -445,13 +445,7 @@
     return value;
   }
 
-  function translateNode(node, lang) {
-    if (node.nodeType === Node.TEXT_NODE) {
-      if (!originalTexts.has(node)) {
-        originalTexts.set(node, node.nodeValue);
-      }
-
-      const original = originalTexts.get(node);
+  const original = originalTexts.get(node);
       const translated = translateText(original, lang);
 
       if (node.nodeValue !== translated) {
@@ -480,34 +474,7 @@
       if (!saved) {
         saved = {};
         originalAttributes.set(node, saved);
-      }
-
-      if (saved[attribute] === undefined) {
-        saved[attribute] = node.getAttribute(attribute);
-      }
-
-      const original = saved[attribute];
-      const translated = translateText(original, lang);
-
-      if (node.getAttribute(attribute) !== translated) {
-        node.setAttribute(attribute, translated);
-      }
-    });
-
-    if (node.tagName === "OPTION") {
-      if (!originalTexts.has(node)) {
-        originalTexts.set(node, node.textContent);
-      }
-
-      const original = originalTexts.get(node);
-      node.textContent = translateText(original, lang);
-    }
-
-    Array.from(node.childNodes).forEach(function (child) {
-      translateNode(child, lang);
-    });
-  }
-
+    
   function addLanguageSelector() {
     const nav = document.querySelector(".site-nav");
     if (!nav || nav.querySelector(".hemeng-language-select")) return;
