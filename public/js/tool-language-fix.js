@@ -97,6 +97,7 @@
   }
 
   function translateNode(node) {
+    if (location.pathname.includes("/tools/qr-code")) return;
     if (node.nodeType === Node.TEXT_NODE) {
       const original = originalText.get(node) ?? node.nodeValue;
       originalText.set(node, original);
