@@ -557,7 +557,10 @@
     addLanguageSelector();
 
     // 每次切换语言时只翻译一次页面
-    translateNode(document.body, lang);
+    const qrPage = document.querySelector("main");
+  if (qrPage) {
+  translateNode(qrPage, lang);
+}
 
     // 单独设置二维码输入框提示，不依赖文本节点翻译
     const qrInput = document.getElementById("qrText");
