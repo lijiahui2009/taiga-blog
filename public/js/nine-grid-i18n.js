@@ -432,8 +432,4 @@
   window.addEventListener("hemeng-language-change", function (event) {
     applyLanguage(event.detail.language);
   });
-
-  window.addEventListener("hemeng-language-change", function (event) {
-    applyLanguage(event.detail.language);
-  });
 })();
