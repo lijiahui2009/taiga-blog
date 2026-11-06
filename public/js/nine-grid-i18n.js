@@ -30,6 +30,16 @@
       ja: "画像を分割",
       ko: "이미지 분할"
     },
+
+    // 兼容浏览器自动翻译后出现的文字
+    "分割图像": {
+      "zh-CN": "图片切割",
+      "zh-TW": "圖片切割",
+      en: "Split Image",
+      ja: "画像を分割",
+      ko: "이미지 분할"
+    },
+
     "图片合成": {
       "zh-TW": "圖片合成",
       en: "Merge Images",
@@ -370,17 +380,16 @@
     nav.appendChild(select);
   }
 
-   let observer = null;
+  let observer = null;
 
   const observerOptions = {
     childList: true,
-    subtree: true,
+    subtree: true
   };
 
   function applyLanguage(language) {
     if (!translations) return;
 
-    // 切换语言前暂停监听，避免监听器反复处理自身的翻译操作
     if (observer) {
       observer.disconnect();
     }
@@ -402,7 +411,6 @@
     const selector = document.querySelector(".hemeng-language-select");
     if (selector) selector.value = language;
 
-    // 翻译完成后重新开启监听
     if (observer) {
       observer.observe(document.body, observerOptions);
     }
