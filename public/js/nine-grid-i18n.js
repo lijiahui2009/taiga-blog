@@ -370,8 +370,21 @@
     nav.appendChild(select);
   }
 
+   let observer = null;
+
+  const observerOptions = {
+    childList: true,
+    subtree: true,
+    characterData: true
+  };
+
   function applyLanguage(language) {
     if (!translations) return;
+
+    // 切换语言前暂停监听，避免监听器反复处理自身的翻译操作
+    if (observer) {
+      observer.disconnect();
+    }
 
     document.documentElement.lang = language;
 
@@ -389,12 +402,16 @@
 
     const selector = document.querySelector(".hemeng-language-select");
     if (selector) selector.value = language;
+
+    // 翻译完成后重新开启监听
+    if (observer) {
+      observer.observe(document.body, observerOptions);
+    }
   }
 
   addLanguageSelector();
-  applyLanguage(i18n.getLanguage());
 
-  const observer = new MutationObserver(function (records) {
+  observer = new MutationObserver(function (records) {
     const language = i18n.getLanguage();
 
     records.forEach(function (record) {
@@ -408,10 +425,12 @@
     });
   });
 
-  observer.observe(document.body, {
-    childList: true,
-    subtree: true,
-    characterData: true
+  applyLanguage(i18n.getLanguage());
+
+  observer.observe(document.body, observerOptions);
+
+  window.addEventListener("hemeng-language-change", function (event) {
+    applyLanguage(event.detail.language);
   });
 
   window.addEventListener("hemeng-language-change", function (event) {
