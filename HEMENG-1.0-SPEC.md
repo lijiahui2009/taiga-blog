@@ -5,7 +5,7 @@
 **Version:** 1.0  
 **Format identifier:** `HEMENG`  
 **File extension:** `.hemeng`  
-**MIME type:** `application/zip` (ZIP-compatible container)  
+**Container:** ZIP-compatible archive  
 **Language:** English  
 **Project:** HEMENG
 
@@ -15,13 +15,14 @@
 
 HEMENG is an interactive multimedia container format.
 
-It is designed to package multiple media resources together with metadata and interaction rules, allowing a compatible viewer to present them as a unified experience.
+It packages media resources together with metadata and interaction rules, allowing a compatible Viewer to present them as a unified experience.
 
-HEMENG 1.0 focuses on one basic interaction:
+HEMENG 1.0 defines one basic interaction:
 
 - Display a static image.
 - When the user activates the image, play a video in the same display area.
 - When playback ends, return to the original image.
+- Allow the user to manually return to the original image.
 
 HEMENG 1.0 is an initial project-defined format specification. It is not an established industry standard.
 
@@ -32,9 +33,10 @@ HEMENG follows these principles:
 1. Preserve original media data whenever possible.
 2. Separate media resources from interaction descriptions.
 3. Keep the container portable and shareable.
-4. Make playback behavior consistent across compatible viewers.
+4. Make playback behavior consistent across compatible Viewers.
 5. Allow future format extensions without breaking existing files.
 6. Process user media locally whenever possible.
+7. Avoid requiring a proprietary media codec.
 
 HEMENG does not define a new image or video codec.
 
@@ -42,19 +44,18 @@ HEMENG does not define a new image or video codec.
 
 A `.hemeng` file is a ZIP-compatible archive.
 
-A valid HEMENG 1.0 package contains the following files:
+A valid HEMENG 1.0 package contains exactly three entries:
 
 ```text
 example.hemeng
 ├── manifest.json
-└── media/
-    ├── cover
-    └── video
+├── media/cover
+└── media/video
 ```
 
-The media files intentionally have no required filename extensions inside the archive.
+The media entries intentionally have no required filename extensions inside the archive.
 
-Their actual media types are declared in `manifest.json`.
+Their actual media types and original filenames are declared in `manifest.json`.
 
 ### 3.1 Required entries
 
@@ -64,9 +65,40 @@ Their actual media types are declared in `manifest.json`.
 | `media/cover` | Required |
 | `media/video` | Required |
 
-HEMENG 1.0 does not require additional files.
+HEMENG 1.0 does not permit additional archive entries.
 
-Future versions may define optional directories and resources.
+Future format versions may define additional resources.
+
+### 3.2 ZIP compatibility
+
+HEMENG 1.0 uses the ZIP container structure.
+
+Supported ZIP compression methods:
+
+| Method | Name | Support |
+|---|---|---|
+| 0 | Store | Required |
+| 8 | Deflate | Required |
+
+Other compression methods are not supported by HEMENG 1.0.
+
+ZIP64 archives are not supported.
+
+The initial Creator uses Store mode to preserve the original media bytes without recompressing them.
+
+A compatible Viewer may accept either Store or Deflate archives.
+
+### 3.3 Archive entry names
+
+Entry names must use the exact paths defined by this specification.
+
+The archive must contain:
+
+- `manifest.json`
+- `media/cover`
+- `media/video`
+
+Duplicate entries, unknown entries, path traversal, absolute paths, and malformed paths must be rejected.
 
 ## 4. Manifest
 
@@ -97,7 +129,7 @@ The manifest is a UTF-8 encoded JSON document named `manifest.json`.
 }
 ```
 
-The example timestamp and original filenames are illustrative.
+The timestamp and filenames are illustrative.
 
 ### 4.2 Root fields
 
@@ -136,6 +168,16 @@ These values define the required HEMENG 1.0 playback behavior.
 | `name` | String | Yes | Original filename |
 | `mimeType` | String | Yes | Video MIME type |
 
+### 4.6 Manifest size
+
+The maximum permitted uncompressed manifest size is:
+
+**64 KiB**
+
+A Viewer must reject a manifest exceeding this limit.
+
+The Viewer must validate the manifest before using its metadata.
+
 ## 5. Media Requirements
 
 HEMENG 1.0 supports:
@@ -164,7 +206,7 @@ A compatible Viewer should report unsupported media clearly.
 
 ### 5.2 MIME fallback
 
-If the browser does not provide a MIME type, the initial Creator uses:
+If the browser does not provide a MIME type, the initial Creator may use:
 
 - Cover: `image/jpeg`
 - Video: `video/mp4`
@@ -200,7 +242,17 @@ When the video reaches its natural end:
 2. Return to the original cover image.
 3. Restore the initial viewing state.
 
-### 6.4 Local playback
+### 6.4 Manual return
+
+The Viewer must provide a way to return to the cover while the video is playing.
+
+When activated:
+
+1. Stop video playback.
+2. Restore the original cover image.
+3. Return to the initial viewing state.
+
+### 6.5 Local playback
 
 The initial Viewer may use browser object URLs to display media.
 
@@ -212,38 +264,83 @@ The initial HEMENG Creator and Viewer use these limits:
 
 | Limit | Maximum |
 |---|---:|
+| Manifest uncompressed size | 64 KiB |
 | Combined original media size | 250 MiB |
 | Complete `.hemeng` package size | 300 MiB |
 
-A Viewer should reject packages exceeding the package limit.
+The limits are independent.
 
-A Viewer should also validate the declared and actual uncompressed media sizes.
+A Viewer must reject packages exceeding the package limit.
 
-Implementations should limit archive entry counts and validate archive metadata before extracting files. Package-size checks alone do not prevent ZIP bombs.
+A Viewer must also validate the declared and actual uncompressed sizes.
 
-## 8. Path and Archive Validation
+## 8. Archive Validation and Security
 
-A compatible Viewer must validate archive paths before accessing entries.
+A compatible Viewer must validate the archive before extracting or presenting its contents.
 
-For HEMENG 1.0:
+### 8.1 Pre-extraction validation
 
-- `manifest.json` is the manifest entry.
-- `media/cover` is the cover entry.
-- `media/video` is the video entry.
+Before decompression, the Viewer should inspect the ZIP structure and reject archives with:
 
-Implementations must reject:
-
-- Absolute paths.
-- Path traversal such as `../`.
-- Backslash-based paths.
-- Duplicate required entries.
+- Invalid or missing ZIP end records.
+- Invalid central directory structures.
+- Unsupported compression methods.
+- ZIP64 structures.
+- Encrypted entries.
+- Unsupported archive flags.
+- Multi-disk archives.
+- Duplicate entries.
+- Unknown entries.
 - Missing required entries.
-- Invalid JSON.
-- Unsupported format identifiers.
-- Unsupported format versions.
-- Missing or invalid required fields.
+- Invalid entry names.
+- Malformed local file headers.
+- Inconsistent local and central directory metadata.
+- Overlapping or invalid archive data regions.
+
+### 8.2 Entry validation
+
+The archive must contain exactly three entries:
+
+- `manifest.json`
+- `media/cover`
+- `media/video`
+
+No additional entries are permitted in HEMENG 1.0.
 
 The Viewer must not trust arbitrary paths supplied by an untrusted manifest.
+
+### 8.3 Post-extraction validation
+
+After decompression, the Viewer must:
+
+1. Confirm that exactly three expected entries exist.
+2. Validate the actual manifest size.
+3. Validate the actual combined media size.
+4. Compare actual sizes with the values reported during archive inspection.
+5. Parse and validate the manifest.
+6. Confirm that required media resources are present.
+
+The Viewer must not rely only on ZIP metadata.
+
+### 8.4 ZIP bomb considerations
+
+A package-size check alone cannot prevent ZIP bombs.
+
+A defensive implementation should inspect archive metadata before decompression and verify actual extracted sizes afterward.
+
+Implementations should also consider memory consumption and decompression resource limits.
+
+### 8.5 Security limitations
+
+The initial HEMENG ZIP Guard performs structural validation and size checks.
+
+These checks reduce risks associated with malformed archives and unexpectedly large extracted content.
+
+They do not guarantee that every malicious file is harmless.
+
+The initial implementation is not a complete sandbox or a full malware scanner.
+
+Implementations should avoid executing embedded content and should not trust archive-provided paths or metadata.
 
 ## 9. Versioning
 
@@ -287,6 +384,8 @@ The file itself does not require a dedicated operating-system codec.
 
 A compatible Viewer is required to interpret HEMENG interaction rules.
 
+Different Viewers may have different interface designs, but they should preserve the required playback behavior.
+
 ## 11. Privacy and Data Handling
 
 The initial HEMENG Creator and Viewer process selected media locally in the browser.
@@ -301,13 +400,18 @@ A HEMENG 1.0 compatible package must:
 
 1. Use the `.hemeng` extension.
 2. Be a valid ZIP-compatible archive.
-3. Include all three required entries.
-4. Include a valid UTF-8 JSON manifest.
-5. Declare `format` as `HEMENG`.
-6. Declare `formatVersion` as the string `1.0`.
-7. Follow the defined media paths.
-8. Declare the image-video experience.
-9. Follow the defined playback behavior.
+3. Contain exactly three required entries.
+4. Use supported ZIP compression methods.
+5. Not use ZIP64.
+6. Include a valid UTF-8 JSON manifest.
+7. Keep the manifest within 64 KiB.
+8. Declare `format` as `HEMENG`.
+9. Declare `formatVersion` as the string `1.0`.
+10. Follow the defined media paths.
+11. Declare the image-video experience.
+12. Keep combined original media size within 250 MiB.
+13. Keep the complete package within 300 MiB.
+14. Follow the defined playback behavior.
 
 A compatible Viewer must validate the package before presenting its contents.
 
@@ -326,8 +430,25 @@ It does not yet define:
 - Animation timelines.
 - Embedded scripts.
 - Real-time collaboration.
+- Network streaming.
 
 These may be considered in future versions.
+
+## 14. Reference Implementation
+
+The current project contains three main components:
+
+| Component | Responsibility |
+|---|---|
+| Creator | Creates and exports `.hemeng` files |
+| Viewer | Opens and presents `.hemeng` files |
+| ZIP Guard | Inspects ZIP structure before extraction |
+
+The current implementation is browser-based.
+
+The reference implementation is not itself a formal certification authority.
+
+Future implementations should be tested against the requirements in this document.
 
 ---
 
@@ -335,4 +456,7 @@ These may be considered in future versions.
 
 HEMENG is an independent project format under active development.
 
-This document defines the initial HEMENG 1.0 package structure and behavior. It may be revised as implementation and compatibility testing progress.
+This document defines the initial HEMENG 1.0 package structure, archive constraints, validation requirements, and playback behavior.
+
+It may be revised as implementation and compatibility testing progress.
+
