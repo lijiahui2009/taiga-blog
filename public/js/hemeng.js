@@ -30,7 +30,6 @@
     "exported","opening","opened","resetDone","invalidImage",
     "invalidVideo","needBoth","tooLarge","noZip","exportError",
     "openError","packageTooLarge","unsupported","playError",
-    "zipRejected","mediaTooLarge"
     "zipRejected","mediaTooLarge","choose"
   ];
 
@@ -56,7 +55,6 @@
       "HEMENG 文件太大，无法在浏览器中处理。",
       "当前浏览器无法播放这个视频格式。","视频无法播放，请检查视频文件格式。",
       "ZIP 结构检查未通过，文件已拒绝打开。",
-      "文件中的媒体总大小超过 250 MiB。"
       "文件中的媒体总大小超过 250 MiB。",
       "请先选择一张图片和一段视频。"
     ],
@@ -81,7 +79,6 @@
       "HEMENG 檔案太大，無法在瀏覽器中處理。",
       "目前瀏覽器無法播放這個影片格式。","影片無法播放，請檢查影片格式。",
       "ZIP 結構檢查未通過，檔案已拒絕開啟。",
-      "檔案中的媒體總大小超過 250 MiB。"
       "檔案中的媒體總大小超過 250 MiB。",
       "請先選擇一張圖片和一段影片。"
     ],
@@ -108,7 +105,6 @@
       "Your browser cannot play this video format.",
       "Unable to play the video. Please check its format.",
       "ZIP structure validation failed. The file was rejected.",
-      "The total media size exceeds 250 MiB."
       "The total media size exceeds 250 MiB.",
       "Choose an image and a video first."
     ],
@@ -136,7 +132,6 @@
       "ファイルが大きすぎるため、ブラウザで処理できません。",
       "この動画形式はブラウザで再生できません。","動画を再生できません。形式を確認してください。",
       "ZIP 構造の検証に失敗しました。ファイルを拒否しました。",
-      "メディアの合計サイズが 250 MiB を超えています。"
       "メディアの合計サイズが 250 MiB を超えています。",
       "画像と動画を先に選択してください。"
     ],
@@ -164,7 +159,6 @@
       "현재 브라우저에서 이 동영상 형식을 재생할 수 없습니다.",
       "동영상을 재생할 수 없습니다. 형식을 확인하세요.",
       "ZIP 구조 검증에 실패했습니다. 파일을 거부했습니다.",
-      "미디어 총 크기가 250 MiB를 초과했습니다."
       "미디어 총 크기가 250 MiB를 초과했습니다.",
       "이미지와 동영상을 먼저 선택하세요."
     ]
@@ -581,7 +575,7 @@
       const videoBytes = archive["media/video"];
 
       if (!manifestBytes || !coverBytes?.length || !videoBytes?.length) {
-        throw new Error("MISSING_MEDIA");
+        throw new Error("ZIP_REJECTED");
       }
 
       // 第四步：核对 manifest 实际大小
@@ -605,7 +599,7 @@
       }
 
       const manifest = JSON.parse(
-        new TextDecoder().decode(manifestBytes)
+        new TextDecoder("utf-8", { fatal: true }).decode(manifestBytes)
       );
 
       if (!validManifest(manifest)) {
