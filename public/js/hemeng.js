@@ -30,7 +30,7 @@
     "exported","opening","opened","resetDone","invalidImage",
     "invalidVideo","needBoth","tooLarge","noZip","exportError",
     "openError","packageTooLarge","unsupported","playError",
-    "zipRejected","mediaTooLarge","choose"
+    "zipRejected","mediaTooLarge","choose","notOpened"
   ];
 
   const translations = {
@@ -56,7 +56,8 @@
       "当前浏览器无法播放这个视频格式。","视频无法播放，请检查视频文件格式。",
       "ZIP 结构检查未通过，文件已拒绝打开。",
       "文件中的媒体总大小超过 250 MiB。",
-      "请先选择一张图片和一段视频。"
+      "请先选择一张图片和一段视频。",
+      "尚未打开文件。"
     ],
     "zh-TW": [
       "HEMENG 圖片影片製作器","讓一張圖片擁有動態體驗。","建立 HEMENG 檔案",
@@ -80,7 +81,8 @@
       "目前瀏覽器無法播放這個影片格式。","影片無法播放，請檢查影片格式。",
       "ZIP 結構檢查未通過，檔案已拒絕開啟。",
       "檔案中的媒體總大小超過 250 MiB。",
-      "請先選擇一張圖片和一段影片。"
+      "請先選擇一張圖片和一段影片。",
+      "尚未開啟檔案。"
     ],
     en: [
       "HEMENG Image & Video Creator","Give a still image an interactive experience.",
@@ -106,7 +108,8 @@
       "Unable to play the video. Please check its format.",
       "ZIP structure validation failed. The file was rejected.",
       "The total media size exceeds 250 MiB.",
-      "Choose an image and a video first."
+      "Choose an image and a video first.",
+      "No file has been opened yet."
     ],
     ja: [
       "HEMENG 画像・動画クリエイター","静止画にインタラクティブな体験を。",
@@ -133,7 +136,8 @@
       "この動画形式はブラウザで再生できません。","動画を再生できません。形式を確認してください。",
       "ZIP 構造の検証に失敗しました。ファイルを拒否しました。",
       "メディアの合計サイズが 250 MiB を超えています。",
-      "画像と動画を先に選択してください。"
+      "画像と動画を先に選択してください。",
+      "ファイルはまだ開かれていません。"
     ],
     ko: [
       "HEMENG 이미지 및 동영상 제작기","정적인 이미지에 인터랙티브한 경험을 더하세요.",
@@ -160,7 +164,8 @@
       "동영상을 재생할 수 없습니다. 형식을 확인하세요.",
       "ZIP 구조 검증에 실패했습니다. 파일을 거부했습니다.",
       "미디어 총 크기가 250 MiB를 초과했습니다.",
-      "이미지와 동영상을 먼저 선택하세요."
+      "이미지와 동영상을 먼저 선택하세요.",
+      "아직 파일을 열지 않았습니다."
     ]
   };
 
@@ -199,6 +204,7 @@
   let coverUrl = null;
   let videoUrl = null;
   let playing = false;
+  let openStatusKey = "notOpened";
 
   function tr(key) {
     return dict[language]?.[key] || dict["zh-CN"][key] || key;
@@ -220,6 +226,11 @@
 
   function setStatus(message, target = "create") {
     const node = target === "open" ? el.openStatus : el.createStatus;
+
+    if (target === "open") {
+      openStatusKey = message;
+    }
+
     if (node) node.textContent = tr(message);
   }
 
@@ -290,6 +301,7 @@
 
     updatePreviewState();
     updateStatus();
+    setStatus(openStatusKey, "open");
     updateExportButton();
   }
 
