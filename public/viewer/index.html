@@ -7,152 +7,45 @@
 <meta name="google" content="notranslate">
 <meta name="theme-color" content="#fff7f3">
 <title>HEMENG Viewer</title>
-
 <style>
-:root{
-  --bg:#fff7f3;
-  --card:#fff;
-  --text:#493936;
-  --muted:#927d78;
-  --accent:#c77f78;
-  --border:#f0dfd9;
-}
+:root{--bg:#fff7f3;--card:#fff;--text:#493936;--muted:#927d78;--accent:#c77f78;--border:#f0dfd9}
 *{box-sizing:border-box}
-body{
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;
-  line-height:1.65;
-}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;line-height:1.65}
 main{width:min(900px,calc(100% - 28px));margin:auto}
-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:20px 0;
-  border-bottom:1px solid var(--border);
-}
+header{display:flex;justify-content:space-between;align-items:center;padding:20px 0;border-bottom:1px solid var(--border)}
 a{color:inherit;text-decoration:none}
 .brand{font-weight:800}
 select,input,button{font:inherit}
-select{
-  border:1px solid var(--border);
-  border-radius:20px;
-  padding:7px;
-  background:white;
-}
+select{border:1px solid var(--border);border-radius:20px;padding:7px;background:white}
 .hero{text-align:center;padding:42px 10px 25px}
 .hero small{color:var(--accent);letter-spacing:3px}
 h1{font-size:32px;margin:8px 0}
 .hero p,.desc{color:var(--muted);font-size:13px}
-.panel{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:18px;
-  padding:22px;
-  margin:18px 0;
-}
+.panel{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:22px;margin:18px 0}
 .panel h2{font-size:18px;margin:0 0 8px}
-.upload{
-  padding:20px;
-  background:#fffaf8;
-  border:1px dashed #e5c5bc;
-  border-radius:14px;
-  text-align:center;
-}
+.upload{padding:20px;background:#fffaf8;border:1px dashed #e5c5bc;border-radius:14px;text-align:center}
 input{max-width:100%}
-button{
-  border:0;
-  border-radius:30px;
-  padding:11px 20px;
-  background:var(--accent);
-  color:white;
-  font-size:13px;
-  font-weight:700;
-  cursor:pointer;
-}
+button{border:0;border-radius:30px;padding:11px 20px;background:var(--accent);color:white;font-size:13px;font-weight:700;cursor:pointer}
 button:disabled{opacity:.45;cursor:not-allowed}
-.stage{
-  margin-top:20px;
-  width:100%;
-  aspect-ratio:16/9;
-  min-height:200px;
-  background:#211d1c;
-  border-radius:15px;
-  overflow:hidden;
-  display:grid;
-  place-items:center;
-  position:relative;
-}
-.stage img,.stage video{
-  width:100%;
-  height:100%;
-  object-fit:contain;
-  background:#211d1c;
-}
+.stage{margin-top:20px;width:100%;aspect-ratio:16/9;min-height:200px;background:#211d1c;border-radius:15px;overflow:hidden;display:grid;place-items:center;position:relative}
+.stage img,.stage video{width:100%;height:100%;object-fit:contain;background:#211d1c}
 .stage img{cursor:pointer}
 .stage img[hidden],.stage video[hidden]{display:none}
-.empty{
-  color:#ddd;
-  text-align:center;
-  padding:20px;
-  font-size:13px;
-}
-.play{
-  position:absolute;
-  pointer-events:none;
-  width:65px;
-  height:65px;
-  border-radius:50%;
-  display:grid;
-  place-items:center;
-  background:#ffffffed;
-  color:var(--accent);
-  font-size:25px;
-}
+.empty{color:#ddd;text-align:center;padding:20px;font-size:13px}
+.play{position:absolute;pointer-events:none;width:65px;height:65px;border-radius:50%;display:grid;place-items:center;background:#ffffffed;color:var(--accent);font-size:25px}
 .play[hidden]{display:none}
-.status{
-  margin-top:14px;
-  padding:12px;
-  border-radius:10px;
-  background:#fff8f5;
-  color:var(--muted);
-  font-size:12px;
-  overflow-wrap:anywhere;
-}
+.status{margin-top:14px;padding:12px;border-radius:10px;background:#fff8f5;color:var(--muted);font-size:12px;overflow-wrap:anywhere}
 .status.good{background:#f0faf2;color:#39724b}
 .status.bad{background:#fff0ef;color:#a34e48}
-.caption{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  margin-top:10px;
-  font-size:12px;
-  color:var(--muted);
-}
+.caption{display:flex;justify-content:space-between;gap:10px;margin-top:10px;font-size:12px;color:var(--muted)}
 .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
-.secondary{
-  background:#fff0eb;
-  color:#a9605c;
-  border:1px solid var(--border);
-}
-footer{
-  text-align:center;
-  color:var(--muted);
-  font-size:11px;
-  padding:25px;
-}
-@media(max-width:600px){
-  h1{font-size:27px}
-  .panel{padding:17px}
-}
+.secondary{background:#fff0eb;color:#a9605c;border:1px solid var(--border)}
+footer{text-align:center;color:var(--muted);font-size:11px;padding:25px}
+@media(max-width:600px){h1{font-size:27px}.panel{padding:17px}}
 </style>
 </head>
-
 <body>
 <main>
-
 <header>
   <a class="brand" href="/">荷萌 HEMENG</a>
   <div>
@@ -175,9 +68,7 @@ footer{
 
 <section class="panel">
   <h2 id="openTitle">打开 HEMENG 文件</h2>
-  <p class="desc" id="openDesc">
-    选择一个 .hemeng 文件。文件将在本地解析，不会上传。
-  </p>
+  <p class="desc" id="openDesc">选择一个 .hemeng 文件。文件将在本地解析，不会上传。</p>
   <div class="upload">
     <input id="fileInput" type="file" accept=".hemeng,.zip">
     <div class="actions" style="justify-content:center">
@@ -209,6 +100,7 @@ footer{
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/fflate@0.8.2/umd/index.js"></script>
+<script src="/js/hemeng-zip-guard.js"></script>
 
 <script>
 (() => {
@@ -216,141 +108,78 @@ footer{
 
 const $ = id => document.getElementById(id);
 
-/* =========================
-   1. 多语言
-========================= */
-
 const text = {
 "zh-CN":{
- title:"HEMENG 查看器",
- intro:"打开一个 HEMENG 文件，体验其中的交互媒体。",
- openTitle:"打开 HEMENG 文件",
- openDesc:"选择一个 .hemeng 文件。文件将在本地解析，不会上传。",
- openButton:"打开文件",
- waiting:"等待打开文件。",
- experienceTitle:"媒体体验",
- empty:"打开文件后，媒体将在这里显示。",
- hint:"点击图片播放视频",
- state:"等待媒体",
- ready:"文件已打开，可以开始体验。",
- playing:"正在播放视频",
- returned:"视频已结束，已返回封面。",
- back:"返回封面",
- close:"关闭文件",
- closed:"文件已关闭。",
- invalid:"文件无效或格式不受支持。",
- badMedia:"文件中的媒体数据不完整。",
- noZip:"压缩组件加载失败，请刷新页面。",
- playError:"视频无法播放，请检查视频格式。",
- loading:"正在读取文件……",
+ title:"HEMENG 查看器",intro:"打开一个 HEMENG 文件，体验其中的交互媒体。",
+ openTitle:"打开 HEMENG 文件",openDesc:"选择一个 .hemeng 文件。文件将在本地解析，不会上传。",
+ openButton:"打开文件",waiting:"等待打开文件。",experienceTitle:"媒体体验",
+ empty:"打开文件后，媒体将在这里显示。",hint:"点击图片播放视频",state:"等待媒体",
+ ready:"文件已打开，可以开始体验。",playing:"正在播放视频",
+ returned:"视频已结束，已返回封面。",back:"返回封面",close:"关闭文件",
+ closed:"文件已关闭。",invalid:"文件无效或格式不受支持。",
+ badMedia:"文件中的媒体数据不完整。",noZip:"压缩组件加载失败，请刷新页面。",
+ playError:"视频无法播放，请检查视频格式。",loading:"正在读取文件……",
  packageTooLarge:"文件包超过 300 MB，无法打开。",
- mediaTooLarge:"文件中的媒体总大小超过 250 MB。"
+ mediaTooLarge:"文件中的媒体总大小超过 250 MB。",
+ zipRejected:"ZIP 结构检查未通过，文件已拒绝打开。"
 },
 "zh-TW":{
- title:"HEMENG 檢視器",
- intro:"開啟 HEMENG 檔案，體驗其中的互動媒體。",
- openTitle:"開啟 HEMENG 檔案",
- openDesc:"選擇 .hemeng 檔案。檔案只會在本機解析。",
- openButton:"開啟檔案",
- waiting:"等待開啟檔案。",
- experienceTitle:"媒體體驗",
- empty:"開啟檔案後，媒體將顯示在這裡。",
- hint:"點擊圖片播放影片",
- state:"等待媒體",
- ready:"檔案已開啟，可以開始體驗。",
- playing:"正在播放影片",
- returned:"影片已結束，已返回封面。",
- back:"返回封面",
- close:"關閉檔案",
- closed:"檔案已關閉。",
- invalid:"檔案無效或格式不受支援。",
- badMedia:"檔案中的媒體資料不完整。",
- noZip:"壓縮元件載入失敗，請重新整理。",
- playError:"影片無法播放，請檢查格式。",
- loading:"正在讀取檔案……",
+ title:"HEMENG 檢視器",intro:"開啟 HEMENG 檔案，體驗其中的互動媒體。",
+ openTitle:"開啟 HEMENG 檔案",openDesc:"選擇 .hemeng 檔案。檔案只會在本機解析。",
+ openButton:"開啟檔案",waiting:"等待開啟檔案。",experienceTitle:"媒體體驗",
+ empty:"開啟檔案後，媒體將顯示在這裡。",hint:"點擊圖片播放影片",state:"等待媒體",
+ ready:"檔案已開啟，可以開始體驗。",playing:"正在播放影片",
+ returned:"影片已結束，已返回封面。",back:"返回封面",close:"關閉檔案",
+ closed:"檔案已關閉。",invalid:"檔案無效或格式不受支援。",
+ badMedia:"檔案中的媒體資料不完整。",noZip:"壓縮元件載入失敗，請重新整理。",
+ playError:"影片無法播放，請檢查格式。",loading:"正在讀取檔案……",
  packageTooLarge:"檔案包超過 300 MB，無法開啟。",
- mediaTooLarge:"檔案中的媒體總大小超過 250 MB。"
+ mediaTooLarge:"檔案中的媒體總大小超過 250 MB。",
+ zipRejected:"ZIP 結構檢查未通過，檔案已拒絕開啟。"
 },
 "en":{
- title:"HEMENG Viewer",
- intro:"Open a HEMENG file and experience its interactive media.",
- openTitle:"Open a HEMENG File",
- openDesc:"Choose a .hemeng file. It is processed locally and never uploaded.",
- openButton:"Open File",
- waiting:"Waiting for a file.",
- experienceTitle:"Media Experience",
- empty:"Your media will appear here after opening a file.",
- hint:"Click the image to play the video",
- state:"Waiting for media",
- ready:"File opened. Enjoy the experience.",
- playing:"Playing video",
- returned:"Video ended. Returned to cover.",
- back:"Back to Cover",
- close:"Close File",
- closed:"File closed.",
- invalid:"Invalid or unsupported file.",
- badMedia:"Media data is incomplete.",
- noZip:"The ZIP library failed to load. Refresh the page.",
- playError:"Unable to play this video format.",
- loading:"Reading file...",
+ title:"HEMENG Viewer",intro:"Open a HEMENG file and experience its interactive media.",
+ openTitle:"Open a HEMENG File",openDesc:"Choose a .hemeng file. It is processed locally and never uploaded.",
+ openButton:"Open File",waiting:"Waiting for a file.",experienceTitle:"Media Experience",
+ empty:"Your media will appear here after opening a file.",hint:"Click the image to play the video",
+ state:"Waiting for media",ready:"File opened. Enjoy the experience.",playing:"Playing video",
+ returned:"Video ended. Returned to cover.",back:"Back to Cover",close:"Close File",
+ closed:"File closed.",invalid:"Invalid or unsupported file.",
+ badMedia:"Media data is incomplete.",noZip:"The ZIP library failed to load. Refresh the page.",
+ playError:"Unable to play this video format.",loading:"Reading file...",
  packageTooLarge:"The package exceeds 300 MB and cannot be opened.",
- mediaTooLarge:"The total media size exceeds 250 MB."
+ mediaTooLarge:"The total media size exceeds 250 MB.",
+ zipRejected:"ZIP structure validation failed. The file was rejected."
 },
 "ja":{
- title:"HEMENG ビューアー",
- intro:"HEMENG ファイルを開いて、インタラクティブなメディアを体験しましょう。",
- openTitle:"HEMENG ファイルを開く",
- openDesc:".hemeng ファイルを選択します。ファイルはローカルで処理されます。",
- openButton:"ファイルを開く",
- waiting:"ファイルを待っています。",
- experienceTitle:"メディア体験",
- empty:"ファイルを開くと、ここにメディアが表示されます。",
- hint:"画像をクリックして動画を再生",
- state:"メディア待機中",
- ready:"ファイルを開きました。",
- playing:"動画を再生中",
- returned:"動画が終了し、カバーに戻りました。",
- back:"カバーに戻る",
- close:"ファイルを閉じる",
- closed:"ファイルを閉じました。",
- invalid:"無効または未対応のファイルです。",
- badMedia:"メディアデータが不完全です。",
- noZip:"圧縮ライブラリを読み込めません。更新してください。",
- playError:"この動画形式は再生できません。",
- loading:"ファイルを読み込んでいます...",
+ title:"HEMENG ビューアー",intro:"HEMENG ファイルを開いて、インタラクティブなメディアを体験しましょう。",
+ openTitle:"HEMENG ファイルを開く",openDesc:".hemeng ファイルを選択します。ファイルはローカルで処理されます。",
+ openButton:"ファイルを開く",waiting:"ファイルを待っています。",experienceTitle:"メディア体験",
+ empty:"ファイルを開くと、ここにメディアが表示されます。",hint:"画像をクリックして動画を再生",
+ state:"メディア待機中",ready:"ファイルを開きました。",playing:"動画を再生中",
+ returned:"動画が終了し、カバーに戻りました。",back:"カバーに戻る",close:"ファイルを閉じる",
+ closed:"ファイルを閉じました。",invalid:"無効または未対応のファイルです。",
+ badMedia:"メディアデータが不完全です。",noZip:"圧縮ライブラリを読み込めません。更新してください。",
+ playError:"この動画形式は再生できません。",loading:"ファイルを読み込んでいます...",
  packageTooLarge:"ファイルサイズが300 MBを超えているため開けません。",
- mediaTooLarge:"メディアの合計サイズが250 MBを超えています。"
+ mediaTooLarge:"メディアの合計サイズが250 MBを超えています。",
+ zipRejected:"ZIP構造の検証に失敗しました。ファイルを拒否しました。"
 },
 "ko":{
- title:"HEMENG 뷰어",
- intro:"HEMENG 파일을 열고 인터랙티브 미디어를 경험하세요.",
- openTitle:"HEMENG 파일 열기",
- openDesc:".hemeng 파일을 선택하세요. 파일은 로컬에서 처리됩니다.",
- openButton:"파일 열기",
- waiting:"파일을 기다리는 중입니다.",
- experienceTitle:"미디어 경험",
- empty:"파일을 열면 여기에 미디어가 표시됩니다.",
- hint:"이미지를 클릭하여 동영상 재생",
- state:"미디어 대기 중",
- ready:"파일을 열었습니다.",
- playing:"동영상 재생 중",
- returned:"동영상이 끝나 커버로 돌아왔습니다.",
- back:"커버로 돌아가기",
- close:"파일 닫기",
- closed:"파일을 닫았습니다.",
- invalid:"유효하지 않거나 지원되지 않는 파일입니다.",
- badMedia:"미디어 데이터가 불완전합니다.",
- noZip:"압축 라이브러리를 불러오지 못했습니다. 새로고침하세요.",
- playError:"이 동영상 형식을 재생할 수 없습니다.",
- loading:"파일을 읽는 중...",
+ title:"HEMENG 뷰어",intro:"HEMENG 파일을 열고 인터랙티브 미디어를 경험하세요.",
+ openTitle:"HEMENG 파일 열기",openDesc:".hemeng 파일을 선택하세요. 파일은 로컬에서 처리됩니다.",
+ openButton:"파일 열기",waiting:"파일을 기다리는 중입니다.",experienceTitle:"미디어 경험",
+ empty:"파일을 열면 여기에 미디어가 표시됩니다.",hint:"이미지를 클릭하여 동영상 재생",
+ state:"미디어 대기 중",ready:"파일을 열었습니다.",playing:"동영상 재생 중",
+ returned:"동영상이 끝나 커버로 돌아왔습니다.",back:"커버로 돌아가기",close:"파일 닫기",
+ closed:"파일을 닫았습니다.",invalid:"유효하지 않거나 지원되지 않는 파일입니다.",
+ badMedia:"미디어 데이터가 불완전합니다.",noZip:"압축 라이브러리를 불러오지 못했습니다. 새로고침하세요.",
+ playError:"이 동영상 형식을 재생할 수 없습니다.",loading:"파일을 읽는 중...",
  packageTooLarge:"파일 크기가 300 MB를 초과하여 열 수 없습니다.",
- mediaTooLarge:"미디어 총 크기가 250 MB를 초과했습니다."
+ mediaTooLarge:"미디어 총 크기가 250 MB를 초과했습니다.",
+ zipRejected:"ZIP 구조 검증에 실패했습니다. 파일을 거부했습니다."
 }
 };
-
-/* =========================
-   2. 状态
-========================= */
 
 const MAX_PACKAGE_SIZE = 300 * 1024 * 1024;
 const MAX_MEDIA_SIZE = 250 * 1024 * 1024;
@@ -359,10 +188,6 @@ let lang = "zh-CN";
 let coverURL = null;
 let videoURL = null;
 let opened = false;
-
-/* =========================
-   3. 通用函数
-========================= */
 
 function t(key){
  return text[lang][key] || text["zh-CN"][key] || key;
@@ -386,38 +211,23 @@ function setLanguage(value){
  $("language").value = lang;
 
  [
-  ["title","title"],
-  ["intro","intro"],
-  ["openTitle","openTitle"],
-  ["openDesc","openDesc"],
-  ["openButton","openButton"],
-  ["experienceTitle","experienceTitle"],
-  ["empty","empty"],
-  ["hint","hint"],
-  ["backButton","back"],
-  ["closeButton","close"]
+  ["title","title"],["intro","intro"],["openTitle","openTitle"],
+  ["openDesc","openDesc"],["openButton","openButton"],
+  ["experienceTitle","experienceTitle"],["empty","empty"],
+  ["hint","hint"],["backButton","back"],["closeButton","close"]
  ].forEach(([id,key])=>{
   $(id).textContent = t(key);
  });
 
- if(!opened){
-  $("state").textContent = t("state");
- }
+ if(!opened) $("state").textContent = t("state");
 }
-
-/* =========================
-   4. 媒体显示
-========================= */
 
 function showCover(){
  const video = $("video");
  video.pause();
 
- try{
-  video.currentTime = 0;
- }catch(error){
-  console.warn("[HEMENG] Reset video:",error);
- }
+ try{video.currentTime = 0;}
+ catch(error){console.warn("[HEMENG] Reset video:",error);}
 
  video.hidden = true;
  $("cover").hidden = !coverURL;
@@ -442,37 +252,22 @@ function playVideo(){
  });
 }
 
-/* =========================
-   5. HEMENG 1.0 Manifest 校验
-========================= */
-
 function validManifest(manifest){
- if(!manifest || typeof manifest !== "object"){
-  return false;
- }
+ if(!manifest || typeof manifest !== "object") return false;
 
- if(
-  manifest.format !== "HEMENG" ||
-  manifest.formatVersion !== "1.0"
- ){
-  return false;
- }
+ if(manifest.format !== "HEMENG" || manifest.formatVersion !== "1.0") return false;
 
  if(
   typeof manifest.createdAt !== "string" ||
   !Number.isFinite(Date.parse(manifest.createdAt))
- ){
-  return false;
- }
+ ) return false;
 
  if(
   !manifest.experience ||
   manifest.experience.type !== "image-video" ||
   manifest.experience.interaction !== "click-image-to-play-in-place" ||
   manifest.experience.returnToCoverOnEnded !== true
- ){
-  return false;
- }
+ ) return false;
 
  if(
   !manifest.cover ||
@@ -481,9 +276,7 @@ function validManifest(manifest){
   !manifest.cover.name.trim() ||
   typeof manifest.cover.mimeType !== "string" ||
   !manifest.cover.mimeType.startsWith("image/")
- ){
-  return false;
- }
+ ) return false;
 
  if(
   !manifest.video ||
@@ -492,20 +285,13 @@ function validManifest(manifest){
   !manifest.video.name.trim() ||
   typeof manifest.video.mimeType !== "string" ||
   !manifest.video.mimeType.startsWith("video/")
- ){
-  return false;
- }
+ ) return false;
 
  return true;
 }
 
-/* =========================
-   6. 关闭当前文件
-========================= */
-
 function closeFile(){
  const video = $("video");
-
  video.pause();
  video.removeAttribute("src");
  video.load();
@@ -527,10 +313,6 @@ function closeFile(){
  setStatus("closed");
 }
 
-/* =========================
-   7. 打开 HEMENG 文件
-========================= */
-
 async function openFile(){
  const file = $("fileInput").files[0];
  if(!file) return;
@@ -540,7 +322,12 @@ async function openFile(){
   return;
  }
 
- if(!window.fflate || !window.fflate.unzipSync){
+ if(
+  !window.fflate ||
+  typeof window.fflate.unzipSync !== "function" ||
+  !window.HEMENGZipGuard ||
+  typeof window.HEMENGZipGuard.inspect !== "function"
+ ){
   setStatus("noZip","bad");
   return;
  }
@@ -552,27 +339,56 @@ async function openFile(){
 
  try{
   const bytes = new Uint8Array(await file.arrayBuffer());
+
+  // 第一步：解压前检查 ZIP 中央目录和文件元数据
+  const zipReport = window.HEMENGZipGuard.inspect(bytes);
+
+  // 第二步：只有通过预检，才允许解压
   const archive = window.fflate.unzipSync(bytes);
 
-  if(!archive["manifest.json"]){
-   throw new Error("manifest");
+  // 第三步：检查实际解压出的文件数量
+  const archiveNames = Object.keys(archive).sort();
+  const expectedNames = [
+   "manifest.json",
+   "media/cover",
+   "media/video"
+  ].sort();
+
+  if(
+   archiveNames.length !== expectedNames.length ||
+   archiveNames.some((name,index)=>name !== expectedNames[index])
+  ){
+   throw new Error("zipRejected");
+  }
+
+  const manifestBytes = archive["manifest.json"];
+  const coverBytes = archive["media/cover"];
+  const videoBytes = archive["media/video"];
+
+  if(!manifestBytes || !coverBytes?.length || !videoBytes?.length){
+   throw new Error("media");
+  }
+
+  // 第四步：核对实际解压大小与中央目录声明大小
+  const actualMediaSize = coverBytes.byteLength + videoBytes.byteLength;
+
+  if(
+   manifestBytes.byteLength !== zipReport.manifestSize ||
+   actualMediaSize !== zipReport.totalMediaSize
+  ){
+   throw new Error("zipRejected");
+  }
+
+  if(actualMediaSize > MAX_MEDIA_SIZE){
+   throw new Error("mediaTooLarge");
   }
 
   const manifest = JSON.parse(
-   new TextDecoder().decode(archive["manifest.json"])
+   new TextDecoder().decode(manifestBytes)
   );
-
-  /* 使用与 Creator 一致的严格校验 */
 
   if(!validManifest(manifest)){
    throw new Error("invalid");
-  }
-
-  const coverBytes = archive[manifest.cover.path];
-  const videoBytes = archive[manifest.video.path];
-
-  if(!coverBytes?.length || !videoBytes?.length){
-   throw new Error("media");
   }
 
   const newCover = new Blob(
@@ -585,15 +401,14 @@ async function openFile(){
    {type:manifest.video.mimeType}
   );
 
-  if(newCover.size + newVideo.size > MAX_MEDIA_SIZE){
-   throw new Error("mediaTooLarge");
+  if(newCover.size + newVideo.size !== zipReport.totalMediaSize){
+   throw new Error("zipRejected");
   }
 
   testURL = URL.createObjectURL(newCover);
   testVideoURL = URL.createObjectURL(newVideo);
 
-  /* 验证图片是否可正常解码 */
-
+  // 验证图片是否可正常解码
   const probe = new Image();
   probe.src = testURL;
 
@@ -602,13 +417,11 @@ async function openFile(){
    probe.onerror = ()=>reject(new Error("image"));
   });
 
-  /* 验证成功后才替换当前媒体 */
-
+  // 验证成功后才替换当前媒体
   revokeAll();
 
   coverURL = testURL;
   videoURL = testVideoURL;
-
   testURL = null;
   testVideoURL = null;
 
@@ -639,15 +452,13 @@ async function openFile(){
    setStatus("badMedia","bad");
   }else if(error.message === "mediaTooLarge"){
    setStatus("mediaTooLarge","bad");
+  }else if(error.message === "zipRejected" || String(error.message).startsWith("HEMENG ZIP rejected:")){
+   setStatus("zipRejected","bad");
   }else{
    setStatus("invalid","bad");
   }
  }
 }
-
-/* =========================
-   8. 事件绑定
-========================= */
 
 $("openButton").addEventListener("click",()=>{
  $("fileInput").click();
@@ -677,15 +488,9 @@ $("language").addEventListener("change",event=>{
 
 window.addEventListener("beforeunload",revokeAll);
 
-/* =========================
-   9. 初始化
-========================= */
-
 setLanguage("zh-CN");
-
 })();
 </script>
-
 </body>
 </html>
 
