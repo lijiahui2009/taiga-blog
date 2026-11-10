@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en" translate="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="google" content="notranslate">
+<meta name="theme-color" content="#f8f7f4">
+<meta name="description" content="HEMENG — an interactive media format. Create, view and manage your media experiences.">
+<title>HEMENG — Interactive Media</title>
+<style>
+:root{
+  --bg:#f8f7f4;
+  --surface:#fff;
+  --surface-soft:#f1f0ec;
+  --ink:#242522;
+  --muted:#777970;
+  --line:#e6e5df;
+  --accent:#a66f64;
+  --accent-soft:#f3e9e5;
+  --dark:#252723;
+  --radius:22px;
+  --shadow:0 18px 55px rgba(38,38,32,.07);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  line-height:1.6;
+}
+a{color:inherit;text-decoration:none}
+button,select{font:inherit}
+.topbar{
+  width:min(1160px,calc(100% - 48px));
+  margin:auto;
+  min-height:82px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+  border-bottom:1px solid var(--line);
+}
+.brand{display:flex;align-items:center;gap:11px;min-width:0}
+.brand img{width:43px;height:43px;object-fit:contain}
+.brand-name{font-size:17px;font-weight:750;letter-spacing:.12em}
+.brand-sub{font-size:9px;letter-spacing:.25em;color:var(--muted);margin-top:1px}
+.top-actions{display:flex;align-items:center;gap:18px}
+.back-link{font-size:12px;color:var(--muted)}
+.back-link:hover{color:var(--ink)}
+#language{
+  width:112px;
+  height:34px;
+  padding:0 9px;
+  border:1px solid var(--line);
+  border-radius:20px;
+  background:var(--surface);
+  color:var(--ink);
+  font-size:11px;
+  cursor:pointer;
+}
+main{width:min(1160px,calc(100% - 48px));margin:auto}
+.hero{
+  padding:104px 0 88px;
+  display:grid;
+  grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr);
+  align-items:center;
+  gap:70px;
+}
+.eyebrow{
+  display:flex;align-items:center;gap:10px;
+  color:var(--accent);font-size:10px;font-weight:700;
+  letter-spacing:.24em;text-transform:uppercase;
+}
+.eyebrow:before{content:"";width:25px;height:1px;background:var(--accent)}
+h1{
+  max-width:700px;
+  margin:22px 0 20px;
+  font-size:clamp(46px,6.6vw,78px);
+  line-height:1.04;
+  letter-spacing:-.065em;
+  font-weight:650;
+}
+.hero-copy{
+  max-width:520px;
+  color:var(--muted);
+  font-size:15px;
+  line-height:2;
+}
+.hero-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:30px}
+.button{
+  min-height:47px;padding:0 21px;
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  border:1px solid var(--dark);border-radius:30px;
+  background:var(--dark);color:#fff;
+  font-size:12px;font-weight:650;
+  transition:transform .2s,background .2s;
+}
+.button:hover{transform:translateY(-2px);background:#3a3d36}
+.button.secondary{background:transparent;color:var(--ink);border-color:var(--line)}
+.button.secondary:hover{background:var(--surface)}
+.arrow{font-size:16px;line-height:1}
+.hero-art{
+  min-height:360px;position:relative;display:grid;place-items:center;
+  border:1px solid var(--line);border-radius:30px;
+  background:
+    radial-gradient(circle at 50% 42%,#fff 0,#f2f0eb 58%,#eceae4 100%);
+  overflow:hidden;
+}
+.hero-art:before,.hero-art:after{
+  content:"";position:absolute;border:1px solid rgba(166,111,100,.22);
+  border-radius:50%;width:290px;height:290px;
+}
+.hero-art:after{width:370px;height:370px}
+.art-logo{width:190px;height:194px;object-fit:contain;position:relative;z-index:2;filter:drop-shadow(0 16px 24px rgba(50,40,35,.12))}
+.art-caption{
+  position:absolute;bottom:24px;left:25px;right:25px;
+  display:flex;justify-content:space-between;gap:12px;
+  color:#8d8c83;font-size:9px;letter-spacing:.18em;text-transform:uppercase;
+}
+.section{padding:30px 0 95px}
+.section-head{
+  display:flex;align-items:end;justify-content:space-between;gap:25px;
+  margin-bottom:25px;
+}
+.section-kicker{font-size:10px;color:var(--accent);font-weight:700;letter-spacing:.22em;text-transform:uppercase}
+.section-title{font-size:29px;letter-spacing:-.04em;font-weight:620;margin:8px 0 0}
+.section-note{max-width:360px;color:var(--muted);font-size:12px;line-height:1.9}
+.products{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.product{
+  min-height:245px;padding:25px;
+  border:1px solid var(--line);border-radius:var(--radius);
+  background:var(--surface);
+  display:flex;flex-direction:column;
+  transition:transform .22s,box-shadow .22s,border-color .22s;
+}
+.product.active:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:#d5c4bc}
+.product-top{display:flex;align-items:center;justify-content:space-between}
+.product-icon{
+  width:43px;height:43px;border-radius:14px;
+  display:grid;place-items:center;background:var(--accent-soft);color:var(--accent);
+}
+.product-icon svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.product-index{font-size:10px;color:#aaa99f;letter-spacing:.12em}
+.product h3{font-size:20px;font-weight:650;letter-spacing:-.03em;margin:24px 0 7px}
+.product p{font-size:12px;color:var(--muted);line-height:1.9;margin:0;max-width:290px}
+.product-bottom{margin-top:auto;padding-top:24px;display:flex;align-items:center;justify-content:space-between}
+.product-link{font-size:11px;font-weight:700;color:var(--accent)}
+.coming{font-size:9px;letter-spacing:.12em;color:#99998f;border:1px solid var(--line);padding:5px 9px;border-radius:20px}
+.principles{
+  margin:0 0 95px;padding:34px 36px;
+  border-radius:26px;background:var(--dark);color:#f8f7f4;
+  display:grid;grid-template-columns:1fr 2fr;gap:45px;align-items:center;
+}
+.principles h2{font-size:25px;line-height:1.25;letter-spacing:-.04em;margin:0;font-weight:600}
+.principles p{color:#c0c1b9;font-size:12px;line-height:2;margin:0;max-width:650px}
+.principle-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}
+.principle-tags span{font-size:9px;color:#e3d2ca;border:1px solid #55584f;border-radius:20px;padding:5px 10px}
+footer{
+  border-top:1px solid var(--line);
+  width:min(1160px,calc(100% - 48px));margin:auto;
+  padding:24px 0 34px;
+  display:flex;justify-content:space-between;gap:20px;
+  color:var(--muted);font-size:10px;
+}
+.footer-brand{color:var(--ink);font-weight:700;letter-spacing:.15em}
+@media(max-width:800px){
+  .hero{grid-template-columns:1fr;gap:38px;padding:75px 0 65px}
+  .hero-art{min-height:300px}
+  .products{grid-template-columns:1fr 1fr}
+  .principles{grid-template-columns:1fr;gap:18px}
+}
+@media(max-width:560px){
+  .topbar,main,footer{width:calc(100% - 36px)}
+  .topbar{min-height:70px}
+  .brand img{width:37px;height:37px}
+  .brand-name{font-size:15px}
+  .top-actions{gap:10px}
+  .back-link{font-size:10px}
+  #language{width:96px;font-size:10px}
+  .hero{padding:62px 0 54px}
+  h1{font-size:49px}
+  .hero-copy{font-size:13px}
+  .hero-art{min-height:270px}
+  .art-logo{width:155px;height:160px}
+  .section{padding-bottom:65px}
+  .section-head{display:block}
+  .section-note{margin-top:10px}
+  .section-title{font-size:25px}
+  .products{grid-template-columns:1fr}
+  .product{min-height:220px}
+  .principles{padding:27px 24px;margin-bottom:65px}
+  footer{flex-direction:column;gap:7px}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{transition:none!important}
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="/hemeng/" aria-label="HEMENG">
+    <img src="/images/hemeng-logo.svg" alt="">
+    <span>
+      <span class="brand-name">HEMENG</span>
+      <span class="brand-sub">INTERACTIVE MEDIA</span>
+    </span>
+  </a>
+  <div class="top-actions">
+    <a class="back-link" href="/" data-i18n="backHome">Main website ↗</a>
+    <select id="language" aria-label="Language">
+      <option value="zh-CN">简体中文</option>
+      <option value="zh-TW">繁體中文</option>
+      <option value="en">English</option>
+      <option value="ja">日本語</option>
+      <option value="ko">한국어</option>
+    </select>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div>
+      <div class="eyebrow" data-i18n="eyebrow">A new way to experience media</div>
+      <h1 data-i18n="headline">Media,<br>with another dimension.</h1>
+      <p class="hero-copy" data-i18n="heroCopy">HEMENG brings media and interaction together in one portable file. Create an experience, share it, and open it with a compatible Viewer.</p>
+      <div class="hero-actions">
+        <a class="button" href="/tools/hemeng/"><span data-i18n="createButton">Create a HEMENG file</span><span class="arrow">↗</span></a>
+        <a class="button secondary" href="/viewer/"><span data-i18n="viewButton">Open Viewer</span><span class="arrow">→</span></a>
+      </div>
+    </div>
+    <div class="hero-art" aria-label="HEMENG identity">
+      <img class="art-logo" src="/images/hemeng-logo.svg" alt="HEMENG">
+      <div class="art-caption"><span>HEMENG FORMAT</span><span>VERSION 1.0</span></div>
+    </div>
+  </section>
+
+  <section class="section" id="products">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker" data-i18n="workspace">THE WORKSPACE</div>
+        <h2 class="section-title" data-i18n="workspaceTitle">One format. Three parts.</h2>
+      </div>
+      <p class="section-note" data-i18n="workspaceNote">The tools around HEMENG are designed to work together, from creation to playback and future collection management.</p>
+    </div>
+
+    <div class="products">
+      <a class="product active" href="/tools/hemeng/">
+        <div class="product-top">
+          <span class="product-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/><path d="M4 4h6v6H4zM14 14h6v6h-6z"/></svg>
+          </span>
+          <span class="product-index">01 / CREATE</span>
+        </div>
+        <h3 data-i18n="creatorTitle">Creator</h3>
+        <p data-i18n="creatorDesc">Combine an image and a video into one interactive .hemeng file. Your media stays on your device.</p>
+        <div class="product-bottom"><span class="product-link" data-i18n="openCreator">Open Creator ↗</span></div>
+      </a>
+
+      <a class="product active" href="/viewer/">
+        <div class="product-top">
+          <span class="product-icon">
+            <svg viewBox="0 0 24 24"><path d="m9 6 10 6-10 6z"/><circle cx="12" cy="12" r="9"/></svg>
+          </span>
+          <span class="product-index">02 / VIEW</span>
+        </div>
+        <h3 data-i18n="viewerTitle">Viewer</h3>
+        <p data-i18n="viewerDesc">Open a .hemeng file and experience its media interaction in a dedicated viewing space.</p>
+        <div class="product-bottom"><span class="product-link" data-i18n="openViewer">Open Viewer ↗</span></div>
+      </a>
+
+      <div class="product">
+        <div class="product-top">
+          <span class="product-icon">
+            <svg viewBox="0 0 24 24"><path d="M4 7.5 12 3l8 4.5v9L12 21l-8-4.5z"/><path d="m4.5 7.5 7.5 4.3 7.5-4.3M12 12v9"/></svg>
+          </span>
+          <span class="product-index">03 / LIBRARY</span>
+        </div>
+        <h3 data-i18n="libraryTitle">Library</h3>
+        <p data-i18n="libraryDesc">A future space to organize and revisit your HEMENG works and collections.</p>
+        <div class="product-bottom"><span class="coming" data-i18n="comingSoon">IN DEVELOPMENT</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="principles">
+    <div>
+      <div class="section-kicker" data-i18n="principleKicker">THE IDEA</div>
+      <h2 data-i18n="principleTitle">A file should carry its experience.</h2>
+    </div>
+    <div>
+      <p data-i18n="principleCopy">HEMENG is an independent, evolving media format. It keeps original media together with a description of how that media should be experienced. Version 1.0 begins with one simple interaction: an image that becomes a video when activated.</p>
+      <div class="principle-tags">
+        <span data-i18n="tagPortable">Portable file</span>
+        <span data-i18n="tagLocal">Local processing</span>
+        <span data-i18n="tagOpen">Viewer-compatible</span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span class="footer-brand">HEMENG</span>
+  <span data-i18n="footer">An independent interactive media format · Version 1.0</span>
+  <span>© 2026 HEMENG</span>
+</footer>
+
+<script src="/js/i18n.js?v=20261110-2"></script>
+<script>
+(function(){
+  "use strict";
+  const translations = {
+    "zh-CN":{
+      backHome:"返回综合站 ↗",eyebrow:"一种新的媒体体验方式",
+      headline:"让媒体，<br>拥有另一种维度。",heroCopy:"HEMENG 将媒体内容与交互方式整合进一个可分享的文件。创建体验、分享作品，并使用兼容的 Viewer 打开。",
+      createButton:"创建 HEMENG 文件",viewButton:"打开 Viewer",workspace:"产品空间",
+      workspaceTitle:"一种格式，三个部分。",workspaceNote:"围绕 HEMENG 建立的工具彼此协作，覆盖内容创建、播放体验，以及未来的作品管理。",
+      creatorTitle:"Creator 制作器",creatorDesc:"将一张图片和一段视频组合成一个交互式 .hemeng 文件。媒体只在你的设备上处理。",
+      openCreator:"进入制作器 ↗",viewerTitle:"Viewer 查看器",viewerDesc:"打开 .hemeng 文件，在独立的查看空间中体验媒体交互。",
+      openViewer:"进入查看器 ↗",libraryTitle:"Library 媒体库",libraryDesc:"未来用于整理、管理和重新浏览你的 HEMENG 作品与收藏。",
+      comingSoon:"开发中",principleKicker:"设计理念",principleTitle:"让文件本身承载体验。",
+      principleCopy:"HEMENG 是一个独立且持续发展的媒体格式。它将原始媒体与交互描述放在一起。1.0 版本从一种简单的交互开始：激活图片，让它在原位置变成视频。",
+      tagPortable:"可分享的文件",tagLocal:"本地处理",tagOpen:"兼容 Viewer",footer:"独立交互式媒体格式 · 版本 1.0"
+    },
+    "zh-TW":{
+      backHome:"返回綜合站 ↗",eyebrow:"一種新的媒體體驗方式",
+      headline:"讓媒體，<br>擁有另一種維度。",heroCopy:"HEMENG 將媒體內容與互動方式整合進一個可分享的檔案。建立體驗、分享作品，並使用相容的 Viewer 開啟。",
+      createButton:"建立 HEMENG 檔案",viewButton:"開啟 Viewer",workspace:"產品空間",
+      workspaceTitle:"一種格式，三個部分。",workspaceNote:"圍繞 HEMENG 建立的工具彼此協作，涵蓋內容建立、播放體驗，以及未來的作品管理。",
+      creatorTitle:"Creator 製作器",creatorDesc:"將一張圖片和一段影片組合成一個互動式 .hemeng 檔案。媒體只在你的裝置上處理。",
+      openCreator:"進入製作器 ↗",viewerTitle:"Viewer 檢視器",viewerDesc:"開啟 .hemeng 檔案，在獨立的檢視空間中體驗媒體互動。",
+      openViewer:"進入檢視器 ↗",libraryTitle:"Library 媒體庫",libraryDesc:"未來用於整理、管理和重新瀏覽你的 HEMENG 作品與收藏。",
+      comingSoon:"開發中",principleKicker:"設計理念",principleTitle:"讓檔案本身承載體驗。",
+      principleCopy:"HEMENG 是一個獨立且持續發展的媒體格式。它將原始媒體與互動描述放在一起。1.0 版本從一種簡單的互動開始：啟用圖片，讓它在原位置變成影片。",
+      tagPortable:"可分享的檔案",tagLocal:"本機處理",tagOpen:"相容 Viewer",footer:"獨立互動式媒體格式 · 版本 1.0"
+    },
+    "en":{
+      backHome:"Main website ↗",eyebrow:"A new way to experience media",
+      headline:"Media,<br>with another dimension.",heroCopy:"HEMENG brings media and interaction together in one portable file. Create an experience, share it, and open it with a compatible Viewer.",
+      createButton:"Create a HEMENG file",viewButton:"Open Viewer",workspace:"THE WORKSPACE",
+      workspaceTitle:"One format. Three parts.",workspaceNote:"The tools around HEMENG work together, from creation to playback and future collection management.",
+      creatorTitle:"Creator",creatorDesc:"Combine an image and a video into one interactive .hemeng file. Your media stays on your device.",
+      openCreator:"Open Creator ↗",viewerTitle:"Viewer",viewerDesc:"Open a .hemeng file and experience its media interaction in a dedicated viewing space.",
+      openViewer:"Open Viewer ↗",libraryTitle:"Library",libraryDesc:"A future space to organize and revisit your HEMENG works and collections.",
+      comingSoon:"IN DEVELOPMENT",principleKicker:"THE IDEA",principleTitle:"A file should carry its experience.",
+      principleCopy:"HEMENG is an independent, evolving media format. It keeps original media together with a description of how that media should be experienced. Version 1.0 begins with one simple interaction: an image that becomes a video when activated.",
+      tagPortable:"Portable file",tagLocal:"Local processing",tagOpen:"Viewer-compatible",footer:"An independent interactive media format · Version 1.0"
+    },
+    "ja":{
+      backHome:"メインサイトへ ↗",eyebrow:"メディアの新しい体験方法",
+      headline:"メディアに、<br>もう一つの次元を。",heroCopy:"HEMENG はメディアとインタラクションを一つの共有可能なファイルにまとめます。体験を作成し、共有し、対応 Viewer で開くことができます。",
+      createButton:"HEMENG ファイルを作成",viewButton:"Viewer を開く",workspace:"ワークスペース",
+      workspaceTitle:"一つの形式、三つの要素。",workspaceNote:"HEMENG のツールは、作成から再生、将来の作品管理まで連携します。",
+      creatorTitle:"Creator",creatorDesc:"画像と動画を一つのインタラクティブな .hemeng ファイルにまとめます。メディアは端末内で処理されます。",
+      openCreator:"Creator を開く ↗",viewerTitle:"Viewer",viewerDesc:".hemeng ファイルを開き、専用の表示スペースでメディア体験を楽しめます。",
+      openViewer:"Viewer を開く ↗",libraryTitle:"Library",libraryDesc:"将来、HEMENG の作品やコレクションを整理して見返すためのスペースです。",
+      comingSoon:"開発中",principleKicker:"コンセプト",principleTitle:"ファイルに体験を持たせる。",
+      principleCopy:"HEMENG は独立して進化するメディア形式です。オリジナルメディアと、その体験方法を記述した情報を一つにまとめます。1.0 は、画像を操作すると同じ場所で動画に切り替わるシンプルな体験から始まります。",
+      tagPortable:"共有可能なファイル",tagLocal:"ローカル処理",tagOpen:"Viewer 対応",footer:"独立したインタラクティブメディア形式 · バージョン 1.0"
+    },
+    "ko":{
+      backHome:"메인 사이트 ↗",eyebrow:"새로운 미디어 경험 방식",
+      headline:"미디어에,<br>새로운 차원을 더하다.",heroCopy:"HEMENG은 미디어와 상호작용을 하나의 공유 가능한 파일로 통합합니다. 경험을 만들고 공유한 뒤 호환 Viewer에서 열 수 있습니다.",
+      createButton:"HEMENG 파일 만들기",viewButton:"Viewer 열기",workspace:"워크스페이스",
+      workspaceTitle:"하나의 형식, 세 가지 구성.",workspaceNote:"HEMENG 도구는 제작부터 재생, 향후 작품 관리까지 함께 작동하도록 설계되었습니다.",
+      creatorTitle:"Creator",creatorDesc:"이미지와 동영상을 하나의 인터랙티브 .hemeng 파일로 결합합니다. 미디어는 기기에서 로컬로 처리됩니다.",
+      openCreator:"Creator 열기 ↗",viewerTitle:"Viewer",viewerDesc:".hemeng 파일을 열고 전용 보기 공간에서 미디어 상호작용을 경험하세요.",
+      openViewer:"Viewer 열기 ↗",libraryTitle:"Library",libraryDesc:"향후 HEMENG 작품과 컬렉션을 정리하고 다시 볼 수 있는 공간입니다.",
+      comingSoon:"개발 중",principleKicker:"아이디어",principleTitle:"파일에 경험을 담다.",
+      principleCopy:"HEMENG은 독립적으로 발전하는 미디어 형식입니다. 원본 미디어와 미디어 경험 방식을 설명하는 정보를 함께 담습니다. 1.0은 이미지를 활성화하면 같은 위치에서 동영상으로 전환되는 간단한 상호작용부터 시작합니다.",
+      tagPortable:"공유 가능한 파일",tagLocal:"로컬 처리",tagOpen:"Viewer 호환",footer:"독립 인터랙티브 미디어 형식 · 버전 1.0"
+    }
+  };
+
+  const languageSelect = document.getElementById("language");
+  function applyLanguage(language){
+    const lang = translations[language] ? language : "en";
+    document.documentElement.lang = lang;
+    languageSelect.value = lang;
+    document.querySelectorAll("[data-i18n]").forEach(function(element){
+      const key = element.getAttribute("data-i18n");
+      if(translations[lang][key] !== undefined){
+        element.innerHTML = translations[lang][key];
+      }
+    });
+  }
+
+  const initialLanguage = window.HemengI18n
+    ? window.HemengI18n.getLanguage()
+    : (navigator.language && navigator.language.toLowerCase().startsWith("zh") ? "zh-CN" : "en");
+
+  applyLanguage(initialLanguage);
+  languageSelect.addEventListener("change",function(){
+    if(window.HemengI18n) window.HemengI18n.setLanguage(this.value);
+    applyLanguage(this.value);
+  });
+  window.addEventListener("hemeng-language-change",function(event){
+    applyLanguage(event.detail.language);
+  });
+})();
+</script>
+</body>
+</html>
