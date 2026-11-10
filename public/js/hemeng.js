@@ -1,4 +1,3 @@
-
 (() => {
   "use strict";
 
@@ -166,6 +165,19 @@
     keys.forEach((key, index) => dict[lang][key] = values[index]);
   }
 
+  // HEMENG 1.0 规范允许的 MIME 类型
+  const ALLOWED_COVER_TYPES = new Set([
+    "image/jpeg",
+    "image/png",
+    "image/webp",
+    "image/gif"
+  ]);
+
+  const ALLOWED_VIDEO_TYPES = new Set([
+    "video/mp4",
+    "video/webm"
+  ]);
+
   const MAX_MEDIA_SIZE = 250 * 1024 * 1024;
   const MAX_PACKAGE_SIZE = 300 * 1024 * 1024;
   const MAX_MANIFEST_SIZE = 64 * 1024;
@@ -319,7 +331,7 @@
   }
 
   function setCover(file) {
-    if (!file || !file.type.startsWith("image/")) {
+    if (!file || !ALLOWED_COVER_TYPES.has(file.type)) {
       setStatus("invalidImage");
       return;
     }
@@ -345,10 +357,9 @@
   function setVideo(file) {
     if (!file) return;
 
-    const validType = file.type.startsWith("video/");
-    const validExtension = /\.(mp4|mov|webm|m4v|ogv)$/i.test(file.name);
+    const validType = ALLOWED_VIDEO_TYPES.has(file.type);
 
-    if (!validType && !validExtension) {
+    if (!validType) {
       setStatus("invalidVideo");
       return;
     }
@@ -497,8 +508,7 @@
       manifest.cover.path !== "media/cover" ||
       typeof manifest.cover.name !== "string" ||
       !manifest.cover.name.trim() ||
-      typeof manifest.cover.mimeType !== "string" ||
-      !manifest.cover.mimeType.startsWith("image/")
+      !ALLOWED_COVER_TYPES.has(manifest.cover.mimeType)
     ) return false;
 
     if (
@@ -506,8 +516,7 @@
       manifest.video.path !== "media/video" ||
       typeof manifest.video.name !== "string" ||
       !manifest.video.name.trim() ||
-      typeof manifest.video.mimeType !== "string" ||
-      !manifest.video.mimeType.startsWith("video/")
+      !ALLOWED_VIDEO_TYPES.has(manifest.video.mimeType)
     ) return false;
 
     return true;
