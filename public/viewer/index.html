@@ -734,14 +734,17 @@ function playVideo(){
  $("video").play().catch(error=>{
   console.error("[HEMENG Viewer] Playback:",error);
   showCover();
-  setStatus("playError","bad");
- });
-}
+  setStatus("playError","
+            
 
-function validManifest(manifest){
+
+ function validManifest(manifest){
  if(!manifest || typeof manifest !== "object") return false;
 
- if(manifest.format !== "HEMENG" || manifest.formatVersion !== "1.0") return false;
+ if(
+  manifest.format !== "HEMENG" ||
+  manifest.formatVersion !== "1.0"
+ ) return false;
 
  if(
   typeof manifest.createdAt !== "string" ||
@@ -755,13 +758,24 @@ function validManifest(manifest){
   manifest.experience.returnToCoverOnEnded !== true
  ) return false;
 
+ const allowedCoverTypes = new Set([
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "image/gif"
+ ]);
+
+ const allowedVideoTypes = new Set([
+  "video/mp4",
+  "video/webm"
+ ]);
+
  if(
   !manifest.cover ||
   manifest.cover.path !== "media/cover" ||
   typeof manifest.cover.name !== "string" ||
   !manifest.cover.name.trim() ||
-  typeof manifest.cover.mimeType !== "string" ||
-  !manifest.cover.mimeType.startsWith("image/")
+  !allowedCoverTypes.has(manifest.cover.mimeType)
  ) return false;
 
  if(
@@ -769,13 +783,11 @@ function validManifest(manifest){
   manifest.video.path !== "media/video" ||
   typeof manifest.video.name !== "string" ||
   !manifest.video.name.trim() ||
-  typeof manifest.video.mimeType !== "string" ||
-  !manifest.video.mimeType.startsWith("video/")
+  !allowedVideoTypes.has(manifest.video.mimeType)
  ) return false;
 
  return true;
 }
-
 function closeFile(){
  const video = $("video");
  video.pause();
