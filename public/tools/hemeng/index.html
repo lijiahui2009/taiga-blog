@@ -1,0 +1,241 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" translate="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="google" content="notranslate">
+<meta name="theme-color" content="#fff7f3">
+<title>HEMENG 图片视频制作器</title>
+<style>
+:root{
+  --bg:#fff7f3;
+  --card:#fff;
+  --text:#493936;
+  --muted:#927d78;
+  --accent:#c77f78;
+  --border:#f0dfd9;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;
+  line-height:1.65;
+}
+main{width:min(900px,calc(100% - 28px));margin:auto}
+header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:20px 0;
+  border-bottom:1px solid var(--border);
+}
+a{color:inherit;text-decoration:none}
+.brand{font-weight:800}
+select,input,button{font:inherit}
+select{
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:7px;
+  background:white;
+}
+.hero{text-align:center;padding:38px 10px 25px}
+.hero small{color:var(--accent);letter-spacing:3px}
+h1{font-size:32px;margin:8px 0}
+.hero p{color:var(--muted);font-size:14px}
+.panel{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:22px;
+  margin:18px 0;
+}
+.panel h2{font-size:19px;margin:0 0 5px}
+.desc{font-size:13px;color:var(--muted);margin:0 0 18px}
+.uploads{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+.upload{
+  padding:16px;
+  background:#fffaf8;
+  border:1px dashed #e5c5bc;
+  border-radius:14px;
+}
+.upload label{display:block;font-weight:700;margin-bottom:9px}
+.upload input{width:100%;font-size:13px}
+.meta{font-size:12px;color:var(--muted);margin-top:8px;overflow-wrap:anywhere}
+.stage{
+  margin-top:20px;
+  width:100%;
+  aspect-ratio:16/9;
+  min-height:200px;
+  background:#211d1c;
+  border-radius:15px;
+  overflow:hidden;
+  display:grid;
+  place-items:center;
+  position:relative;
+}
+.stage img,.stage video{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  background:#211d1c;
+}
+.stage img{cursor:pointer}
+.stage video[hidden],.stage img[hidden]{display:none}
+.empty{color:#ddd;font-size:13px;text-align:center;padding:20px}
+.play{
+  position:absolute;
+  pointer-events:none;
+  width:65px;
+  height:65px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:#ffffffed;
+  color:var(--accent);
+  font-size:25px;
+}
+.play[hidden]{display:none}
+.caption{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  font-size:12px;
+  color:var(--muted);
+  margin-top:9px;
+}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+button{
+  border:0;
+  border-radius:30px;
+  padding:11px 20px;
+  background:var(--accent);
+  color:white;
+  font-size:13px;
+  font-weight:700;
+  cursor:pointer;
+}
+button.secondary{
+  background:#fff0eb;
+  color:#a9605c;
+  border:1px solid var(--border);
+}
+button:disabled{opacity:.45;cursor:not-allowed}
+.status{
+  background:#fff8f5;
+  padding:12px;
+  border-radius:10px;
+  margin-top:14px;
+  color:var(--muted);
+  font-size:12px;
+  overflow-wrap:anywhere;
+}
+.status.good{background:#f0faf2;color:#39724b}
+.status.bad{background:#fff0ef;color:#a34e48}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.step{
+  background:#fffaf8;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:13px;
+  font-size:12px;
+  color:var(--muted);
+}
+.step strong{display:block;color:var(--accent);margin-bottom:5px}
+footer{text-align:center;color:var(--muted);font-size:11px;padding:25px}
+@media(max-width:600px){
+  .uploads,.steps{grid-template-columns:1fr}
+  h1{font-size:27px}
+  .panel{padding:17px}
+}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <a class="brand" href="/">荷萌 HEMENG</a>
+  <div>
+    <a href="/" style="font-size:12px;margin-right:8px">首页</a>
+    <select id="language">
+      <option value="zh-CN">简体中文</option>
+      <option value="zh-TW">繁體中文</option>
+      <option value="en">English</option>
+      <option value="ja">日本語</option>
+      <option value="ko">한국어</option>
+    </select>
+  </div>
+</header>
+
+<section class="hero">
+  <small>HEMENG · VERSION 1.0</small>
+  <h1 data-i18n="title">图片与视频</h1>
+  <p data-i18n="intro">让一张图片成为视频的入口。点击图片，视频就在原位置播放。</p>
+</section>
+
+<section class="panel">
+  <h2 data-i18n="create">创建 .hemeng 文件</h2>
+  <p class="desc" data-i18n="createDesc">选择一张图片和一段视频。媒体文件只在本地处理。</p>
+
+  <div class="uploads">
+    <div class="upload">
+      <label data-i18n="cover">① 封面图片</label>
+      <input id="coverInput" type="file" accept="image/*">
+      <div class="meta" id="coverMeta">尚未选择图片</div>
+    </div>
+    <div class="upload">
+      <label data-i18n="video">② 关联视频</label>
+      <input id="videoInput" type="file" accept="video/*">
+      <div class="meta" id="videoMeta">尚未选择视频</div>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="empty" id="empty" data-i18n="empty">选择图片和视频后，这里会显示预览</div>
+    <img id="coverPreview" alt="" hidden>
+    <video id="videoPreview" controls playsinline hidden></video>
+    <div class="play" id="playIcon" hidden>▶</div>
+  </div>
+
+  <div class="caption">
+    <span data-i18n="caption">点击图片，在原位置播放视频</span>
+    <span id="previewState">等待素材</span>
+  </div>
+
+  <div class="actions">
+    <button id="exportButton" disabled data-i18n="export">导出 .hemeng</button>
+    <button id="resetButton" class="secondary" data-i18n="reset">清空</button>
+  </div>
+  <div class="status" id="createStatus" data-i18n="choose">请先选择一张图片和一段视频。</div>
+</section>
+
+<section class="panel">
+  <h2 data-i18n="open">打开 .hemeng 文件</h2>
+  <p class="desc" data-i18n="openDesc">导入之前保存的 HEMENG 文件。</p>
+  <input id="hemengInput" type="file" accept=".hemeng,.zip">
+  <div class="actions">
+    <button id="openButton" class="secondary" data-i18n="openButton">打开文件</button>
+  </div>
+  <div class="status" id="openStatus">尚未打开文件。</div>
+</section>
+
+<section class="panel">
+  <h2 data-i18n="how">使用方式</h2>
+  <div class="steps">
+    <div class="step"><strong data-i18n="s1">1 · 制作</strong><span data-i18n="s1d">选择图片和视频。</span></div>
+    <div class="step"><strong data-i18n="s2">2 · 打包</strong><span data-i18n="s2d">导出一个 .hemeng 文件。</span></div>
+    <div class="step"><strong data-i18n="s3">3 · 打开</strong><span data-i18n="s3d">重新导入即可查看。</span></div>
+  </div>
+</section>
+<footer>HEMENG · A media experience format</footer>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/fflate@0.8.2/umd/index.js"></script>
+<script src="/js/hemeng.js"></script>
+</body>
+</html>
