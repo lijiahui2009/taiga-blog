@@ -22,14 +22,10 @@ body{
   margin:0;
   background:var(--bg);
   color:var(--text);
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",
-  "Microsoft YaHei",sans-serif;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;
   line-height:1.65;
 }
-main{
-  width:min(900px,calc(100% - 28px));
-  margin:auto;
-}
+main{width:min(900px,calc(100% - 28px));margin:auto}
 header{
   display:flex;
   justify-content:space-between;
@@ -46,19 +42,10 @@ select{
   padding:7px;
   background:white;
 }
-.hero{
-  text-align:center;
-  padding:42px 10px 25px;
-}
-.hero small{
-  color:var(--accent);
-  letter-spacing:3px;
-}
+.hero{text-align:center;padding:42px 10px 25px}
+.hero small{color:var(--accent);letter-spacing:3px}
 h1{font-size:32px;margin:8px 0}
-.hero p,.desc{
-  color:var(--muted);
-  font-size:13px;
-}
+.hero p,.desc{color:var(--muted);font-size:13px}
 .panel{
   background:var(--card);
   border:1px solid var(--border);
@@ -66,10 +53,7 @@ h1{font-size:32px;margin:8px 0}
   padding:22px;
   margin:18px 0;
 }
-.panel h2{
-  font-size:18px;
-  margin:0 0 8px;
-}
+.panel h2{font-size:18px;margin:0 0 8px}
 .upload{
   padding:20px;
   background:#fffaf8;
@@ -88,10 +72,7 @@ button{
   font-weight:700;
   cursor:pointer;
 }
-button:disabled{
-  opacity:.45;
-  cursor:not-allowed;
-}
+button:disabled{opacity:.45;cursor:not-allowed}
 .stage{
   margin-top:20px;
   width:100%;
@@ -111,9 +92,7 @@ button:disabled{
   background:#211d1c;
 }
 .stage img{cursor:pointer}
-.stage img[hidden],.stage video[hidden]{
-  display:none;
-}
+.stage img[hidden],.stage video[hidden]{display:none}
 .empty{
   color:#ddd;
   text-align:center;
@@ -142,14 +121,8 @@ button:disabled{
   font-size:12px;
   overflow-wrap:anywhere;
 }
-.status.good{
-  background:#f0faf2;
-  color:#39724b;
-}
-.status.bad{
-  background:#fff0ef;
-  color:#a34e48;
-}
+.status.good{background:#f0faf2;color:#39724b}
+.status.bad{background:#fff0ef;color:#a34e48}
 .caption{
   display:flex;
   justify-content:space-between;
@@ -158,12 +131,7 @@ button:disabled{
   font-size:12px;
   color:var(--muted);
 }
-.actions{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-top:16px;
-}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
 .secondary{
   background:#fff0eb;
   color:#a9605c;
@@ -188,8 +156,7 @@ footer{
 <header>
   <a class="brand" href="/">荷萌 HEMENG</a>
   <div>
-    <a href="/tools/hemeng/"
-       style="font-size:12px;margin-right:8px">Creator</a>
+    <a href="/tools/hemeng/" style="font-size:12px;margin-right:8px">Creator</a>
     <select id="language" aria-label="Language">
       <option value="zh-CN">简体中文</option>
       <option value="zh-TW">繁體中文</option>
@@ -211,46 +178,34 @@ footer{
   <p class="desc" id="openDesc">
     选择一个 .hemeng 文件。文件将在本地解析，不会上传。
   </p>
-
   <div class="upload">
     <input id="fileInput" type="file" accept=".hemeng,.zip">
     <div class="actions" style="justify-content:center">
       <button id="openButton">打开文件</button>
     </div>
   </div>
-
   <div class="status" id="status">等待打开文件。</div>
 </section>
 
 <section class="panel">
   <h2 id="experienceTitle">媒体体验</h2>
-
   <div class="stage">
-    <div class="empty" id="empty">
-      打开文件后，媒体将在这里显示。
-    </div>
+    <div class="empty" id="empty">打开文件后，媒体将在这里显示。</div>
     <img id="cover" alt="" hidden>
     <video id="video" controls playsinline hidden></video>
     <div class="play" id="play" hidden>▶</div>
   </div>
-
   <div class="caption">
     <span id="hint">点击图片播放视频</span>
     <span id="state">等待媒体</span>
   </div>
-
   <div class="actions">
-    <button id="backButton" class="secondary" disabled>
-      返回封面
-    </button>
-    <button id="closeButton" class="secondary" disabled>
-      关闭文件
-    </button>
+    <button id="backButton" class="secondary" disabled>返回封面</button>
+    <button id="closeButton" class="secondary" disabled>关闭文件</button>
   </div>
 </section>
 
 <footer>HEMENG · A media experience format</footer>
-
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/fflate@0.8.2/umd/index.js"></script>
@@ -266,7 +221,6 @@ const $ = id => document.getElementById(id);
 ========================= */
 
 const text = {
-
 "zh-CN":{
  title:"HEMENG 查看器",
  intro:"打开一个 HEMENG 文件，体验其中的交互媒体。",
@@ -289,9 +243,9 @@ const text = {
  noZip:"压缩组件加载失败，请刷新页面。",
  playError:"视频无法播放，请检查视频格式。",
  loading:"正在读取文件……",
- packageTooLarge:"文件包超过 300 MB，无法打开。"
+ packageTooLarge:"文件包超过 300 MB，无法打开。",
+ mediaTooLarge:"文件中的媒体总大小超过 250 MB。"
 },
-
 "zh-TW":{
  title:"HEMENG 檢視器",
  intro:"開啟 HEMENG 檔案，體驗其中的互動媒體。",
@@ -314,9 +268,9 @@ const text = {
  noZip:"壓縮元件載入失敗，請重新整理。",
  playError:"影片無法播放，請檢查格式。",
  loading:"正在讀取檔案……",
- packageTooLarge:"檔案包超過 300 MB，無法開啟。"
+ packageTooLarge:"檔案包超過 300 MB，無法開啟。",
+ mediaTooLarge:"檔案中的媒體總大小超過 250 MB。"
 },
-
 "en":{
  title:"HEMENG Viewer",
  intro:"Open a HEMENG file and experience its interactive media.",
@@ -339,9 +293,9 @@ const text = {
  noZip:"The ZIP library failed to load. Refresh the page.",
  playError:"Unable to play this video format.",
  loading:"Reading file...",
- packageTooLarge:"The package exceeds 300 MB and cannot be opened."
+ packageTooLarge:"The package exceeds 300 MB and cannot be opened.",
+ mediaTooLarge:"The total media size exceeds 250 MB."
 },
-
 "ja":{
  title:"HEMENG ビューアー",
  intro:"HEMENG ファイルを開いて、インタラクティブなメディアを体験しましょう。",
@@ -364,9 +318,9 @@ const text = {
  noZip:"圧縮ライブラリを読み込めません。更新してください。",
  playError:"この動画形式は再生できません。",
  loading:"ファイルを読み込んでいます...",
- packageTooLarge:"ファイルサイズが300 MBを超えているため開けません。"
+ packageTooLarge:"ファイルサイズが300 MBを超えているため開けません。",
+ mediaTooLarge:"メディアの合計サイズが250 MBを超えています。"
 },
-
 "ko":{
  title:"HEMENG 뷰어",
  intro:"HEMENG 파일을 열고 인터랙티브 미디어를 경험하세요.",
@@ -389,9 +343,9 @@ const text = {
  noZip:"압축 라이브러리를 불러오지 못했습니다. 새로고침하세요.",
  playError:"이 동영상 형식을 재생할 수 없습니다.",
  loading:"파일을 읽는 중...",
- packageTooLarge:"파일 크기가 300 MB를 초과하여 열 수 없습니다."
+ packageTooLarge:"파일 크기가 300 MB를 초과하여 열 수 없습니다.",
+ mediaTooLarge:"미디어 총 크기가 250 MB를 초과했습니다."
 }
-
 };
 
 /* =========================
@@ -422,14 +376,12 @@ function setStatus(key,type=""){
 function revokeAll(){
  if(coverURL) URL.revokeObjectURL(coverURL);
  if(videoURL) URL.revokeObjectURL(videoURL);
-
  coverURL = null;
  videoURL = null;
 }
 
 function setLanguage(value){
  lang = text[value] ? value : "zh-CN";
-
  document.documentElement.lang = lang;
  $("language").value = lang;
 
@@ -459,7 +411,6 @@ function setLanguage(value){
 
 function showCover(){
  const video = $("video");
-
  video.pause();
 
  try{
@@ -472,7 +423,6 @@ function showCover(){
  $("cover").hidden = !coverURL;
  $("play").hidden = !coverURL;
  $("empty").hidden = !!coverURL;
-
  $("state").textContent = t("ready");
 }
 
@@ -483,7 +433,6 @@ function playVideo(){
  $("play").hidden = true;
  $("empty").hidden = true;
  $("video").hidden = false;
-
  $("state").textContent = t("playing");
 
  $("video").play().catch(error=>{
@@ -494,16 +443,60 @@ function playVideo(){
 }
 
 /* =========================
-   5. 文件路径安全检查
+   5. HEMENG 1.0 Manifest 校验
 ========================= */
 
-function validPath(path){
- return typeof path === "string" &&
-  path.startsWith("media/") &&
-  !path.startsWith("/") &&
-  !path.includes("..") &&
-  !path.includes("\\") &&
-  !path.includes("\0");
+function validManifest(manifest){
+ if(!manifest || typeof manifest !== "object"){
+  return false;
+ }
+
+ if(
+  manifest.format !== "HEMENG" ||
+  manifest.formatVersion !== "1.0"
+ ){
+  return false;
+ }
+
+ if(
+  typeof manifest.createdAt !== "string" ||
+  !Number.isFinite(Date.parse(manifest.createdAt))
+ ){
+  return false;
+ }
+
+ if(
+  !manifest.experience ||
+  manifest.experience.type !== "image-video" ||
+  manifest.experience.interaction !== "click-image-to-play-in-place" ||
+  manifest.experience.returnToCoverOnEnded !== true
+ ){
+  return false;
+ }
+
+ if(
+  !manifest.cover ||
+  manifest.cover.path !== "media/cover" ||
+  typeof manifest.cover.name !== "string" ||
+  !manifest.cover.name.trim() ||
+  typeof manifest.cover.mimeType !== "string" ||
+  !manifest.cover.mimeType.startsWith("image/")
+ ){
+  return false;
+ }
+
+ if(
+  !manifest.video ||
+  manifest.video.path !== "media/video" ||
+  typeof manifest.video.name !== "string" ||
+  !manifest.video.name.trim() ||
+  typeof manifest.video.mimeType !== "string" ||
+  !manifest.video.mimeType.startsWith("video/")
+ ){
+  return false;
+ }
+
+ return true;
 }
 
 /* =========================
@@ -519,18 +512,15 @@ function closeFile(){
 
  $("cover").removeAttribute("src");
  $("cover").hidden = true;
-
  video.hidden = true;
  $("play").hidden = true;
  $("empty").hidden = false;
 
  $("fileInput").value = "";
-
  $("backButton").disabled = true;
  $("closeButton").disabled = true;
 
  revokeAll();
-
  opened = false;
 
  $("state").textContent = t("state");
@@ -542,19 +532,13 @@ function closeFile(){
 ========================= */
 
 async function openFile(){
-
  const file = $("fileInput").files[0];
-
  if(!file) return;
-
- /* 文件包大小限制 */
 
  if(file.size > MAX_PACKAGE_SIZE){
   setStatus("packageTooLarge","bad");
   return;
  }
-
- /* 检查压缩库 */
 
  if(!window.fflate || !window.fflate.unzipSync){
   setStatus("noZip","bad");
@@ -567,40 +551,22 @@ async function openFile(){
  let testVideoURL = null;
 
  try{
-
-  /* 读取 ZIP */
-
-  const bytes = new Uint8Array(
-   await file.arrayBuffer()
-  );
-
+  const bytes = new Uint8Array(await file.arrayBuffer());
   const archive = window.fflate.unzipSync(bytes);
 
   if(!archive["manifest.json"]){
    throw new Error("manifest");
   }
 
-  /* 读取 manifest */
-
   const manifest = JSON.parse(
    new TextDecoder().decode(archive["manifest.json"])
   );
 
-  /* 验证格式 */
+  /* 使用与 Creator 一致的严格校验 */
 
-  if(
-   !manifest ||
-   manifest.format !== "HEMENG" ||
-   manifest.formatVersion !== "1.0" ||
-   !manifest.cover ||
-   !manifest.video ||
-   !validPath(manifest.cover.path) ||
-   !validPath(manifest.video.path)
-  ){
+  if(!validManifest(manifest)){
    throw new Error("invalid");
   }
-
-  /* 获取媒体数据 */
 
   const coverBytes = archive[manifest.cover.path];
   const videoBytes = archive[manifest.video.path];
@@ -609,42 +575,24 @@ async function openFile(){
    throw new Error("media");
   }
 
-  /* MIME 类型检查 */
-
-  const coverMime =
-   typeof manifest.cover.mimeType === "string" &&
-   manifest.cover.mimeType.startsWith("image/")
-   ? manifest.cover.mimeType
-   : "image/jpeg";
-
-  const videoMime =
-   typeof manifest.video.mimeType === "string" &&
-   manifest.video.mimeType.startsWith("video/")
-   ? manifest.video.mimeType
-   : "video/mp4";
-
   const newCover = new Blob(
    [coverBytes],
-   {type:coverMime}
+   {type:manifest.cover.mimeType}
   );
 
   const newVideo = new Blob(
    [videoBytes],
-   {type:videoMime}
+   {type:manifest.video.mimeType}
   );
 
-  /* 解压后媒体总量限制 */
-
   if(newCover.size + newVideo.size > MAX_MEDIA_SIZE){
-   throw new Error("large");
+   throw new Error("mediaTooLarge");
   }
-
-  /* 创建临时媒体地址 */
 
   testURL = URL.createObjectURL(newCover);
   testVideoURL = URL.createObjectURL(newVideo);
 
-  /* 检查图片是否有效 */
+  /* 验证图片是否可正常解码 */
 
   const probe = new Image();
   probe.src = testURL;
@@ -654,7 +602,7 @@ async function openFile(){
    probe.onerror = ()=>reject(new Error("image"));
   });
 
-  /* 新文件验证成功，才替换旧文件 */
+  /* 验证成功后才替换当前媒体 */
 
   revokeAll();
 
@@ -679,11 +627,9 @@ async function openFile(){
   $("closeButton").disabled = false;
 
   $("state").textContent = t("ready");
-
   setStatus("ready","good");
 
  }catch(error){
-
   console.error("[HEMENG Viewer] Open error:",error);
 
   if(testURL) URL.revokeObjectURL(testURL);
@@ -691,8 +637,8 @@ async function openFile(){
 
   if(error.message === "media"){
    setStatus("badMedia","bad");
-  }else if(error.message === "large"){
-   setStatus("packageTooLarge","bad");
+  }else if(error.message === "mediaTooLarge"){
+   setStatus("mediaTooLarge","bad");
   }else{
    setStatus("invalid","bad");
   }
@@ -708,7 +654,6 @@ $("openButton").addEventListener("click",()=>{
 });
 
 $("fileInput").addEventListener("change",openFile);
-
 $("cover").addEventListener("click",playVideo);
 
 $("video").addEventListener("ended",()=>{
@@ -724,7 +669,6 @@ $("video").addEventListener("error",()=>{
 });
 
 $("backButton").addEventListener("click",showCover);
-
 $("closeButton").addEventListener("click",closeFile);
 
 $("language").addEventListener("change",event=>{
@@ -744,3 +688,4 @@ setLanguage("zh-CN");
 
 </body>
 </html>
+
