@@ -544,13 +544,57 @@
     }
   }
 
-  function validPath(path) {
-    return typeof path === "string"
-      && path.startsWith("media/")
-      && !path.startsWith("/")
-      && !path.includes("..")
-      && !path.includes("\\")
-      && !path.includes("\0");
+  function validManifest(manifest) {
+    if (!manifest || typeof manifest !== "object") {
+      return false;
+    }
+
+    if (
+      manifest.format !== "HEMENG" ||
+      manifest.formatVersion !== "1.0"
+    ) {
+      return false;
+    }
+
+    if (
+      typeof manifest.createdAt !== "string" ||
+      !Number.isFinite(Date.parse(manifest.createdAt))
+    ) {
+      return false;
+    }
+
+    if (
+      !manifest.experience ||
+      manifest.experience.type !== "image-video" ||
+      manifest.experience.interaction !== "click-image-to-play-in-place" ||
+      manifest.experience.returnToCoverOnEnded !== true
+    ) {
+      return false;
+    }
+
+    if (
+      !manifest.cover ||
+      manifest.cover.path !== "media/cover" ||
+      typeof manifest.cover.name !== "string" ||
+      !manifest.cover.name.trim() ||
+      typeof manifest.cover.mimeType !== "string" ||
+      !manifest.cover.mimeType.startsWith("image/")
+    ) {
+      return false;
+    }
+
+    if (
+      !manifest.video ||
+      manifest.video.path !== "media/video" ||
+      typeof manifest.video.name !== "string" ||
+      !manifest.video.name.trim() ||
+      typeof manifest.video.mimeType !== "string" ||
+      !manifest.video.mimeType.startsWith("video/")
+    ) {
+      return false;
+    }
+
+    return true;
   }
 
   async function openHemeng(file) {
@@ -580,15 +624,7 @@
         new TextDecoder().decode(archive["manifest.json"])
       );
 
-      if (
-        !manifest ||
-        manifest.format !== "HEMENG" ||
-        manifest.formatVersion !== "1.0" ||
-        !manifest.cover ||
-        !manifest.video ||
-        !validPath(manifest.cover.path) ||
-        !validPath(manifest.video.path)
-      ) {
+      if (!validManifest(manifest)) {
         throw new Error("Invalid manifest");
       }
 
