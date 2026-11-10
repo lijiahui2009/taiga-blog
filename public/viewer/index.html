@@ -616,17 +616,12 @@ function renderInfo(){
 
  const manifest = currentManifest;
 
- // 作品名称暂时使用文件名，不新增 Manifest 字段
- const displayName = currentFile.name.replace(/\.hemeng$/i,"");
-
- $("workTitle")?.remove();
-
- $("packageFilename")?.remove();
-
  $("formatValue").textContent = manifest.format;
  $("versionValue").textContent = manifest.formatVersion;
  $("createdValue").textContent = formatDate(manifest.createdAt);
  $("packageSizeValue").textContent = formatSize(currentFile.size);
+
+ $("packageFilename").textContent = currentFile.name;
 
  $("coverName").textContent = manifest.cover.name;
  $("coverType").textContent = manifest.cover.mimeType;
@@ -638,7 +633,6 @@ function renderInfo(){
 
  $("infoPanel").hidden = false;
 }
-
 function setLanguage(value){
  lang = translations[value] ? value : "zh-CN";
  document.documentElement.lang = lang;
