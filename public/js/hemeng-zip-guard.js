@@ -49,6 +49,41 @@
       return view.getUint32(p, true);
     };
 
+    function checkExtraFields(start, size) {
+      const end = start + size;
+
+      if (
+        start < 0 ||
+        size < 0 ||
+        end > length
+      ) {
+        fail("Extra field is outside archive bounds");
+      }
+
+      let cursor = start;
+
+      while (cursor < end) {
+        if (cursor + 4 > end) {
+          fail("Malformed extra field");
+        }
+
+        const id = u16(cursor);
+        const fieldSize = u16(cursor + 2);
+
+        cursor += 4;
+
+        if (cursor + fieldSize > end) {
+          fail("Malformed extra field size");
+        }
+
+        if (id === 0x0001) {
+          fail("ZIP64 extra field is not supported");
+        }
+
+        cursor += fieldSize;
+      }
+    }
+
     // 查找 ZIP 文件结束记录
     const minEocd = Math.max(
       0,
@@ -103,7 +138,10 @@
       fail("Unexpected number of archive entries");
     }
 
-    if (centralOffset + centralSize !== eocd) {
+    if (
+      centralOffset + centralSize !== eocd ||
+      centralOffset > eocd
+    ) {
       fail("Invalid central directory bounds");
     }
 
@@ -158,12 +196,19 @@
         fail("Split archive entry is not supported");
       }
 
-      if (flags !== 0) {
-        fail("Encrypted or flagged ZIP entries are not supported");
-      }
-
       if (method !== 0 && method !== 8) {
         fail("Unsupported ZIP compression method");
+      }
+
+      // 允许 UTF-8 标志位。
+      // Deflate 允许压缩选项 bits 1/2。
+      // 其他标志位均拒绝，包括加密和数据描述符。
+      const allowedFlags =
+        0x0800 |
+        (method === 8 ? 0x0006 : 0);
+
+      if ((flags & ~allowedFlags) !== 0) {
+        fail("Unsupported or encrypted ZIP entry flags");
       }
 
       if (
@@ -198,30 +243,13 @@
 
       names.add(name);
 
-      // 检查扩展字段
-      let extraCursor = cursor + 46 + nameLength;
-      const extraEnd = extraCursor + extraLength;
+      // 检查中央目录扩展字段
+      const extraStart = cursor + 46 + nameLength;
 
-      while (extraCursor < extraEnd) {
-        if (extraCursor + 4 > extraEnd) {
-          fail("Malformed extra field");
-        }
-
-        const extraId = u16(extraCursor);
-        const extraSize = u16(extraCursor + 2);
-
-        extraCursor += 4;
-
-        if (extraCursor + extraSize > extraEnd) {
-          fail("Malformed extra field size");
-        }
-
-        if (extraId === 0x0001) {
-          fail("ZIP64 extra field is not supported");
-        }
-
-        extraCursor += extraSize;
-      }
+      checkExtraFields(
+        extraStart,
+        extraLength
+      );
 
       // Manifest 最大 64 KiB
       if (
@@ -263,18 +291,24 @@
       const localExtraLength = u16(localOffset + 28);
 
       const localNameStart = localOffset + 30;
+      const localExtraStart = localNameStart + localNameLength;
 
       const dataStart =
-        localNameStart +
-        localNameLength +
-        localExtraLength;
+        localExtraStart + localExtraLength;
+
+      if (
+        localNameLength === 0 ||
+        dataStart < localNameStart ||
+        dataStart > centralOffset
+      ) {
+        fail("Invalid local header bounds");
+      }
 
       const dataEnd = dataStart + compressedSize;
 
       if (
-        dataStart > centralOffset ||
-        dataEnd > centralOffset ||
-        dataEnd < dataStart
+        dataEnd < dataStart ||
+        dataEnd > centralOffset
       ) {
         fail("Compressed data is outside the archive data area");
       }
@@ -293,6 +327,7 @@
         fail("Local filename length mismatch");
       }
 
+      // 检查本地文件名
       let localName;
 
       try {
@@ -309,6 +344,12 @@
       if (localName !== name) {
         fail("Local and central filenames do not match");
       }
+
+      // 检查本地扩展字段
+      checkExtraFields(
+        localExtraStart,
+        localExtraLength
+      );
 
       entries.push({
         name,
