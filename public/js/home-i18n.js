@@ -70,7 +70,19 @@
       "未命名文章": "未命名文章",
       "暂无文章摘要。": "暂无文章摘要。",
       "最近文章暂时无法加载，请稍后重试。": "最近文章暂时无法加载，请稍后重试。",
-      "重新加载": "重新加载"
+      "重新加载": "重新加载",
+      "工具": "工具",
+      "工具中心": "工具中心",
+      "打开工具中心 →": "打开工具中心 →",
+      "九宫格、二维码以及后续新增的工具，都将在这里统一整理。": "九宫格、二维码以及后续新增的工具，都将在这里统一整理。",
+      "AI 图片实验室": "AI 图片实验室",
+      "探索 AI 图片优化、画面修复、局部重绘与创意处理。": "探索 AI 图片优化、画面修复、局部重绘与创意处理。",
+      "进入实验室 →": "进入实验室 →",
+      "HEMENG 交互式媒体格式": "HEMENG 交互式媒体格式",
+      "一种将图片、视频与交互体验整合在一起的独立媒体格式。": "一种将图片、视频与交互体验整合在一起的独立媒体格式。",
+      "了解 HEMENG →": "了解 HEMENG →",
+      "个人博客 · 在线工具 · 兴趣分享": "个人博客 · 在线工具 · 兴趣分享",
+      "Language": "语言"
     },
 
     "zh-TW": {
@@ -133,7 +145,19 @@
       "未命名文章": "未命名文章",
       "暂无文章摘要。": "暫無文章摘要。",
       "最近文章暂时无法加载，请稍后重试。": "最新文章暫時無法載入，請稍後再試。",
-      "重新加载": "重新載入"
+      "重新加载": "重新載入",
+      "工具": "工具",
+      "工具中心": "工具中心",
+      "打开工具中心 →": "開啟工具中心 →",
+      "九宫格、二维码以及后续新增的工具，都将在这里统一整理。": "九宮格、QR Code 以及後續新增的工具，都會在這裡統一整理。",
+      "AI 图片实验室": "AI 圖片實驗室",
+      "探索 AI 图片优化、画面修复、局部重绘与创意处理。": "探索 AI 圖片最佳化、畫面修復、局部重繪與創意處理。",
+      "进入实验室 →": "進入實驗室 →",
+      "HEMENG 交互式媒体格式": "HEMENG 互動式媒體格式",
+      "一种将图片、视频与交互体验整合在一起的独立媒体格式。": "一種整合圖片、影片與互動體驗的獨立媒體格式。",
+      "了解 HEMENG →": "了解 HEMENG →",
+      "个人博客 · 在线工具 · 兴趣分享": "個人部落格 · 線上工具 · 興趣分享",
+      "Language": "語言"
     },
 
     "en": {
@@ -197,7 +221,19 @@
       "未命名文章": "Untitled article",
       "暂无文章摘要。": "No summary available.",
       "最近文章暂时无法加载，请稍后重试。": "Recent articles could not be loaded. Please try again later.",
-      "重新加载": "Reload"
+      "重新加载": "Reload",
+      "工具": "Tools",
+      "工具中心": "Tool Center",
+      "打开工具中心 →": "Open Tool Center →",
+      "九宫格、二维码以及后续新增的工具，都将在这里统一整理。": "Nine-grid, QR code, and future tools will all be organized here.",
+      "AI 图片实验室": "AI Image Lab",
+      "探索 AI 图片优化、画面修复、局部重绘与创意处理。": "Explore AI image enhancement, visual repair, inpainting, and creative editing.",
+      "进入实验室 →": "Enter the Lab →",
+      "HEMENG 交互式媒体格式": "HEMENG Interactive Media Format",
+      "一种将图片、视频与交互体验整合在一起的独立媒体格式。": "An independent media format combining images, video, and interactive experiences.",
+      "了解 HEMENG →": "Discover HEMENG →",
+      "个人博客 · 在线工具 · 兴趣分享": "Personal Blog · Online Tools · Interests",
+      "Language": "Language"
     },
 
     "ja": {
@@ -261,7 +297,19 @@
       "未命名文章": "無題の記事",
       "暂无文章摘要。": "概要はありません。",
       "最近文章暂时无法加载，请稍后重试。": "記事を読み込めませんでした。しばらくしてから再試行してください。",
-      "重新加载": "再読み込み"
+      "重新加载": "再読み込み",
+      "工具": "ツール",
+      "工具中心": "ツールセンター",
+      "打开工具中心 →": "ツールセンターを開く →",
+      "九宫格、二维码以及后续新增的工具，都将在这里统一整理。": "9分割ツール、QRコード、今後追加されるツールをここにまとめます。",
+      "AI 图片实验室": "AI画像ラボ",
+      "探索 AI 图片优化、画面修复、局部重绘与创意处理。": "AIによる画像の高画質化、修復、部分的な描き直し、クリエイティブ編集を体験できます。",
+      "进入实验室 →": "ラボに入る →",
+      "HEMENG 交互式媒体格式": "HEMENG インタラクティブメディア形式",
+      "一种将图片、视频与交互体验整合在一起的独立媒体格式。": "画像、動画、インタラクティブな体験を統合する独立したメディア形式です。",
+      "了解 HEMENG →": "HEMENGについて →",
+      "个人博客 · 在线工具 · 兴趣分享": "個人ブログ · オンラインツール · 趣味の共有",
+      "Language": "言語"
     },
 
     "ko": {
@@ -325,16 +373,26 @@
       "未命名文章": "제목 없는 글",
       "暂无文章摘要。": "요약이 없습니다.",
       "最近文章暂时无法加载，请稍后重试。": "최근 게시글을 불러올 수 없습니다. 잠시 후 다시 시도해 주세요.",
-      "重新加载": "새로고침"
+      "重新加载": "새로고침",
+      "工具": "도구",
+      "工具中心": "도구 센터",
+      "打开工具中心 →": "도구 센터 열기 →",
+      "九宫格、二维码以及后续新增的工具，都将在这里统一整理。": "9분할 도구, QR 코드 및 앞으로 추가될 도구를 이곳에 모아 정리합니다.",
+      "AI 图片实验室": "AI 이미지 실험실",
+      "探索 AI 图片优化、画面修复、局部重绘与创意处理。": "AI 이미지 향상, 화면 복원, 부분 수정 및 창의적인 편집 기능을 살펴보세요.",
+      "进入实验室 →": "실험실 열기 →",
+      "HEMENG 交互式媒体格式": "HEMENG 인터랙티브 미디어 형식",
+      "一种将图片、视频与交互体验整合在一起的独立媒体格式。": "이미지, 동영상 및 인터랙티브 경험을 하나로 결합하는 독립 미디어 형식입니다.",
+      "了解 HEMENG →": "HEMENG 알아보기 →",
+      "个人博客 · 在线工具 · 兴趣分享": "개인 블로그 · 온라인 도구 · 관심사 공유",
+      "Language": "언어"
     }
   };
 
-  // 标准化文字，兼容换行和多余空格
   function normalizeText(value) {
     return String(value).replace(/\s+/g, " ").trim();
   }
 
-  // 将翻译词典的键也标准化
   function prepareDictionary(language) {
     const source = translations[language] || translations.en;
     const dictionary = {};
@@ -346,7 +404,6 @@
     return dictionary;
   }
 
-  // 保存原始文字，确保可以反复切换语言
   const originalTexts = new WeakMap();
 
   function translateTextNode(node, dictionary) {
@@ -373,7 +430,6 @@
     node.nodeValue = leading + translated + trailing;
   }
 
-  // 翻译指定区域内的文字
   function translateSubtree(root, dictionary) {
     if (!root) return;
 
@@ -406,7 +462,6 @@
     }
   }
 
-  // 翻译整个页面
   function translatePage(language) {
     const dictionary = prepareDictionary(language);
 
@@ -414,7 +469,6 @@
 
     translateSubtree(document.body, dictionary);
 
-    // 翻译辅助标签
     document.querySelectorAll("[aria-label]").forEach(function (element) {
       if (!element.dataset.originalAriaLabel) {
         element.dataset.originalAriaLabel =
@@ -429,11 +483,8 @@
         translated === undefined ? original : translated
       );
     });
-
-    document.title = "荷萌 HEMENG";
   }
 
-  // 创建语言选择器
   function createLanguageSelector() {
     const header = document.querySelector(".header-inner");
 
@@ -476,7 +527,6 @@
     header.appendChild(select);
   }
 
-  // 监听动态添加的内容，例如最近文章
   function observeDynamicContent() {
     const observer = new MutationObserver(function (mutations) {
       const dictionary = prepareDictionary(i18n.getLanguage());
@@ -498,7 +548,6 @@
     });
   }
 
-  // 初始化
   function initialize() {
     createLanguageSelector();
 
@@ -506,7 +555,6 @@
 
     observeDynamicContent();
 
-    // 监听其他页面或组件触发的语言变化
     window.addEventListener("hemeng-language-change", function (event) {
       const language = event.detail.language;
       const select = document.getElementById("hemengLanguageSelect");
