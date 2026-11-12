@@ -55,7 +55,7 @@ h1{font-size:clamp(27px,5vw,38px);margin:14px 0 9px}
 .container{max-width:1050px;margin:auto;padding:20px 22px 65px}
 .tabs{
   display:grid;
-  grid-template-columns:1fr 1fr;
+  grid-template-columns:repeat(3,minmax(0,1fr));
   gap:10px;
   padding:6px;
   border:1px solid var(--border);
@@ -142,18 +142,15 @@ button:disabled{opacity:.4;cursor:not-allowed}
   min-width:0;
 }
 .image-item img{
-  width:65px;
-  height:65px;
+  width:65px;height:65px;
   object-fit:cover;
   border-radius:8px;
   background:#f4eae6;
   flex-shrink:0;
 }
 .image-name{
-  min-width:0;
-  flex:1;
-  font-size:12px;
-  overflow-wrap:anywhere;
+  min-width:0;flex:1;
+  font-size:12px;overflow-wrap:anywhere;
 }
 .image-actions{display:flex;gap:5px;flex-shrink:0}
 .preview-wrap{
@@ -173,6 +170,7 @@ button:disabled{opacity:.4;cursor:not-allowed}
 }
 .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:17px}
 .frame{
+  display:block;
   width:100%;
   height:850px;
   border:1px solid var(--border);
@@ -180,7 +178,6 @@ button:disabled{opacity:.4;cursor:not-allowed}
   background:white;
 }
 .notice{font-size:12px;color:var(--muted);line-height:1.8;margin-top:14px}
-footer{text-align:center;padding:25px;color:var(--muted);font-size:11px}
 @media(max-width:560px){
   .header{padding:14px 5%}
   .container{padding:15px 12px 45px}
@@ -188,6 +185,7 @@ footer{text-align:center;padding:25px;color:var(--muted);font-size:11px}
   .image-item img{width:52px;height:52px}
   .small{padding:7px}
   .frame{height:900px}
+  .tab{padding:12px 4px;font-size:12px}
 }
 </style>
 </head>
@@ -205,9 +203,11 @@ footer{text-align:center;padding:25px;color:var(--muted);font-size:11px}
 </section>
 
 <main class="container">
+
   <div class="tabs">
     <button class="tab active" id="nineTab">九宫格</button>
     <button class="tab" id="longTab">长图拼接</button>
+    <button class="tab" id="basicTab">基础图片编辑</button>
   </div>
 
   <section id="ninePanel" class="panel">
@@ -307,25 +307,46 @@ footer{text-align:center;padding:25px;color:var(--muted);font-size:11px}
       拼接图片尺寸过大时，浏览器可能无法完成生成，请适当减少图片数量或尺寸。
     </p>
   </section>
+
+  <section id="basicPanel" class="panel hidden">
+    <h2>基础图片编辑</h2>
+    <p class="desc">
+      图片裁剪、尺寸调整、旋转翻转、格式转换与压缩。
+    </p>
+    <iframe class="frame"
+      src="/tools/image-tools/basic/"
+      title="基础图片编辑工作台"
+      loading="lazy">
+    </iframe>
+  </section>
+
 </main>
 
 <footer>荷萌 HEMENG · IMAGE STUDIO</footer>
 
 <script>
-const nineTab = document.getElementById("nineTab");
-const longTab = document.getElementById("longTab");
-const ninePanel = document.getElementById("ninePanel");
-const longPanel = document.getElementById("longPanel");
+const tabs = {
+  nine: document.getElementById("nineTab"),
+  long: document.getElementById("longTab"),
+  basic: document.getElementById("basicTab")
+};
+
+const panels = {
+  nine: document.getElementById("ninePanel"),
+  long: document.getElementById("longPanel"),
+  basic: document.getElementById("basicPanel")
+};
 
 function switchPanel(name){
-  const isNine = name === "nine";
-  nineTab.classList.toggle("active",isNine);
-  longTab.classList.toggle("active",!isNine);
-  ninePanel.classList.toggle("hidden",!isNine);
-  longPanel.classList.toggle("hidden",isNine);
+  Object.keys(tabs).forEach(key=>{
+    tabs[key].classList.toggle("active",key===name);
+    panels[key].classList.toggle("hidden",key!==name);
+  });
 }
-nineTab.onclick = () => switchPanel("nine");
-longTab.onclick = () => switchPanel("long");
+
+tabs.nine.onclick = ()=>switchPanel("nine");
+tabs.long.onclick = ()=>switchPanel("long");
+tabs.basic.onclick = ()=>switchPanel("basic");
 
 const fileInput = document.getElementById("imageFiles");
 const imageList = document.getElementById("imageList");
@@ -382,7 +403,6 @@ function readImage(file){
 
 fileInput.addEventListener("change",async()=>{
   const selected = Array.from(fileInput.files || []);
-
   if(!selected.length) return;
 
   if(images.length + selected.length > 20){
@@ -498,10 +518,7 @@ document.getElementById("makeButton").onclick = ()=>{
     let height = item.height;
 
     if(resizeMode === "fit"){
-      const ratio = vertical
-        ? target / width
-        : target / height;
-
+      const ratio = vertical ? target / width : target / height;
       width = Math.round(width * ratio);
       height = Math.round(height * ratio);
     }
@@ -551,12 +568,7 @@ document.getElementById("makeButton").onclick = ()=>{
       const x = vertical ? (totalWidth-size.width)/2 : offset;
       const y = vertical ? offset : (totalHeight-size.height)/2;
 
-      ctx.drawImage(
-        item.image,
-        x,y,
-        size.width,size.height
-      );
-
+      ctx.drawImage(item.image,x,y,size.width,size.height);
       offset += (vertical ? size.height : size.width) + spacing;
     });
 
