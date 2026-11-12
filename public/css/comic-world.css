@@ -1373,3 +1373,141 @@ footer {
     min-height: 135px;
   }
 }
+/* =========================================
+   COMIC WORLD · UNIFIED NAVIGATION
+   全站导航统一视觉
+========================================= */
+
+/* 导航外框 */
+.site-header,
+body:has(.tools-grid) header,
+body:has(.intro-card) header,
+body:has(#articleList) .site-header,
+body:has(#postForm) .site-header,
+body:has(.tool-overview) .header {
+  position: relative;
+  z-index: 20;
+  background: var(--comic-paper) !important;
+  border: 2.5px solid var(--comic-ink) !important;
+  border-radius: 5px !important;
+  box-shadow: 4px 4px 0 var(--comic-ink) !important;
+}
+
+/* 导航内部布局 */
+.site-header .header-inner,
+body:has(.tools-grid) .header-inner,
+body:has(.intro-card) .header-inner {
+  min-height: 68px;
+  gap: 18px;
+}
+
+/* 品牌区域 */
+.site-header .brand,
+body:has(.tools-grid) .brand,
+body:has(.intro-card) .logo,
+body:has(.tool-overview) .brand {
+  font-weight: 950 !important;
+  letter-spacing: -.4px;
+}
+
+/* 品牌图标 */
+.site-header .brand img,
+body:has(.tools-grid) .brand img,
+body:has(.intro-card) .logo img {
+  border: 2px solid var(--comic-ink);
+  background: white;
+  box-shadow: 2px 2px 0 var(--comic-ink);
+}
+
+/* 导航链接 */
+.site-header nav a,
+.site-header .main-nav a,
+body:has(.tools-grid) nav a,
+body:has(.intro-card) nav a {
+  position: relative;
+  padding: 9px 11px;
+  border: 2px solid transparent;
+  border-radius: 3px;
+  color: var(--comic-ink) !important;
+  font-size: 13px;
+  font-weight: 850 !important;
+  transition: .16s ease;
+}
+
+/* 悬停：纸片浮起 */
+.site-header nav a:hover,
+.site-header .main-nav a:hover,
+body:has(.tools-grid) nav a:hover,
+body:has(.intro-card) nav a:hover {
+  background: var(--comic-yellow) !important;
+  border-color: var(--comic-ink);
+  color: var(--comic-ink) !important;
+  transform: translate(-2px,-2px) rotate(-1deg);
+  box-shadow: 3px 3px 0 var(--comic-ink);
+}
+
+/* 当前页面 */
+.site-header nav a[aria-current="page"],
+body:has(.intro-card) nav a[aria-current="page"] {
+  background: var(--comic-red) !important;
+  border-color: var(--comic-ink);
+  color: white !important;
+  box-shadow: 2px 2px 0 var(--comic-ink);
+}
+
+/* 返回链接 */
+.back,
+.site-header .back,
+body:has(.tool-overview) .back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 13px;
+  background: var(--comic-yellow) !important;
+  border: 2px solid var(--comic-ink) !important;
+  border-radius: 3px !important;
+  color: var(--comic-ink) !important;
+  font-size: 12px;
+  font-weight: 900 !important;
+  box-shadow: 2px 2px 0 var(--comic-ink);
+  transition: .15s ease;
+}
+
+.back:hover,
+.site-header .back:hover {
+  transform: translate(-2px,-2px);
+  box-shadow: 4px 4px 0 var(--comic-ink);
+}
+
+/* 手机端 */
+@media (max-width: 680px) {
+  .site-header {
+    margin-left: 4%;
+    margin-right: 4%;
+  }
+
+  .site-header .header-inner,
+  body:has(.tools-grid) .header-inner,
+  body:has(.intro-card) .header-inner {
+    gap: 12px;
+  }
+
+  .site-header nav,
+  body:has(.intro-card) nav {
+    max-width: 100%;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    scrollbar-width: none;
+  }
+
+  .site-header nav::-webkit-scrollbar,
+  body:has(.intro-card) nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .site-header nav a,
+  body:has(.intro-card) nav a {
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+}
