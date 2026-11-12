@@ -1511,3 +1511,460 @@ body:has(.tool-overview) .back {
     white-space: nowrap;
   }
 }
+
+/* =========================================
+   HOME · COMIC STORYBOARD REDESIGN
+   首页漫画分镜与拼贴布局
+========================================= */
+
+/* 首页整体节奏 */
+body:has(.hero-wrap) main {
+  position: relative;
+  isolation: isolate;
+}
+
+body:has(.hero-wrap) main > .section {
+  position: relative;
+  margin-top: 54px;
+  margin-bottom: 58px;
+  padding: 26px 22px;
+}
+
+body:has(.hero-wrap) main > .section::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: rgba(255, 253, 246, .58);
+  border: 2px dashed rgba(37, 36, 42, .24);
+  transform: rotate(-.25deg);
+}
+
+/* 主视觉：漫画封面升级 */
+body:has(.hero-wrap) .hero-wrap {
+  padding-top: 30px;
+  padding-bottom: 42px;
+}
+
+body:has(.hero-wrap) .hero-wrap .hero {
+  padding: clamp(28px, 5vw, 58px) !important;
+  background:
+    radial-gradient(circle, rgba(37,36,42,.15) 1px, transparent 1.5px) 0 0 / 13px 13px,
+    linear-gradient(125deg, #fff0c5 0%, #fff7df 58%, #f7e4d9 100%) !important;
+}
+
+body:has(.hero-wrap) .hero-copy h1 span {
+  display: inline-block;
+}
+
+body:has(.hero-wrap) .hero-copy h1 span:last-child {
+  position: relative;
+  z-index: 1;
+  padding: 0 5px 5px 0;
+  background: linear-gradient(transparent 72%, #f5c85e 72%);
+}
+
+body:has(.hero-wrap) .hero-description {
+  max-width: 500px;
+  padding-left: 13px;
+  border-left: 4px solid var(--comic-red);
+}
+
+body:has(.hero-wrap) .hero-scene {
+  transform: rotate(1deg);
+}
+
+body:has(.hero-wrap) .mascot-card {
+  max-width: 340px;
+  margin: 0 auto;
+  transform: rotate(2deg) scale(.94);
+}
+
+body:has(.hero-wrap) .speech-bubble {
+  transform: rotate(-4deg);
+}
+
+body:has(.hero-wrap) .scene-caption {
+  box-shadow: 3px 3px 0 var(--comic-ink);
+}
+
+/* 分区标题：像漫画章节标题 */
+body:has(.hero-wrap) .section-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+  padding-bottom: 16px;
+  border-bottom: 3px solid var(--comic-ink);
+}
+
+body:has(.hero-wrap) .heading-left {
+  align-items: center;
+}
+
+body:has(.hero-wrap) .section-heading h2 {
+  position: relative;
+  display: inline-block;
+  font-size: clamp(25px, 3.5vw, 34px);
+  line-height: 1.25;
+}
+
+body:has(.hero-wrap) .section-heading p {
+  max-width: 310px;
+  font-weight: 700;
+}
+
+/* 四个主要区域：不规则漫画纸片 */
+body:has(.hero-wrap) .world-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 25px !important;
+  padding: 10px 5px 15px;
+}
+
+body:has(.hero-wrap) .world-card {
+  min-height: 205px;
+  padding: 25px !important;
+  border-width: 3px !important;
+  box-shadow: 6px 6px 0 var(--comic-ink) !important;
+}
+
+body:has(.hero-wrap) .world-card:nth-child(1) {
+  transform: rotate(-1deg) translateY(3px);
+}
+
+body:has(.hero-wrap) .world-card:nth-child(2) {
+  transform: rotate(1.1deg) translateY(13px);
+}
+
+body:has(.hero-wrap) .world-card:nth-child(3) {
+  transform: rotate(.8deg) translateY(-3px);
+}
+
+body:has(.hero-wrap) .world-card:nth-child(4) {
+  transform: rotate(-.9deg) translateY(8px);
+}
+
+body:has(.hero-wrap) .world-card::after {
+  content: "✦";
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  font-size: 25px;
+  color: var(--comic-ink);
+  opacity: .55;
+  transform: rotate(12deg);
+  pointer-events: none;
+}
+
+body:has(.hero-wrap) .world-card h3 {
+  margin-top: 18px;
+  font-size: 23px;
+  font-weight: 1000;
+}
+
+body:has(.hero-wrap) .world-card p {
+  line-height: 1.8;
+  font-weight: 650;
+}
+
+body:has(.hero-wrap) .world-card:hover {
+  transform: translateY(-5px) rotate(0) !important;
+}
+
+/* 工具区：漫画工作台 */
+body:has(.hero-wrap) .tool-zone {
+  margin-top: 55px;
+  margin-bottom: 55px;
+  padding: clamp(20px, 4vw, 38px) !important;
+  background:
+    radial-gradient(circle, rgba(37,36,42,.12) 1px, transparent 1.5px) 0 0 / 12px 12px,
+    #e4efeb !important;
+}
+
+body:has(.hero-wrap) .tool-zone-heading {
+  padding-bottom: 20px;
+  border-bottom: 2px dashed var(--comic-ink);
+}
+
+body:has(.hero-wrap) .tool-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 19px !important;
+  padding: 12px 4px;
+}
+
+body:has(.hero-wrap) .tool-card {
+  min-height: 190px;
+  padding: 22px !important;
+  background: #fffdf6 !important;
+  border-width: 3px !important;
+  box-shadow: 5px 5px 0 var(--comic-ink) !important;
+}
+
+body:has(.hero-wrap) .tool-card:nth-child(4n + 1) {
+  transform: rotate(-.8deg);
+}
+
+body:has(.hero-wrap) .tool-card:nth-child(4n + 2) {
+  transform: rotate(.7deg) translateY(8px);
+}
+
+body:has(.hero-wrap) .tool-card:nth-child(4n + 3) {
+  transform: rotate(.6deg) translateY(-3px);
+}
+
+body:has(.hero-wrap) .tool-card:nth-child(4n) {
+  transform: rotate(-.7deg) translateY(7px);
+}
+
+body:has(.hero-wrap) .tool-card:hover {
+  z-index: 3;
+  transform: translateY(-5px) rotate(0) !important;
+  box-shadow: 9px 9px 0 var(--comic-ink) !important;
+}
+
+body:has(.hero-wrap) .tool-card h3 {
+  font-size: 20px;
+  font-weight: 1000;
+}
+
+body:has(.hero-wrap) .tool-card p {
+  line-height: 1.75;
+}
+
+body:has(.hero-wrap) .tool-symbol {
+  width: 47px;
+  height: 47px;
+  font-size: 23px;
+  transform: rotate(-5deg);
+}
+
+/* 搜索和筛选：像漫画分类标签 */
+body:has(.hero-wrap) .tool-controls {
+  gap: 14px;
+  margin: 22px 0;
+}
+
+body:has(.hero-wrap) .filter-list {
+  gap: 10px;
+}
+
+body:has(.hero-wrap) .filter-button {
+  padding: 9px 15px;
+  transition: .16s ease;
+}
+
+body:has(.hero-wrap) .filter-button:hover {
+  transform: translateY(-2px) rotate(-1deg);
+  box-shadow: 4px 4px 0 var(--comic-ink);
+}
+
+body:has(.hero-wrap) .filter-button.active {
+  transform: rotate(-2deg);
+}
+
+/* 每日发现：两张不同颜色的便签 */
+body:has(.hero-wrap) .discovery-grid {
+  gap: 24px !important;
+  padding: 8px 4px 14px;
+}
+
+body:has(.hero-wrap) .discovery-card,
+body:has(.hero-wrap) .recent-card {
+  min-height: 220px;
+  padding: 26px !important;
+  border-width: 3px !important;
+}
+
+body:has(.hero-wrap) .discovery-card {
+  transform: rotate(-.8deg);
+}
+
+body:has(.hero-wrap) .recent-card {
+  transform: rotate(.7deg);
+}
+
+body:has(.hero-wrap) .discovery-card h3,
+body:has(.hero-wrap) .recent-card h3 {
+  font-size: 23px;
+  font-weight: 1000;
+}
+
+body:has(.hero-wrap) .recent-item {
+  display: inline-flex;
+  margin: 5px 5px 5px 0;
+  padding: 8px 11px;
+  background: white;
+  border: 2px solid var(--comic-ink);
+  box-shadow: 2px 2px 0 var(--comic-ink);
+  font-weight: 800;
+}
+
+/* 博客文章：漫画阅读分格 */
+body:has(.hero-wrap) .article-grid {
+  gap: 20px !important;
+  padding: 8px 4px 15px;
+}
+
+body:has(.hero-wrap) .article-grid .article-card {
+  min-height: 190px;
+  padding: 22px !important;
+  border-width: 3px !important;
+  transition: .18s ease;
+}
+
+body:has(.hero-wrap) .article-grid .article-card:hover {
+  z-index: 2;
+  transform: translateY(-5px) rotate(0) !important;
+  box-shadow: 8px 8px 0 var(--comic-ink) !important;
+}
+
+body:has(.hero-wrap) .article-category {
+  display: inline-block;
+  padding: 5px 9px;
+  background: var(--comic-yellow);
+  border: 2px solid var(--comic-ink);
+  font-weight: 900;
+}
+
+body:has(.hero-wrap) .article-card h3 {
+  font-size: 20px;
+  font-weight: 1000;
+}
+
+/* 大河墙入口：像漫画最后一格 */
+body:has(.hero-wrap) .community-panel {
+  padding: clamp(25px, 4vw, 42px) !important;
+  background:
+    radial-gradient(circle, rgba(37,36,42,.12) 1px, transparent 1.5px) 0 0 / 11px 11px,
+    #f0eafa !important;
+  transform: rotate(-.3deg);
+}
+
+body:has(.hero-wrap) .community-panel h2 {
+  font-size: clamp(25px, 4vw, 35px);
+  font-weight: 1000;
+}
+
+body:has(.hero-wrap) .community-actions {
+  gap: 13px;
+}
+
+body:has(.hero-wrap) .community-actions a:hover {
+  transform: translateY(-3px) rotate(-1deg);
+}
+
+/* 装饰细节：手绘感 */
+body:has(.hero-wrap) .section-more {
+  display: inline-block;
+  padding: 8px 12px;
+  background: var(--comic-yellow);
+  border: 2px solid var(--comic-ink);
+  box-shadow: 3px 3px 0 var(--comic-ink);
+  transform: rotate(-1deg);
+}
+
+body:has(.hero-wrap) .section-more:hover {
+  transform: translateY(-2px) rotate(0);
+}
+
+body:has(.hero-wrap) .notice {
+  max-width: 1050px;
+  margin: 15px auto 25px;
+}
+
+/* 手机端：改为自然阅读顺序 */
+@media (max-width: 700px) {
+  body:has(.hero-wrap) main > .section {
+    margin-top: 35px;
+    margin-bottom: 40px;
+    padding: 18px 12px;
+  }
+
+  body:has(.hero-wrap) .section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  body:has(.hero-wrap) .section-heading p {
+    margin-top: 0;
+  }
+
+  body:has(.hero-wrap) .world-grid {
+    gap: 15px !important;
+    padding: 8px 3px;
+  }
+
+  body:has(.hero-wrap) .world-card {
+    min-height: 185px;
+    padding: 17px !important;
+  }
+
+  body:has(.hero-wrap) .world-card:nth-child(n) {
+    transform: rotate(0);
+  }
+
+  body:has(.hero-wrap) .tool-grid {
+    gap: 14px !important;
+  }
+
+  body:has(.hero-wrap) .tool-card {
+    min-height: 175px;
+    padding: 17px !important;
+  }
+
+  body:has(.hero-wrap) .tool-card:nth-child(n) {
+    transform: rotate(0);
+  }
+
+  body:has(.hero-wrap) .discovery-grid {
+    grid-template-columns: 1fr;
+  }
+
+  body:has(.hero-wrap) .discovery-card,
+  body:has(.hero-wrap) .recent-card {
+    min-height: auto;
+    transform: rotate(0);
+  }
+
+  body:has(.hero-wrap) .article-grid > * {
+    transform: rotate(0) !important;
+  }
+
+  body:has(.hero-wrap) .community-panel {
+    transform: none;
+  }
+}
+
+@media (max-width: 420px) {
+  body:has(.hero-wrap) .world-grid,
+  body:has(.hero-wrap) .tool-grid {
+    grid-template-columns: 1fr;
+  }
+
+  body:has(.hero-wrap) .world-card {
+    min-height: 155px;
+  }
+
+  body:has(.hero-wrap) .tool-card {
+    min-height: 150px;
+  }
+
+  body:has(.hero-wrap) .hero-wrap .hero {
+    padding: 27px 17px !important;
+  }
+
+  body:has(.hero-wrap) .hero-copy h1 {
+    font-size: 36px !important;
+  }
+}
+
+/* 减少动态效果偏好 */
+@media (prefers-reduced-motion: reduce) {
+  body:has(.hero-wrap) .world-card,
+  body:has(.hero-wrap) .tool-card,
+  body:has(.hero-wrap) .article-card {
+    transition: none !important;
+  }
+}
