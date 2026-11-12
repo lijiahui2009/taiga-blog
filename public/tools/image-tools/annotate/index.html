@@ -233,17 +233,21 @@ const $=id=>document.getElementById(id);
 const canvas=$("editor");
 const ctx=canvas.getContext("2d");
 
+// 历史记录最多占用约 96MB
+const HISTORY_MEMORY_LIMIT=96*1024*1024;
+const MAX_IMAGE_PIXELS=16000000;
+const MAX_IMAGE_SIDE=8000;
+
 let baseImage=null;
 let baseUrl=null;
 let originalFile=null;
 let currentTool="free";
 let drawing=false;
 let startPoint=null;
-let lastPoint=null;
 let snapshot=null;
 let history=[];
 let historyIndex=-1;
-let previewCanvas=null;
+let historyBytes=0;
 let freePoints=[];
 
 function setStatus(message){
@@ -259,26 +263,52 @@ function pointFromEvent(event){
   };
 }
 
-function saveHistory(){
-  try{
-    const image=ctx.getImageData(0,0,canvas.width,canvas.height);
-    history=history.slice(0,historyIndex+1);
-    history.push(image);
-    if(history.length>25)history.shift();
-    historyIndex=history.length-1;
-    updateHistoryButtons();
-  }catch(error){
-    setStatus("无法保存当前编辑状态，画布可能过大。");
-  }
-}
-
 function updateHistoryButtons(){
   $("undo").disabled=historyIndex<=0;
   $("redo").disabled=historyIndex>=history.length-1;
 }
 
+function clearHistory(){
+  history=[];
+  historyIndex=-1;
+  historyBytes=0;
+  updateHistoryButtons();
+}
+
+function saveHistory(){
+  try{
+    const image=ctx.getImageData(0,0,canvas.width,canvas.height);
+    const bytes=image.data.byteLength;
+
+    // 丢弃重做分支，并同步扣除内存
+    history=history.slice(0,historyIndex+1);
+    historyBytes=history.reduce(
+      (total,item)=>total+item.data.byteLength,0
+    );
+
+    // 为新快照腾出内存
+    while(
+      history.length>1 &&
+      historyBytes+bytes>HISTORY_MEMORY_LIMIT
+    ){
+      const removed=history.shift();
+      historyBytes-=removed.data.byteLength;
+      historyIndex--;
+    }
+
+    history.push(image);
+    historyBytes+=bytes;
+    historyIndex=history.length-1;
+
+    updateHistoryButtons();
+  }catch(error){
+    setStatus("无法保存当前编辑状态，可能是图片尺寸过大或浏览器内存不足。");
+  }
+}
+
 function restoreHistory(index){
   if(index<0||index>=history.length)return;
+
   historyIndex=index;
   ctx.putImageData(history[index],0,0);
   updateHistoryButtons();
@@ -289,10 +319,12 @@ $("redo").onclick=()=>restoreHistory(historyIndex+1);
 
 function loadImage(file){
   if(!file)return;
+
   if(!["image/png","image/jpeg","image/webp"].includes(file.type)){
     setStatus("目前只支持 PNG、JPG 和 WebP 图片。");
     return;
   }
+
   if(file.size>30*1024*1024){
     setStatus("图片不能超过 30MB。");
     return;
@@ -302,7 +334,18 @@ function loadImage(file){
   const img=new Image();
 
   img.onload=()=>{
+    if(
+      img.naturalWidth>MAX_IMAGE_SIDE ||
+      img.naturalHeight>MAX_IMAGE_SIDE ||
+      img.naturalWidth*img.naturalHeight>MAX_IMAGE_PIXELS
+    ){
+      URL.revokeObjectURL(url);
+      setStatus("图片尺寸过大，请使用不超过 1600 万像素的图片。");
+      return;
+    }
+
     if(baseUrl)URL.revokeObjectURL(baseUrl);
+
     baseUrl=url;
     baseImage=img;
     originalFile=file;
@@ -310,20 +353,9 @@ function loadImage(file){
     canvas.width=img.naturalWidth;
     canvas.height=img.naturalHeight;
 
-    if(canvas.width>8000||canvas.height>8000||
-       canvas.width*canvas.height>40000000){
-      canvas.width=0;
-      canvas.height=0;
-      baseImage=null;
-      URL.revokeObjectURL(url);
-      baseUrl=null;
-      setStatus("图片尺寸过大，请使用较小的图片。");
-      return;
-    }
-
     ctx.drawImage(img,0,0);
-    history=[];
-    historyIndex=-1;
+
+    clearHistory();
     saveHistory();
 
     $("dimension").textContent=canvas.width+" × "+canvas.height;
@@ -347,9 +379,11 @@ $("fileInput").addEventListener("change",event=>{
 document.querySelectorAll("[data-tool]").forEach(button=>{
   button.onclick=()=>{
     currentTool=button.dataset.tool;
-    document.querySelectorAll("[data-tool]").forEach(item=>
-      item.classList.toggle("active",item===button)
-    );
+
+    document.querySelectorAll("[data-tool]").forEach(item=>{
+      item.classList.toggle("active",item===button);
+    });
+
     canvas.style.cursor=currentTool==="text"?"text":"crosshair";
     setStatus("当前工具："+button.textContent.trim());
   };
@@ -358,12 +392,15 @@ document.querySelectorAll("[data-tool]").forEach(button=>{
 $("size").oninput=()=>{
   $("sizeText").textContent=$("size").value+" px";
 };
+
 $("fontSize").oninput=()=>{
   $("fontText").textContent=$("fontSize").value+" px";
 };
+
 $("mosaicSize").oninput=()=>{
   $("mosaicText").textContent=$("mosaicSize").value;
 };
+
 $("quality").oninput=()=>{
   $("qualityText").textContent=$("quality").value+"%";
 };
@@ -403,21 +440,26 @@ function drawArrow(a,b,color,width){
 function drawShape(a,b,tool){
   const color=$("color").value;
   const width=Number($("size").value);
+
   ctx.strokeStyle=color;
   ctx.lineWidth=width;
   ctx.lineCap="round";
 
   if(tool==="line"){
     drawLine(a,b,color,width);
+
   }else if(tool==="arrow"){
     drawArrow(a,b,color,width);
+
   }else if(tool==="rect"){
     ctx.strokeRect(a.x,a.y,b.x-a.x,b.y-a.y);
+
   }else if(tool==="circle"){
     const x=(a.x+b.x)/2;
     const y=(a.y+b.y)/2;
     const rx=Math.abs(b.x-a.x)/2;
     const ry=Math.abs(b.y-a.y)/2;
+
     ctx.beginPath();
     ctx.ellipse(x,y,rx,ry,0,0,Math.PI*2);
     ctx.stroke();
@@ -429,66 +471,59 @@ function drawMosaic(a,b){
   const y=Math.max(0,Math.floor(Math.min(a.y,b.y)));
   const right=Math.min(canvas.width,Math.ceil(Math.max(a.x,b.x)));
   const bottom=Math.min(canvas.height,Math.ceil(Math.max(a.y,b.y)));
+
   const w=right-x;
   const h=bottom-y;
+
   if(w<2||h<2)return;
 
   const block=Number($("mosaicSize").value);
   const small=document.createElement("canvas");
+
   small.width=Math.max(1,Math.ceil(w/block));
   small.height=Math.max(1,Math.ceil(h/block));
+
   const smallCtx=small.getContext("2d");
 
   smallCtx.imageSmoothingEnabled=true;
-  smallCtx.drawImage(canvas,x,y,w,h,0,0,small.width,small.height);
+  smallCtx.drawImage(
+    canvas,x,y,w,h,
+    0,0,small.width,small.height
+  );
 
   ctx.save();
   ctx.imageSmoothingEnabled=false;
-  ctx.drawImage(small,0,0,small.width,small.height,x,y,w,h);
+  ctx.drawImage(
+    small,0,0,small.width,small.height,
+    x,y,w,h
+  );
   ctx.restore();
 }
 
 function addText(point){
   const text=$("textInput").value.trim();
+
   if(!text){
     setStatus("请先在文字设置中输入内容。");
     return;
   }
 
-  saveHistory();
   const size=Number($("fontSize").value);
+
   ctx.fillStyle=$("color").value;
   ctx.font=size+"px "+$("fontFamily").value;
   ctx.textBaseline="top";
 
   const lines=text.split("\n");
+
   lines.forEach((line,index)=>{
     ctx.fillText(line,point.x,point.y+index*size*1.35);
   });
 
+  // 只保存完成后的状态
   saveHistory();
   setStatus("文字标注已添加。");
 }
-
-canvas.addEventListener("pointerdown",event=>{
-  if(!baseImage){
-    setStatus("请先导入图片。");
-    return;
-  }
-
-  const point=pointFromEvent(event);
-
-  if(currentTool==="text"){
-    addText(point);
-    return;
-  }
-
-  drawing=true;
-  startPoint=point;
-  lastPoint=point;
-  snapshot=ctx.getImageData(0,0,canvas.width,canvas.height);
-  canvas.setPointerCapture(event.pointerId);
-});
 
 function drawFreehandPath(points){
   if(!points.length)return;
@@ -524,11 +559,14 @@ function drawFreehandPath(points){
   ctx.restore();
 }
 
+// 只保留一个 pointerdown 事件，避免重复执行
 canvas.addEventListener("pointerdown",event=>{
   if(!baseImage){
     setStatus("请先导入图片。");
     return;
   }
+
+  if(drawing)return;
 
   const point=pointFromEvent(event);
 
@@ -539,22 +577,28 @@ canvas.addEventListener("pointerdown",event=>{
 
   drawing=true;
   startPoint=point;
-  lastPoint=point;
   freePoints=[point];
 
-  snapshot=ctx.getImageData(
-    0,0,canvas.width,canvas.height
-  );
+  try{
+    snapshot=ctx.getImageData(
+      0,0,canvas.width,canvas.height
+    );
+  }catch(error){
+    drawing=false;
+    snapshot=null;
+    setStatus("无法开始编辑，浏览器内存可能不足。");
+    return;
+  }
 
   canvas.setPointerCapture(event.pointerId);
 });
 
 canvas.addEventListener("pointermove",event=>{
-  if(!drawing)return;
+  if(!drawing||!snapshot)return;
 
   const point=pointFromEvent(event);
 
-  // 每次都从初始画面重新绘制预览
+  // 从开始绘制前的画面恢复，避免预览重复叠加
   ctx.putImageData(snapshot,0,0);
 
   if(currentTool==="free"){
@@ -578,30 +622,28 @@ canvas.addEventListener("pointermove",event=>{
   }else{
     drawShape(startPoint,point,currentTool);
   }
-
-  lastPoint=point;
 });
 
 function finishDrawing(event){
-  if(!drawing)return;
+  if(!drawing||!snapshot)return;
 
   drawing=false;
 
   const point=pointFromEvent(event);
 
-  // 恢复原始画面，避免把预览重复叠加
+  // 恢复初始画面，再正式绘制最终结果
   ctx.putImageData(snapshot,0,0);
 
   if(currentTool==="free"){
     const last=freePoints[freePoints.length-1];
 
-    if(!last ||
+    if(
+      !last ||
       Math.abs(point.x-last.x)+Math.abs(point.y-last.y)>0.5
     ){
       freePoints.push(point);
     }
 
-    // 一次性绘制完整路径
     drawFreehandPath(freePoints);
 
   }else if(currentTool==="mosaic"){
@@ -615,8 +657,10 @@ function finishDrawing(event){
 
   snapshot=null;
   freePoints=[];
-  previewCanvas=null;
-  lastPoint=null;
+
+  if(event.pointerId!==undefined&&canvas.hasPointerCapture(event.pointerId)){
+    canvas.releasePointerCapture(event.pointerId);
+  }
 }
 
 canvas.addEventListener("pointerup",finishDrawing);
@@ -624,12 +668,15 @@ canvas.addEventListener("pointercancel",finishDrawing);
 
 $("clear").onclick=()=>{
   if(!baseImage)return;
+
   if(!confirm("确定清除所有标注并恢复原图吗？"))return;
+
   ctx.clearRect(0,0,canvas.width,canvas.height);
   ctx.drawImage(baseImage,0,0);
-  history=[];
-  historyIndex=-1;
+
+  clearHistory();
   saveHistory();
+
   setStatus("已清除所有标注。");
 };
 
@@ -638,6 +685,7 @@ $("reset").onclick=()=>{
     setStatus("尚未导入图片。");
     return;
   }
+
   loadImage(originalFile);
 };
 
@@ -649,18 +697,22 @@ $("export").onclick=()=>{
 
   const format=$("format").value;
   const quality=Number($("quality").value)/100;
-  const extension=format==="image/jpeg"?"jpg":
+
+  const extension=
+    format==="image/jpeg"?"jpg":
     format==="image/webp"?"webp":"png";
 
   const output=document.createElement("canvas");
   output.width=canvas.width;
   output.height=canvas.height;
+
   const out=output.getContext("2d");
 
   if(format==="image/jpeg"){
     out.fillStyle="#ffffff";
     out.fillRect(0,0,output.width,output.height);
   }
+
   out.drawImage(canvas,0,0);
 
   output.toBlob(blob=>{
@@ -671,20 +723,26 @@ $("export").onclick=()=>{
 
     const url=URL.createObjectURL(blob);
     const link=document.createElement("a");
+
     link.href=url;
     link.download="HEMENG-annotated."+extension;
+
     document.body.appendChild(link);
     link.click();
     link.remove();
+
     setTimeout(()=>URL.revokeObjectURL(url),2000);
+
     setStatus("图片导出成功。");
   },format,quality);
 };
 
 ctx.fillStyle="#ffffff";
 ctx.fillRect(0,0,canvas.width,canvas.height);
+
 $("undo").disabled=true;
 $("redo").disabled=true;
 </script>
 </body>
 </html>
+
