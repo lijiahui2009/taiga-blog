@@ -244,6 +244,7 @@ let snapshot=null;
 let history=[];
 let historyIndex=-1;
 let previewCanvas=null;
+let freePoints=[];
 
 function setStatus(message){
   $("status").textContent=message;
@@ -489,51 +490,133 @@ canvas.addEventListener("pointerdown",event=>{
   canvas.setPointerCapture(event.pointerId);
 });
 
+function drawFreehandPath(points){
+  if(!points.length)return;
+
+  ctx.save();
+  ctx.strokeStyle=$("color").value;
+  ctx.fillStyle=$("color").value;
+  ctx.lineWidth=Number($("size").value);
+  ctx.lineCap="round";
+  ctx.lineJoin="round";
+
+  if(points.length===1){
+    ctx.beginPath();
+    ctx.arc(
+      points[0].x,
+      points[0].y,
+      ctx.lineWidth/2,
+      0,
+      Math.PI*2
+    );
+    ctx.fill();
+  }else{
+    ctx.beginPath();
+    ctx.moveTo(points[0].x,points[0].y);
+
+    for(let i=1;i<points.length;i++){
+      ctx.lineTo(points[i].x,points[i].y);
+    }
+
+    ctx.stroke();
+  }
+
+  ctx.restore();
+}
+
+canvas.addEventListener("pointerdown",event=>{
+  if(!baseImage){
+    setStatus("请先导入图片。");
+    return;
+  }
+
+  const point=pointFromEvent(event);
+
+  if(currentTool==="text"){
+    addText(point);
+    return;
+  }
+
+  drawing=true;
+  startPoint=point;
+  lastPoint=point;
+  freePoints=[point];
+
+  snapshot=ctx.getImageData(
+    0,0,canvas.width,canvas.height
+  );
+
+  canvas.setPointerCapture(event.pointerId);
+});
+
 canvas.addEventListener("pointermove",event=>{
   if(!drawing)return;
 
   const point=pointFromEvent(event);
+
+  // 每次都从初始画面重新绘制预览
   ctx.putImageData(snapshot,0,0);
 
   if(currentTool==="free"){
-    drawLine(lastPoint,point,$("color").value,Number($("size").value));
-    lastPoint=point;
+    freePoints.push(point);
+    drawFreehandPath(freePoints);
+
   }else if(currentTool==="mosaic"){
     ctx.strokeStyle="rgba(169,111,100,.8)";
     ctx.lineWidth=1;
     ctx.setLineDash([5,4]);
+
     ctx.strokeRect(
-      startPoint.x,startPoint.y,
-      point.x-startPoint.x,point.y-startPoint.y
+      startPoint.x,
+      startPoint.y,
+      point.x-startPoint.x,
+      point.y-startPoint.y
     );
+
     ctx.setLineDash([]);
+
   }else{
     drawShape(startPoint,point,currentTool);
   }
 
-  previewCanvas=point;
+  lastPoint=point;
 });
 
 function finishDrawing(event){
   if(!drawing)return;
+
   drawing=false;
 
   const point=pointFromEvent(event);
+
+  // 恢复原始画面，避免把预览重复叠加
   ctx.putImageData(snapshot,0,0);
 
   if(currentTool==="free"){
-    if(Math.abs(point.x-startPoint.x)+Math.abs(point.y-startPoint.y)>0){
-      drawLine(lastPoint,point,$("color").value,Number($("size").value));
+    const last=freePoints[freePoints.length-1];
+
+    if(!last ||
+      Math.abs(point.x-last.x)+Math.abs(point.y-last.y)>0.5
+    ){
+      freePoints.push(point);
     }
+
+    // 一次性绘制完整路径
+    drawFreehandPath(freePoints);
+
   }else if(currentTool==="mosaic"){
     drawMosaic(startPoint,point);
+
   }else{
     drawShape(startPoint,point,currentTool);
   }
 
   saveHistory();
+
   snapshot=null;
+  freePoints=[];
   previewCanvas=null;
+  lastPoint=null;
 }
 
 canvas.addEventListener("pointerup",finishDrawing);
