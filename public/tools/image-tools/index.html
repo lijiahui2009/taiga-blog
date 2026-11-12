@@ -1,0 +1,595 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#fffaf7">
+<title>图片处理 - 荷萌 HEMENG</title>
+<style>
+:root{
+  --bg:#fffaf7;
+  --surface:#fff;
+  --accent:#b77b70;
+  --accent-dark:#956258;
+  --text:#6d4c49;
+  --muted:#a18b84;
+  --border:#f2ded5;
+  --soft:#fff3ee;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,"Microsoft YaHei",sans-serif;
+}
+button,input,select{font:inherit}
+button{cursor:pointer}
+a{color:inherit;text-decoration:none}
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  max-width:1100px;
+  margin:auto;
+  padding:17px 24px;
+  border-bottom:1px solid var(--border);
+}
+.brand{font-weight:bold;font-size:18px}
+.back{font-size:13px;color:var(--muted)}
+.hero{
+  text-align:center;
+  padding:48px 18px 30px;
+  background:linear-gradient(180deg,#fff7f3,transparent);
+}
+.kicker{
+  color:var(--accent);
+  font-size:11px;
+  letter-spacing:3px;
+  font-weight:bold;
+}
+h1{font-size:clamp(27px,5vw,38px);margin:14px 0 9px}
+.hero p{font-size:13px;color:var(--muted);line-height:1.9;margin:0}
+.container{max-width:1050px;margin:auto;padding:20px 22px 65px}
+.tabs{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  padding:6px;
+  border:1px solid var(--border);
+  background:#f8eee9;
+  border-radius:14px;
+  margin-bottom:20px;
+}
+.tab{
+  padding:13px 10px;
+  border:0;
+  border-radius:10px;
+  color:var(--muted);
+  background:transparent;
+  font-weight:bold;
+}
+.tab.active{background:white;color:var(--accent-dark);box-shadow:0 3px 12px #80524812}
+.panel{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:clamp(17px,4vw,28px);
+  box-shadow:0 10px 30px #8052480b;
+}
+.panel h2{font-size:19px;margin:0 0 8px}
+.desc{font-size:13px;color:var(--muted);line-height:1.9;margin:0 0 20px}
+.hidden{display:none!important}
+.field{margin:17px 0}
+.field label{display:block;font-size:13px;font-weight:bold;margin-bottom:8px}
+input[type=file]{
+  width:100%;
+  padding:13px;
+  border:1px dashed #dfbdb4;
+  border-radius:11px;
+  background:#fffbf9;
+  font-size:13px;
+}
+select,input[type=number],input[type=color]{
+  max-width:100%;
+  padding:9px 11px;
+  border:1px solid var(--border);
+  border-radius:9px;
+  background:white;
+  color:var(--text);
+}
+.settings{
+  display:flex;
+  flex-wrap:wrap;
+  gap:15px 22px;
+  align-items:end;
+}
+.settings .field{margin:8px 0}
+.settings select{display:block;margin-top:7px;min-width:130px}
+.primary,.secondary,.small{
+  border:0;
+  border-radius:10px;
+  padding:11px 17px;
+  font-size:13px;
+  font-weight:bold;
+}
+.primary{background:var(--accent);color:white}
+.primary:hover{background:var(--accent-dark)}
+.secondary{background:#f3e9e5;color:var(--text)}
+.small{padding:7px 10px;background:#f3e9e5;color:var(--text)}
+button:disabled{opacity:.4;cursor:not-allowed}
+.status{
+  margin-top:15px;
+  padding:12px;
+  background:#fff8f5;
+  border:1px solid #f7eae5;
+  border-radius:10px;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.7;
+}
+.image-list{display:grid;gap:9px;margin:17px 0}
+.image-item{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:9px;
+  border:1px solid var(--border);
+  border-radius:11px;
+  background:#fffcfa;
+  min-width:0;
+}
+.image-item img{
+  width:65px;height:65px;object-fit:cover;border-radius:8px;
+  background:#f4eae6;flex-shrink:0;
+}
+.image-name{
+  min-width:0;flex:1;font-size:12px;overflow-wrap:anywhere;
+}
+.image-actions{display:flex;gap:5px;flex-shrink:0}
+.preview-wrap{
+  margin-top:20px;
+  padding:14px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background:#fffbf9;
+  overflow:auto;
+  max-height:650px;
+}
+.preview-wrap canvas{
+  display:block;
+  max-width:100%;
+  height:auto;
+  margin:auto;
+}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:17px}
+.frame{
+  width:100%;
+  height:850px;
+  border:1px solid var(--border);
+  border-radius:13px;
+  background:white;
+}
+.notice{font-size:12px;color:var(--muted);line-height:1.8;margin-top:14px}
+footer{text-align:center;padding:25px;color:var(--muted);font-size:11px}
+@media(max-width:560px){
+  .header{padding:14px 5%}
+  .container{padding:15px 12px 45px}
+  .hero{padding:35px 15px 22px}
+  .image-item img{width:52px;height:52px}
+  .small{padding:7px}
+  .frame{height:900px}
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a class="brand" href="/">荷萌 HEMENG</a>
+  <a class="back" href="/tools/">返回工具中心 ←</a>
+</header>
+
+<section class="hero">
+  <div class="kicker">HEMENG · IMAGE STUDIO</div>
+  <h1>图片处理</h1>
+  <p>把常用图片工具集中在一个地方。<br>本地处理，简单而直接。</p>
+</section>
+
+<main class="container">
+  <div class="tabs">
+    <button class="tab active" id="nineTab">九宫格</button>
+    <button class="tab" id="longTab">长图拼接</button>
+  </div>
+
+  <section id="ninePanel" class="panel">
+    <h2>九宫格图片工具</h2>
+    <p class="desc">图片切割与九张图片合成，保留原有工具功能。</p>
+    <iframe class="frame"
+      src="/tools/nine-grid/"
+      title="九宫格图片工具"
+      loading="lazy">
+    </iframe>
+  </section>
+
+  <section id="longPanel" class="panel hidden">
+    <h2>长图拼接</h2>
+    <p class="desc">
+      上传多张图片，调整顺序后拼接成长图。
+      支持纵向、横向排列，以及尺寸、间距和背景设置。
+    </p>
+
+    <div class="field">
+      <label for="imageFiles">选择图片（最多 20 张，单张不超过 20MB）</label>
+      <input id="imageFiles" type="file"
+        accept="image/png,image/jpeg,image/webp" multiple>
+    </div>
+
+    <div id="imageList" class="image-list"></div>
+
+    <div class="settings">
+      <div class="field">
+        <label for="direction">拼接方向</label>
+        <select id="direction">
+          <option value="vertical">纵向拼接</option>
+          <option value="horizontal">横向拼接</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="resizeMode">图片尺寸</label>
+        <select id="resizeMode">
+          <option value="fit">统一宽度 / 高度</option>
+          <option value="original">保留原图尺寸</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="targetSize">统一尺寸（像素）</label>
+        <select id="targetSize">
+          <option value="720">720</option>
+          <option value="1080" selected>1080</option>
+          <option value="1440">1440</option>
+          <option value="1920">1920</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="spacing">图片间距（像素）</label>
+        <select id="spacing">
+          <option value="0">无间距</option>
+          <option value="8">8</option>
+          <option value="16" selected>16</option>
+          <option value="24">24</option>
+          <option value="32">32</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="background">背景颜色</label>
+        <input id="background" type="color" value="#ffffff">
+      </div>
+
+      <div class="field">
+        <label for="format">导出格式</label>
+        <select id="format">
+          <option value="image/png">PNG</option>
+          <option value="image/jpeg">JPG</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="primary" id="makeButton">生成拼接图片</button>
+      <button class="secondary" id="clearButton">清空图片</button>
+    </div>
+
+    <div class="status" id="status">请先选择需要拼接的图片。</div>
+
+    <div class="preview-wrap hidden" id="previewWrap">
+      <canvas id="resultCanvas"></canvas>
+    </div>
+
+    <div class="actions">
+      <button class="primary" id="downloadButton" disabled>下载拼接图片</button>
+    </div>
+
+    <p class="notice">
+      图片在当前浏览器本地处理，不会上传到服务器。
+      拼接图片尺寸过大时，浏览器可能无法完成生成，请适当减少图片数量或尺寸。
+    </p>
+  </section>
+</main>
+
+<footer>荷萌 HEMENG · IMAGE STUDIO</footer>
+
+<script>
+const nineTab = document.getElementById("nineTab");
+const longTab = document.getElementById("longTab");
+const ninePanel = document.getElementById("ninePanel");
+const longPanel = document.getElementById("longPanel");
+
+function switchPanel(name){
+  const isNine = name === "nine";
+  nineTab.classList.toggle("active",isNine);
+  longTab.classList.toggle("active",!isNine);
+  ninePanel.classList.toggle("hidden",!isNine);
+  longPanel.classList.toggle("hidden",isNine);
+}
+nineTab.onclick = () => switchPanel("nine");
+longTab.onclick = () => switchPanel("long");
+
+const fileInput = document.getElementById("imageFiles");
+const imageList = document.getElementById("imageList");
+const statusBox = document.getElementById("status");
+const canvas = document.getElementById("resultCanvas");
+const previewWrap = document.getElementById("previewWrap");
+const downloadButton = document.getElementById("downloadButton");
+
+let images = [];
+let resultReady = false;
+
+function setStatus(message){
+  statusBox.textContent = message;
+}
+
+function resetResult(){
+  resultReady = false;
+  downloadButton.disabled = true;
+  previewWrap.classList.add("hidden");
+  canvas.width = 0;
+  canvas.height = 0;
+}
+
+function readImage(file){
+  return new Promise((resolve,reject)=>{
+    const url = URL.createObjectURL(file);
+    const image = new Image();
+
+    image.onload = ()=>{
+      URL.revokeObjectURL(url);
+      resolve({
+        file,
+        image,
+        width:image.naturalWidth,
+        height:image.naturalHeight
+      });
+    };
+
+    image.onerror = ()=>{
+      URL.revokeObjectURL(url);
+      reject(new Error("无法读取图片："+file.name));
+    };
+
+    image.src = url;
+  });
+}
+
+fileInput.addEventListener("change",async()=>{
+  const selected = Array.from(fileInput.files || []);
+
+  if(!selected.length) return;
+
+  if(images.length + selected.length > 20){
+    setStatus("最多只能添加 20 张图片。");
+    fileInput.value = "";
+    return;
+  }
+
+  const invalid = selected.find(file =>
+    !["image/png","image/jpeg","image/webp"].includes(file.type) ||
+    file.size > 20 * 1024 * 1024
+  );
+
+  if(invalid){
+    setStatus("文件格式不支持，或单张图片超过 20MB。");
+    fileInput.value = "";
+    return;
+  }
+
+  setStatus("正在读取图片……");
+
+  try{
+    for(const file of selected){
+      const item = await readImage(file);
+      images.push(item);
+    }
+
+    renderList();
+    resetResult();
+    setStatus("已添加 "+images.length+" 张图片，可以调整顺序并生成。");
+  }catch(error){
+    setStatus(error.message);
+  }
+
+  fileInput.value = "";
+});
+
+function renderList(){
+  imageList.innerHTML = "";
+
+  images.forEach((item,index)=>{
+    const row = document.createElement("div");
+    row.className = "image-item";
+
+    const thumb = document.createElement("img");
+    thumb.src = item.image.src;
+    thumb.alt = "图片预览";
+
+    const name = document.createElement("div");
+    name.className = "image-name";
+    name.textContent =
+      (index+1)+". "+item.file.name+
+      " · "+item.width+"×"+item.height;
+
+    const actions = document.createElement("div");
+    actions.className = "image-actions";
+
+    const up = document.createElement("button");
+    up.className = "small";
+    up.textContent = "上移";
+    up.disabled = index === 0;
+    up.onclick = ()=>{
+      [images[index-1],images[index]] =
+      [images[index],images[index-1]];
+      renderList();
+      resetResult();
+    };
+
+    const down = document.createElement("button");
+    down.className = "small";
+    down.textContent = "下移";
+    down.disabled = index === images.length-1;
+    down.onclick = ()=>{
+      [images[index+1],images[index]] =
+      [images[index],images[index+1]];
+      renderList();
+      resetResult();
+    };
+
+    const remove = document.createElement("button");
+    remove.className = "small";
+    remove.textContent = "删除";
+    remove.onclick = ()=>{
+      images.splice(index,1);
+      renderList();
+      resetResult();
+      setStatus("当前剩余 "+images.length+" 张图片。");
+    };
+
+    actions.append(up,down,remove);
+    row.append(thumb,name,actions);
+    imageList.appendChild(row);
+  });
+}
+
+document.getElementById("makeButton").onclick = ()=>{
+  if(images.length < 2){
+    setStatus("至少选择两张图片才能进行拼接。");
+    return;
+  }
+
+  const direction = document.getElementById("direction").value;
+  const resizeMode = document.getElementById("resizeMode").value;
+  const target = Number(document.getElementById("targetSize").value);
+  const spacing = Number(document.getElementById("spacing").value);
+  const background = document.getElementById("background").value;
+
+  const vertical = direction === "vertical";
+
+  const sizes = images.map(item=>{
+    let width = item.width;
+    let height = item.height;
+
+    if(resizeMode === "fit"){
+      const ratio = vertical
+        ? target / width
+        : target / height;
+
+      width = Math.round(width * ratio);
+      height = Math.round(height * ratio);
+    }
+
+    return {width,height};
+  });
+
+  let totalWidth = 0;
+  let totalHeight = 0;
+
+  if(vertical){
+    totalWidth = Math.max(...sizes.map(item=>item.width));
+    totalHeight = sizes.reduce((sum,item)=>sum+item.height,0)
+      + spacing*(images.length-1);
+  }else{
+    totalWidth = sizes.reduce((sum,item)=>sum+item.width,0)
+      + spacing*(images.length-1);
+    totalHeight = Math.max(...sizes.map(item=>item.height));
+  }
+
+  const maxDimension = 30000;
+  const maxPixels = 80000000;
+
+  if(
+    totalWidth > maxDimension ||
+    totalHeight > maxDimension ||
+    totalWidth * totalHeight > maxPixels
+  ){
+    setStatus("生成尺寸过大。请减少图片数量、降低统一尺寸或减少间距。");
+    return;
+  }
+
+  try{
+    canvas.width = totalWidth;
+    canvas.height = totalHeight;
+
+    const ctx = canvas.getContext("2d");
+    if(!ctx) throw new Error("浏览器无法创建图片画布。");
+
+    ctx.fillStyle = background;
+    ctx.fillRect(0,0,totalWidth,totalHeight);
+
+    let offset = 0;
+
+    images.forEach((item,index)=>{
+      const size = sizes[index];
+      const x = vertical ? (totalWidth-size.width)/2 : offset;
+      const y = vertical ? offset : (totalHeight-size.height)/2;
+
+      ctx.drawImage(
+        item.image,
+        x,y,
+        size.width,size.height
+      );
+
+      offset += (vertical ? size.height : size.width) + spacing;
+    });
+
+    previewWrap.classList.remove("hidden");
+    resultReady = true;
+    downloadButton.disabled = false;
+
+    setStatus(
+      "生成成功！图片尺寸："+totalWidth+" × "+totalHeight+
+      "，共拼接 "+images.length+" 张图片。"
+    );
+  }catch(error){
+    resetResult();
+    setStatus("生成失败："+error.message);
+  }
+};
+
+downloadButton.onclick = ()=>{
+  if(!resultReady) return;
+
+  const format = document.getElementById("format").value;
+  const extension = format === "image/jpeg" ? "jpg" : "png";
+
+  canvas.toBlob(blob=>{
+    if(!blob){
+      setStatus("导出失败，请尝试更换格式或减少图片尺寸。");
+      return;
+    }
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "HEMENG-长图."+extension;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    setTimeout(()=>URL.revokeObjectURL(url),1500);
+  },format,0.92);
+};
+
+document.getElementById("clearButton").onclick = ()=>{
+  images = [];
+  imageList.innerHTML = "";
+  fileInput.value = "";
+  resetResult();
+  setStatus("已清空，请重新选择图片。");
+};
+</script>
+</body>
+</html>
