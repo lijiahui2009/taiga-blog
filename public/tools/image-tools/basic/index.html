@@ -1,0 +1,592 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#fffaf7">
+<title>基础图片处理 - HEMENG</title>
+<style>
+:root{
+  --bg:#fffaf7;
+  --surface:#fff;
+  --accent:#b77b70;
+  --dark:#956258;
+  --text:#6d4c49;
+  --muted:#a18b84;
+  --border:#f2ded5;
+  --soft:#fff3ee;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,"Microsoft YaHei",sans-serif;
+}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.header{
+  max-width:1050px;
+  margin:auto;
+  padding:17px 22px;
+  display:flex;
+  justify-content:space-between;
+  border-bottom:1px solid var(--border);
+}
+.brand{font-weight:bold}
+a{color:inherit;text-decoration:none}
+.back{font-size:13px;color:var(--muted)}
+.hero{
+  text-align:center;
+  padding:40px 15px 25px;
+  background:linear-gradient(180deg,#fff7f3,transparent);
+}
+.kicker{
+  color:var(--accent);
+  font-size:11px;
+  letter-spacing:3px;
+  font-weight:bold;
+}
+h1{font-size:clamp(27px,5vw,37px);margin:13px 0 8px}
+.hero p{font-size:13px;color:var(--muted);line-height:1.8}
+.container{max-width:1050px;margin:auto;padding:15px 20px 60px}
+.panel{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:17px;
+  padding:clamp(16px,4vw,27px);
+  box-shadow:0 10px 30px #8052480b;
+}
+h2{font-size:18px;margin:0 0 8px}
+.desc{font-size:13px;color:var(--muted);line-height:1.8;margin:0 0 20px}
+.upload{
+  display:block;
+  width:100%;
+  padding:14px;
+  border:1px dashed #dfbdb4;
+  border-radius:11px;
+  background:#fffbf9;
+  font-size:13px;
+}
+.workspace{
+  display:grid;
+  grid-template-columns:minmax(0,1.2fr) minmax(260px,.8fr);
+  gap:20px;
+  margin-top:20px;
+}
+.preview{
+  min-width:0;
+  min-height:300px;
+  padding:15px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background:#fffbf9;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:auto;
+}
+canvas{
+  display:block;
+  max-width:100%;
+  max-height:600px;
+  width:auto;
+  height:auto;
+  background:white;
+}
+.empty{font-size:13px;color:var(--muted);text-align:center}
+.controls{display:grid;gap:14px;align-content:start}
+.group{
+  padding:14px;
+  border:1px solid var(--border);
+  border-radius:11px;
+  background:#fffdfc;
+}
+.group h3{font-size:14px;margin:0 0 12px}
+.field{margin:10px 0}
+.field label{
+  display:block;
+  font-size:12px;
+  font-weight:bold;
+  margin-bottom:7px;
+}
+select,input[type=number],input[type=range]{
+  width:100%;
+  max-width:100%;
+}
+select,input[type=number]{
+  padding:9px 10px;
+  border:1px solid var(--border);
+  border-radius:8px;
+  background:white;
+  color:var(--text);
+}
+input[type=checkbox]{accent-color:var(--accent)}
+.inline{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:12px;
+}
+.dimensions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+}
+.buttons{display:flex;flex-wrap:wrap;gap:8px}
+button{
+  border:0;
+  border-radius:9px;
+  padding:10px 13px;
+  font-size:12px;
+  font-weight:bold;
+}
+.primary{background:var(--accent);color:white}
+.primary:hover{background:var(--dark)}
+.secondary{background:#f3e9e5;color:var(--text)}
+button:disabled{opacity:.4;cursor:not-allowed}
+.status{
+  margin-top:17px;
+  padding:12px;
+  background:#fff8f5;
+  border:1px solid #f7eae5;
+  border-radius:10px;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.8;
+}
+footer{text-align:center;padding:25px;color:var(--muted);font-size:11px}
+@media(max-width:720px){
+  .workspace{grid-template-columns:1fr}
+  .preview{min-height:240px}
+  .header{padding:14px 5%}
+  .container{padding:12px 12px 45px}
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a class="brand" href="/">荷萌 HEMENG</a>
+  <a class="back" href="/tools/image-tools/">返回图片处理 ←</a>
+</header>
+
+<section class="hero">
+  <div class="kicker">HEMENG · IMAGE BASIC</div>
+  <h1>基础图片处理</h1>
+  <p>裁剪、压缩、尺寸调整、格式转换与旋转翻转。<br>所有处理均在当前浏览器本地完成。</p>
+</section>
+
+<main class="container">
+  <section class="panel">
+    <h2>选择图片</h2>
+    <p class="desc">支持 PNG、JPG、WebP，单张图片最大 30MB。</p>
+    <input class="upload" id="fileInput" type="file"
+      accept="image/png,image/jpeg,image/webp">
+
+    <div class="workspace">
+      <div>
+        <div class="preview">
+          <div class="empty" id="emptyText">选择图片后将在这里显示预览</div>
+          <canvas id="canvas" class="hidden"></canvas>
+        </div>
+        <div class="status" id="status">等待选择图片。</div>
+      </div>
+
+      <div class="controls">
+
+        <div class="group">
+          <h3>1. 图片裁剪</h3>
+          <div class="field">
+            <label for="cropRatio">裁剪比例</label>
+            <select id="cropRatio">
+              <option value="original">不裁剪 / 原始比例</option>
+              <option value="free">自由比例（中心裁剪）</option>
+              <option value="1:1">1:1 正方形</option>
+              <option value="4:3">4:3</option>
+              <option value="3:4">3:4</option>
+              <option value="16:9">16:9</option>
+              <option value="9:16">9:16</option>
+            </select>
+          </div>
+          <p class="desc">选择比例后，按图片中心区域进行裁剪。</p>
+        </div>
+
+        <div class="group">
+          <h3>2. 图片尺寸</h3>
+          <div class="dimensions">
+            <div class="field">
+              <label for="widthInput">宽度（px）</label>
+              <input id="widthInput" type="number" min="1" max="12000">
+            </div>
+            <div class="field">
+              <label for="heightInput">高度（px）</label>
+              <input id="heightInput" type="number" min="1" max="12000">
+            </div>
+          </div>
+          <label class="inline">
+            <input id="keepRatio" type="checkbox" checked>
+            保持宽高比例
+          </label>
+        </div>
+
+        <div class="group">
+          <h3>3. 旋转与翻转</h3>
+          <div class="buttons">
+            <button class="secondary" id="rotateLeft">向左旋转 90°</button>
+            <button class="secondary" id="rotateRight">向右旋转 90°</button>
+            <button class="secondary" id="flipH">水平翻转</button>
+            <button class="secondary" id="flipV">垂直翻转</button>
+          </div>
+        </div>
+
+        <div class="group">
+          <h3>4. 导出格式与压缩</h3>
+          <div class="field">
+            <label for="outputFormat">输出格式</label>
+            <select id="outputFormat">
+              <option value="image/png">PNG</option>
+              <option value="image/jpeg">JPG</option>
+              <option value="image/webp">WebP</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="quality">输出质量：<span id="qualityText">90%</span></label>
+            <input id="quality" type="range" min="10" max="100" value="90">
+          </div>
+          <p class="desc">JPG 和 WebP 支持质量压缩。PNG 使用无损输出。</p>
+        </div>
+
+        <div class="buttons">
+          <button class="primary" id="processButton" disabled>应用设置并预览</button>
+          <button class="primary" id="downloadButton" disabled>下载图片</button>
+          <button class="secondary" id="resetButton" disabled>重置</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>荷萌 HEMENG · IMAGE BASIC</footer>
+
+<script>
+const fileInput = document.getElementById("fileInput");
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+const emptyText = document.getElementById("emptyText");
+const statusBox = document.getElementById("status");
+
+const cropRatio = document.getElementById("cropRatio");
+const widthInput = document.getElementById("widthInput");
+const heightInput = document.getElementById("heightInput");
+const keepRatio = document.getElementById("keepRatio");
+const outputFormat = document.getElementById("outputFormat");
+const quality = document.getElementById("quality");
+const qualityText = document.getElementById("qualityText");
+
+let sourceImage = null;
+let originalWidth = 0;
+let originalHeight = 0;
+let rotation = 0;
+let flipHorizontal = false;
+let flipVertical = false;
+let previewReady = false;
+
+function status(message){
+  statusBox.textContent = message;
+}
+
+function getOrientedSize(){
+  const swapped = Math.abs(rotation) % 180 === 90;
+  return swapped
+    ? {width:originalHeight,height:originalWidth}
+    : {width:originalWidth,height:originalHeight};
+}
+
+function loadFile(file){
+  return new Promise((resolve,reject)=>{
+    const url = URL.createObjectURL(file);
+    const image = new Image();
+
+    image.onload = ()=>{
+      URL.revokeObjectURL(url);
+      resolve(image);
+    };
+
+    image.onerror = ()=>{
+      URL.revokeObjectURL(url);
+      reject(new Error("无法读取这张图片。"));
+    };
+
+    image.src = url;
+  });
+}
+
+function updateDimensions(){
+  if(!sourceImage) return;
+  const size = getOrientedSize();
+  widthInput.value = size.width;
+  heightInput.value = size.height;
+}
+
+fileInput.addEventListener("change",async()=>{
+  const file = fileInput.files && fileInput.files[0];
+  if(!file) return;
+
+  if(!["image/png","image/jpeg","image/webp"].includes(file.type)){
+    status("暂不支持该图片格式。");
+    fileInput.value = "";
+    return;
+  }
+
+  if(file.size > 30 * 1024 * 1024){
+    status("图片超过 30MB，请选择较小的图片。");
+    fileInput.value = "";
+    return;
+  }
+
+  status("正在读取图片……");
+
+  try{
+    sourceImage = await loadFile(file);
+    originalWidth = sourceImage.naturalWidth;
+    originalHeight = sourceImage.naturalHeight;
+    rotation = 0;
+    flipHorizontal = false;
+    flipVertical = false;
+
+    updateDimensions();
+    cropRatio.value = "original";
+
+    emptyText.classList.add("hidden");
+    canvas.classList.remove("hidden");
+
+    document.getElementById("processButton").disabled = false;
+    document.getElementById("resetButton").disabled = false;
+
+    render();
+    status("图片读取成功："+originalWidth+" × "+originalHeight+"。");
+  }catch(error){
+    status("读取失败："+error.message);
+  }
+
+  fileInput.value = "";
+});
+
+function getCropRect(width,height){
+  const mode = cropRatio.value;
+
+  if(mode === "original"){
+    return {x:0,y:0,width,height};
+  }
+
+  let ratio = null;
+
+  if(mode !== "free"){
+    const parts = mode.split(":").map(Number);
+    ratio = parts[0] / parts[1];
+  }
+
+  if(!ratio){
+    return {x:0,y:0,width,height};
+  }
+
+  let cropWidth = width;
+  let cropHeight = height;
+
+  if(width / height > ratio){
+    cropWidth = height * ratio;
+  }else{
+    cropHeight = width / ratio;
+  }
+
+  return {
+    x:(width-cropWidth)/2,
+    y:(height-cropHeight)/2,
+    width:cropWidth,
+    height:cropHeight
+  };
+}
+
+function render(){
+  if(!sourceImage) return false;
+
+  const oriented = getOrientedSize();
+  const crop = getCropRect(oriented.width,oriented.height);
+
+  let targetWidth = Number(widthInput.value);
+  let targetHeight = Number(heightInput.value);
+
+  if(!Number.isFinite(targetWidth) || !Number.isFinite(targetHeight) ||
+     targetWidth < 1 || targetHeight < 1 ||
+     targetWidth > 12000 || targetHeight > 12000){
+    status("宽高必须在 1 到 12000 像素之间。");
+    return false;
+  }
+
+  if(keepRatio.checked){
+    const ratio = crop.width / crop.height;
+    if(document.activeElement === widthInput){
+      targetHeight = Math.max(1,Math.round(targetWidth/ratio));
+      heightInput.value = targetHeight;
+    }else{
+      targetWidth = Math.max(1,Math.round(targetHeight*ratio));
+      widthInput.value = targetWidth;
+    }
+  }
+
+  if(targetWidth * targetHeight > 80000000){
+    status("输出图片超过 8000 万像素，请降低尺寸。");
+    return false;
+  }
+
+  const work = document.createElement("canvas");
+  work.width = oriented.width;
+  work.height = oriented.height;
+
+  const workCtx = work.getContext("2d");
+  if(!workCtx){
+    status("浏览器无法创建图片画布。");
+    return false;
+  }
+
+  workCtx.save();
+  workCtx.translate(oriented.width/2,oriented.height/2);
+  workCtx.rotate(rotation*Math.PI/180);
+  workCtx.scale(flipHorizontal?-1:1,flipVertical?-1:1);
+  workCtx.drawImage(
+    sourceImage,
+    -originalWidth/2,
+    -originalHeight/2,
+    originalWidth,
+    originalHeight
+  );
+  workCtx.restore();
+
+  canvas.width = Math.round(targetWidth);
+  canvas.height = Math.round(targetHeight);
+
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = "high";
+
+  ctx.drawImage(
+    work,
+    crop.x,crop.y,crop.width,crop.height,
+    0,0,canvas.width,canvas.height
+  );
+
+  previewReady = true;
+  document.getElementById("downloadButton").disabled = false;
+
+  status("预览生成成功："+canvas.width+" × "+canvas.height+"。");
+  return true;
+}
+
+document.getElementById("processButton").onclick = render;
+
+document.getElementById("rotateLeft").onclick = ()=>{
+  if(!sourceImage) return;
+  rotation = (rotation - 90 + 360) % 360;
+  updateDimensions();
+  render();
+};
+
+document.getElementById("rotateRight").onclick = ()=>{
+  if(!sourceImage) return;
+  rotation = (rotation + 90) % 360;
+  updateDimensions();
+  render();
+};
+
+document.getElementById("flipH").onclick = ()=>{
+  if(!sourceImage) return;
+  flipHorizontal = !flipHorizontal;
+  render();
+};
+
+document.getElementById("flipV").onclick = ()=>{
+  if(!sourceImage) return;
+  flipVertical = !flipVertical;
+  render();
+};
+
+quality.addEventListener("input",()=>{
+  qualityText.textContent = quality.value+"%";
+});
+
+cropRatio.addEventListener("change",()=>{
+  if(!sourceImage) return;
+  const size = getOrientedSize();
+  const crop = getCropRect(size.width,size.height);
+  if(keepRatio.checked){
+    widthInput.value = Math.round(crop.width);
+    heightInput.value = Math.round(crop.height);
+  }
+  render();
+});
+
+widthInput.addEventListener("change",()=>{
+  if(sourceImage) render();
+});
+
+heightInput.addEventListener("change",()=>{
+  if(sourceImage) render();
+});
+
+keepRatio.addEventListener("change",()=>{
+  if(sourceImage) render();
+});
+
+outputFormat.addEventListener("change",()=>{
+  if(sourceImage) status("输出格式已切换为 "+outputFormat.options[outputFormat.selectedIndex].text+"。");
+});
+
+document.getElementById("downloadButton").onclick = ()=>{
+  if(!previewReady) return;
+
+  const format = outputFormat.value;
+  const extension = format === "image/jpeg" ? "jpg" :
+    format === "image/webp" ? "webp" : "png";
+
+  const q = Number(quality.value)/100;
+
+  canvas.toBlob(blob=>{
+    if(!blob){
+      status("导出失败，请尝试降低图片尺寸。");
+      return;
+    }
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "HEMENG-图片处理."+extension;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    setTimeout(()=>URL.revokeObjectURL(url),2000);
+    status("图片导出成功。");
+  },format,q);
+};
+
+document.getElementById("resetButton").onclick = ()=>{
+  if(!sourceImage) return;
+
+  rotation = 0;
+  flipHorizontal = false;
+  flipVertical = false;
+  cropRatio.value = "original";
+  keepRatio.checked = true;
+  outputFormat.value = "image/png";
+  quality.value = 90;
+  qualityText.textContent = "90%";
+
+  updateDimensions();
+  render();
+  status("已恢复原始图片设置。");
+};
+</script>
+</body>
+</html>
