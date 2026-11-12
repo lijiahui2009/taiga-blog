@@ -29,8 +29,6 @@ h1{font-size:25px;margin:17px 0 7px}
 .field input[type=text],.field input[type=number],.field select{width:100%;height:38px;border:1px solid var(--line);border-radius:9px;padding:0 10px;background:white;color:var(--text);outline:none}
 .field input:focus,.field select:focus{border-color:var(--accent)}
 .field input[type=range]{width:100%;accent-color:var(--accent)}
-.inline{display:flex;gap:8px;align-items:center}
-.inline>*{flex:1;min-width:0}
 .checkline{display:flex;align-items:center;gap:8px;font-size:12px;color:#665d58;margin:12px 0}
 .checkline input{accent-color:var(--accent)}
 .hint{font-size:11px;color:var(--muted);line-height:1.7;margin-top:7px}
@@ -56,6 +54,7 @@ h1{font-size:25px;margin:17px 0 7px}
 .item-meta{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.6}
 .item-status{font-size:11px;margin-top:5px;color:#8b817c}
 .item-status.done{color:#56856b}
+.item-status.failed{color:#b45c54}
 .item-actions{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}
 .small-btn{border:1px solid var(--line);background:white;border-radius:7px;padding:7px 9px;font-size:11px;color:#665d58}
 .small-btn:hover{border-color:var(--accent)}
@@ -64,11 +63,25 @@ h1{font-size:25px;margin:17px 0 7px}
 .empty{text-align:center;padding:45px 15px;color:var(--muted);font-size:12px;line-height:1.8}
 .summary{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:12px}
 .hidden{display:none!important}
-@media(max-width:850px){.layout{grid-template-columns:1fr}.settings{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.section{margin:0}}
-@media(max-width:560px){.top{padding:20px 15px 10px}.layout{padding:8px 12px 30px}.settings{display:flex;flex-direction:column}.main-panel{padding:12px}.item{grid-template-columns:58px minmax(0,1fr)}.thumb{width:58px;height:58px}.item-actions{grid-column:2;justify-content:flex-start}.main-head{align-items:flex-start;flex-direction:column}}
+@media(max-width:850px){
+  .layout{grid-template-columns:1fr}
+  .settings{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .section{margin:0}
+}
+@media(max-width:560px){
+  .top{padding:20px 15px 10px}
+  .layout{padding:8px 12px 30px}
+  .settings{display:flex;flex-direction:column}
+  .main-panel{padding:12px}
+  .item{grid-template-columns:58px minmax(0,1fr)}
+  .thumb{width:58px;height:58px}
+  .item-actions{grid-column:2;justify-content:flex-start}
+  .main-head{align-items:flex-start;flex-direction:column}
+}
 </style>
 </head>
 <body>
+
 <header class="top">
   <a class="back" href="/tools/image-tools/">← 返回图片处理中心</a>
   <h1>批量图片处理工作台</h1>
@@ -144,6 +157,7 @@ h1{font-size:25px;margin:17px 0 7px}
         单张图片最大 30MB。<br>
         单张图片最多 3000 万像素。<br>
         一次最多导入 100 张图片。<br>
+        处理结果总容量上限 256MB。<br>
         所有处理均在本地完成。
       </div>
     </section>
@@ -184,30 +198,38 @@ h1{font-size:25px;margin:17px 0 7px}
       <button class="btn primary" id="zipBtn" disabled>打包下载 ZIP</button>
       <button class="btn" id="downloadAllBtn" disabled>逐张下载全部</button>
     </div>
-    <div class="hint">ZIP 打包在本地完成，不会上传图片。处理数量较多时，打包可能需要一些时间。</div>
+    <div class="hint">ZIP 在本地生成，不会上传图片。打包时会逐个读取图片校验，不会一次性复制全部图片数据。</div>
   </section>
 </main>
 
 <script>
-(() => {
+(()=>{
 'use strict';
 
 const $=id=>document.getElementById(id);
+
 const MAX_FILE=30*1024*1024;
 const MAX_PIXELS=30000000;
 const MAX_FILES=100;
+const MAX_RESULT_BYTES=256*1024*1024;
+const ALLOWED_TYPES=['image/jpeg','image/png','image/webp'];
 
 let files=[];
 let busy=false;
-
-const allowedTypes=['image/jpeg','image/png','image/webp'];
+let totalResultBytes=0;
+let nextId=1;
 
 function bytesText(n){
-  return n<1024*1024?(n/1024).toFixed(0)+' KB':(n/1024/1024).toFixed(1)+' MB';
+  return n<1024*1024
+    ?(n/1024).toFixed(0)+' KB'
+    :(n/1024/1024).toFixed(1)+' MB';
 }
 
 function safeName(name){
-  return name.replace(/[\\/:*?"<>|]/g,'_').replace(/\s+/g,'_').slice(0,80);
+  return name
+    .replace(/[\\/:*?"<>|]/g,'_')
+    .replace(/\s+/g,'_')
+    .slice(0,80);
 }
 
 function outputExtension(mime,original){
@@ -217,24 +239,42 @@ function outputExtension(mime,original){
   return original.split('.').pop().toLowerCase()||'png';
 }
 
-function getOutputMime(item){
-  const chosen=$('format').value;
-  if(chosen!=='original')return chosen;
-  return item.file.type;
+function getOutputMime(item,settings){
+  return settings.format==='original'
+    ?item.file.type
+    :settings.format;
 }
 
-function outputName(index,item){
-  const prefix=safeName($('prefix').value.trim()||'image');
-  const start=Math.max(0,Number($('startNumber').value)||0);
-  const digits=Number($('digits').value);
-  const number=String(start+index).padStart(digits,'0');
-  const ext=outputExtension(getOutputMime(item),item.file.name);
+function outputName(index,item,settings){
+  const prefix=safeName(settings.prefix||'image');
+  const number=String(settings.startNumber+index)
+    .padStart(settings.digits,'0');
+  const ext=outputExtension(
+    getOutputMime(item,settings),
+    item.file.name
+  );
   return `${prefix}_${number}.${ext}`;
+}
+
+function getSettings(){
+  return {
+    format:$('format').value,
+    quality:Number($('quality').value)/100,
+    resize:$('resizeEnabled').checked,
+    width:Number($('targetWidth').value),
+    height:Number($('targetHeight').value),
+    keepRatio:$('keepRatio').checked,
+    prefix:$('prefix').value.trim(),
+    startNumber:Math.max(0,Number($('startNumber').value)||0),
+    digits:Number($('digits').value)
+  };
 }
 
 function updateCount(){
   $('count').textContent=`${files.length} 张图片`;
+
   $('processBtn').disabled=files.length===0||busy;
+
   const done=files.filter(x=>x.result).length;
   $('zipBtn').disabled=done===0||busy;
   $('downloadAllBtn').disabled=done===0||busy;
@@ -243,6 +283,7 @@ function updateCount(){
 function renderList(){
   const list=$('list');
   list.innerHTML='';
+
   if(files.length===0){
     list.innerHTML='<div class="empty">还没有添加图片<br>选择图片后将在这里显示处理列表</div>';
     updateCount();
@@ -259,17 +300,29 @@ function renderList(){
     img.alt='图片预览';
 
     const info=document.createElement('div');
+
     const name=document.createElement('div');
     name.className='item-name';
     name.textContent=item.file.name;
 
     const meta=document.createElement('div');
     meta.className='item-meta';
-    meta.textContent=`${item.width} × ${item.height} · ${bytesText(item.file.size)}`;
+    meta.textContent=item.width
+      ?`${item.width} × ${item.height} · ${bytesText(item.file.size)}`
+      :bytesText(item.file.size)+' · 正在读取尺寸';
 
     const status=document.createElement('div');
-    status.className='item-status'+(item.result?' done':'');
-    status.textContent=item.error?'处理失败：'+item.error:item.result?`已完成 · ${bytesText(item.result.size)}`:'等待处理';
+    status.className='item-status';
+
+    if(item.error){
+      status.classList.add('failed');
+      status.textContent='处理失败：'+item.error;
+    }else if(item.result){
+      status.classList.add('done');
+      status.textContent=`已完成 · ${bytesText(item.result.size)}`;
+    }else{
+      status.textContent=item.readError?'无法读取图片':'等待处理';
+    }
 
     info.append(name,meta,status);
 
@@ -280,7 +333,7 @@ function renderList(){
       const download=document.createElement('button');
       download.className='small-btn';
       download.textContent='下载';
-      download.addEventListener('click',()=>downloadItem(item,index));
+      download.addEventListener('click',()=>downloadItem(item));
       actions.append(download);
     }
 
@@ -298,126 +351,186 @@ function renderList(){
   updateCount();
 }
 
+function releaseItem(item){
+  if(item.previewUrl){
+    URL.revokeObjectURL(item.previewUrl);
+    item.previewUrl='';
+  }
+  item.result=null;
+  item.width=0;
+  item.height=0;
+}
+
 function addFiles(fileList){
   if(busy)return;
+
   const incoming=Array.from(fileList||[]);
+  let added=0;
+  let skipped=0;
+
   for(const file of incoming){
     if(files.length>=MAX_FILES){
-      alert(`最多只能添加 ${MAX_FILES} 张图片。`);
-      break;
-    }
-    if(!allowedTypes.includes(file.type)){
+      skipped++;
       continue;
     }
+
+    if(!ALLOWED_TYPES.includes(file.type)){
+      skipped++;
+      continue;
+    }
+
     if(file.size>MAX_FILE){
-      alert(`${file.name} 超过 30MB，已跳过。`);
+      skipped++;
       continue;
     }
-    if(files.some(x=>x.file.name===file.name&&x.file.size===file.size)){
+
+    const duplicate=files.some(item=>
+      item.file.name===file.name&&
+      item.file.size===file.size&&
+      item.file.lastModified===file.lastModified
+    );
+
+    if(duplicate){
+      skipped++;
       continue;
     }
+
     const url=URL.createObjectURL(file);
-    const img=new Image();
+
     const item={
-      id:crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random(),
-      file,previewUrl:url,width:0,height:0,result:null,
-      resultName:'',error:'',image:null
+      id:nextId++,
+      file,
+      previewUrl:url,
+      width:0,
+      height:0,
+      result:null,
+      resultName:'',
+      error:'',
+      readError:false
     };
-    img.onload=()=>{
-      if(img.naturalWidth*img.naturalHeight>MAX_PIXELS){
-        URL.revokeObjectURL(url);
-        files=files.filter(x=>x!==item);
-        alert(`${file.name} 像素过大，已跳过。`);
+
+    files.push(item);
+    added++;
+
+    // 仅在读取尺寸时短暂解码，不长期保留 Image 对象
+    const image=new Image();
+
+    image.onload=()=>{
+      if(!files.includes(item)){
+        image.src='';
+        return;
+      }
+
+      const width=image.naturalWidth;
+      const height=image.naturalHeight;
+
+      image.src='';
+
+      if(!width||!height||width*height>MAX_PIXELS){
+        item.readError=true;
+        item.error='图片尺寸超过 3000 万像素或无法读取';
+        if(item.previewUrl){
+          URL.revokeObjectURL(item.previewUrl);
+          item.previewUrl='';
+        }
       }else{
-        item.width=img.naturalWidth;
-        item.height=img.naturalHeight;
-        item.image=img;
+        item.width=width;
+        item.height=height;
+      }
+
+      renderList();
+    };
+
+    image.onerror=()=>{
+      if(!files.includes(item))return;
+      item.readError=true;
+      item.error='无法读取图片文件';
+      if(item.previewUrl){
+        URL.revokeObjectURL(item.previewUrl);
+        item.previewUrl='';
       }
       renderList();
     };
-    img.onerror=()=>{
-      URL.revokeObjectURL(url);
-      files=files.filter(x=>x!==item);
-      renderList();
-    };
-    img.src=url;
-    files.push(item);
+
+    image.src=url;
   }
+
   renderList();
+
+  if(skipped>0){
+    setProgressText(`已添加 ${added} 张，跳过 ${skipped} 张不符合要求的图片。`);
+  }
 }
 
 function removeItem(id){
   if(busy)return;
+
   const item=files.find(x=>x.id===id);
-  if(item){
-    URL.revokeObjectURL(item.previewUrl);
-    files=files.filter(x=>x.id!==id);
-    renderList();
+  if(!item)return;
+
+  if(item.result){
+    totalResultBytes-=item.result.size;
   }
+
+  releaseItem(item);
+  files=files.filter(x=>x.id!==id);
+  renderList();
 }
 
 function clearAll(){
   if(busy)return;
-  files.forEach(x=>URL.revokeObjectURL(x.previewUrl));
+
+  files.forEach(releaseItem);
   files=[];
+  totalResultBytes=0;
+
   renderList();
+
   $('progress').classList.add('hidden');
   $('summary').classList.add('hidden');
 }
 
-function processOne(item,index){
+function setProgressText(message){
+  $('summary').classList.remove('hidden');
+  $('progressText').textContent=message;
+}
+
+function validateSettings(settings){
+  if(settings.resize){
+    if(
+      !Number.isInteger(settings.width)||
+      !Number.isInteger(settings.height)||
+      settings.width<1||
+      settings.height<1||
+      settings.width>12000||
+      settings.height>12000
+    ){
+      throw new Error('目标尺寸必须是 1 至 12000 之间的整数');
+    }
+  }
+
+  if(!Number.isFinite(settings.quality)){
+    throw new Error('图片质量设置无效');
+  }
+}
+
+function decodeImage(file){
+  if(typeof createImageBitmap!=='function'){
+    return Promise.reject(
+      new Error('当前浏览器不支持图片解码，请更新浏览器')
+    );
+  }
+  return createImageBitmap(file);
+}
+
+function canvasToBlob(canvas,mime,quality){
   return new Promise((resolve,reject)=>{
     try{
-      const image=item.image;
-      if(!image)throw new Error('图片尚未读取完成');
-
-      let width=image.naturalWidth;
-      let height=image.naturalHeight;
-
-      if($('resizeEnabled').checked){
-        const maxW=Number($('targetWidth').value);
-        const maxH=Number($('targetHeight').value);
-        if(!Number.isFinite(maxW)||!Number.isFinite(maxH)||maxW<1||maxH<1||maxW>12000||maxH>12000){
-          throw new Error('目标尺寸必须在 1 至 12000 之间');
-        }
-
-        if($('keepRatio').checked){
-          const ratio=Math.min(maxW/width,maxH/height);
-          width=Math.max(1,Math.round(width*ratio));
-          height=Math.max(1,Math.round(height*ratio));
-        }else{
-          width=maxW;height=maxH;
-        }
-      }
-
-      if(width*height>MAX_PIXELS){
-        throw new Error('输出像素超过 3000 万');
-      }
-
-      const output=document.createElement('canvas');
-      output.width=width;
-      output.height=height;
-      const context=output.getContext('2d');
-
-      const mime=getOutputMime(item);
-      if(mime==='image/jpeg'){
-        context.fillStyle='#fff';
-        context.fillRect(0,0,width,height);
-      }
-
-      context.imageSmoothingEnabled=true;
-      context.imageSmoothingQuality='high';
-      context.drawImage(image,0,0,width,height);
-
-      const quality=Number($('quality').value)/100;
-      output.toBlob(blob=>{
+      canvas.toBlob(blob=>{
         if(!blob){
-          reject(new Error('导出失败'));
+          reject(new Error('图片编码失败'));
           return;
         }
-        item.result=blob;
-        item.resultName=outputName(index,item);
-        item.error='';
         resolve(blob);
       },mime,quality);
     }catch(error){
@@ -426,183 +539,431 @@ function processOne(item,index){
   });
 }
 
+async function processOne(item,index,settings){
+  let bitmap=null;
+  let output=null;
+
+  try{
+    if(item.readError){
+      throw new Error(item.error||'图片无法读取');
+    }
+
+    bitmap=await decodeImage(item.file);
+
+    const sourceWidth=bitmap.width;
+    const sourceHeight=bitmap.height;
+
+    if(!sourceWidth||!sourceHeight){
+      throw new Error('图片尺寸无效');
+    }
+
+    if(sourceWidth*sourceHeight>MAX_PIXELS){
+      throw new Error('图片超过 3000 万像素');
+    }
+
+    let width=sourceWidth;
+    let height=sourceHeight;
+
+    if(settings.resize){
+      if(settings.keepRatio){
+        const ratio=Math.min(
+          settings.width/sourceWidth,
+          settings.height/sourceHeight
+        );
+
+        width=Math.max(1,Math.round(sourceWidth*ratio));
+        height=Math.max(1,Math.round(sourceHeight*ratio));
+      }else{
+        width=settings.width;
+        height=settings.height;
+      }
+    }
+
+    if(width*height>MAX_PIXELS){
+      throw new Error('输出像素超过 3000 万');
+    }
+
+    output=document.createElement('canvas');
+    output.width=width;
+    output.height=height;
+
+    const context=output.getContext('2d');
+
+    if(!context){
+      throw new Error('无法创建图片处理画布');
+    }
+
+    const mime=getOutputMime(item,settings);
+
+    if(mime==='image/jpeg'){
+      context.fillStyle='#ffffff';
+      context.fillRect(0,0,width,height);
+    }
+
+    context.imageSmoothingEnabled=true;
+    context.imageSmoothingQuality='high';
+    context.drawImage(bitmap,0,0,width,height);
+
+    // 不再保留解码对象
+    bitmap.close();
+    bitmap=null;
+
+    const blob=await canvasToBlob(
+      output,
+      mime,
+      settings.quality
+    );
+
+    if(totalResultBytes+blob.size>MAX_RESULT_BYTES){
+      throw new Error('处理结果总容量将超过 256MB，请先下载或减少图片数量');
+    }
+
+    item.result=blob;
+    item.resultName=outputName(index,item,settings);
+    item.error='';
+    item.width=sourceWidth;
+    item.height=sourceHeight;
+
+    totalResultBytes+=blob.size;
+
+    return blob;
+  }finally{
+    if(bitmap){
+      bitmap.close();
+      bitmap=null;
+    }
+
+    if(output){
+      // 释放 Canvas 的像素缓冲区
+      output.width=1;
+      output.height=1;
+      output=null;
+    }
+  }
+}
+
 async function processAll(){
   if(busy||files.length===0)return;
 
-  if($('resizeEnabled').checked){
-    const w=Number($('targetWidth').value);
-    const h=Number($('targetHeight').value);
-    if(!Number.isInteger(w)||!Number.isInteger(h)||w<1||h<1||w>12000||h>12000){
-      alert('请输入 1 至 12000 之间的整数尺寸。');
-      return;
-    }
+  const settings=getSettings();
+
+  try{
+    validateSettings(settings);
+  }catch(error){
+    alert(error.message);
+    return;
   }
 
+  // 重新处理时先释放上一轮结果
+  files.forEach(item=>{
+    item.result=null;
+    item.resultName='';
+    item.error='';
+  });
+
+  totalResultBytes=0;
   busy=true;
-  files.forEach(x=>{x.result=null;x.error='';});
+
   $('progress').classList.remove('hidden');
   $('summary').classList.remove('hidden');
   $('progressBar').style.width='0%';
-  $('progressText').textContent='正在处理图片';
+  $('progressText').textContent='正在准备图片';
   $('progressPercent').textContent='0%';
+
   renderList();
 
-  let completed=0;
   const total=files.length;
+  let completed=0;
+  let success=0;
+  let failed=0;
 
   for(let i=0;i<total;i++){
     const item=files[i];
+
     try{
-      await processOne(item,i);
+      await processOne(item,i,settings);
+      success++;
     }catch(error){
       item.error=error.message||'未知错误';
+      failed++;
     }
+
     completed++;
+
     const percent=Math.round(completed/total*100);
     $('progressBar').style.width=percent+'%';
     $('progressPercent').textContent=percent+'%';
     $('progressText').textContent=`已处理 ${completed} / ${total}`;
+
     renderList();
+
+    // 让浏览器有机会刷新界面
     await new Promise(resolve=>setTimeout(resolve,0));
   }
 
   busy=false;
-  updateCount();
   renderList();
 
-  const success=files.filter(x=>x.result).length;
-  $('progressText').textContent=`处理完成：${success} 张成功，${total-success} 张失败`;
+  $('progressText').textContent=
+    `处理完成：${success} 张成功，${failed} 张失败`;
+
   $('processBtn').disabled=files.length===0;
 }
 
 function triggerDownload(blob,name){
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
+
   a.href=url;
   a.download=name;
+
   document.body.appendChild(a);
   a.click();
   a.remove();
+
   setTimeout(()=>URL.revokeObjectURL(url),30000);
 }
 
-function downloadItem(item,index){
+function downloadItem(item){
   if(!item.result)return;
-  triggerDownload(item.result,item.resultName||outputName(index,item));
+  triggerDownload(item.result,item.resultName||'image');
 }
 
 function downloadAll(){
-  const completed=files.filter(x=>x.result);
+  if(busy)return;
+
+  const completed=files.filter(item=>item.result);
+
   completed.forEach((item,index)=>{
-    setTimeout(()=>downloadItem(item,files.indexOf(item)),index*350);
+    setTimeout(()=>{
+      if(item.result&&files.includes(item)){
+        downloadItem(item);
+      }
+    },index*350);
   });
 }
 
-function crc32(bytes){
-  let crc=-1;
-  for(let i=0;i<bytes.length;i++){
-    crc^=bytes[i];
-    for(let j=0;j<8;j++){
-      crc=(crc>>>1)^((crc&1)?0xedb88320:0);
+/* ZIP：使用 Store 模式，不压缩图片本身
+   先流式计算 CRC32，再把原 Blob 直接作为 ZIP 数据段。
+   不将全部图片转换成大型 Uint8Array。 */
+
+const CRC_TABLE=(()=>{
+  const table=new Uint32Array(256);
+
+  for(let n=0;n<256;n++){
+    let c=n;
+    for(let k=0;k<8;k++){
+      c=(c&1)?(0xedb88320^(c>>>1)):(c>>>1);
     }
+    table[n]=c>>>0;
   }
-  return (crc^-1)>>>0;
+
+  return table;
+})();
+
+function crcUpdate(crc,bytes){
+  let value=crc;
+
+  for(let i=0;i<bytes.length;i++){
+    value=CRC_TABLE[(value^bytes[i])&255]^(value>>>8);
+  }
+
+  return value>>>0;
 }
 
-function u16(n){return [n&255,(n>>>8)&255];}
-function u32(n){return [n&255,(n>>>8)&255,(n>>>16)&255,(n>>>24)&255];}
-
-function concatBytes(parts){
-  const length=parts.reduce((sum,p)=>sum+p.length,0);
-  const result=new Uint8Array(length);
-  let offset=0;
-  for(const part of parts){
-    result.set(part,offset);
-    offset+=part.length;
+async function calculateBlobCRC(blob){
+  if(!blob.stream){
+    throw new Error('当前浏览器不支持流式 ZIP 打包');
   }
-  return result;
+
+  const reader=blob.stream().getReader();
+  let crc=0xffffffff;
+
+  try{
+    while(true){
+      const {done,value}=await reader.read();
+      if(done)break;
+      crc=crcUpdate(crc,value);
+    }
+  }finally{
+    reader.releaseLock();
+  }
+
+  return (crc^0xffffffff)>>>0;
+}
+
+function u16(n){
+  return new Uint8Array([n&255,(n>>>8)&255]);
+}
+
+function u32(n){
+  return new Uint8Array([
+    n&255,
+    (n>>>8)&255,
+    (n>>>16)&255,
+    (n>>>24)&255
+  ]);
+}
+
+function zipLocalHeader(nameBytes,crc,size){
+  return new Uint8Array([
+    0x50,0x4b,0x03,0x04,
+    20,0,
+    0,8,
+    0,0,
+    0,0,
+    0,0,
+    ...u32(crc),
+    ...u32(size),
+    ...u32(size),
+    ...u16(nameBytes.length),
+    0,0
+  ]);
+}
+
+function zipCentralHeader(nameBytes,crc,size,offset){
+  return new Uint8Array([
+    0x50,0x4b,0x01,0x02,
+    20,0,
+    20,0,
+    0,8,
+    0,0,
+    0,0,
+    0,0,
+    ...u32(crc),
+    ...u32(size),
+    ...u32(size),
+    ...u16(nameBytes.length),
+    0,0,
+    0,0,
+    0,0,
+    0,0,
+    ...u32(offset)
+  ]);
 }
 
 async function createZip(entries){
-  const localParts=[];
-  const centralParts=[];
-  let offset=0;
-
-  for(const entry of entries){
-    const nameBytes=new TextEncoder().encode(entry.name);
-    const data=new Uint8Array(await entry.blob.arrayBuffer());
-    const crc=crc32(data);
-    const size=data.length;
-
-    const localHeader=new Uint8Array([
-      0x50,0x4b,0x03,0x04,
-      ...u16(20),...u16(0x0800),...u16(0),
-      ...u16(0),...u16(0),
-      ...u32(crc),...u32(size),...u32(size),
-      ...u16(nameBytes.length),...u16(0)
-    ]);
-
-    localParts.push(localHeader,nameBytes,data);
-
-    const centralHeader=new Uint8Array([
-      0x50,0x4b,0x01,0x02,
-      ...u16(20),...u16(20),...u16(0x0800),...u16(0),
-      ...u16(0),...u16(0),
-      ...u32(crc),...u32(size),...u32(size),
-      ...u16(nameBytes.length),...u16(0),...u16(0),
-      ...u16(0),...u32(0),...u32(offset)
-    ]);
-
-    centralParts.push(centralHeader,nameBytes);
-    offset+=localHeader.length+nameBytes.length+size;
+  if(entries.length>65535){
+    throw new Error('ZIP 文件数量超出支持范围');
   }
 
-  const central=concatBytes(centralParts);
-  const local=concatBytes(localParts);
+  const localParts=[];
+  const centralParts=[];
+  const encoder=new TextEncoder();
+
+  let offset=0;
+
+  for(let i=0;i<entries.length;i++){
+    const entry=entries[i];
+    const size=entry.blob.size;
+
+    // 经典 ZIP 格式使用 32 位大小字段
+    if(size>0xffffffff||offset>0xffffffff){
+      throw new Error('ZIP 文件超过经典 ZIP 格式支持的大小');
+    }
+
+    const nameBytes=encoder.encode(entry.name);
+
+    if(nameBytes.length>65535){
+      throw new Error('文件名过长，无法打包');
+    }
+
+    // 分块读取计算 CRC，不创建整张图片的副本
+    const crc=await calculateBlobCRC(entry.blob);
+
+    const header=zipLocalHeader(nameBytes,crc,size);
+    const central=zipCentralHeader(nameBytes,crc,size,offset);
+
+    // Blob 直接作为 ZIP 的数据段
+    localParts.push(header,nameBytes,entry.blob);
+    centralParts.push(central,nameBytes);
+
+    offset+=header.length+nameBytes.length+size;
+
+    if(offset>0xffffffff){
+      throw new Error('ZIP 总大小超过 4GB，无法使用当前 ZIP 格式');
+    }
+
+    $('progressText').textContent=`正在准备 ZIP：${i+1} / ${entries.length}`;
+    $('progressPercent').textContent=
+      Math.round((i+1)/entries.length*100)+'%';
+
+    await new Promise(resolve=>setTimeout(resolve,0));
+  }
+
+  let centralSize=0;
+
+  for(const part of centralParts){
+    centralSize+=part.length;
+  }
+
   const end=new Uint8Array([
     0x50,0x4b,0x05,0x06,
-    ...u16(0),...u16(0),
-    ...u16(entries.length),...u16(entries.length),
-    ...u32(central.length),...u32(local.length),
-    ...u16(0)
+    0,0,
+    0,0,
+    ...u16(entries.length),
+    ...u16(entries.length),
+    ...u32(centralSize),
+    ...u32(offset),
+    0,0
   ]);
 
-  return new Blob([local,central,end],{type:'application/zip'});
+  return new Blob(
+    [...localParts,...centralParts,end],
+    {type:'application/zip'}
+  );
 }
 
 async function downloadZip(){
   if(busy)return;
-  const entries=files.filter(x=>x.result).map(x=>({
-    name:x.resultName,
-    blob:x.result
-  }));
-  if(entries.length===0)return;
 
-  if(entries.length>65535){
-    alert('ZIP 文件数量超出支持范围。');
-    return;
-  }
+  const entries=files
+    .filter(item=>item.result)
+    .map(item=>({
+      name:item.resultName,
+      blob:item.result
+    }));
+
+  if(entries.length===0)return;
 
   $('zipBtn').disabled=true;
   $('zipBtn').textContent='正在打包…';
+  $('progress').classList.remove('hidden');
+  $('summary').classList.remove('hidden');
+  $('progressBar').style.width='0%';
 
   try{
     const zip=await createZip(entries);
-    triggerDownload(zip,'images-'+Date.now()+'.zip');
+
+    triggerDownload(
+      zip,
+      'images-'+Date.now()+'.zip'
+    );
+
+    $('progressBar').style.width='100%';
+    $('progressPercent').textContent='100%';
+    $('progressText').textContent=
+      `ZIP 打包完成，共 ${entries.length} 张图片`;
+
   }catch(error){
     alert('打包失败：'+(error.message||'未知错误'));
+    $('progressText').textContent='ZIP 打包失败';
   }finally{
     $('zipBtn').textContent='打包下载 ZIP';
     updateCount();
   }
 }
 
+/* 页面事件 */
+
 $('selectBtn').addEventListener('click',()=>$('fileInput').click());
 $('addBtn').addEventListener('click',()=>$('fileInput').click());
-$('fileInput').addEventListener('change',e=>{
-  addFiles(e.target.files);
-  e.target.value='';
+
+$('fileInput').addEventListener('change',event=>{
+  addFiles(event.target.files);
+  event.target.value='';
 });
+
 $('clearBtn').addEventListener('click',clearAll);
 $('processBtn').addEventListener('click',processAll);
 $('zipBtn').addEventListener('click',downloadZip);
@@ -614,32 +975,48 @@ $('quality').addEventListener('input',()=>{
 
 $('sortBtn').addEventListener('click',()=>{
   if(busy)return;
-  files.sort((a,b)=>a.file.name.localeCompare(b.file.name,undefined,{numeric:true,sensitivity:'base'}));
+
+  files.sort((a,b)=>
+    a.file.name.localeCompare(
+      b.file.name,
+      undefined,
+      {numeric:true,sensitivity:'base'}
+    )
+  );
+
   renderList();
 });
 
 const drop=$('drop');
+
 ['dragenter','dragover'].forEach(type=>{
-  drop.addEventListener(type,e=>{
-    e.preventDefault();
+  drop.addEventListener(type,event=>{
+    event.preventDefault();
     drop.classList.add('drag');
   });
 });
+
 ['dragleave','drop'].forEach(type=>{
-  drop.addEventListener(type,e=>{
-    e.preventDefault();
+  drop.addEventListener(type,event=>{
+    event.preventDefault();
     drop.classList.remove('drag');
   });
 });
-drop.addEventListener('drop',e=>{
-  if(e.dataTransfer?.files)addFiles(e.dataTransfer.files);
+
+drop.addEventListener('drop',event=>{
+  if(event.dataTransfer?.files){
+    addFiles(event.dataTransfer.files);
+  }
 });
 
 window.addEventListener('beforeunload',()=>{
-  files.forEach(x=>URL.revokeObjectURL(x.previewUrl));
+  files.forEach(releaseItem);
 });
+
+updateCount();
 
 })();
 </script>
 </body>
 </html>
+
