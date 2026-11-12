@@ -648,3 +648,247 @@ body:has(.tool-overview) footer {
     font-size: 14px;
   }
 }
+
+/* =========================================
+   BLOG · COMIC READING DESK
+========================================= */
+body:has(#articleList) .container {
+  max-width: 1040px;
+}
+body:has(#articleList) .page-heading {
+  position: relative;
+  margin: 30px 0 24px;
+  padding: 35px 30px !important;
+  background: var(--comic-yellow);
+  border: 3px solid var(--comic-ink);
+  box-shadow: 7px 7px 0 var(--comic-ink);
+  transform: rotate(-.35deg);
+}
+body:has(#articleList) .page-heading::after {
+  content: "READ / SAVE / REPEAT";
+  position: absolute;
+  right: 22px;
+  bottom: 18px;
+  padding: 6px 9px;
+  border: 2px solid var(--comic-ink);
+  background: var(--comic-paper);
+  font-size: 9px;
+  font-weight: 1000;
+  letter-spacing: 1px;
+  transform: rotate(3deg);
+}
+body:has(#articleList) .page-heading h1 {
+  font-size: clamp(36px,6vw,56px);
+  font-weight: 1000;
+  letter-spacing: -.06em;
+  text-shadow: 3px 3px 0 var(--comic-paper);
+}
+body:has(#articleList) .search-box input {
+  min-height: 54px;
+  font-weight: 700;
+}
+body:has(#articleList) .article {
+  position: relative;
+  background: var(--comic-paper);
+  border: 2.5px solid var(--comic-ink);
+  border-radius: 4px;
+  box-shadow: 5px 5px 0 var(--comic-ink);
+}
+body:has(#articleList) .article:nth-child(odd) {
+  transform: rotate(-.25deg);
+}
+body:has(#articleList) .article:nth-child(even) {
+  transform: rotate(.2deg);
+}
+body:has(#articleList) .article:hover {
+  transform: translateY(-3px) rotate(0);
+  border-color: var(--comic-ink);
+  box-shadow: 8px 8px 0 var(--comic-ink);
+}
+body:has(#articleList) .article-category {
+  border: 2px solid var(--comic-ink);
+  border-radius: 3px;
+  background: #d8edf0;
+  color: var(--comic-ink);
+  font-weight: 900;
+}
+body:has(#articleList) #detail {
+  border: 3px solid var(--comic-ink);
+  border-radius: 4px;
+  box-shadow: 7px 7px 0 var(--comic-ink);
+}
+body:has(#articleList) .section-title {
+  font-weight: 1000;
+}
+body:has(#articleList) .section-title::before {
+  width: 8px;
+  height: 20px;
+  border-radius: 0;
+  background: var(--comic-red);
+}
+
+/* =========================================
+   COMMUNITY WALL · PINBOARD
+========================================= */
+body:has(#postForm) .hero {
+  position: relative;
+  overflow: hidden;
+  background: #d8edf0;
+  border-bottom: 3px solid var(--comic-ink);
+}
+body:has(#postForm) .hero::after {
+  content: "OPEN MIC!";
+  position: absolute;
+  right: max(5%, calc((100% - 900px)/2));
+  top: 30px;
+  padding: 10px 14px;
+  border: 3px solid var(--comic-ink);
+  background: var(--comic-red);
+  color: white;
+  font-size: 13px;
+  font-weight: 1000;
+  letter-spacing: 1px;
+  box-shadow: 4px 4px 0 var(--comic-ink);
+  transform: rotate(7deg);
+}
+body:has(#postForm) .hero h1 {
+  font-size: clamp(38px,6vw,58px);
+  font-weight: 1000;
+  letter-spacing: -.06em;
+  text-shadow: 3px 3px 0 var(--comic-paper);
+}
+body:has(#postForm) .hero p {
+  color: #3e5154;
+  font-weight: 650;
+}
+body:has(#postForm) .container {
+  max-width: 980px;
+}
+body:has(#postForm) .panel {
+  position: relative;
+  border: 3px solid var(--comic-ink);
+  border-radius: 4px;
+  box-shadow: 6px 6px 0 var(--comic-ink);
+}
+body:has(#postForm) .panel:nth-of-type(odd) {
+  transform: rotate(-.15deg);
+}
+body:has(#postForm) .panel-heading {
+  padding-bottom: 12px;
+  border-bottom: 2px dashed var(--comic-ink);
+}
+body:has(#postForm) .panel-heading h2 {
+  font-size: 21px;
+  font-weight: 1000;
+}
+body:has(#postForm) .submit {
+  background: var(--comic-red);
+  color: white;
+  border: 2.5px solid var(--comic-ink);
+  border-radius: 4px;
+  box-shadow: 4px 4px 0 var(--comic-ink);
+  font-weight: 1000;
+}
+body:has(#postForm) .post {
+  margin: 12px 0;
+  padding: 16px;
+  background: #fffdf6;
+  border: 2px solid var(--comic-ink);
+  border-radius: 4px;
+  box-shadow: 3px 3px 0 var(--comic-ink);
+}
+body:has(#postForm) .post:nth-child(3n + 2) {
+  transform: rotate(.25deg);
+}
+body:has(#postForm) .post:nth-child(3n) {
+  transform: rotate(-.2deg);
+}
+
+/* =========================================
+   HEMENG CREATOR · MEDIA WORKBENCH
+========================================= */
+body:has(#coverInput) main {
+  width: min(1040px,calc(100% - 32px));
+}
+body:has(#coverInput) header {
+  border-bottom: 3px solid var(--comic-ink);
+  padding: 18px 0;
+}
+body:has(#coverInput) .hero {
+  position: relative;
+  padding: 42px 20px 30px;
+  margin: 14px 0 22px;
+  background: var(--comic-lilac);
+  border: 3px solid var(--comic-ink);
+  box-shadow: 6px 6px 0 var(--comic-ink);
+  transform: rotate(-.25deg);
+}
+body:has(#coverInput) .hero small {
+  color: var(--comic-ink);
+  font-weight: 1000;
+}
+body:has(#coverInput) .hero h1 {
+  font-size: clamp(34px,5vw,50px);
+  font-weight: 1000;
+  letter-spacing: -.06em;
+  text-shadow: 3px 3px 0 var(--comic-paper);
+}
+body:has(#coverInput) .hero p {
+  color: #302d3b;
+  font-weight: 650;
+}
+body:has(#coverInput) .panel {
+  border: 3px solid var(--comic-ink);
+  border-radius: 4px;
+  box-shadow: 6px 6px 0 var(--comic-ink);
+}
+body:has(#coverInput) .uploads {
+  gap: 18px;
+}
+body:has(#coverInput) .upload {
+  background: #fff9e9;
+  border: 2px dashed var(--comic-ink);
+  border-radius: 4px;
+  box-shadow: 3px 3px 0 var(--comic-ink);
+}
+body:has(#coverInput) .stage {
+  border: 3px solid var(--comic-ink);
+  border-radius: 4px;
+  box-shadow: 5px 5px 0 var(--comic-ink);
+}
+body:has(#coverInput) button {
+  border: 2px solid var(--comic-ink);
+  border-radius: 4px;
+  box-shadow: 3px 3px 0 var(--comic-ink);
+  font-weight: 900;
+}
+body:has(#coverInput) button.secondary {
+  background: var(--comic-yellow);
+  color: var(--comic-ink);
+}
+body:has(#coverInput) .step {
+  background: #fff9e9;
+  border: 2px solid var(--comic-ink);
+  border-radius: 4px;
+  box-shadow: 3px 3px 0 var(--comic-ink);
+}
+
+@media (max-width: 650px) {
+  body:has(#postForm) .hero::after {
+    right: 14px;
+    top: 12px;
+    font-size: 10px;
+    padding: 6px 8px;
+  }
+  body:has(#articleList) .page-heading {
+    padding: 28px 19px !important;
+  }
+  body:has(#articleList) .page-heading::after {
+    position: static;
+    display: inline-block;
+    margin-top: 12px;
+  }
+  body:has(#coverInput) .uploads {
+    grid-template-columns: 1fr;
+  }
+}
