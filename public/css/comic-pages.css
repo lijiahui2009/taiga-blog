@@ -555,3 +555,70 @@ body:has(.intro-card) footer .footer-brand {
     scroll-behavior: auto !important;
   }
 }
+/* =========================================
+   COMIC INTERACTION POLISH
+   全站漫画交互细节
+========================================= */
+
+/* 工具卡片：悬停与按压 */
+body:has(.tools-grid) .tool-card {
+  position: relative;
+  transition: transform .18s ease, box-shadow .18s ease !important;
+}
+
+body:has(.tools-grid) .tool-card:hover {
+  transform: translate(-3px, -3px) rotate(-.5deg) !important;
+  box-shadow: 9px 9px 0 var(--page-ink) !important;
+}
+
+body:has(.tools-grid) .tool-card:active {
+  transform: translate(2px, 2px) !important;
+  box-shadow: 2px 2px 0 var(--page-ink) !important;
+}
+
+/* 关于本站：功能卡片交互 */
+body:has(.intro-card) .feature {
+  transition: transform .18s ease, box-shadow .18s ease !important;
+}
+
+body:has(.intro-card) .feature:hover {
+  transform: translateY(-5px) rotate(-.5deg) !important;
+  box-shadow: 8px 8px 0 var(--page-ink) !important;
+}
+
+/* 导航：漫画标签反馈 */
+body:has(.tools-grid) .back,
+body:has(.intro-card) nav a {
+  transition: color .15s ease, transform .15s ease !important;
+}
+
+body:has(.tools-grid) .back:hover,
+body:has(.intro-card) nav a:hover {
+  color: var(--page-red) !important;
+  transform: translateY(-2px);
+}
+
+/* 页脚统一 */
+body:has(.tools-grid) footer,
+body:has(.intro-card) footer {
+  border-top: 3px solid var(--page-ink) !important;
+  background: var(--page-paper) !important;
+  margin-top: 70px;
+  padding: 28px 20px;
+}
+
+/* 键盘焦点 */
+body:has(.tools-grid) a:focus-visible,
+body:has(.intro-card) a:focus-visible {
+  outline: 3px dashed var(--page-red) !important;
+  outline-offset: 5px !important;
+}
+
+/* 减少动态效果设置 */
+@media (prefers-reduced-motion: reduce) {
+  body:has(.tools-grid) *,
+  body:has(.intro-card) * {
+    transition: none !important;
+    transform: none !important;
+  }
+}
