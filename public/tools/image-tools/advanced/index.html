@@ -1,0 +1,598 @@
+
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#faf7f5">
+<title>高级图片工具箱</title>
+<style>
+:root{--bg:#faf7f5;--panel:#fff;--text:#302c2a;--muted:#8b817c;--line:#eee5e0;--accent:#b77b70;--soft:#f5ece8}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.top{max-width:1300px;margin:auto;padding:26px 24px 15px}
+.back{color:var(--muted);text-decoration:none;font-size:13px}
+h1{font-size:25px;margin:17px 0 7px}
+.sub{font-size:13px;color:var(--muted);line-height:1.7}
+.wrap{max-width:1300px;margin:auto;padding:12px 24px 45px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}
+.tab{border:1px solid var(--line);background:white;border-radius:10px;padding:10px 15px;font-size:12px;color:var(--muted)}
+.tab.active{background:var(--soft);border-color:#dfbdb1;color:#986257}
+.panel{background:white;border:1px solid var(--line);border-radius:16px;padding:18px}
+.tool{display:none}
+.tool.active{display:block}
+h2{font-size:16px;margin:0 0 7px}
+.desc{font-size:12px;color:var(--muted);line-height:1.7;margin-bottom:17px}
+.btn{border:1px solid var(--line);background:white;color:var(--text);border-radius:9px;padding:9px 13px;font-size:12px}
+.btn:hover{border-color:var(--accent);color:#986257}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:white}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+input[type=file]{display:none}
+input[type=range]{accent-color:var(--accent);width:100%}
+input[type=number],input[type=text],select{border:1px solid var(--line);border-radius:9px;padding:9px 10px;background:white;color:var(--text);width:100%;min-width:0}
+label{font-size:12px;color:#665d58}
+.field{margin:13px 0}
+.field label{display:block;margin-bottom:7px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.row>*{flex:1;min-width:120px}
+.upload{padding:28px 15px;text-align:center;background:#fcf9f7;border:1px dashed #dfc9c0;border-radius:12px;color:var(--muted);margin:13px 0}
+.upload strong{display:block;color:var(--text);font-size:13px;margin-bottom:7px}
+.hint{font-size:11px;color:var(--muted);line-height:1.7}
+.preview{margin-top:15px;display:flex;justify-content:center;align-items:center;min-height:180px;background:#faf8f6;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.preview img{max-width:100%;max-height:520px;object-fit:contain}
+.palette{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:15px}
+.swatch{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:white;min-width:0}
+.swatch-color{height:75px}
+.swatch-info{padding:8px;font-size:11px;line-height:1.6}
+.swatch-info button{display:block;border:0;background:none;padding:4px 0;color:#986257;font-size:11px}
+.info-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:14px}
+.info-item{background:#faf8f6;border:1px solid var(--line);border-radius:9px;padding:11px;min-width:0}
+.info-item small{display:block;color:var(--muted);font-size:10px;margin-bottom:6px}
+.info-item strong{font-size:12px;overflow-wrap:anywhere}
+.compare{position:relative;overflow:hidden;background:#eee;border-radius:12px;margin-top:15px;touch-action:pan-y}
+.compare img{display:block;width:100%;height:auto;max-height:650px;object-fit:contain}
+.compare .top-image{position:absolute;inset:0;width:50%;overflow:hidden;border-right:2px solid white}
+.compare .top-image img{width:100%;max-width:none;height:auto}
+.compare-range{margin-top:13px}
+.compare-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--muted)}
+.gif-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px;margin-top:14px}
+.gif-item{position:relative;border:1px solid var(--line);border-radius:9px;padding:7px;background:#fff}
+.gif-item img{width:100%;height:90px;object-fit:contain;background:#faf8f6;border-radius:6px}
+.gif-item small{display:block;font-size:10px;color:var(--muted);margin-top:6px;overflow-wrap:anywhere}
+.gif-item button{position:absolute;top:10px;right:10px;background:#fff;border:1px solid var(--line);border-radius:6px;font-size:10px;padding:4px 6px}
+.progress{height:8px;background:#f0e9e5;border-radius:9px;overflow:hidden;margin-top:13px}
+.progress div{height:100%;width:0;background:var(--accent)}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#faf8f6;border-radius:10px;padding:13px;font-size:11px;line-height:1.8;color:#625954}
+@media(max-width:650px){.top{padding:20px 15px 10px}.wrap{padding:8px 12px 30px}.panel{padding:13px}.palette{grid-template-columns:repeat(2,minmax(0,1fr))}.info-grid{grid-template-columns:repeat(2,minmax(0,1fr))}h1{font-size:22px}}
+</style>
+</head>
+<body>
+<header class="top">
+<a class="back" href="/tools/image-tools/">← 返回图片处理中心</a>
+<h1>高级图片工具箱</h1>
+<div class="sub">颜色分析、图片元数据、图片对比与 GIF 动画制作。</div>
+</header>
+
+<main class="wrap">
+<nav class="tabs">
+<button class="tab active" data-tool="color">颜色提取</button>
+<button class="tab" data-tool="exif">EXIF 信息</button>
+<button class="tab" data-tool="compare">图片对比</button>
+<button class="tab" data-tool="gif">GIF 制作</button>
+</nav>
+
+<!-- 颜色提取 -->
+<section class="panel tool active" id="tool-color">
+<h2>图片颜色提取</h2>
+<div class="desc">分析图片中的主要颜色，提取代表色并复制 HEX 或 RGB 色值。</div>
+<div class="upload">
+<strong>选择一张图片进行颜色分析</strong>
+<button class="btn primary" id="colorChoose">选择图片</button>
+<input type="file" id="colorFile" accept="image/png,image/jpeg,image/webp">
+</div>
+<div class="preview" id="colorPreview"><span class="hint">图片预览区域</span></div>
+<div class="row" style="margin-top:13px">
+<div class="field">
+<label>提取颜色数量</label>
+<select id="colorCount">
+<option value="5">5 种</option>
+<option value="8" selected>8 种</option>
+<option value="10">10 种</option>
+<option value="15">15 种</option>
+</select>
+</div>
+<div class="field">
+<label>分析精度</label>
+<select id="colorPrecision">
+<option value="4">快速</option>
+<option value="2" selected>标准</option>
+<option value="1">较高</option>
+</select>
+</div>
+</div>
+<button class="btn primary" id="extractColors" disabled>提取颜色</button>
+<div class="palette" id="palette"></div>
+</section>
+
+<!-- EXIF -->
+<section class="panel tool" id="tool-exif">
+<h2>EXIF 与图片信息查看</h2>
+<div class="desc">读取图片基本属性和 JPEG 中可识别的 EXIF 元数据。部分平台会在上传时移除元数据，因此无法保证每张图片都有拍摄信息。</div>
+<div class="upload">
+<strong>选择需要查看的图片</strong>
+<button class="btn primary" id="exifChoose">选择图片</button>
+<input type="file" id="exifFile" accept="image/*">
+</div>
+<div id="exifInfo" class="hint">尚未选择图片。</div>
+<pre id="exifRaw" class="hidden"></pre>
+</section>
+
+<!-- 图片对比 -->
+<section class="panel tool" id="tool-compare">
+<h2>图片对比</h2>
+<div class="desc">导入两张图片，使用左右对照或滑块方式查看差异。</div>
+<div class="row">
+<div class="upload">
+<strong>图片 A</strong>
+<button class="btn" id="compareChooseA">选择图片 A</button>
+<input type="file" id="compareFileA" accept="image/png,image/jpeg,image/webp">
+<div class="hint" id="compareNameA">尚未选择</div>
+</div>
+<div class="upload">
+<strong>图片 B</strong>
+<button class="btn" id="compareChooseB">选择图片 B</button>
+<input type="file" id="compareFileB" accept="image/png,image/jpeg,image/webp">
+<div class="hint" id="compareNameB">尚未选择</div>
+</div>
+</div>
+<div class="field">
+<label>对比方式</label>
+<select id="compareMode">
+<option value="slider">滑块对比</option>
+<option value="side">并排对比</option>
+</select>
+</div>
+<div id="sliderCompare" class="hidden">
+<div class="compare" id="compareStage">
+<img id="compareImgA" alt="图片 A">
+<div class="top-image" id="compareTop"><img id="compareImgB" alt="图片 B"></div>
+</div>
+<div class="compare-range">
+<label>拖动滑块调整分界位置</label>
+<input type="range" id="compareRange" min="0" max="100" value="50">
+</div>
+<div class="compare-labels"><span>图片 A</span><span>图片 B</span></div>
+</div>
+<div id="sideCompare" class="row hidden">
+<div class="preview" style="flex:1"><img id="sideImgA" alt="图片 A"></div>
+<div class="preview" style="flex:1"><img id="sideImgB" alt="图片 B"></div>
+</div>
+</section>
+
+<!-- GIF -->
+<section class="panel tool" id="tool-gif">
+<h2>GIF 动画制作</h2>
+<div class="desc">将多张图片合成为 GIF 动画。可以调整帧间隔、尺寸和循环方式。</div>
+<div class="upload">
+<strong>选择多张图片作为动画帧</strong>
+<button class="btn primary" id="gifChoose">添加图片</button>
+<input type="file" id="gifFiles" accept="image/png,image/jpeg,image/webp" multiple>
+<p class="hint">支持 JPG、PNG、WebP。最多 50 张，每张最大 15MB。</p>
+</div>
+<div class="row">
+<div class="field">
+<label>每帧间隔（毫秒）</label>
+<input type="number" id="gifDelay" min="50" max="5000" value="500">
+</div>
+<div class="field">
+<label>输出宽度（像素）</label>
+<input type="number" id="gifWidth" min="100" max="1200" value="600">
+</div>
+</div>
+<div class="field">
+<label>循环方式</label>
+<select id="gifRepeat">
+<option value="0">无限循环</option>
+<option value="1">播放一次</option>
+<option value="3">播放 3 次</option>
+</select>
+</div>
+<div class="gif-list" id="gifList"></div>
+<div class="row" style="margin-top:14px">
+<button class="btn" id="gifClear">清空帧</button>
+<button class="btn primary" id="gifCreate">生成 GIF</button>
+</div>
+<div class="progress hidden" id="gifProgress"><div id="gifProgressBar"></div></div>
+<div class="hint" id="gifStatus" style="margin-top:9px">尚未添加动画帧。</div>
+<div class="preview hidden" id="gifResult"><img id="gifResultImage" alt="生成的 GIF"></div>
+<button class="btn primary hidden" id="gifDownload" style="margin-top:12px">下载 GIF</button>
+</section>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gif.js/0.2.0/gif.js"></script>
+<script>
+(()=>{
+'use strict';
+const $=id=>document.getElementById(id);
+const MAX_FILE=30*1024*1024;
+const MAX_PIXELS=30000000;
+const urls=[];
+let colorImage=null;
+let compareA=null,compareB=null;
+let gifFrames=[];
+let gifBlobUrl=null;
+
+function objectURL(file){
+  const url=URL.createObjectURL(file);
+  urls.push(url);
+  return url;
+}
+function validImage(file,max=MAX_FILE){
+  return file && file.type.startsWith('image/') && file.size<=max;
+}
+function loadImage(file){
+  return new Promise((resolve,reject)=>{
+    if(!validImage(file)){reject(new Error('不支持的图片或文件过大'));return;}
+    const url=objectURL(file);
+    const img=new Image();
+    img.onload=()=>{
+      if(img.naturalWidth*img.naturalHeight>MAX_PIXELS){
+        reject(new Error('图片像素过大'));return;
+      }
+      resolve({img,url,file});
+    };
+    img.onerror=()=>reject(new Error('图片读取失败'));
+    img.src=url;
+  });
+}
+function escapeHTML(s){
+  return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function hex(r,g,b){
+  return '#'+[r,g,b].map(v=>Math.round(v).toString(16).padStart(2,'0')).join('').toUpperCase();
+}
+function rgbString(r,g,b){return `rgb(${r}, ${g}, ${b})`;}
+
+document.querySelectorAll('[data-tool]').forEach(button=>{
+  button.addEventListener('click',()=>{
+    document.querySelectorAll('[data-tool]').forEach(x=>x.classList.toggle('active',x===button));
+    document.querySelectorAll('.tool').forEach(x=>x.classList.toggle('active',x.id==='tool-'+button.dataset.tool));
+  });
+});
+
+/* 颜色提取 */
+$('colorChoose').onclick=()=>$('colorFile').click();
+$('colorFile').onchange=async e=>{
+  const file=e.target.files[0];e.target.value='';
+  if(!file)return;
+  try{
+    const loaded=await loadImage(file);
+    colorImage=loaded.img;
+    $('colorPreview').innerHTML='';
+    const preview=new Image();
+    preview.src=loaded.url;
+    $('colorPreview').appendChild(preview);
+    $('extractColors').disabled=false;
+    $('palette').innerHTML='';
+  }catch(err){alert(err.message);}
+};
+
+$('extractColors').onclick=()=>{
+  if(!colorImage)return;
+  const canvas=document.createElement('canvas');
+  const scale=Math.min(1,300/colorImage.naturalWidth,300/colorImage.naturalHeight);
+  canvas.width=Math.max(1,Math.round(colorImage.naturalWidth*scale));
+  canvas.height=Math.max(1,Math.round(colorImage.naturalHeight*scale));
+  const ctx=canvas.getContext('2d',{willReadFrequently:true});
+  ctx.drawImage(colorImage,0,0,canvas.width,canvas.height);
+  const pixels=ctx.getImageData(0,0,canvas.width,canvas.height).data;
+  const step=Number($('colorPrecision').value);
+  const buckets=new Map();
+
+  for(let i=0;i<pixels.length;i+=4*step){
+    const a=pixels[i+3];
+    if(a<100)continue;
+    const r=Math.round(pixels[i]/32)*32;
+    const g=Math.round(pixels[i+1]/32)*32;
+    const b=Math.round(pixels[i+2]/32)*32;
+    const key=[Math.min(255,r),Math.min(255,g),Math.min(255,b)].join(',');
+    buckets.set(key,(buckets.get(key)||0)+1);
+  }
+
+  const colors=[...buckets.entries()].sort((a,b)=>b[1]-a[1])
+    .slice(0,Number($('colorCount').value));
+
+  $('palette').innerHTML=colors.map(([key,count])=>{
+    const [r,g,b]=key.split(',').map(Number);
+    const value=hex(r,g,b);
+    return `<div class="swatch">
+      <div class="swatch-color" style="background:${value}"></div>
+      <div class="swatch-info">
+        <strong>${value}</strong><br>${rgbString(r,g,b)}
+        <button data-copy="${value}">复制 HEX</button>
+        <button data-copy="rgb(${r}, ${g}, ${b})">复制 RGB</button>
+      </div>
+    </div>`;
+  }).join('');
+};
+$('palette').addEventListener('click',e=>{
+  const button=e.target.closest('[data-copy]');
+  if(!button)return;
+  navigator.clipboard?.writeText(button.dataset.copy).then(()=>{
+    button.textContent='已复制';
+  }).catch(()=>alert('复制失败，请手动复制色值。'));
+});
+
+/* EXIF */
+$('exifChoose').onclick=()=>$('exifFile').click();
+
+function readU16(view,offset,little=false){return view.getUint16(offset,little);}
+function readU32(view,offset,little=false){return view.getUint32(offset,little);}
+function decodeExif(fileBuffer){
+  const view=new DataView(fileBuffer);
+  const bytes=new Uint8Array(fileBuffer);
+  const result={};
+  if(view.byteLength<4||view.getUint16(0)!==0xffd8)return result;
+
+  let offset=2;
+  while(offset+4<view.byteLength){
+    if(view.getUint8(offset)!==0xff)break;
+    const marker=view.getUint8(offset+1);
+    const length=view.getUint16(offset+2);
+    if(length<2)break;
+
+    if(marker===0xe1 && offset+10<view.byteLength){
+      const signature=String.fromCharCode(...bytes.slice(offset+4,offset+10));
+      if(signature==='Exif\0\0'){
+        const tiff=offset+10;
+        const byteOrder=view.getUint16(tiff);
+        const little=byteOrder===0x4949;
+        if(!little&&byteOrder!==0x4d4d)return result;
+        if(view.getUint16(tiff+2,little)!==42)return result;
+
+        const ifd0=tiff+readU32(view,tiff+4,little);
+        parseIFD(view,tiff,ifd0,little,result);
+        const exifPointer=result._exifPointer;
+        if(exifPointer)parseIFD(view,tiff,tiff+exifPointer,little,result,true);
+        delete result._exifPointer;
+        return result;
+      }
+    }
+    if(marker===0xda)break;
+    offset+=2+length;
+  }
+  return result;
+}
+function parseIFD(view,tiff,ifd,little,out,isExif=false){
+  if(ifd+2>view.byteLength)return;
+  const count=Math.min(readU16(view,ifd,little),200);
+  const tags={
+    0x010f:'相机厂商',0x0110:'相机型号',0x0132:'修改时间',
+    0x0112:'图像方向',0x829a:'曝光时间',0x829d:'光圈',
+    0x8827:'ISO',0x9003:'拍摄时间',0x920a:'焦距',
+    0x9209:'闪光灯',0x0131:'软件'
+  };
+  for(let i=0;i<count;i++){
+    const p=ifd+2+i*12;
+    if(p+12>view.byteLength)break;
+    const tag=readU16(view,p,little);
+    const type=readU16(view,p+2,little);
+    const n=readU32(view,p+4,little);
+    if(tag===0x8769&&!isExif){
+      out._exifPointer=readU32(view,p+8,little);
+      continue;
+    }
+    if(!tags[tag])continue;
+    let valueOffset=p+8;
+    if(n* (type===2?1:type===3?2:type===4?4:1)>4){
+      valueOffset=tiff+readU32(view,p+8,little);
+    }
+    try{
+      let value='';
+      if(type===2){
+        const len=Math.min(n,100);
+        const chars=[];
+        for(let j=0;j<len;j++)chars.push(view.getUint8(valueOffset+j));
+        value=String.fromCharCode(...chars).replace(/\0/g,'').trim();
+      }else if(type===3){
+        value=readU16(view,valueOffset,little);
+      }else if(type===4){
+        value=readU32(view,valueOffset,little);
+      }else if(type===5&&valueOffset+8<=view.byteLength){
+        const numerator=readU32(view,valueOffset,little);
+        const denominator=readU32(view,valueOffset+4,little);
+        value=denominator?`${numerator}/${denominator} (${(numerator/denominator).toFixed(2)})`:numerator;
+      }
+      if(value!==''&&value!==undefined)out[tags[tag]]=value;
+    }catch{}
+  }
+}
+$('exifFile').onchange=async e=>{
+  const file=e.target.files[0];e.target.value='';
+  if(!file)return;
+  try{
+    const loaded=await loadImage(file);
+    const info={
+      '文件名称':file.name,
+      '文件大小':(file.size/1024).toFixed(1)+' KB',
+      '文件类型':file.type||'未知',
+      '图片宽度':loaded.img.naturalWidth+' px',
+      '图片高度':loaded.img.naturalHeight+' px',
+      '最后修改':file.lastModified?new Date(file.lastModified).toLocaleString():'未知'
+    };
+    let exif={};
+    if(file.type==='image/jpeg'){
+      exif=decodeExif(await file.arrayBuffer());
+    }
+    $('exifInfo').innerHTML='<div class="info-grid">'+
+      Object.entries(info).map(([k,v])=>`<div class="info-item"><small>${k}</small><strong>${escapeHTML(v)}</strong></div>`).join('')+
+      '</div><h3 style="font-size:13px;margin-top:20px">EXIF 元数据</h3>'+
+      (Object.keys(exif).length
+        ?'<div class="info-grid">'+Object.entries(exif).map(([k,v])=>`<div class="info-item"><small>${escapeHTML(k)}</small><strong>${escapeHTML(v)}</strong></div>`).join('')+'</div>'
+        :'<p class="hint">没有读取到可识别的 EXIF 信息。可能是图片格式不支持，或元数据已被清除。</p>');
+    $('exifRaw').classList.add('hidden');
+  }catch(err){alert(err.message);}
+};
+
+/* 图片对比 */
+$('compareChooseA').onclick=()=>$('compareFileA').click();
+$('compareChooseB').onclick=()=>$('compareFileB').click();
+
+$('compareFileA').onchange=async e=>{
+  const f=e.target.files[0];e.target.value='';if(!f)return;
+  try{
+    compareA=await loadImage(f);
+    $('compareNameA').textContent=f.name;
+    updateCompare();
+  }catch(err){alert(err.message);}
+};
+$('compareFileB').onchange=async e=>{
+  const f=e.target.files[0];e.target.value='';if(!f)return;
+  try{
+    compareB=await loadImage(f);
+    $('compareNameB').textContent=f.name;
+    updateCompare();
+  }catch(err){alert(err.message);}
+};
+
+function updateCompare(){
+  if(!compareA||!compareB)return;
+  $('compareImgA').src=compareA.url;
+  $('compareImgB').src=compareB.url;
+  $('sideImgA').src=compareA.url;
+  $('sideImgB').src=compareB.url;
+  $('sliderCompare').classList.toggle('hidden',$('compareMode').value!=='slider');
+  $('sideCompare').classList.toggle('hidden',$('compareMode').value!=='side');
+  updateSlider();
+}
+function updateSlider(){
+  const value=$('compareRange').value;
+  $('compareTop').style.width=value+'%';
+  $('compareTop').querySelector('img').style.width=$('compareStage').clientWidth+'px';
+}
+$('compareMode').onchange=updateCompare;
+$('compareRange').oninput=updateSlider;
+window.addEventListener('resize',updateSlider);
+
+/* GIF 制作 */
+$('gifChoose').onclick=()=>$('gifFiles').click();
+
+$('gifFiles').onchange=e=>{
+  const selected=[...e.target.files];e.target.value='';
+  let rejected=0;
+  for(const file of selected){
+    if(gifFrames.length>=50){rejected++;continue;}
+    if(!validImage(file,15*1024*1024)){rejected++;continue;}
+    gifFrames.push({file,url:objectURL(file)});
+  }
+  renderGifList();
+  if(rejected)alert(`有 ${rejected} 张图片未添加，可能格式不支持、文件过大或超过数量限制。`);
+};
+
+function renderGifList(){
+  $('gifList').innerHTML=gifFrames.map((item,i)=>`
+    <div class="gif-item">
+      <img src="${item.url}" alt="">
+      <small>第 ${i+1} 帧 · ${escapeHTML(item.file.name)}</small>
+      <button data-gif-remove="${i}">移除</button>
+    </div>
+  `).join('');
+  $('gifStatus').textContent=gifFrames.length?`已添加 ${gifFrames.length} 帧。`:'尚未添加动画帧。';
+}
+$('gifList').addEventListener('click',e=>{
+  const btn=e.target.closest('[data-gif-remove]');
+  if(!btn)return;
+  gifFrames.splice(Number(btn.dataset.gifRemove),1);
+  renderGifList();
+});
+$('gifClear').onclick=()=>{
+  gifFrames=[];
+  renderGifList();
+  $('gifResult').classList.add('hidden');
+  $('gifDownload').classList.add('hidden');
+};
+
+$('gifCreate').onclick=async()=>{
+  if(!gifFrames.length){alert('请先添加 GIF 帧图片。');return;}
+  if(!window.GIF){alert('GIF 编码库加载失败，请检查网络后刷新页面。');return;}
+  const delay=Number($('gifDelay').value);
+  const width=Number($('gifWidth').value);
+  if(delay<50||delay>5000||width<100||width>1200){
+    alert('请检查帧间隔和输出宽度设置。');return;
+  }
+
+  $('gifCreate').disabled=true;
+  $('gifProgress').classList.remove('hidden');
+  $('gifProgressBar').style.width='0%';
+  $('gifStatus').textContent='正在读取图片...';
+  $('gifResult').classList.add('hidden');
+  $('gifDownload').classList.add('hidden');
+
+  try{
+    const gif=new GIF({
+      workers:2,
+      quality:10,
+      width,
+      height:Math.round(width*0.75),
+      repeat:Number($('gifRepeat').value)===1?1:Number($('gifRepeat').value)===3?3:0,
+      workerScript:'https://cdnjs.cloudflare.com/ajax/libs/gif.js/0.2.0/gif.worker.js'
+    });
+
+    for(let i=0;i<gifFrames.length;i++){
+      const bitmap=await createImageBitmap(gifFrames[i].file);
+      const height=Math.max(1,Math.round(width*bitmap.height/bitmap.width));
+      const canvas=document.createElement('canvas');
+      canvas.width=width;canvas.height=height;
+      const ctx=canvas.getContext('2d');
+      ctx.drawImage(bitmap,0,0,width,height);
+      bitmap.close?.();
+      gif.addFrame(canvas,{delay,copy:true});
+      $('gifStatus').textContent=`已准备 ${i+1}/${gifFrames.length} 帧`;
+    }
+
+    gif.on('progress',p=>{
+      $('gifProgressBar').style.width=Math.round(p*100)+'%';
+      $('gifStatus').textContent=`正在编码 GIF：${Math.round(p*100)}%`;
+    });
+
+    gif.on('finished',blob=>{
+      if(gifBlobUrl)URL.revokeObjectURL(gifBlobUrl);
+      gifBlobUrl=URL.createObjectURL(blob);
+      $('gifResultImage').src=gifBlobUrl;
+      $('gifResult').classList.remove('hidden');
+      $('gifDownload').classList.remove('hidden');
+      $('gifStatus').textContent=`生成完成 · ${(blob.size/1024/1024).toFixed(2)} MB`;
+      $('gifProgressBar').style.width='100%';
+      $('gifCreate').disabled=false;
+    });
+
+    gif.on('abort',()=>{
+      $('gifStatus').textContent='GIF 编码已取消';
+      $('gifCreate').disabled=false;
+    });
+
+    gif.render();
+  }catch(err){
+    $('gifStatus').textContent='生成失败：'+err.message;
+    $('gifCreate').disabled=false;
+  }
+};
+
+$('gifDownload').onclick=()=>{
+  if(!gifBlobUrl)return;
+  const a=document.createElement('a');
+  a.href=gifBlobUrl;
+  a.download='animated-image-'+Date.now()+'.gif';
+  document.body.appendChild(a);a.click();a.remove();
+};
+
+window.addEventListener('beforeunload',()=>{
+  urls.forEach(url=>URL.revokeObjectURL(url));
+  if(gifBlobUrl)URL.revokeObjectURL(gifBlobUrl);
+});
+})();
+</script>
+</body>
+</html>
