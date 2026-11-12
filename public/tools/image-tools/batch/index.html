@@ -415,31 +415,32 @@ function addFiles(fileList){
     // 仅在读取尺寸时短暂解码，不长期保留 Image 对象
     const image=new Image();
 
-    image.onload=()=>{
-      if(!files.includes(item)){
-        image.src='';
-        return;
-      }
+   image.onload=()=>{
+  image.onload=null;
+  image.onerror=null;
 
-      const width=image.naturalWidth;
-      const height=image.naturalHeight;
+  if(!files.includes(item)){
+    return;
+  }
 
-      image.src='';
+  const width=image.naturalWidth;
+  const height=image.naturalHeight;
 
-      if(!width||!height||width*height>MAX_PIXELS){
-        item.readError=true;
-        item.error='图片尺寸超过 3000 万像素或无法读取';
-        if(item.previewUrl){
-          URL.revokeObjectURL(item.previewUrl);
-          item.previewUrl='';
-        }
-      }else{
-        item.width=width;
-        item.height=height;
-      }
+  if(!width||!height||width*height>MAX_PIXELS){
+    item.readError=true;
+    item.error='图片尺寸超过 3000 万像素或无法读取';
 
-      renderList();
-    };
+    if(item.previewUrl){
+      URL.revokeObjectURL(item.previewUrl);
+      item.previewUrl='';
+    }
+  }else{
+    item.width=width;
+    item.height=height;
+  }
+
+  renderList();
+};
 
     image.onerror=()=>{
       if(!files.includes(item))return;
