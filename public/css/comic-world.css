@@ -1513,44 +1513,87 @@ body:has(.tool-overview) .back {
 }
 
 /* =========================================
-   HOME · COMIC STORYBOARD REDESIGN
-   首页漫画分镜与拼贴布局
+   HOME · COMIC MAGAZINE LAYOUT
+   原创漫画杂志式首页
 ========================================= */
 
-/* 首页整体节奏 */
+body:has(.hero-wrap) {
+  --home-ink: #25242a;
+  --home-paper: #fffdf6;
+  --home-yellow: #ffd65a;
+  --home-red: #ed6757;
+  --home-blue: #8fc6d2;
+  --home-lilac: #b9addd;
+  --home-border: 3px solid var(--home-ink);
+  --home-shadow: 6px 6px 0 var(--home-ink);
+}
+
 body:has(.hero-wrap) main {
   position: relative;
   isolation: isolate;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 24px 50px;
 }
 
-body:has(.hero-wrap) main > .section {
-  position: relative;
-  margin-top: 54px;
-  margin-bottom: 58px;
-  padding: 26px 22px;
-}
+/* 主视觉：漫画封面 */
 
-body:has(.hero-wrap) main > .section::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-  background: rgba(255, 253, 246, .58);
-  border: 2px dashed rgba(37, 36, 42, .24);
-  transform: rotate(-.25deg);
-}
-
-/* 主视觉：漫画封面升级 */
 body:has(.hero-wrap) .hero-wrap {
-  padding-top: 30px;
-  padding-bottom: 42px;
+  max-width: 1320px;
+  padding: 38px 24px 55px;
+  margin: 0 auto;
 }
 
 body:has(.hero-wrap) .hero-wrap .hero {
-  padding: clamp(28px, 5vw, 58px) !important;
+  position: relative;
+  isolation: isolate;
+  overflow: visible !important;
+  min-height: 410px;
+  padding: clamp(30px, 5vw, 65px) !important;
   background:
-    radial-gradient(circle, rgba(37,36,42,.15) 1px, transparent 1.5px) 0 0 / 13px 13px,
-    linear-gradient(125deg, #fff0c5 0%, #fff7df 58%, #f7e4d9 100%) !important;
+    radial-gradient(circle, rgba(37,36,42,.16) 1px, transparent 1.5px) 0 0 / 13px 13px,
+    linear-gradient(125deg, #fff0c5 0%, #fff8e5 55%, #f5dfd5 100%) !important;
+  border: 4px solid var(--home-ink) !important;
+  border-radius: 5px !important;
+  box-shadow: 10px 10px 0 var(--home-ink) !important;
+}
+
+body:has(.hero-wrap) .hero-wrap .hero::before {
+  content: "WELCOME!";
+  position: absolute;
+  top: -19px;
+  left: 34px;
+  z-index: 5;
+  padding: 8px 15px;
+  color: var(--home-ink);
+  background: var(--home-yellow);
+  border: 3px solid var(--home-ink);
+  box-shadow: 3px 3px 0 var(--home-ink);
+  font-size: 12px;
+  font-weight: 1000;
+  letter-spacing: 2px;
+  transform: rotate(-4deg);
+}
+
+body:has(.hero-wrap) .hero-copy {
+  position: relative;
+  z-index: 2;
+}
+
+body:has(.hero-wrap) .hero-label {
+  display: inline-block;
+  padding: 7px 12px;
+  background: var(--home-red);
+  color: white !important;
+  border: 2px solid var(--home-ink);
+  box-shadow: 3px 3px 0 var(--home-ink);
+  font-weight: 900;
+  transform: rotate(-2deg);
+}
+
+body:has(.hero-wrap) .hero-copy h1 {
+  line-height: 1.22;
+  letter-spacing: -1.5px;
 }
 
 body:has(.hero-wrap) .hero-copy h1 span {
@@ -1560,106 +1603,181 @@ body:has(.hero-wrap) .hero-copy h1 span {
 body:has(.hero-wrap) .hero-copy h1 span:last-child {
   position: relative;
   z-index: 1;
-  padding: 0 5px 5px 0;
-  background: linear-gradient(transparent 72%, #f5c85e 72%);
+  background: linear-gradient(transparent 70%, var(--home-yellow) 70%);
 }
 
 body:has(.hero-wrap) .hero-description {
-  max-width: 500px;
-  padding-left: 13px;
-  border-left: 4px solid var(--comic-red);
+  max-width: 510px;
+  padding-left: 14px;
+  border-left: 4px solid var(--home-red);
+  line-height: 1.9;
+  font-weight: 650;
+}
+
+body:has(.hero-wrap) .hero-actions a {
+  border: 2.5px solid var(--home-ink) !important;
+  box-shadow: 4px 4px 0 var(--home-ink) !important;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+body:has(.hero-wrap) .hero-actions a:hover {
+  transform: translate(-2px, -2px) rotate(-1deg);
+  box-shadow: 6px 6px 0 var(--home-ink) !important;
 }
 
 body:has(.hero-wrap) .hero-scene {
+  position: relative;
   transform: rotate(1deg);
 }
 
 body:has(.hero-wrap) .mascot-card {
-  max-width: 340px;
-  margin: 0 auto;
-  transform: rotate(2deg) scale(.94);
+  border: 3px solid var(--home-ink);
+  box-shadow: 7px 7px 0 var(--home-ink);
+  transform: rotate(2deg);
 }
 
 body:has(.hero-wrap) .speech-bubble {
+  border: 3px solid var(--home-ink);
+  box-shadow: 4px 4px 0 var(--home-ink);
   transform: rotate(-4deg);
 }
 
 body:has(.hero-wrap) .scene-caption {
-  box-shadow: 3px 3px 0 var(--comic-ink);
+  border: 2px solid var(--home-ink);
+  box-shadow: 3px 3px 0 var(--home-ink);
+  transform: rotate(1deg);
 }
 
-/* 分区标题：像漫画章节标题 */
+body:has(.hero-wrap) .scene-sticker {
+  filter: drop-shadow(2px 2px 0 var(--home-ink));
+}
+
+/* 首页分区：章节纸张 */
+
+body:has(.hero-wrap) main > .section {
+  position: relative;
+  margin: 55px 0;
+  padding: clamp(20px, 3vw, 36px);
+  background: rgba(255,253,246,.76);
+  border: 2px dashed rgba(37,36,42,.32);
+}
+
 body:has(.hero-wrap) .section-heading {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 18px;
-  padding-bottom: 16px;
-  border-bottom: 3px solid var(--comic-ink);
+  gap: 20px;
+  margin-bottom: 25px;
+  padding-bottom: 17px;
+  border-bottom: 3px solid var(--home-ink);
 }
 
 body:has(.hero-wrap) .heading-left {
   align-items: center;
 }
 
+body:has(.hero-wrap) .heading-icon {
+  display: grid;
+  place-items: center;
+  width: 43px;
+  height: 43px;
+  flex: 0 0 43px;
+  background: var(--home-yellow);
+  border: 2.5px solid var(--home-ink);
+  box-shadow: 3px 3px 0 var(--home-ink);
+  transform: rotate(-7deg);
+}
+
+body:has(.hero-wrap) .heading-kicker {
+  font-weight: 950;
+  letter-spacing: 2px;
+}
+
 body:has(.hero-wrap) .section-heading h2 {
-  position: relative;
   display: inline-block;
-  font-size: clamp(25px, 3.5vw, 34px);
-  line-height: 1.25;
+  margin: 4px 0 0;
+  font-size: clamp(24px, 3vw, 34px);
+  font-weight: 1000;
+  line-height: 1.3;
 }
 
 body:has(.hero-wrap) .section-heading p {
-  max-width: 310px;
+  max-width: 320px;
   font-weight: 700;
 }
 
-/* 四个主要区域：不规则漫画纸片 */
+/* 四个区域：错落的漫画分镜 */
+
 body:has(.hero-wrap) .world-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 25px !important;
-  padding: 10px 5px 15px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px !important;
+  padding: 12px 5px 18px;
 }
 
 body:has(.hero-wrap) .world-card {
-  min-height: 205px;
-  padding: 25px !important;
-  border-width: 3px !important;
-  box-shadow: 6px 6px 0 var(--comic-ink) !important;
+  position: relative;
+  min-height: 225px;
+  padding: 22px !important;
+  overflow: hidden;
+  background: var(--home-paper) !important;
+  border: var(--home-border) !important;
+  border-radius: 4px !important;
+  box-shadow: var(--home-shadow) !important;
+  transition: transform .18s ease, box-shadow .18s ease;
 }
 
 body:has(.hero-wrap) .world-card:nth-child(1) {
-  transform: rotate(-1deg) translateY(3px);
+  transform: rotate(-1.2deg) translateY(5px);
 }
 
 body:has(.hero-wrap) .world-card:nth-child(2) {
-  transform: rotate(1.1deg) translateY(13px);
+  background: #f1efff !important;
+  transform: rotate(1deg) translateY(-5px);
 }
 
 body:has(.hero-wrap) .world-card:nth-child(3) {
-  transform: rotate(.8deg) translateY(-3px);
+  background: #edf6fa !important;
+  transform: rotate(-.7deg) translateY(8px);
 }
 
 body:has(.hero-wrap) .world-card:nth-child(4) {
-  transform: rotate(-.9deg) translateY(8px);
+  background: #fff0f1 !important;
+  transform: rotate(1.1deg) translateY(-2px);
 }
 
 body:has(.hero-wrap) .world-card::after {
   content: "✦";
   position: absolute;
-  top: 12px;
-  right: 16px;
-  font-size: 25px;
-  color: var(--comic-ink);
-  opacity: .55;
-  transform: rotate(12deg);
+  top: 10px;
+  right: 13px;
+  font-size: 29px;
+  color: var(--home-ink);
+  opacity: .48;
+  transform: rotate(13deg);
   pointer-events: none;
 }
 
+body:has(.hero-wrap) .world-card:hover {
+  z-index: 3;
+  transform: translateY(-8px) rotate(0) !important;
+  box-shadow: 10px 10px 0 var(--home-ink) !important;
+}
+
+body:has(.hero-wrap) .world-icon {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  background: var(--home-yellow);
+  border: 2.5px solid var(--home-ink);
+  box-shadow: 3px 3px 0 var(--home-ink);
+  transform: rotate(-5deg);
+}
+
 body:has(.hero-wrap) .world-card h3 {
-  margin-top: 18px;
-  font-size: 23px;
+  margin-top: 22px;
+  font-size: 21px;
   font-weight: 1000;
 }
 
@@ -1668,82 +1786,81 @@ body:has(.hero-wrap) .world-card p {
   font-weight: 650;
 }
 
-body:has(.hero-wrap) .world-card:hover {
-  transform: translateY(-5px) rotate(0) !important;
+body:has(.hero-wrap) .world-enter {
+  display: inline-block;
+  margin-top: 8px;
+  font-weight: 950;
 }
 
-/* 工具区：漫画工作台 */
+/* 工具工作台：整页视觉中心 */
+
 body:has(.hero-wrap) .tool-zone {
-  margin-top: 55px;
-  margin-bottom: 55px;
-  padding: clamp(20px, 4vw, 38px) !important;
+  position: relative;
+  margin: 65px 0;
+  padding: clamp(22px, 4vw, 42px) !important;
   background:
-    radial-gradient(circle, rgba(37,36,42,.12) 1px, transparent 1.5px) 0 0 / 12px 12px,
-    #e4efeb !important;
+    radial-gradient(circle, rgba(37,36,42,.14) 1px, transparent 1.5px) 0 0 / 12px 12px,
+    #e6f0eb !important;
+  border: 4px solid var(--home-ink) !important;
+  border-radius: 4px !important;
+  box-shadow: 9px 9px 0 var(--home-ink) !important;
+}
+
+body:has(.hero-wrap) .tool-zone::before {
+  content: "TOOL STATION";
+  position: absolute;
+  top: -17px;
+  right: 28px;
+  padding: 7px 13px;
+  background: var(--home-red);
+  color: white;
+  border: 2.5px solid var(--home-ink);
+  box-shadow: 3px 3px 0 var(--home-ink);
+  font-size: 11px;
+  font-weight: 1000;
+  letter-spacing: 2px;
+  transform: rotate(3deg);
 }
 
 body:has(.hero-wrap) .tool-zone-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
   padding-bottom: 20px;
-  border-bottom: 2px dashed var(--comic-ink);
+  border-bottom: 3px dashed var(--home-ink);
 }
 
-body:has(.hero-wrap) .tool-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 19px !important;
-  padding: 12px 4px;
-}
-
-body:has(.hero-wrap) .tool-card {
-  min-height: 190px;
-  padding: 22px !important;
-  background: #fffdf6 !important;
-  border-width: 3px !important;
-  box-shadow: 5px 5px 0 var(--comic-ink) !important;
-}
-
-body:has(.hero-wrap) .tool-card:nth-child(4n + 1) {
-  transform: rotate(-.8deg);
-}
-
-body:has(.hero-wrap) .tool-card:nth-child(4n + 2) {
-  transform: rotate(.7deg) translateY(8px);
-}
-
-body:has(.hero-wrap) .tool-card:nth-child(4n + 3) {
-  transform: rotate(.6deg) translateY(-3px);
-}
-
-body:has(.hero-wrap) .tool-card:nth-child(4n) {
-  transform: rotate(-.7deg) translateY(7px);
-}
-
-body:has(.hero-wrap) .tool-card:hover {
-  z-index: 3;
-  transform: translateY(-5px) rotate(0) !important;
-  box-shadow: 9px 9px 0 var(--comic-ink) !important;
-}
-
-body:has(.hero-wrap) .tool-card h3 {
-  font-size: 20px;
+body:has(.hero-wrap) .tool-zone-heading h2 {
+  margin: 5px 0;
+  font-size: clamp(26px, 3vw, 36px);
   font-weight: 1000;
 }
 
-body:has(.hero-wrap) .tool-card p {
-  line-height: 1.75;
+body:has(.hero-wrap) .tool-zone-heading p {
+  font-weight: 700;
 }
 
-body:has(.hero-wrap) .tool-symbol {
-  width: 47px;
-  height: 47px;
-  font-size: 23px;
-  transform: rotate(-5deg);
+body:has(.hero-wrap) .all-tools {
+  display: inline-block;
+  padding: 10px 14px;
+  background: var(--home-yellow);
+  border: 2.5px solid var(--home-ink);
+  box-shadow: 3px 3px 0 var(--home-ink);
+  font-weight: 950;
+  white-space: nowrap;
 }
 
-/* 搜索和筛选：像漫画分类标签 */
 body:has(.hero-wrap) .tool-controls {
-  gap: 14px;
-  margin: 22px 0;
+  gap: 13px;
+  margin: 24px 0;
+}
+
+body:has(.hero-wrap) .tool-search {
+  border: 2.5px solid var(--home-ink) !important;
+  border-radius: 3px !important;
+  box-shadow: 3px 3px 0 var(--home-ink) !important;
+  background: var(--home-paper) !important;
 }
 
 body:has(.hero-wrap) .filter-list {
@@ -1752,41 +1869,130 @@ body:has(.hero-wrap) .filter-list {
 
 body:has(.hero-wrap) .filter-button {
   padding: 9px 15px;
-  transition: .16s ease;
+  border: 2px solid var(--home-ink) !important;
+  box-shadow: 2px 2px 0 var(--home-ink);
+  font-weight: 900;
+  transition: transform .16s ease, box-shadow .16s ease;
 }
 
 body:has(.hero-wrap) .filter-button:hover {
   transform: translateY(-2px) rotate(-1deg);
-  box-shadow: 4px 4px 0 var(--comic-ink);
+  box-shadow: 4px 4px 0 var(--home-ink);
 }
 
 body:has(.hero-wrap) .filter-button.active {
+  background: var(--home-yellow) !important;
+  color: var(--home-ink) !important;
   transform: rotate(-2deg);
 }
 
-/* 每日发现：两张不同颜色的便签 */
+body:has(.hero-wrap) .tool-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 19px !important;
+  padding: 12px 4px 18px;
+}
+
+body:has(.hero-wrap) .tool-card {
+  position: relative;
+  min-height: 205px;
+  padding: 22px !important;
+  background: var(--home-paper) !important;
+  border: var(--home-border) !important;
+  border-radius: 4px !important;
+  box-shadow: 5px 5px 0 var(--home-ink) !important;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+body:has(.hero-wrap) .tool-card:nth-child(4n + 1) {
+  transform: rotate(-.8deg);
+}
+
+body:has(.hero-wrap) .tool-card:nth-child(4n + 2) {
+  transform: rotate(.7deg) translateY(7px);
+}
+
+body:has(.hero-wrap) .tool-card:nth-child(4n + 3) {
+  transform: rotate(.6deg) translateY(-4px);
+}
+
+body:has(.hero-wrap) .tool-card:nth-child(4n) {
+  transform: rotate(-.7deg) translateY(5px);
+}
+
+body:has(.hero-wrap) .tool-card:hover {
+  z-index: 3;
+  transform: translateY(-7px) rotate(0) !important;
+  box-shadow: 9px 9px 0 var(--home-ink) !important;
+}
+
+body:has(.hero-wrap) .tool-symbol {
+  display: grid;
+  place-items: center;
+  width: 49px;
+  height: 49px;
+  border: 2.5px solid var(--home-ink);
+  box-shadow: 3px 3px 0 var(--home-ink);
+  transform: rotate(-5deg);
+}
+
+body:has(.hero-wrap) .tool-card h3 {
+  margin-top: 17px;
+  font-size: 19px;
+  font-weight: 1000;
+}
+
+body:has(.hero-wrap) .tool-card p {
+  line-height: 1.8;
+  font-weight: 650;
+}
+
+body:has(.hero-wrap) .tool-open {
+  display: inline-block;
+  margin-top: 8px;
+  font-weight: 950;
+}
+
+/* 发现区：便签与记录 */
+
 body:has(.hero-wrap) .discovery-grid {
+  display: grid;
+  grid-template-columns: 1.15fr .85fr;
   gap: 24px !important;
-  padding: 8px 4px 14px;
+  padding: 10px 5px 18px;
 }
 
 body:has(.hero-wrap) .discovery-card,
 body:has(.hero-wrap) .recent-card {
-  min-height: 220px;
-  padding: 26px !important;
-  border-width: 3px !important;
+  min-height: 225px;
+  padding: 27px !important;
+  border: var(--home-border) !important;
+  border-radius: 4px !important;
+  box-shadow: var(--home-shadow) !important;
 }
 
 body:has(.hero-wrap) .discovery-card {
+  background: #fff0c9 !important;
   transform: rotate(-.8deg);
 }
 
 body:has(.hero-wrap) .recent-card {
+  background: #f0edff !important;
   transform: rotate(.7deg);
+}
+
+body:has(.hero-wrap) .mini-label {
+  display: inline-block;
+  padding: 6px 9px;
+  background: var(--home-yellow);
+  border: 2px solid var(--home-ink);
+  font-weight: 950;
+  letter-spacing: 1px;
 }
 
 body:has(.hero-wrap) .discovery-card h3,
 body:has(.hero-wrap) .recent-card h3 {
+  margin-top: 15px;
   font-size: 23px;
   font-weight: 1000;
 }
@@ -1796,77 +2002,88 @@ body:has(.hero-wrap) .recent-item {
   margin: 5px 5px 5px 0;
   padding: 8px 11px;
   background: white;
-  border: 2px solid var(--comic-ink);
-  box-shadow: 2px 2px 0 var(--comic-ink);
-  font-weight: 800;
+  border: 2px solid var(--home-ink);
+  box-shadow: 2px 2px 0 var(--home-ink);
+  font-weight: 850;
 }
 
-/* 博客文章：漫画阅读分格 */
+/* 博客：漫画阅读格 */
+
 body:has(.hero-wrap) .article-grid {
   gap: 20px !important;
-  padding: 8px 4px 15px;
+  padding: 10px 5px 18px;
 }
 
 body:has(.hero-wrap) .article-grid .article-card {
   min-height: 190px;
   padding: 22px !important;
-  border-width: 3px !important;
-  transition: .18s ease;
+  background: var(--home-paper) !important;
+  border: var(--home-border) !important;
+  border-radius: 4px !important;
+  box-shadow: 5px 5px 0 var(--home-ink) !important;
+  transition: transform .18s ease, box-shadow .18s ease;
 }
 
 body:has(.hero-wrap) .article-grid .article-card:hover {
   z-index: 2;
-  transform: translateY(-5px) rotate(0) !important;
-  box-shadow: 8px 8px 0 var(--comic-ink) !important;
+  transform: translateY(-6px) rotate(0) !important;
+  box-shadow: 9px 9px 0 var(--home-ink) !important;
 }
 
 body:has(.hero-wrap) .article-category {
   display: inline-block;
   padding: 5px 9px;
-  background: var(--comic-yellow);
-  border: 2px solid var(--comic-ink);
-  font-weight: 900;
+  background: var(--home-yellow);
+  border: 2px solid var(--home-ink);
+  font-weight: 950;
 }
 
 body:has(.hero-wrap) .article-card h3 {
-  font-size: 20px;
+  font-size: 19px;
   font-weight: 1000;
+  line-height: 1.6;
 }
 
-/* 大河墙入口：像漫画最后一格 */
+/* 社区入口：最后一格 */
+
 body:has(.hero-wrap) .community-panel {
+  position: relative;
   padding: clamp(25px, 4vw, 42px) !important;
   background:
-    radial-gradient(circle, rgba(37,36,42,.12) 1px, transparent 1.5px) 0 0 / 11px 11px,
-    #f0eafa !important;
+    radial-gradient(circle, rgba(37,36,42,.13) 1px, transparent 1.5px) 0 0 / 12px 12px,
+    #eee9fa !important;
+  border: 4px solid var(--home-ink) !important;
+  box-shadow: 8px 8px 0 var(--home-ink) !important;
   transform: rotate(-.3deg);
 }
 
 body:has(.hero-wrap) .community-panel h2 {
-  font-size: clamp(25px, 4vw, 35px);
+  font-size: clamp(24px, 3.5vw, 34px);
   font-weight: 1000;
 }
 
 body:has(.hero-wrap) .community-actions {
-  gap: 13px;
+  gap: 12px;
+}
+
+body:has(.hero-wrap) .community-actions a {
+  border: 2.5px solid var(--home-ink) !important;
+  box-shadow: 3px 3px 0 var(--home-ink) !important;
+  font-weight: 900;
 }
 
 body:has(.hero-wrap) .community-actions a:hover {
   transform: translateY(-3px) rotate(-1deg);
 }
 
-/* 装饰细节：手绘感 */
 body:has(.hero-wrap) .section-more {
   display: inline-block;
-  padding: 8px 12px;
-  background: var(--comic-yellow);
-  border: 2px solid var(--comic-ink);
-  box-shadow: 3px 3px 0 var(--comic-ink);
+  padding: 9px 13px;
+  background: var(--home-yellow);
+  border: 2px solid var(--home-ink);
+  box-shadow: 3px 3px 0 var(--home-ink);
+  font-weight: 950;
   transform: rotate(-1deg);
-}
-
-body:has(.hero-wrap) .section-more:hover {
-  transform: translateY(-2px) rotate(0);
 }
 
 body:has(.hero-wrap) .notice {
@@ -1874,17 +2091,52 @@ body:has(.hero-wrap) .notice {
   margin: 15px auto 25px;
 }
 
-/* 手机端：改为自然阅读顺序 */
+/* 平板：保留拼贴感，调整列数 */
+
+@media (max-width: 1000px) {
+  body:has(.hero-wrap) .world-grid,
+  body:has(.hero-wrap) .tool-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  body:has(.hero-wrap) .world-card {
+    min-height: 195px;
+  }
+
+  body:has(.hero-wrap) .tool-card {
+    min-height: 185px;
+  }
+}
+
+/* 手机：阅读顺序优先 */
+
 @media (max-width: 700px) {
+  body:has(.hero-wrap) main {
+    padding: 0 12px 35px;
+  }
+
+  body:has(.hero-wrap) .hero-wrap {
+    padding: 27px 14px 40px;
+  }
+
+  body:has(.hero-wrap) .hero-wrap .hero {
+    min-height: auto;
+    padding: 30px 22px !important;
+  }
+
+  body:has(.hero-wrap) .hero-wrap .hero::before {
+    left: 18px;
+  }
+
   body:has(.hero-wrap) main > .section {
-    margin-top: 35px;
-    margin-bottom: 40px;
-    padding: 18px 12px;
+    margin: 38px 0;
+    padding: 18px 13px;
   }
 
   body:has(.hero-wrap) .section-heading {
     align-items: flex-start;
     flex-direction: column;
+    gap: 10px;
   }
 
   body:has(.hero-wrap) .section-heading p {
@@ -1892,12 +2144,12 @@ body:has(.hero-wrap) .notice {
   }
 
   body:has(.hero-wrap) .world-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 15px !important;
-    padding: 8px 3px;
   }
 
   body:has(.hero-wrap) .world-card {
-    min-height: 185px;
+    min-height: 190px;
     padding: 17px !important;
   }
 
@@ -1905,12 +2157,23 @@ body:has(.hero-wrap) .notice {
     transform: rotate(0);
   }
 
+  body:has(.hero-wrap) .tool-zone {
+    margin: 45px 0;
+    padding: 22px 16px !important;
+  }
+
+  body:has(.hero-wrap) .tool-zone-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
   body:has(.hero-wrap) .tool-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 14px !important;
   }
 
   body:has(.hero-wrap) .tool-card {
-    min-height: 175px;
+    min-height: 180px;
     padding: 17px !important;
   }
 
@@ -1920,6 +2183,7 @@ body:has(.hero-wrap) .notice {
 
   body:has(.hero-wrap) .discovery-grid {
     grid-template-columns: 1fr;
+    gap: 17px !important;
   }
 
   body:has(.hero-wrap) .discovery-card,
@@ -1933,6 +2197,8 @@ body:has(.hero-wrap) .notice {
   }
 
   body:has(.hero-wrap) .community-panel {
+    align-items: flex-start;
+    flex-direction: column;
     transform: none;
   }
 }
@@ -1948,7 +2214,7 @@ body:has(.hero-wrap) .notice {
   }
 
   body:has(.hero-wrap) .tool-card {
-    min-height: 150px;
+    min-height: 155px;
   }
 
   body:has(.hero-wrap) .hero-wrap .hero {
@@ -1956,15 +2222,21 @@ body:has(.hero-wrap) .notice {
   }
 
   body:has(.hero-wrap) .hero-copy h1 {
-    font-size: 36px !important;
+    font-size: 34px !important;
+  }
+
+  body:has(.hero-wrap) .tool-zone::before {
+    right: 14px;
   }
 }
 
-/* 减少动态效果偏好 */
+/* 尊重系统减少动态效果设置 */
+
 @media (prefers-reduced-motion: reduce) {
   body:has(.hero-wrap) .world-card,
   body:has(.hero-wrap) .tool-card,
-  body:has(.hero-wrap) .article-card {
+  body:has(.hero-wrap) .article-card,
+  body:has(.hero-wrap) .hero-actions a {
     transition: none !important;
   }
 }
