@@ -142,11 +142,18 @@ button:disabled{opacity:.4;cursor:not-allowed}
   min-width:0;
 }
 .image-item img{
-  width:65px;height:65px;object-fit:cover;border-radius:8px;
-  background:#f4eae6;flex-shrink:0;
+  width:65px;
+  height:65px;
+  object-fit:cover;
+  border-radius:8px;
+  background:#f4eae6;
+  flex-shrink:0;
 }
 .image-name{
-  min-width:0;flex:1;font-size:12px;overflow-wrap:anywhere;
+  min-width:0;
+  flex:1;
+  font-size:12px;
+  overflow-wrap:anywhere;
 }
 .image-actions{display:flex;gap:5px;flex-shrink:0}
 .preview-wrap{
@@ -342,16 +349,23 @@ function resetResult(){
   canvas.height = 0;
 }
 
+function releaseImage(item){
+  if(item && item.previewUrl){
+    URL.revokeObjectURL(item.previewUrl);
+    item.previewUrl = null;
+  }
+}
+
 function readImage(file){
   return new Promise((resolve,reject)=>{
     const url = URL.createObjectURL(file);
     const image = new Image();
 
     image.onload = ()=>{
-      URL.revokeObjectURL(url);
       resolve({
         file,
         image,
+        previewUrl:url,
         width:image.naturalWidth,
         height:image.naturalHeight
       });
@@ -414,7 +428,7 @@ function renderList(){
     row.className = "image-item";
 
     const thumb = document.createElement("img");
-    thumb.src = item.image.src;
+    thumb.src = item.previewUrl;
     thumb.alt = "图片预览";
 
     const name = document.createElement("div");
@@ -452,7 +466,8 @@ function renderList(){
     remove.className = "small";
     remove.textContent = "删除";
     remove.onclick = ()=>{
-      images.splice(index,1);
+      const removed = images.splice(index,1)[0];
+      releaseImage(removed);
       renderList();
       resetResult();
       setStatus("当前剩余 "+images.length+" 张图片。");
@@ -584,6 +599,7 @@ downloadButton.onclick = ()=>{
 };
 
 document.getElementById("clearButton").onclick = ()=>{
+  images.forEach(releaseImage);
   images = [];
   imageList.innerHTML = "";
   fileInput.value = "";
@@ -593,3 +609,4 @@ document.getElementById("clearButton").onclick = ()=>{
 </script>
 </body>
 </html>
+
