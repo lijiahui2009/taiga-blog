@@ -4,26 +4,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#fff8f8">
-<meta name="description" content="荷萌 HEMENG，一个持续建设中的个人互联网空间。">
+<meta name="theme-color" content="#fff8f5">
+<meta name="description" content="荷萌 HEMENG，一个可以探索工具、记录想法与分享内容的互联网空间。">
 <title>荷萌 HEMENG</title>
 <link rel="icon" href="/images/hemeng-logo.svg" type="image/svg+xml">
 
 <style>
 :root{
-  --bg:#fff9f8;
-  --paper:#fffefe;
-  --pink:#f8dfe5;
-  --pink-deep:#d98fa4;
-  --rose:#b96f86;
-  --purple:#a99bc9;
-  --lavender:#f0ecfa;
-  --cream:#fff1e8;
-  --ink:#51434d;
-  --muted:#9a8993;
-  --line:#f0e4e8;
-  --shadow:0 14px 38px rgba(153,105,125,.09);
-  --radius:20px;
+  --bg:#fff9f5;
+  --paper:#fffefd;
+  --ink:#463b48;
+  --muted:#938594;
+  --rose:#dc8296;
+  --rose-dark:#bd637c;
+  --purple:#9b8bc7;
+  --blue:#83a9c8;
+  --yellow:#f2c979;
+  --line:#f0e3e6;
+  --shadow:0 16px 45px rgba(104,76,99,.10);
+  --radius:22px;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:90px}
@@ -31,266 +30,440 @@ body{
   margin:0;
   color:var(--ink);
   background:
-    radial-gradient(circle at 8% 15%,rgba(248,223,229,.35),transparent 24rem),
-    radial-gradient(circle at 95% 42%,rgba(240,236,250,.55),transparent 28rem),
+    radial-gradient(circle at 8% 8%,rgba(255,218,222,.45),transparent 25rem),
+    radial-gradient(circle at 92% 32%,rgba(222,224,255,.38),transparent 28rem),
     var(--bg);
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;
   -webkit-font-smoothing:antialiased;
 }
 a{color:inherit;text-decoration:none}
-button,select{font:inherit}
+button,input{font:inherit}
 button{cursor:pointer}
+button:focus-visible,a:focus-visible,input:focus-visible{
+  outline:3px solid rgba(220,130,150,.4);
+  outline-offset:3px;
+}
+::selection{background:#f8d6df;color:#68475b}
 
 /* 顶部导航 */
-header{
+.site-header{
   position:sticky;
   top:0;
-  z-index:30;
-  background:rgba(255,249,248,.88);
+  z-index:50;
+  background:rgba(255,250,248,.88);
   backdrop-filter:blur(18px);
-  border-bottom:1px solid rgba(240,228,232,.8);
+  border-bottom:1px solid rgba(240,227,230,.8);
 }
 .header-inner{
-  max-width:1180px;
-  min-height:72px;
+  max-width:1240px;
+  min-height:70px;
   margin:auto;
-  padding:11px 28px;
+  padding:10px 28px;
   display:flex;
   align-items:center;
   justify-content:space-between;
   gap:22px;
 }
-.brand{display:flex;align-items:center;gap:9px;flex-shrink:0}
-.brand-icon{width:30px;height:30px;object-fit:contain}
-.brand-name{font-size:16px;font-weight:750;letter-spacing:1px}
-.brand-en{margin-top:2px;color:var(--muted);font-size:8px;letter-spacing:2.5px}
-.header-right{display:flex;align-items:center;gap:22px}
-nav{display:flex;align-items:center;gap:25px}
-nav a{
-  color:var(--muted);
-  font-size:12px;
-  transition:color .2s;
-  white-space:nowrap;
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-shrink:0;
 }
-nav a:hover,nav a[aria-current="page"]{color:var(--rose)}
+.brand img{width:32px;height:32px;object-fit:contain}
+.brand-name{font-size:16px;font-weight:850;letter-spacing:1px}
+.brand-sub{margin-top:2px;color:#aa98a5;font-size:8px;letter-spacing:2px}
+.header-right{display:flex;align-items:center;gap:20px}
+.main-nav{display:flex;align-items:center;gap:23px}
+.main-nav a{
+  color:#897c8b;
+  font-size:12px;
+  white-space:nowrap;
+  transition:color .2s;
+}
+.main-nav a:hover,.main-nav a[aria-current="page"]{color:var(--rose-dark)}
 #hemengLanguageSelect{
-  max-width:125px;
-  padding:8px 11px;
-  border:1px solid var(--line);
+  max-width:120px;
+  padding:8px 10px;
+  border:1px solid #eedfe5;
   border-radius:20px;
-  outline:none;
   background:#fff;
-  color:var(--rose);
+  color:#8c6579;
   font-size:11px;
-  cursor:pointer;
+  outline:none;
 }
 
-/* 首屏 */
+/* 主视觉 */
+.hero-wrap{max-width:1240px;margin:22px auto 0;padding:0 28px}
 .hero{
   position:relative;
+  min-height:460px;
   overflow:hidden;
-  max-width:1180px;
-  margin:24px auto 0;
-  padding:78px 7% 72px;
-  border:1px solid rgba(240,228,232,.8);
-  border-radius:28px;
+  display:grid;
+  grid-template-columns:1.05fr .95fr;
+  align-items:center;
+  border:2px solid #f0dfe5;
+  border-radius:30px;
   background:
-    radial-gradient(ellipse at 82% 15%,rgba(255,255,255,.9),transparent 30%),
-    radial-gradient(ellipse at 12% 90%,rgba(255,255,255,.7),transparent 30%),
-    linear-gradient(120deg,#fff0f2 0%,#f8eff9 55%,#fff4ed 100%);
+    radial-gradient(circle at 78% 18%,rgba(255,255,255,.9),transparent 17rem),
+    linear-gradient(115deg,#fff0ed 0%,#f9eafa 52%,#eaf3ff 100%);
   box-shadow:var(--shadow);
 }
-.hero::before,.hero::after{
+.hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  opacity:.23;
+  pointer-events:none;
+  background-image:radial-gradient(#b88ea6 1px,transparent 1px);
+  background-size:13px 13px;
+  mask-image:linear-gradient(90deg,transparent 25%,#000 100%);
+}
+.hero-copy{
+  position:relative;
+  z-index:3;
+  padding:58px 0 58px 7%;
+}
+.hero-label{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:7px 12px;
+  border:1px solid rgba(204,143,162,.35);
+  border-radius:20px;
+  background:rgba(255,255,255,.58);
+  color:#b66e85;
+  font-size:10px;
+  font-weight:750;
+  letter-spacing:1.5px;
+}
+.hero-label::before{
+  content:"";
+  width:7px;height:7px;
+  border-radius:50%;
+  background:#e89aaa;
+  box-shadow:0 0 0 4px rgba(232,154,170,.15);
+}
+.hero h1{
+  margin:24px 0 15px;
+  font-size:clamp(38px,5vw,65px);
+  line-height:1.2;
+  letter-spacing:1px;
+  font-weight:900;
+}
+.hero h1 span{
+  display:block;
+  color:#c87991;
+  text-shadow:2px 3px 0 rgba(255,255,255,.8);
+}
+.hero-description{
+  max-width:470px;
+  color:#87798b;
+  font-size:13px;
+  line-height:2.1;
+}
+.hero-actions{display:flex;flex-wrap:wrap;gap:11px;margin-top:25px}
+.action-primary,.action-secondary{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:43px;
+  padding:0 19px;
+  border:1px solid #e7cbd5;
+  border-radius:13px;
+  font-size:12px;
+  font-weight:750;
+  transition:transform .2s,box-shadow .2s;
+}
+.action-primary{
+  color:white;
+  border-color:#cf8198;
+  background:linear-gradient(135deg,#df91a5,#c77b99);
+  box-shadow:0 7px 18px rgba(201,119,149,.22);
+}
+.action-secondary{background:rgba(255,255,255,.7);color:#9b6f85}
+.action-primary:hover,.action-secondary:hover{
+  transform:translateY(-3px);
+  box-shadow:var(--shadow);
+}
+.hero-note{margin-top:24px;color:#ad9aa8;font-size:10px;letter-spacing:1px}
+
+/* 漫画角色场景 */
+.hero-scene{
+  position:relative;
+  min-height:420px;
+  display:grid;
+  place-items:center;
+  z-index:2;
+}
+.scene-orbit{
+  position:absolute;
+  width:min(370px,85%);
+  aspect-ratio:1;
+  border:1px dashed rgba(181,139,176,.42);
+  border-radius:50%;
+  animation:orbit 38s linear infinite;
+}
+.scene-orbit::before,.scene-orbit::after{
   content:"";
   position:absolute;
   border-radius:50%;
-  pointer-events:none;
+  background:#fff;
+  border:2px solid #e8c6d4;
 }
-.hero::before{
-  width:270px;height:270px;
-  right:8%;top:-155px;
-  border:1px solid rgba(185,111,134,.18);
-  box-shadow:0 0 0 24px rgba(255,255,255,.12),0 0 0 48px rgba(255,255,255,.1);
+.scene-orbit::before{width:17px;height:17px;top:18%;left:10%}
+.scene-orbit::after{width:12px;height:12px;right:9%;bottom:20%}
+@keyframes orbit{to{transform:rotate(360deg)}}
+.mascot-card{
+  position:relative;
+  width:min(350px,90%);
+  padding:15px;
+  border:2px solid rgba(255,255,255,.95);
+  border-radius:26px;
+  background:rgba(255,255,255,.46);
+  box-shadow:0 18px 40px rgba(113,88,124,.12);
+  transform:rotate(2deg);
 }
-.hero::after{
-  width:160px;height:160px;
-  right:27%;bottom:-115px;
-  background:rgba(255,255,255,.2);
+.mascot-art{
+  display:block;
+  width:100%;
+  height:auto;
+  max-height:290px;
 }
-.hero-inner{position:relative;z-index:1;max-width:720px}
-.hero-kicker{
-  display:flex;align-items:center;gap:10px;
-  color:var(--rose);
-  font-size:10px;font-weight:700;letter-spacing:3px;
-}
-.hero-kicker::before{content:"";width:25px;height:1px;background:var(--pink-deep)}
-.hero h1{
-  margin:22px 0 17px;
-  font-size:clamp(38px,6vw,66px);
+.speech-bubble{
+  position:absolute;
+  z-index:4;
+  top:13%;
+  right:-7%;
+  max-width:145px;
+  padding:12px 15px;
+  border:2px solid #695b70;
+  border-radius:18px 18px 18px 4px;
+  background:#fff;
+  color:#66566c;
+  font-size:11px;
   font-weight:750;
-  line-height:1.25;
-  letter-spacing:1px;
+  line-height:1.6;
+  box-shadow:4px 5px 0 rgba(105,91,112,.12);
+  transform:rotate(5deg);
 }
-.hero h1 span{
-  color:var(--rose);
-  background:linear-gradient(90deg,#c47d97,#9d8fbe);
-  -webkit-background-clip:text;
-  background-clip:text;
-  -webkit-text-fill-color:transparent;
+.speech-bubble::after{
+  content:"";
+  position:absolute;
+  left:13px;
+  bottom:-9px;
+  width:14px;height:14px;
+  border-left:2px solid #695b70;
+  border-bottom:2px solid #695b70;
+  background:#fff;
+  transform:skew(-20deg) rotate(-25deg);
 }
-.hero-description{
-  max-width:570px;
-  color:#8f7c88;
-  font-size:14px;
-  line-height:2.1;
+.scene-sticker{
+  position:absolute;
+  z-index:5;
+  display:grid;
+  place-items:center;
+  width:55px;height:55px;
+  border:2px solid #fff;
+  border-radius:17px;
+  background:#fff2c9;
+  color:#a77b48;
+  font-size:23px;
+  box-shadow:0 8px 18px rgba(112,87,107,.13);
+  transform:rotate(-12deg);
 }
-.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:27px}
-.button{
-  display:inline-flex;align-items:center;justify-content:center;
-  padding:12px 21px;
-  border:1px solid #ead9e0;
-  border-radius:30px;
-  background:rgba(255,255,255,.78);
-  color:var(--rose);
-  font-size:12px;
-  transition:transform .2s,box-shadow .2s;
+.sticker-one{left:7%;bottom:19%}
+.sticker-two{
+  right:8%;bottom:17%;
+  background:#e9e4ff;color:#8878b5;
+  transform:rotate(12deg);
 }
-.button.primary{
-  border-color:var(--rose);
-  background:var(--rose);
-  color:#fff;
-}
-.button:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
-.hero-foot{
-  margin-top:40px;
-  color:#b29da8;
+.scene-caption{
+  position:absolute;
+  bottom:7%;
+  left:50%;
+  transform:translateX(-50%);
+  color:#a28ca6;
   font-size:9px;
   letter-spacing:2px;
-}
-.decor{
-  position:absolute;
-  z-index:0;
-  color:rgba(185,111,134,.45);
-  user-select:none;
-  animation:float 5s ease-in-out infinite;
-}
-.decor.one{right:13%;top:24%;font-size:35px}
-.decor.two{right:34%;top:17%;font-size:18px;animation-delay:-2s}
-.decor.three{right:8%;bottom:20%;font-size:23px;animation-delay:-3s}
-@keyframes float{
-  0%,100%{transform:translateY(0) rotate(0)}
-  50%{transform:translateY(-9px) rotate(8deg)}
+  white-space:nowrap;
 }
 
 /* 公告 */
 .notice{
   display:none;
-  max-width:1120px;
-  margin:20px auto 0;
-  padding:14px 19px;
-  border:1px solid var(--line);
-  border-left:4px solid var(--pink-deep);
+  max-width:1184px;
+  margin:17px auto 0;
+  padding:13px 18px;
+  border:1px solid #f0d9df;
+  border-left:4px solid var(--rose);
   border-radius:13px;
   background:#fff;
-  color:var(--ink);
-  font-size:13px;
-  line-height:1.9;
+  color:#766879;
+  font-size:12px;
+  line-height:1.8;
   white-space:pre-wrap;
 }
 
-/* 通用内容区 */
-.container{max-width:1180px;margin:auto;padding:70px 28px}
-.section-heading{margin-bottom:27px}
-.section-kicker{
-  margin-bottom:9px;
-  color:var(--rose);
-  font-size:9px;font-weight:750;letter-spacing:2.5px;
+/* 通用章节 */
+.section{
+  max-width:1240px;
+  margin:auto;
+  padding:66px 28px;
 }
-.section-title-row{
-  display:flex;align-items:flex-end;justify-content:space-between;gap:20px;
+.section-heading{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:20px;
+  margin-bottom:25px;
 }
-.section-heading h2{margin:0;font-size:25px;font-weight:750;letter-spacing:.5px}
-.section-heading p{margin:0;color:var(--muted);font-size:12px;line-height:1.9}
-
-/* 功能卡片 */
-.feature-grid{
+.heading-left{display:flex;align-items:center;gap:13px}
+.heading-icon{
+  width:43px;height:43px;
   display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:17px;
+  place-items:center;
+  border:1px solid #efdae3;
+  border-radius:14px;
+  background:#fff;
+  color:#c77d98;
+  font-size:20px;
+  box-shadow:0 5px 15px rgba(120,90,115,.06);
 }
-.feature-card{
+.heading-kicker{
+  margin-bottom:5px;
+  color:#c17b93;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:2px;
+}
+.section-heading h2{margin:0;font-size:23px;letter-spacing:.3px}
+.section-heading p{margin:0;color:var(--muted);font-size:11px;line-height:1.8}
+
+/* 场景入口 */
+.world-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:15px;
+}
+.world-card{
   position:relative;
-  display:flex;flex-direction:column;
-  min-height:215px;
-  padding:23px;
+  min-height:205px;
+  padding:20px;
   overflow:hidden;
-  border:1px solid var(--line);
-  border-radius:var(--radius);
-  background:rgba(255,255,255,.88);
-  transition:transform .25s,border-color .25s,box-shadow .25s;
+  border:1px solid #eee1e7;
+  border-radius:21px;
+  background:#fff;
+  transition:transform .25s,box-shadow .25s,border-color .25s;
 }
-.feature-card::after{
-  content:"";
-  position:absolute;
-  width:115px;height:115px;
-  right:-58px;bottom:-65px;
-  border-radius:50%;
-  background:var(--wash,var(--lavender));
-  opacity:.8;
-  transition:transform .3s;
-}
-.feature-card:hover{
-  transform:translateY(-5px);
-  border-color:#e7c8d3;
+.world-card:hover{
+  transform:translateY(-6px);
+  border-color:#e4bdcd;
   box-shadow:var(--shadow);
 }
-.feature-card:hover::after{transform:scale(1.5)}
-.feature-top{display:flex;align-items:center;justify-content:space-between}
-.feature-number{color:#b7a5af;font-size:9px;letter-spacing:1.6px}
-.feature-icon{
-  width:42px;height:42px;
+.world-card::after{
+  content:attr(data-symbol);
+  position:absolute;
+  right:9px;
+  bottom:-24px;
+  color:var(--wash);
+  opacity:.75;
+  font-size:100px;
+  line-height:1;
+  transform:rotate(-12deg);
+  pointer-events:none;
+}
+.world-top{display:flex;align-items:center;justify-content:space-between}
+.world-icon{
+  width:45px;height:45px;
   display:grid;place-items:center;
-  border-radius:14px;
-  background:var(--wash,var(--lavender));
-  color:var(--rose);
-  font-size:19px;
+  border-radius:15px;
+  background:var(--wash);
+  color:var(--icon);
+  font-size:22px;
 }
-.feature-card h3{margin:19px 0 8px;font-size:17px}
-.feature-card p{
-  margin:0;
-  color:var(--muted);
-  font-size:12px;
-  line-height:2;
-}
-.feature-link{
+.world-index{color:#b8aab8;font-size:9px;letter-spacing:1.5px}
+.world-card h3{position:relative;z-index:1;margin:19px 0 8px;font-size:16px}
+.world-card p{
   position:relative;z-index:1;
-  margin-top:auto;padding-top:16px;
-  color:var(--rose);
-  font-size:11px;font-weight:700;
+  margin:0;
+  color:#958897;
+  font-size:11px;
+  line-height:1.9;
+}
+.world-enter{
+  position:relative;z-index:2;
+  display:inline-block;
+  margin-top:15px;
+  color:var(--icon);
+  font-size:11px;
+  font-weight:800;
 }
 
-/* 工具中心 */
-.tools-section{
-  padding:58px 0;
-  background:linear-gradient(110deg,rgba(255,239,242,.72),rgba(243,239,251,.72));
-  border-top:1px solid var(--line);
-  border-bottom:1px solid var(--line);
+/* 工具探索区域 */
+.tool-zone{
+  position:relative;
+  overflow:hidden;
+  padding:60px 0 66px;
+  border-top:1px solid #efe1e8;
+  border-bottom:1px solid #efe1e8;
+  background:
+    radial-gradient(circle at 90% 10%,rgba(221,218,255,.42),transparent 22rem),
+    linear-gradient(120deg,#fff1ef,#f5efff 55%,#edf5ff);
 }
-.tools-inner{max-width:1180px;margin:auto;padding:0 28px}
-.tools-head{
-  display:flex;align-items:flex-end;justify-content:space-between;
-  gap:20px;margin-bottom:22px;
+.tool-inner{max-width:1184px;margin:auto;padding:0 28px}
+.tool-zone-heading{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:20px;
+  margin-bottom:23px;
 }
-.tools-head h2{margin:0;font-size:25px}
-.tools-head p{margin:8px 0 0;color:var(--muted);font-size:12px;line-height:1.9}
-.tools-all{
+.tool-zone-heading h2{margin:0;font-size:25px}
+.tool-zone-heading p{margin:8px 0 0;color:#8f8297;font-size:12px;line-height:1.8}
+.all-tools{
   flex-shrink:0;
-  padding:10px 17px;
-  border:1px solid #e5cbd5;
-  border-radius:25px;
-  background:#fff;
-  color:var(--rose);
+  padding:10px 16px;
+  border:1px solid #e6d4e4;
+  border-radius:12px;
+  background:rgba(255,255,255,.75);
+  color:#98749e;
   font-size:11px;
+  font-weight:750;
+}
+.tool-controls{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:19px;
+}
+.tool-search{
+  flex:1;
+  min-width:0;
+  height:43px;
+  padding:0 15px;
+  border:1px solid #eadde9;
+  border-radius:13px;
+  background:rgba(255,255,255,.88);
+  color:var(--ink);
+  font-size:12px;
+  outline:none;
+}
+.tool-search:focus{border-color:#d6a8c1;box-shadow:0 0 0 3px rgba(214,168,193,.15)}
+.filter-list{display:flex;flex-wrap:wrap;gap:7px}
+.filter-button{
+  padding:9px 13px;
+  border:1px solid #e7dce9;
+  border-radius:20px;
+  background:rgba(255,255,255,.72);
+  color:#8d7d94;
+  font-size:10px;
+  transition:.2s;
+}
+.filter-button.active,.filter-button:hover{
+  border-color:#c88ca8;
+  background:#d58da7;
+  color:#fff;
 }
 .tool-grid{
   display:grid;
@@ -298,184 +471,269 @@ nav a:hover,nav a[aria-current="page"]{color:var(--rose)}
   gap:13px;
 }
 .tool-card{
-  display:flex;flex-direction:column;
-  min-height:150px;
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  min-height:175px;
   padding:19px;
-  border:1px solid rgba(235,220,228,.9);
-  border-radius:16px;
-  background:rgba(255,255,255,.88);
-  transition:.22s;
+  border:1px solid rgba(235,222,235,.95);
+  border-radius:17px;
+  background:rgba(255,255,255,.91);
+  transition:transform .22s,box-shadow .22s;
 }
-.tool-card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.tool-card:hover{transform:translateY(-4px);box-shadow:0 12px 28px rgba(109,85,124,.1)}
 .tool-symbol{
-  width:35px;height:35px;
+  width:38px;height:38px;
   display:grid;place-items:center;
-  border-radius:11px;
-  background:var(--lavender);
-  color:#8f80b3;
-  font-size:17px;
+  border-radius:12px;
+  background:var(--tool-wash,#f1eafa);
+  color:var(--tool-color,#9583bd);
+  font-size:19px;
 }
 .tool-card h3{margin:13px 0 6px;font-size:14px}
-.tool-card p{margin:0;color:var(--muted);font-size:11px;line-height:1.8}
-.tool-open{margin-top:auto;padding-top:12px;color:var(--rose);font-size:10px}
-
-/* 图片处理重点 */
-.image-panel{
-  display:grid;
-  grid-template-columns:1fr 230px;
-  align-items:center;
-  gap:28px;
-  padding:30px;
-  border:1px solid var(--line);
-  border-radius:22px;
-  background:#fff;
-  box-shadow:var(--shadow);
+.tool-card p{margin:0;color:#968b9b;font-size:10px;line-height:1.8}
+.tool-open{margin-top:auto;padding-top:13px;color:#b57994;font-size:10px;font-weight:800}
+.tool-card[hidden]{display:none}
+.no-tool-result{
+  display:none;
+  padding:25px;
+  border:1px dashed #dfcddd;
+  border-radius:15px;
+  background:rgba(255,255,255,.65);
+  color:#93849a;
+  text-align:center;
+  font-size:12px;
 }
-.image-panel h2{margin:0 0 12px;font-size:23px}
-.image-panel p{max-width:650px;margin:0;color:var(--muted);font-size:12px;line-height:2}
-.image-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:17px}
-.image-tags span{
-  padding:7px 11px;
-  border-radius:20px;
-  background:#fff2f4;
-  color:#a87589;
+.no-tool-result.show{display:block}
+
+/* 每日发现与最近使用 */
+.discovery-grid{
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:16px;
+}
+.discovery-card,.recent-card{
+  position:relative;
+  min-height:190px;
+  padding:25px;
+  overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:21px;
+  background:#fff;
+}
+.discovery-card{
+  background:linear-gradient(120deg,#fff0e8,#fff6f3 55%,#f2edff);
+}
+.discovery-card::after{
+  content:"✦";
+  position:absolute;
+  right:25px;top:8px;
+  color:rgba(193,143,173,.18);
+  font-size:110px;
+  transform:rotate(15deg);
+}
+.mini-label{
+  color:#bd8297;
+  font-size:9px;
+  font-weight:850;
+  letter-spacing:2px;
+}
+.discovery-card h3{position:relative;z-index:1;margin:12px 0 8px;font-size:20px}
+.discovery-card p{position:relative;z-index:1;max-width:420px;margin:0;color:#938393;font-size:11px;line-height:1.9}
+.discovery-link{
+  position:relative;z-index:2;
+  display:inline-block;
+  margin-top:17px;
+  padding:9px 14px;
+  border-radius:10px;
+  background:#cf879e;
+  color:#fff;
+  font-size:10px;
+  font-weight:800;
+}
+.recent-card h3{margin:0 0 7px;font-size:16px}
+.recent-card>p{margin:0 0 16px;color:#998d9b;font-size:10px;line-height:1.8}
+.recent-list{display:flex;flex-wrap:wrap;gap:8px}
+.recent-item{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:9px 11px;
+  border:1px solid #eee2e9;
+  border-radius:11px;
+  background:#fff9fb;
+  color:#99748b;
   font-size:10px;
 }
-.image-side{
-  padding:23px 17px;
-  border-radius:17px;
-  background:linear-gradient(145deg,#f8e9ef,#f0edfa);
-  text-align:center;
-}
-.image-side-icon{font-size:35px;color:#a57f9c}
-.image-side p{margin:10px 0 16px;color:#887b8a;font-size:11px;line-height:1.8}
-.image-side a{
-  display:block;padding:10px;
-  border-radius:22px;background:var(--rose);
-  color:#fff;font-size:11px;
-}
+.recent-empty{color:#b2a5b1;font-size:11px;line-height:1.8}
 
 /* 最近文章 */
-.article-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+.article-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
 .article-card{
-  display:flex;flex-direction:column;
-  min-height:180px;padding:20px;
+  display:flex;
+  flex-direction:column;
+  min-height:175px;
+  padding:19px;
   border:1px solid var(--line);
-  border-radius:16px;background:#fff;
-  transition:.22s;
+  border-radius:17px;
+  background:#fff;
+  transition:.2s;
 }
 .article-card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
 .article-category{
-  width:max-content;padding:5px 9px;
-  border-radius:20px;background:var(--lavender);
-  color:#8f80b3;font-size:10px;
+  width:max-content;
+  padding:5px 9px;
+  border-radius:20px;
+  background:#f1edfb;
+  color:#9181b4;
+  font-size:9px;
 }
-.article-card h3{margin:14px 0 8px;font-size:15px;line-height:1.6}
+.article-card h3{margin:13px 0 7px;font-size:14px;line-height:1.6}
 .article-summary{
-  margin:0;color:var(--muted);font-size:11px;line-height:1.9;
-  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
+  margin:0;
+  color:#998e9c;
+  font-size:10px;
+  line-height:1.8;
+  display:-webkit-box;
+  -webkit-line-clamp:3;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
 }
-.article-date{margin-top:auto;padding-top:14px;color:#b6a7af;font-size:10px}
+.article-date{margin-top:auto;padding-top:13px;color:#b6a8b5;font-size:9px}
 .empty-message{
-  grid-column:1/-1;padding:28px;
-  border:1px dashed var(--line);border-radius:15px;
-  background:#fff;text-align:center;color:var(--muted);
-  font-size:12px;line-height:2;
+  grid-column:1/-1;
+  padding:25px;
+  border:1px dashed #e9dce5;
+  border-radius:15px;
+  background:#fff;
+  text-align:center;
+  color:#a293a2;
+  font-size:11px;
+  line-height:2;
 }
 .retry-button{
-  margin-top:10px;padding:8px 15px;
-  border:1px solid var(--line);border-radius:20px;
-  background:var(--lavender);color:#8f80b3;font-size:11px;
+  margin-top:9px;
+  padding:8px 14px;
+  border:1px solid #e6d7e4;
+  border-radius:20px;
+  background:#f5effb;
+  color:#8d7aa7;
+  font-size:10px;
 }
 .section-more{
-  display:block;width:max-content;margin:22px auto 0;
-  padding:10px 20px;border:1px solid #e5cbd5;
-  border-radius:25px;background:#fff;color:var(--rose);font-size:11px;
+  display:block;
+  width:max-content;
+  margin:20px auto 0;
+  padding:10px 17px;
+  border:1px solid #eadbe5;
+  border-radius:20px;
+  background:#fff;
+  color:#a5758e;
+  font-size:10px;
+  font-weight:750;
 }
 
-/* 建设动态 */
-.timeline{max-width:800px;margin:5px auto 0}
-.timeline-item{
-  position:relative;
-  display:grid;grid-template-columns:105px 1fr;gap:20px;
-  padding:0 0 27px 22px;
-  border-left:1px solid #e5cbd5;
+/* 轻松交流区域 */
+.community-panel{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:25px;
+  padding:29px;
+  border:1px solid #e9dfea;
+  border-radius:22px;
+  background:linear-gradient(115deg,#f4efff,#fff3f1);
 }
-.timeline-item:last-child{padding-bottom:0;border-left-color:transparent}
-.timeline-item::before{
-  content:"";position:absolute;left:-5px;top:3px;
-  width:9px;height:9px;border-radius:50%;
-  background:var(--pink-deep);box-shadow:0 0 0 4px #fff0f3;
-}
-.timeline-date{color:var(--rose);font-size:11px}
-.timeline-content h3{margin:0 0 7px;font-size:14px}
-.timeline-content p{margin:0;color:var(--muted);font-size:11px;line-height:1.9}
-
-/* 关于 */
-.about-section{
-  border-top:1px solid var(--line);
-  background:linear-gradient(110deg,#fff1f2,#f5f0fb);
-}
-.about-inner{
-  max-width:1180px;margin:auto;padding:55px 28px;
-  display:flex;justify-content:space-between;align-items:center;gap:30px;
-}
-.about-content{max-width:760px}
-.about-inner h2{margin:0 0 12px;font-size:23px}
-.about-inner p{margin:0;color:#8f7f8b;font-size:12px;line-height:2.1;white-space:pre-wrap}
-.about-link{display:inline-block;margin-top:16px;color:var(--rose);font-size:11px;font-weight:700}
-.about-mark{
-  width:105px;height:105px;flex-shrink:0;
-  display:grid;place-items:center;
-  border:1px dashed #dcb8c7;border-radius:50%;
-  color:#c48da3;font-size:35px;
-  transform:rotate(-8deg);
+.community-panel h2{margin:0 0 8px;font-size:21px}
+.community-panel p{margin:0;color:#958799;font-size:11px;line-height:1.9}
+.community-actions{display:flex;flex-wrap:wrap;gap:9px;flex-shrink:0}
+.community-actions a{
+  padding:10px 15px;
+  border:1px solid #e5d6e7;
+  border-radius:11px;
+  background:#fff;
+  color:#947a9f;
+  font-size:10px;
+  font-weight:750;
 }
 
 /* 页脚 */
-footer{padding:29px 15px;text-align:center;color:#ae9da6;font-size:10px;line-height:2.2}
-.footer-brand{color:var(--rose);font-size:14px;font-weight:750;letter-spacing:2px}
+footer{
+  padding:30px 15px;
+  border-top:1px solid #efe3e8;
+  background:rgba(255,255,255,.55);
+  text-align:center;
+  color:#aa9daa;
+  font-size:10px;
+  line-height:2.2;
+}
+.footer-brand{color:#bd7b93;font-size:14px;font-weight:850;letter-spacing:2px}
 
-@media(max-width:900px){
-  .feature-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .tool-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+/* 动画 */
+@keyframes gentleFloat{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-7px)}
+}
+.mascot-card{animation:gentleFloat 5s ease-in-out infinite}
+.scene-sticker{animation:gentleFloat 4s ease-in-out infinite}
+.sticker-two{animation-delay:-2s}
+
+@media(max-width:950px){
+  .world-grid,.tool-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .hero{min-height:400px}
+  .hero-scene{min-height:360px}
+  .tool-controls{align-items:stretch;flex-direction:column}
 }
 @media(max-width:680px){
   .header-inner{align-items:flex-start;flex-direction:column;gap:9px;padding:10px 5%}
   .header-right{width:100%;justify-content:space-between;gap:10px}
-  nav{gap:18px;overflow-x:auto;scrollbar-width:none;padding:5px 0}
-  nav::-webkit-scrollbar{display:none}
-  nav a{font-size:11px}
+  .main-nav{gap:17px;overflow-x:auto;scrollbar-width:none;padding:5px 0}
+  .main-nav::-webkit-scrollbar{display:none}
+  .main-nav a{font-size:11px}
   #hemengLanguageSelect{font-size:10px;padding:7px 8px}
-  .hero{margin:13px 4% 0;padding:55px 7% 45px;border-radius:21px}
-  .hero h1{font-size:39px}
+  .hero-wrap{margin-top:12px;padding:0 4%}
+  .hero{grid-template-columns:1fr;min-height:auto;border-radius:23px}
+  .hero-copy{padding:39px 7% 8px}
+  .hero h1{font-size:43px;margin-top:19px}
   .hero-description{font-size:12px}
-  .decor.one{right:8%;top:17%}
-  .decor.two{right:25%}
-  .container{padding:48px 6%}
-  .section-title-row{display:block}
-  .section-heading p{margin-top:8px}
-  .section-heading h2,.tools-head h2{font-size:22px}
-  .feature-grid,.article-list{grid-template-columns:1fr}
-  .feature-card{min-height:180px}
-  .tools-section{padding:42px 0}
-  .tools-inner{padding:0 6%}
-  .tools-head{align-items:flex-start}
-  .tools-head p{max-width:230px}
-  .tool-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
-  .tool-card{min-height:145px;padding:15px}
-  .image-panel{grid-template-columns:1fr;padding:22px;gap:20px}
-  .image-panel h2{font-size:21px}
-  .image-side{padding:17px}
-  .timeline-item{grid-template-columns:82px 1fr;gap:12px}
-  .about-inner{padding:43px 7%}
-  .about-mark{display:none}
-  .notice{margin:15px 5% 0}
+  .hero-scene{min-height:300px;margin-top:0}
+  .mascot-card{width:245px}
+  .mascot-art{max-height:210px}
+  .speech-bubble{right:-13%;top:10%;font-size:10px}
+  .scene-orbit{width:260px}
+  .scene-caption{bottom:4%}
+  .section{padding:47px 6%}
+  .section-heading{align-items:flex-start;flex-direction:column;gap:9px}
+  .section-heading h2{font-size:21px}
+  .section-heading p{padding-left:56px}
+  .world-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .world-card{min-height:190px;padding:15px}
+  .world-card h3{font-size:14px}
+  .world-card p{font-size:10px}
+  .tool-zone{padding:43px 0}
+  .tool-inner{padding:0 6%}
+  .tool-zone-heading{align-items:flex-start}
+  .tool-zone-heading h2{font-size:22px}
+  .tool-zone-heading p{max-width:240px;font-size:10px}
+  .all-tools{padding:9px 11px;font-size:10px}
+  .tool-grid{gap:9px}
+  .tool-card{min-height:165px;padding:14px}
+  .tool-card h3{font-size:12px}
+  .tool-card p{font-size:9px}
+  .filter-list{gap:6px}
+  .filter-button{padding:8px 10px}
+  .discovery-grid{grid-template-columns:1fr}
+  .discovery-card,.recent-card{min-height:170px;padding:21px}
+  .article-grid{grid-template-columns:1fr}
+  .article-card{min-height:145px}
+  .community-panel{align-items:flex-start;flex-direction:column;padding:23px}
+  .community-panel h2{font-size:19px}
 }
 @media(max-width:380px){
-  .tool-grid{grid-template-columns:1fr}
-  .hero h1{font-size:34px}
-  .header-right{align-items:flex-start;flex-direction:column}
+  .hero h1{font-size:37px}
+  .world-grid,.tool-grid{grid-template-columns:1fr}
+  .world-card{min-height:160px}
+  .header-right{align-items:flex-start}
 }
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
@@ -485,383 +743,616 @@ footer{padding:29px 15px;text-align:center;color:#ae9da6;font-size:10px;line-hei
 </head>
 
 <body>
-<header>
+
+<header class="site-header">
   <div class="header-inner">
-    <a class="brand" href="/" aria-label="荷萌首页">
-      <img class="brand-icon" src="/images/hemeng-logo.svg" alt="">
+    <a class="brand" href="/" aria-label="荷萌 HEMENG">
+      <img src="/images/hemeng-logo.svg" alt="">
       <div>
         <div class="brand-name">荷萌</div>
-        <div class="brand-en">HEMENG</div>
+        <div class="brand-sub">HEMENG WORLD</div>
       </div>
     </a>
 
     <div class="header-right">
-      <nav aria-label="主导航">
-        <a href="/" aria-current="page">首页</a>
-        <a href="/blog/">个人博客</a>
-        <a href="/wall/">大河墙</a>
-        <a href="/tools/">工具中心</a>
-        <a href="/about/">关于本站</a>
+      <nav class="main-nav" aria-label="主导航">
+        <a href="/" aria-current="page" data-i18n="nav.home">首页</a>
+        <a href="/tools/" data-i18n="nav.tools">工具中心</a>
+        <a href="/blog/" data-i18n="nav.blog">博客</a>
+        <a href="/wall/" data-i18n="nav.wall">大河墙</a>
+        <a href="/about/" data-i18n="nav.about">关于</a>
       </nav>
+      <div id="headerLanguage"></div>
     </div>
   </div>
 </header>
 
-<section class="hero">
-  <span class="decor one">✿</span>
-  <span class="decor two">✧</span>
-  <span class="decor three">✦</span>
+<section class="hero-wrap">
+  <div class="hero">
+    <div class="hero-copy">
+      <div class="hero-label" data-i18n="hero.label">WELCOME TO HEMENG WORLD</div>
 
-  <div class="hero-inner">
-    <div class="hero-kicker">WELCOME TO HEMENG</div>
-    <h1>让想法<br><span>慢慢成为现实。</span></h1>
-    <div class="hero-description">
-      一个持续生长的个人互联网空间。记录想法、分享内容，
-      也把有趣的创意变成可以使用的工具与体验。
+      <h1>
+        <span data-i18n="hero.line1">今天想做点</span>
+        <span data-i18n="hero.line2">什么有趣的事？</span>
+      </h1>
+
+      <p class="hero-description" data-i18n="hero.description">
+        欢迎来到荷萌！这里有顺手好用的小工具、有趣的内容，
+        还有不断更新的新发现。随便逛逛，说不定会遇到惊喜。
+      </p>
+
+      <div class="hero-actions">
+        <a class="action-primary" href="/tools/" data-i18n="hero.primary">开始探索 →</a>
+        <a class="action-secondary" href="#world" data-i18n="hero.secondary">看看这里有什么</a>
+      </div>
+
+      <div class="hero-note" data-i18n="hero.note">A LITTLE SPACE FOR BIG IDEAS · EST. HEMENG</div>
     </div>
-    <div class="hero-actions">
-      <a class="button primary" href="/tools/">探索工具中心 →</a>
-      <a class="button" href="/about/">认识荷萌</a>
+
+    <div class="hero-scene" aria-label="荷萌原创漫画风格场景">
+      <div class="scene-orbit"></div>
+
+      <div class="mascot-card">
+        <svg class="mascot-art" viewBox="0 0 340 300" role="img" aria-label="荷萌的漫画风格小伙伴">
+          <defs>
+            <linearGradient id="sky" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#ffe4e5"/>
+              <stop offset="1" stop-color="#e6e2ff"/>
+            </linearGradient>
+            <linearGradient id="hoodie" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#f4a9b8"/>
+              <stop offset="1" stop-color="#bd9ad8"/>
+            </linearGradient>
+          </defs>
+
+          <rect x="5" y="5" width="330" height="290" rx="23" fill="url(#sky)"/>
+          <circle cx="265" cy="65" r="32" fill="#fff4c8" opacity=".9"/>
+          <path d="M24 225 Q90 190 150 225 T316 220 V280 H24Z" fill="#d9d7f1" opacity=".8"/>
+          <path d="M20 245 Q80 210 145 246 T320 238" fill="none" stroke="#fff" stroke-width="4" opacity=".8"/>
+
+          <!-- 星星与装饰 -->
+          <path d="M55 75 l5 12 12 5 -12 5 -5 12 -5 -12 -12 -5 12 -5Z" fill="#fff" stroke="#d8a9bf" stroke-width="1.5"/>
+          <path d="M277 140 l4 9 9 4 -9 4 -4 9 -4 -9 -9 -4 9 -4Z" fill="#fff" stroke="#d8a9bf" stroke-width="1.5"/>
+          <circle cx="91" cy="145" r="5" fill="#fff" opacity=".9"/>
+          <circle cx="245" cy="202" r="4" fill="#fff" opacity=".9"/>
+
+          <!-- 角色身体 -->
+          <path d="M99 267 Q101 204 137 187 Q171 170 206 187 Q240 205 243 267Z" fill="url(#hoodie)" stroke="#69586e" stroke-width="4" stroke-linejoin="round"/>
+          <path d="M133 194 Q170 226 207 194" fill="none" stroke="#fff1f4" stroke-width="5" stroke-linecap="round"/>
+          <path d="M157 216 Q170 229 183 216" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+
+          <!-- 脖子 -->
+          <path d="M151 176 L151 202 Q170 219 189 202 L189 176Z" fill="#ffd8c9" stroke="#69586e" stroke-width="3"/>
+
+          <!-- 头发后层 -->
+          <path d="M104 119 Q104 45 170 43 Q240 43 239 125 L230 185 Q215 202 197 188 L170 198 L139 190 Q111 199 101 176Z" fill="#554b67" stroke="#51465e" stroke-width="4"/>
+
+          <!-- 脸 -->
+          <path d="M121 113 Q119 70 170 67 Q221 70 219 119 L213 158 Q202 185 170 187 Q138 185 127 158Z" fill="#ffe0d1" stroke="#69586e" stroke-width="3"/>
+
+          <!-- 刘海 -->
+          <path d="M111 119 Q105 70 148 57 Q176 47 202 65 Q231 80 224 119 Q209 102 195 91 Q178 113 152 110 Q131 109 111 119Z" fill="#554b67" stroke="#51465e" stroke-width="4" stroke-linejoin="round"/>
+          <path d="M166 60 Q152 84 157 108" fill="none" stroke="#81718d" stroke-width="4" stroke-linecap="round"/>
+          <path d="M195 68 Q211 89 207 107" fill="none" stroke="#81718d" stroke-width="3" stroke-linecap="round"/>
+
+          <!-- 表情 -->
+          <ellipse cx="148" cy="139" rx="5" ry="8" fill="#51465e"/>
+          <ellipse cx="192" cy="139" rx="5" ry="8" fill="#51465e"/>
+          <path d="M164 158 Q170 164 177 158" fill="none" stroke="#bd7488" stroke-width="3" stroke-linecap="round"/>
+          <ellipse cx="135" cy="153" rx="9" ry="5" fill="#f3a6a9" opacity=".65"/>
+          <ellipse cx="205" cy="153" rx="9" ry="5" fill="#f3a6a9" opacity=".65"/>
+
+          <!-- 发饰 -->
+          <path d="M215 84 Q236 67 247 85 Q237 100 215 98Z" fill="#f5c7d4" stroke="#69586e" stroke-width="3"/>
+          <circle cx="231" cy="87" r="5" fill="#fff4d5"/>
+
+          <!-- 手臂 -->
+          <path d="M108 214 Q81 205 77 181 Q74 166 87 162 Q100 160 106 181 L127 202" fill="#ffd8c9" stroke="#69586e" stroke-width="4" stroke-linecap="round"/>
+          <path d="M232 214 Q258 200 261 180 Q264 164 250 161 Q238 160 233 181 L214 201" fill="#ffd8c9" stroke="#69586e" stroke-width="4" stroke-linecap="round"/>
+
+          <!-- 小工具 -->
+          <rect x="237" y="172" width="28" height="36" rx="6" fill="#fff" stroke="#69586e" stroke-width="3" transform="rotate(12 251 190)"/>
+          <path d="M244 184 l6 6 9 -12" fill="none" stroke="#9e8ac3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <div class="speech-bubble" data-i18n="hero.bubble">今天也来发现点新东西吧！</div>
+      <div class="scene-sticker sticker-one">✦</div>
+      <div class="scene-sticker sticker-two">♡</div>
+      <div class="scene-caption">LET'S EXPLORE SOMETHING NEW</div>
     </div>
-    <div class="hero-foot">PERSONAL SPACE · TOOLS · CREATION · EXPLORATION</div>
   </div>
 </section>
 
 <div class="notice" id="homeNotice"></div>
 
 <main>
-  <section class="container">
+  <section class="section" id="world">
     <div class="section-heading">
-      <div class="section-kicker">EXPLORE HEMENG</div>
-      <div class="section-title-row">
-        <h2>在这里，可以做些什么？</h2>
-        <p>内容与工具分区清晰，想用什么，直接进入。</p>
-      </div>
-    </div>
-
-    <div class="feature-grid">
-      <a class="feature-card" href="/blog/" style="--wash:#f8e8ee">
-        <div class="feature-top">
-          <span class="feature-number">01 / BLOG</span>
-          <span class="feature-icon">✎</span>
-        </div>
-        <h3>个人博客</h3>
-        <p>记录个人想法、日常观察、知识整理与文章分享。</p>
-        <span class="feature-link">进入博客 →</span>
-      </a>
-
-      <a class="feature-card" href="/wall/" style="--wash:#f1edfa">
-        <div class="feature-top">
-          <span class="feature-number">02 / COMMUNITY</span>
-          <span class="feature-icon">♡</span>
-        </div>
-        <h3>大河墙</h3>
-        <p>一个开放的交流空间，支持昵称投稿与匿名分享。</p>
-        <span class="feature-link">进入大河墙 →</span>
-      </a>
-
-      <a class="feature-card" href="/tools/image-tools/" style="--wash:#fff0e8">
-        <div class="feature-top">
-          <span class="feature-number">03 / IMAGE STUDIO</span>
-          <span class="feature-icon">▧</span>
-        </div>
-        <h3>图片处理中心</h3>
-        <p>图片裁剪、九宫格、长图拼接、标注、水印调色与批量处理。</p>
-        <span class="feature-link">进入图片工作室 →</span>
-      </a>
-
-      <a class="feature-card" href="/tools/qr-code/" style="--wash:#edf3fb">
-        <div class="feature-top">
-          <span class="feature-number">04 / QR CODE</span>
-          <span class="feature-icon">▦</span>
-        </div>
-        <h3>二维码工具</h3>
-        <p>输入文字或网址生成二维码，也可以上传图片识别二维码。</p>
-        <span class="feature-link">打开二维码工具 →</span>
-      </a>
-
-      <a class="feature-card" href="/tools/hemeng/" style="--wash:#f1edfa">
-        <div class="feature-top">
-          <span class="feature-number">05 / HEMENG FORMAT</span>
-          <span class="feature-icon">◇</span>
-        </div>
-        <h3>HEMENG 制作器</h3>
-        <p>将图片与视频组合为 .hemeng 文件，并支持重新导入与查看。</p>
-        <span class="feature-link">进入 HEMENG →</span>
-      </a>
-
-      <a class="feature-card" href="/about/" style="--wash:#fff0f2">
-        <div class="feature-top">
-          <span class="feature-number">06 / ABOUT</span>
-          <span class="feature-icon">✿</span>
-        </div>
-        <h3>关于本站</h3>
-        <p>了解荷萌的建立初衷、项目方向、网站功能与未来规划。</p>
-        <span class="feature-link">了解更多 →</span>
-      </a>
-    </div>
-  </section>
-
-  <section class="tools-section">
-    <div class="tools-inner">
-      <div class="tools-head">
+      <div class="heading-left">
+        <div class="heading-icon">✧</div>
         <div>
-          <div class="section-kicker">TOOL CENTER</div>
-          <h2>工具中心</h2>
-          <p>把常用功能整理在一起，减少寻找入口的时间。</p>
+          <div class="heading-kicker" data-i18n="world.kicker">EXPLORE THE WORLD</div>
+          <h2 data-i18n="world.title">先来认识一下这里</h2>
         </div>
-        <a class="tools-all" href="/tools/">全部工具 →</a>
+      </div>
+      <p data-i18n="world.subtitle">不同的区域，藏着不同的内容。</p>
+    </div>
+
+    <div class="world-grid">
+      <a class="world-card" href="/tools/image-tools/" data-symbol="▧" style="--wash:#fff0e8;--icon:#c58b69">
+        <div class="world-top">
+          <div class="world-icon">▧</div>
+          <span class="world-index">AREA 01</span>
+        </div>
+        <h3 data-i18n="world.image.title">图片研究室</h3>
+        <p data-i18n="world.image.desc">拼接、裁剪、九宫格、标注和更多图片处理功能。</p>
+        <span class="world-enter" data-i18n="world.enter">进入区域 →</span>
+      </a>
+
+      <a class="world-card" href="/tools/" data-symbol="◇" style="--wash:#eeeaff;--icon:#8d7db7">
+        <div class="world-top">
+          <div class="world-icon">◇</div>
+          <span class="world-index">AREA 02</span>
+        </div>
+        <h3 data-i18n="world.digital.title">数字实验室</h3>
+        <p data-i18n="world.digital.desc">二维码、HEMENG 媒体格式和其他数字工具。</p>
+        <span class="world-enter" data-i18n="world.enter">进入区域 →</span>
+      </a>
+
+      <a class="world-card" href="/blog/" data-symbol="✎" style="--wash:#eaf3ff;--icon:#7899bd">
+        <div class="world-top">
+          <div class="world-icon">✎</div>
+          <span class="world-index">AREA 03</span>
+        </div>
+        <h3 data-i18n="world.archive.title">故事档案室</h3>
+        <p data-i18n="world.archive.desc">记录想法、阅读文章，也看看最近有什么新内容。</p>
+        <span class="world-enter" data-i18n="world.enter">进入区域 →</span>
+      </a>
+
+      <a class="world-card" href="/wall/" data-symbol="♡" style="--wash:#fff0f5;--icon:#c47d9b">
+        <div class="world-top">
+          <div class="world-icon">♡</div>
+          <span class="world-index">AREA 04</span>
+        </div>
+        <h3 data-i18n="world.community.title">交流广场</h3>
+        <p data-i18n="world.community.desc">分享日常、匿名投稿，让想法在这里相遇。</p>
+        <span class="world-enter" data-i18n="world.enter">进入区域 →</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="tool-zone" id="tools">
+    <div class="tool-inner">
+      <div class="tool-zone-heading">
+        <div>
+          <div class="heading-kicker" data-i18n="tools.kicker">YOUR LITTLE TOOLBOX</div>
+          <h2 data-i18n="tools.title">想用什么工具？</h2>
+          <p data-i18n="tools.subtitle">不用安装，打开就能使用。也可以直接搜索功能。</p>
+        </div>
+        <a class="all-tools" href="/tools/" data-i18n="tools.all">全部工具 →</a>
       </div>
 
-      <div class="tool-grid">
-        <a class="tool-card" href="/tools/image-tools/">
-          <span class="tool-symbol">▧</span>
-          <h3>图片处理</h3>
-          <p>裁剪、拼接、标注、调色与更多图片功能。</p>
-          <span class="tool-open">打开工具 →</span>
+      <div class="tool-controls">
+        <input
+          class="tool-search"
+          id="toolSearch"
+          type="search"
+          data-i18n-placeholder="tools.search"
+          placeholder="搜索工具名称或功能……"
+          autocomplete="off"
+        >
+        <div class="filter-list" aria-label="工具分类">
+          <button class="filter-button active" type="button" data-filter="all" data-i18n="filter.all">全部</button>
+          <button class="filter-button" type="button" data-filter="image" data-i18n="filter.image">图片</button>
+          <button class="filter-button" type="button" data-filter="daily" data-i18n="filter.daily">日常</button>
+          <button class="filter-button" type="button" data-filter="create" data-i18n="filter.create">创作</button>
+        </div>
+      </div>
+
+      <div class="tool-grid" id="toolGrid">
+        <a class="tool-card tool-entry" href="/tools/image-tools/" data-tool-id="image-tools" data-category="image" data-search="图片处理 image editor crop collage 拼接 裁剪 标注 水印 调色">
+          <span class="tool-symbol" style="--tool-wash:#fff0e8;--tool-color:#c58b69">▧</span>
+          <h3 data-i18n="tool.image.title">图片处理中心</h3>
+          <p data-i18n="tool.image.desc">图片拼接、裁剪、标注、水印、调色与批量处理。</p>
+          <span class="tool-open" data-i18n="tool.open">打开工具 →</span>
         </a>
 
-        <a class="tool-card" href="/tools/nine-grid/">
-          <span class="tool-symbol">▦</span>
-          <h3>九宫格</h3>
-          <p>图片九宫格切割与图片组合。</p>
-          <span class="tool-open">打开工具 →</span>
+        <a class="tool-card tool-entry" href="/tools/nine-grid/" data-tool-id="nine-grid" data-category="image" data-search="九宫格 nine grid split 图片切割 九张图片组合">
+          <span class="tool-symbol" style="--tool-wash:#f0edff;--tool-color:#8f80bd">▦</span>
+          <h3 data-i18n="tool.grid.title">九宫格工具</h3>
+          <p data-i18n="tool.grid.desc">图片九宫格切割，也可以将九张图片组合起来。</p>
+          <span class="tool-open" data-i18n="tool.open">打开工具 →</span>
         </a>
 
-        <a class="tool-card" href="/tools/qr-code/">
-          <span class="tool-symbol">▩</span>
-          <h3>二维码</h3>
-          <p>二维码生成、识别与内容读取。</p>
-          <span class="tool-open">打开工具 →</span>
+        <a class="tool-card tool-entry" href="/tools/qr-code/" data-tool-id="qr-code" data-category="daily" data-search="二维码 QR code 生成 识别 扫描">
+          <span class="tool-symbol" style="--tool-wash:#eaf3ff;--tool-color:#7799bd">▩</span>
+          <h3 data-i18n="tool.qr.title">二维码工具</h3>
+          <p data-i18n="tool.qr.desc">生成二维码，或上传图片识别二维码内容。</p>
+          <span class="tool-open" data-i18n="tool.open">打开工具 →</span>
         </a>
 
-        <a class="tool-card" href="/tools/hemeng/">
-          <span class="tool-symbol">◇</span>
-          <h3>HEMENG 制作器</h3>
-          <p>创建与导入 HEMENG 媒体文件。</p>
-          <span class="tool-open">打开工具 →</span>
+        <a class="tool-card tool-entry" href="/tools/hemeng/" data-tool-id="hemeng" data-category="create" data-search="HEMENG 媒体格式 图片 视频 交互 创作">
+          <span class="tool-symbol" style="--tool-wash:#f9eafa;--tool-color:#a47da9">◇</span>
+          <h3 data-i18n="tool.hemeng.title">HEMENG 制作器</h3>
+          <p data-i18n="tool.hemeng.desc">把图片与视频组合成独立的 HEMENG 文件。</p>
+          <span class="tool-open" data-i18n="tool.open">打开工具 →</span>
         </a>
+      </div>
+
+      <div class="no-tool-result" id="noToolResult" data-i18n="tools.empty">
+        没有找到符合条件的工具，试试其他关键词吧。
       </div>
     </div>
   </section>
 
-  <section class="container">
-    <div class="image-panel">
+  <section class="section">
+    <div class="section-heading">
+      <div class="heading-left">
+        <div class="heading-icon">✦</div>
+        <div>
+          <div class="heading-kicker" data-i18n="discovery.kicker">A SMALL DISCOVERY</div>
+          <h2 data-i18n="discovery.heading">今天有什么新发现？</h2>
+        </div>
+      </div>
+    </div>
+
+    <div class="discovery-grid">
+      <div class="discovery-card">
+        <div class="mini-label" data-i18n="discovery.label">TODAY'S PICK</div>
+        <h3 id="dailyTitle" data-i18n="discovery.defaultTitle">试试图片处理中心</h3>
+        <p id="dailyDescription" data-i18n="discovery.defaultDesc">从拼接长图到图片标注，里面还有不少可以探索的功能。</p>
+        <a class="discovery-link" id="dailyLink" href="/tools/image-tools/" data-i18n="discovery.open">去看看 →</a>
+      </div>
+
+      <div class="recent-card">
+        <div class="mini-label" data-i18n="recent.kicker">YOUR RECENT VISITS</div>
+        <h3 data-i18n="recent.title">最近使用</h3>
+        <p data-i18n="recent.desc">在这台设备上记录最近打开过的工具，方便下次继续。</p>
+        <div class="recent-list" id="recentTools">
+          <span class="recent-empty" data-i18n="recent.empty">还没有使用记录，打开一个工具后就会显示在这里。</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="articles">
+    <div class="section-heading">
+      <div class="heading-left">
+        <div class="heading-icon">✎</div>
+        <div>
+          <div class="heading-kicker" data-i18n="articles.kicker">FRESH FROM THE BLOG</div>
+          <h2 data-i18n="articles.title">最近有什么新文章？</h2>
+        </div>
+      </div>
+      <p data-i18n="articles.subtitle">有空的话，来看看最近记录的内容。</p>
+    </div>
+
+    <div class="article-grid" id="articleList">
+      <div class="empty-message" data-i18n="articles.loading">正在读取文章……</div>
+    </div>
+
+    <a class="section-more" href="/blog/" data-i18n="articles.more">去博客看看 →</a>
+  </section>
+
+  <section class="section">
+    <div class="community-panel">
       <div>
-        <div class="section-kicker">IMAGE STUDIO</div>
-        <h2>一个入口，处理更多图片任务。</h2>
-        <p>
-          图片处理中心持续整合日常常用功能。
-          从简单编辑到多张图片组合，尽量让操作直观、结果清晰。
-        </p>
-        <div class="image-tags">
-          <span>九宫格切割</span>
-          <span>长图拼接</span>
-          <span>自由拼接</span>
-          <span>图片标注</span>
-          <span>水印与调色</span>
-          <span>批量处理</span>
-          <span>GIF 制作</span>
-          <span>背景去除</span>
-        </div>
+        <div class="heading-kicker" data-i18n="community.kicker">SAY SOMETHING</div>
+        <h2 data-i18n="community.title">路过的话，也留下点什么吧。</h2>
+        <p data-i18n="community.desc">这里不只是工具集合，也欢迎分享想法、日常和有趣的发现。</p>
       </div>
-      <div class="image-side">
-        <div class="image-side-icon">✿</div>
-        <p>图片工具统一整理<br>清晰分类，快速使用</p>
-        <a href="/tools/image-tools/">进入图片处理中心 →</a>
-      </div>
-    </div>
-  </section>
-
-  <section class="container" id="recentArticles">
-    <div class="section-heading">
-      <div class="section-kicker">LATEST ARTICLES</div>
-      <div class="section-title-row">
-        <h2>最近文章</h2>
-        <p>最近发布的内容与记录。</p>
-      </div>
-    </div>
-
-    <div class="article-list" id="articleList">
-      <div class="empty-message">正在读取文章……</div>
-    </div>
-    <a class="section-more" href="/blog/">查看全部文章 →</a>
-  </section>
-
-  <section class="container">
-    <div class="section-heading">
-      <div class="section-kicker">DEVELOPMENT LOG</div>
-      <div class="section-title-row">
-        <h2>建设动态</h2>
-        <p>记录网站逐步完善的过程。</p>
-      </div>
-    </div>
-
-    <div class="timeline">
-      <div class="timeline-item">
-        <div class="timeline-date">2026 · 11</div>
-        <div class="timeline-content">
-          <h3>图片处理中心扩展</h3>
-          <p>逐步整合图片裁剪、拼接、九宫格、标注、水印调色与批量处理等功能。</p>
-        </div>
-      </div>
-
-      <div class="timeline-item">
-        <div class="timeline-date">2026 · 11</div>
-        <div class="timeline-content">
-          <h3>HEMENG 媒体格式开发</h3>
-          <p>围绕图片与视频组合、独立文件导出、重新导入和查看体验持续开发。</p>
-        </div>
-      </div>
-
-      <div class="timeline-item">
-        <div class="timeline-date">持续进行</div>
-        <div class="timeline-content">
-          <h3>网站功能持续建设</h3>
-          <p>继续完善博客、在线工具、内容交流与整体浏览体验。</p>
-        </div>
+      <div class="community-actions">
+        <a href="/wall/" data-i18n="community.wall">去大河墙看看 →</a>
+        <a href="/about/" data-i18n="community.about">认识荷萌 →</a>
       </div>
     </div>
   </section>
 </main>
 
-<section class="about-section">
-  <div class="about-inner">
-    <div class="about-content">
-      <div class="section-kicker">ABOUT HEMENG</div>
-      <h2>不止是一个个人博客。</h2>
-      <p id="aboutText">荷萌 HEMENG 是一个持续建设中的个人互联网空间。
-
-这里不仅记录文章与想法，也在逐步建设在线工具、互动媒体格式和内容交流功能。
-
-它不局限于某一种用途。希望通过持续开发，让每一个想法都能够成为真正可以使用的东西。</p>
-      <a class="about-link" href="/about/">阅读完整介绍 →</a>
-    </div>
-    <div class="about-mark">✿</div>
-  </div>
-</section>
-
 <footer>
   <div class="footer-brand">荷萌 HEMENG</div>
-  © 2026 HEMENG
-  <br>
-  一个持续建设中的个人互联网空间
+  <span data-i18n="footer.line">一个可以探索、创作与分享的互联网空间</span>
+  <br>© 2026 HEMENG
 </footer>
-
-<script>
-async function loadSiteSettings(){
-  try{
-    const response=await fetch("/api/settings",{cache:"no-store"});
-    if(!response.ok)return;
-    const data=await response.json();
-    if(!data.success||!data.settings)return;
-    const settings=data.settings;
-
-    if(settings.site_name){
-      document.title=settings.site_name+" - 个人互联网空间";
-    }
-
-    if(typeof settings.home_notice==="string"&&settings.home_notice.trim()){
-      const notice=document.getElementById("homeNotice");
-      notice.textContent=settings.home_notice;
-      notice.style.display="block";
-    }
-
-    if(typeof settings.about_intro==="string"&&settings.about_intro.trim()){
-      document.getElementById("aboutText").textContent=settings.about_intro;
-    }
-  }catch(error){
-    console.log("网站设置读取失败，使用默认内容。");
-  }
-}
-
-function formatArticleDate(value){
-  if(!value)return "发布时间未知";
-  const date=new Date(value);
-  if(Number.isNaN(date.getTime()))return "发布时间未知";
-  return date.toLocaleDateString("zh-CN",{
-    year:"numeric",month:"2-digit",day:"2-digit"
-  });
-}
-
-function renderArticles(posts){
-  const container=document.getElementById("articleList");
-  container.replaceChildren();
-
-  if(!Array.isArray(posts)||posts.length===0){
-    const empty=document.createElement("div");
-    empty.className="empty-message";
-    empty.textContent="目前还没有已发布的文章。";
-    container.appendChild(empty);
-    return;
-  }
-
-  posts.slice(0,3).forEach(post=>{
-    const article=document.createElement("a");
-    article.className="article-card";
-    article.href="/blog/?article="+encodeURIComponent(post.id);
-
-    const category=document.createElement("span");
-    category.className="article-category";
-    category.textContent=post.category||"未分类";
-
-    const title=document.createElement("h3");
-    title.textContent=post.title||"未命名文章";
-
-    const summary=document.createElement("p");
-    summary.className="article-summary";
-    summary.textContent=post.summary||"暂无文章摘要。";
-
-    const date=document.createElement("div");
-    date.className="article-date";
-    date.textContent=formatArticleDate(post.created_at);
-
-    article.append(category,title,summary,date);
-    container.appendChild(article);
-  });
-}
-
-async function loadRecentArticles(){
-  const container=document.getElementById("articleList");
-  container.replaceChildren();
-
-  const loading=document.createElement("div");
-  loading.className="empty-message";
-  loading.textContent="正在读取文章……";
-  container.appendChild(loading);
-
-  try{
-    const response=await fetch("/api/posts",{cache:"no-store"});
-    if(!response.ok)throw new Error("文章接口请求失败");
-    const data=await response.json();
-    if(!data.success||!Array.isArray(data.posts)){
-      throw new Error("文章数据格式异常");
-    }
-    renderArticles(data.posts);
-  }catch(error){
-    console.error("最近文章读取失败：",error);
-    container.replaceChildren();
-
-    const message=document.createElement("div");
-    message.className="empty-message";
-    message.textContent="最近文章暂时无法加载，请稍后重试。";
-
-    const button=document.createElement("button");
-    button.className="retry-button";
-    button.type="button";
-    button.textContent="重新加载";
-    button.addEventListener("click",loadRecentArticles);
-
-    message.append(document.createElement("br"),button);
-    container.appendChild(message);
-  }
-}
-
-loadSiteSettings();
-loadRecentArticles();
-</script>
 
 <script src="/js/i18n.js"></script>
 <script src="/js/home-i18n.js"></script>
+
+<script>
+(function(){
+  "use strict";
+
+  const $ = id => document.getElementById(id);
+
+  const toolNames = {
+    "image-tools":"图片处理中心",
+    "nine-grid":"九宫格工具",
+    "qr-code":"二维码工具",
+    "hemeng":"HEMENG 制作器"
+  };
+
+  const toolPaths = {
+    "image-tools":"/tools/image-tools/",
+    "nine-grid":"/tools/nine-grid/",
+    "qr-code":"/tools/qr-code/",
+    "hemeng":"/tools/hemeng/"
+  };
+
+  function t(key,fallback){
+    if(window.HemengHomeI18n){
+      return window.HemengHomeI18n.t(key);
+    }
+    return fallback || key;
+  }
+
+  /* 网站设置 */
+  async function loadSiteSettings(){
+    try{
+      const response=await fetch("/api/settings",{cache:"no-store"});
+      if(!response.ok)return;
+
+      const data=await response.json();
+      if(!data.success||!data.settings)return;
+
+      const settings=data.settings;
+
+      if(settings.site_name){
+        document.title=settings.site_name+" - HEMENG";
+      }
+
+      if(typeof settings.home_notice==="string"&&settings.home_notice.trim()){
+        const notice=$("homeNotice");
+        notice.textContent=settings.home_notice;
+        notice.style.display="block";
+      }
+    }catch(error){
+      console.log("网站设置读取失败，使用默认内容。");
+    }
+  }
+
+  /* 文章 */
+  function formatArticleDate(value){
+    if(!value)return t("articles.unknownDate","发布时间未知");
+
+    const date=new Date(value);
+    if(Number.isNaN(date.getTime())){
+      return t("articles.unknownDate","发布时间未知");
+    }
+
+    const language=window.HemengI18n
+      ? window.HemengI18n.getLanguage()
+      : "zh-CN";
+
+    try{
+      return new Intl.DateTimeFormat(language,{
+        year:"numeric",month:"2-digit",day:"2-digit"
+      }).format(date);
+    }catch(error){
+      return date.toLocaleDateString();
+    }
+  }
+
+  function renderArticles(posts){
+    const container=$("articleList");
+    container.replaceChildren();
+
+    if(!Array.isArray(posts)||posts.length===0){
+      const empty=document.createElement("div");
+      empty.className="empty-message";
+      empty.textContent=t("articles.empty","目前还没有已发布的文章。");
+      container.appendChild(empty);
+      return;
+    }
+
+    posts.slice(0,3).forEach(post=>{
+      const article=document.createElement("a");
+      article.className="article-card";
+      article.href="/blog/?article="+encodeURIComponent(post.id);
+
+      const category=document.createElement("span");
+      category.className="article-category";
+      category.textContent=post.category||t("articles.uncategorized","未分类");
+
+      const title=document.createElement("h3");
+      title.textContent=post.title||t("articles.untitled","未命名文章");
+
+      const summary=document.createElement("p");
+      summary.className="article-summary";
+      summary.textContent=post.summary||t("articles.noSummary","暂无文章摘要。");
+
+      const date=document.createElement("div");
+      date.className="article-date";
+      date.textContent=formatArticleDate(post.created_at);
+
+      article.append(category,title,summary,date);
+      container.appendChild(article);
+    });
+  }
+
+  async function loadRecentArticles(){
+    const container=$("articleList");
+    container.replaceChildren();
+
+    const loading=document.createElement("div");
+    loading.className="empty-message";
+    loading.textContent=t("articles.loading","正在读取文章……");
+    container.appendChild(loading);
+
+    try{
+      const response=await fetch("/api/posts",{cache:"no-store"});
+      if(!response.ok)throw new Error("文章接口请求失败");
+
+      const data=await response.json();
+      if(!data.success||!Array.isArray(data.posts)){
+        throw new Error("文章数据格式异常");
+      }
+
+      renderArticles(data.posts);
+    }catch(error){
+      console.error("最近文章读取失败：",error);
+      container.replaceChildren();
+
+      const message=document.createElement("div");
+      message.className="empty-message";
+      message.textContent=t("articles.failed","最近文章暂时无法加载，请稍后重试。");
+
+      const button=document.createElement("button");
+      button.className="retry-button";
+      button.type="button";
+      button.textContent=t("articles.retry","重新加载");
+      button.addEventListener("click",loadRecentArticles);
+
+      message.append(document.createElement("br"),button);
+      container.appendChild(message);
+    }
+  }
+
+  /* 工具搜索与分类 */
+  let activeFilter="all";
+
+  function filterTools(){
+    const keyword=$("toolSearch").value.trim().toLowerCase();
+    const cards=[...document.querySelectorAll(".tool-entry")];
+    let visible=0;
+
+    cards.forEach(card=>{
+      const category=card.dataset.category;
+      const searchText=(
+        card.dataset.search+" "+card.textContent
+      ).toLowerCase();
+
+      const matchesCategory=
+        activeFilter==="all"||category===activeFilter;
+
+      const matchesKeyword=
+        !keyword||searchText.includes(keyword);
+
+      const show=matchesCategory&&matchesKeyword;
+      card.hidden=!show;
+
+      if(show)visible++;
+    });
+
+    $("noToolResult").classList.toggle("show",visible===0);
+  }
+
+  document.querySelectorAll(".filter-button").forEach(button=>{
+    button.addEventListener("click",()=>{
+      activeFilter=button.dataset.filter;
+
+      document.querySelectorAll(".filter-button").forEach(item=>{
+        item.classList.toggle("active",item===button);
+      });
+
+      filterTools();
+    });
+  });
+
+  $("toolSearch").addEventListener("input",filterTools);
+
+  /* 最近使用：仅保存在当前浏览器 */
+  const RECENT_KEY="hemeng-home-recent-tools";
+
+  function readRecent(){
+    try{
+      const value=JSON.parse(localStorage.getItem(RECENT_KEY)||"[]");
+      return Array.isArray(value)?value.filter(id=>toolPaths[id]):[];
+    }catch(error){
+      return [];
+    }
+  }
+
+  function saveRecent(id){
+    try{
+      const list=readRecent().filter(item=>item!==id);
+      list.unshift(id);
+      localStorage.setItem(RECENT_KEY,JSON.stringify(list.slice(0,4)));
+    }catch(error){
+      // 浏览器不允许本地存储时，不影响工具使用
+    }
+  }
+
+  function renderRecent(){
+    const container=$("recentTools");
+    const list=readRecent();
+    container.replaceChildren();
+
+    if(!list.length){
+      const empty=document.createElement("span");
+      empty.className="recent-empty";
+      empty.textContent=t(
+        "recent.empty",
+        "还没有使用记录，打开一个工具后就会显示在这里。"
+      );
+      container.appendChild(empty);
+      return;
+    }
+
+    list.forEach(id=>{
+      const link=document.createElement("a");
+      link.className="recent-item";
+      link.href=toolPaths[id];
+      link.textContent=toolNames[id]||id;
+      container.appendChild(link);
+    });
+  }
+
+  document.querySelectorAll(".tool-entry").forEach(card=>{
+    card.addEventListener("click",()=>{
+      saveRecent(card.dataset.toolId);
+    });
+  });
+
+  /* 每日发现：根据日期轮换推荐，不伪造用户数据 */
+  const dailyItems=[
+    {
+      title:"discovery.imageTitle",
+      desc:"discovery.imageDesc",
+      href:"/tools/image-tools/"
+    },
+    {
+      title:"discovery.gridTitle",
+      desc:"discovery.gridDesc",
+      href:"/tools/nine-grid/"
+    },
+    {
+      title:"discovery.qrTitle",
+      desc:"discovery.qrDesc",
+      href:"/tools/qr-code/"
+    },
+    {
+      title:"discovery.hemengTitle",
+      desc:"discovery.hemengDesc",
+      href:"/tools/hemeng/"
+    }
+  ];
+
+  function renderDaily(){
+    const day=Math.floor(Date.now()/86400000);
+    const item=dailyItems[day%dailyItems.length];
+
+    $("dailyTitle").textContent=t(item.title,item.title);
+    $("dailyDescription").textContent=t(item.desc,item.desc);
+    $("dailyLink").href=item.href;
+  }
+
+  function refreshLocalizedContent(){
+    renderRecent();
+    renderDaily();
+    loadRecentArticles();
+  }
+
+  window.addEventListener("hemeng-language-change",refreshLocalizedContent);
+
+  loadSiteSettings();
+  renderRecent();
+  renderDaily();
+  loadRecentArticles();
+})();
+</script>
+
 </body>
 </html>
+
