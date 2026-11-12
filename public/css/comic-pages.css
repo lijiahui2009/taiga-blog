@@ -622,3 +622,70 @@ body:has(.intro-card) a:focus-visible {
     transform: none !important;
   }
 }
+/* =========================================
+   MOBILE COMIC EXPERIENCE
+========================================= */
+
+body:has(.tools-grid),
+body:has(.intro-card) {
+  overflow-x: hidden;
+}
+
+body:has(.tools-grid) .tools-grid,
+body:has(.intro-card) .features {
+  min-width: 0;
+  width: 100%;
+}
+
+body:has(.tools-grid) .tool-card,
+body:has(.intro-card) .feature,
+body:has(.intro-card) .intro-card,
+body:has(.intro-card) .direction-card,
+body:has(.intro-card) .quote {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 560px) {
+  body:has(.tools-grid) .tool-card {
+    width: 100%;
+    min-height: auto;
+    padding: 23px 20px;
+  }
+
+  body:has(.tools-grid) .tool-card h2 {
+    font-size: 23px;
+  }
+
+  body:has(.tools-grid) .tool-card p {
+    line-height: 1.8;
+  }
+
+  body:has(.intro-card) .hero {
+    margin: 18px 13px 35px;
+  }
+
+  body:has(.intro-card) .section-heading {
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  body:has(.intro-card) .feature {
+    padding: 22px;
+  }
+
+  body:has(.tools-grid) footer,
+  body:has(.intro-card) footer {
+    margin-top: 45px;
+    padding: 24px 16px;
+  }
+}
+
+/* 触屏设备：按压反馈 */
+@media (hover: none) {
+  body:has(.tools-grid) .tool-card:active,
+  body:has(.intro-card) .feature:active {
+    transform: scale(.98) !important;
+    box-shadow: 2px 2px 0 var(--page-ink) !important;
+  }
+}
