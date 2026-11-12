@@ -1,0 +1,837 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f7f5f2">
+<title>自由拼接 - HEMENG</title>
+<style>
+:root{
+  --bg:#f7f5f2;
+  --surface:#fff;
+  --accent:#a96f64;
+  --accent-dark:#89564e;
+  --text:#37312f;
+  --muted:#948984;
+  --line:#ebe4df;
+  --soft:#f5ebe7;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  color:var(--text);
+  background:var(--bg);
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;
+}
+button,input,select{font:inherit}
+button{cursor:pointer}
+button:disabled{opacity:.4;cursor:not-allowed}
+.topbar{
+  height:62px;padding:0 5%;
+  display:flex;align-items:center;justify-content:space-between;
+  background:#fff;border-bottom:1px solid var(--line);
+}
+.brand{font-weight:750;font-size:16px}
+.back{font-size:12px;color:var(--muted);text-decoration:none}
+.page{max-width:1450px;margin:auto;padding:30px 22px 60px}
+.heading{margin-bottom:22px}
+.eyebrow{font-size:10px;letter-spacing:2px;color:var(--accent);font-weight:800}
+h1{font-size:28px;margin:9px 0}
+.subtitle{font-size:12px;color:var(--muted);line-height:1.8;margin:0}
+.layout{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 320px;
+  gap:16px;align-items:start;
+}
+.card{
+  min-width:0;background:#fff;border:1px solid var(--line);
+  border-radius:14px;overflow:hidden;
+}
+.card-head{
+  min-height:52px;padding:0 16px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid var(--line);
+  font-size:12px;font-weight:750;
+}
+.toolbar{
+  padding:12px 14px;display:flex;flex-wrap:wrap;gap:8px;
+  border-bottom:1px solid var(--line);
+}
+.btn{
+  border:1px solid var(--line);border-radius:8px;
+  padding:9px 12px;background:white;color:#625751;
+  font-size:11px;font-weight:650;
+}
+.btn:hover{border-color:#d5b4a9;background:#fffaf7}
+.btn.primary{background:var(--accent);color:white;border-color:var(--accent)}
+.btn.primary:hover{background:var(--accent-dark)}
+.btn.dark{background:#514640;color:white;border-color:#514640}
+.btn.danger{color:#a44d48}
+.canvas-area{
+  min-height:570px;padding:25px;
+  display:flex;align-items:center;justify-content:center;
+  overflow:auto;background:#f4f1ee;
+  background-image:radial-gradient(#d9d1cb 0.7px,transparent .7px);
+  background-size:15px 15px;
+}
+.canvas-wrap{
+  width:100%;display:flex;align-items:center;justify-content:center;
+}
+#designCanvas{
+  display:block;width:auto;height:auto;max-width:100%;
+  max-height:720px;box-shadow:0 8px 28px #33241c22;
+  touch-action:none;cursor:default;
+}
+.canvas-foot{
+  padding:10px 15px;border-top:1px solid var(--line);
+  color:var(--muted);font-size:10px;
+  display:flex;justify-content:space-between;gap:10px;
+}
+.sidebar-section{padding:16px;border-bottom:1px solid #f0ebe7}
+.section-title{font-size:12px;font-weight:750;margin-bottom:13px}
+.field{margin:12px 0}
+.field label{
+  display:block;font-size:11px;font-weight:650;
+  color:#6d625d;margin-bottom:7px;
+}
+input[type=file]{display:none}
+input[type=number],select{
+  width:100%;height:36px;padding:0 9px;
+  border:1px solid var(--line);border-radius:8px;
+  background:#fff;color:var(--text);font-size:11px;
+}
+input[type=color]{
+  width:100%;height:36px;padding:3px;
+  border:1px solid var(--line);border-radius:8px;background:white;
+}
+.dimension{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.check{display:flex;align-items:center;gap:7px;font-size:11px;color:#766a64}
+input[type=checkbox]{accent-color:var(--accent)}
+.layer-list{display:grid;gap:7px;max-height:260px;overflow:auto}
+.layer{
+  padding:8px;border:1px solid var(--line);border-radius:8px;
+  display:flex;align-items:center;gap:8px;min-width:0;
+  cursor:pointer;background:white;
+}
+.layer.active{border-color:var(--accent);background:#fff8f5}
+.layer img{width:35px;height:35px;object-fit:cover;border-radius:5px}
+.layer-name{font-size:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+.layer-empty{font-size:11px;color:var(--muted);padding:12px 0}
+.layer-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px}
+.layer-actions button{padding:8px 2px;font-size:10px}
+.export-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.export-actions .wide{grid-column:1/-1}
+.status{
+  margin-top:12px;padding:10px;border-radius:8px;
+  background:#fff8f5;border:1px solid #f1e4de;
+  color:var(--muted);font-size:10px;line-height:1.7;
+}
+.hint{font-size:10px;color:var(--muted);line-height:1.8;margin:10px 0 0}
+@media(max-width:850px){
+  .layout{grid-template-columns:1fr}
+  .canvas-area{min-height:350px;padding:12px}
+  #designCanvas{max-height:550px}
+}
+@media(max-width:520px){
+  .page{padding:22px 12px 40px}
+  .topbar{padding:0 15px}
+  h1{font-size:24px}
+  .canvas-area{min-height:280px}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="/" style="text-decoration:none;color:inherit">HEMENG</a>
+  <a class="back" href="/tools/image-tools/">返回图片处理中心 ←</a>
+</header>
+
+<main class="page">
+  <div class="heading">
+    <div class="eyebrow">HEMENG · IMAGE STUDIO</div>
+    <h1>自由拼接</h1>
+    <p class="subtitle">自由排列多张图片，制作属于自己的图片版面。</p>
+  </div>
+
+  <div class="layout">
+    <section class="card">
+      <div class="card-head">
+        <span>设计画布</span>
+        <span id="canvasInfo">1200 × 1200 px</span>
+      </div>
+
+      <div class="toolbar">
+        <label class="btn primary">
+          ＋ 添加图片
+          <input id="fileInput" type="file" accept="image/png,image/jpeg,image/webp" multiple>
+        </label>
+        <button class="btn" id="fitButton">适应画布</button>
+        <button class="btn" id="centerButton">居中选中图片</button>
+        <button class="btn" id="deleteButton">删除选中图片</button>
+      </div>
+
+      <div class="canvas-area">
+        <div class="canvas-wrap">
+          <canvas id="designCanvas" width="1200" height="1200"></canvas>
+        </div>
+      </div>
+
+      <div class="canvas-foot">
+        <span id="canvasStatus">等待添加图片</span>
+        <span>拖动图片移动 · 拖动右下角调整大小</span>
+      </div>
+    </section>
+
+    <aside class="card">
+      <div class="card-head">工作台设置</div>
+
+      <section class="sidebar-section">
+        <div class="section-title">01 · 画布尺寸</div>
+        <div class="field">
+          <label for="preset">画布比例</label>
+          <select id="preset">
+            <option value="1200,1200">1:1 正方形</option>
+            <option value="1200,1500">4:5 竖版</option>
+            <option value="1500,1200">5:4 横版</option>
+            <option value="1200,1600">3:4 竖版</option>
+            <option value="1600,900">16:9 横版</option>
+            <option value="900,1600">9:16 竖版</option>
+            <option value="custom">自定义尺寸</option>
+          </select>
+        </div>
+        <div class="dimension">
+          <div class="field">
+            <label for="canvasWidth">宽度</label>
+            <input id="canvasWidth" type="number" min="100" max="4000" value="1200">
+          </div>
+          <div class="field">
+            <label for="canvasHeight">高度</label>
+            <input id="canvasHeight" type="number" min="100" max="4000" value="1200">
+          </div>
+        </div>
+        <button class="btn" id="applySize" style="width:100%">应用画布尺寸</button>
+      </section>
+
+      <section class="sidebar-section">
+        <div class="section-title">02 · 画布背景</div>
+        <div class="field">
+          <label for="background">背景颜色</label>
+          <input id="background" type="color" value="#ffffff">
+        </div>
+        <label class="check">
+          <input id="transparent" type="checkbox">
+          透明背景
+        </label>
+      </section>
+
+      <section class="sidebar-section">
+        <div class="section-title">03 · 图片图层</div>
+        <div class="layer-list" id="layerList">
+          <div class="layer-empty">还没有添加图片</div>
+        </div>
+        <div class="layer-actions">
+          <button class="btn" id="moveUp">上移</button>
+          <button class="btn" id="moveDown">下移</button>
+          <button class="btn" id="duplicate">复制</button>
+          <button class="btn danger" id="removeLayer">删除</button>
+        </div>
+      </section>
+
+      <section class="sidebar-section">
+        <div class="section-title">04 · 选中图片属性</div>
+        <div class="dimension">
+          <div class="field">
+            <label for="posX">水平位置 X</label>
+            <input id="posX" type="number">
+          </div>
+          <div class="field">
+            <label for="posY">垂直位置 Y</label>
+            <input id="posY" type="number">
+          </div>
+          <div class="field">
+            <label for="objectWidth">图片宽度</label>
+            <input id="objectWidth" type="number" min="1">
+          </div>
+          <div class="field">
+            <label for="objectHeight">图片高度</label>
+            <input id="objectHeight" type="number" min="1">
+          </div>
+        </div>
+        <div class="field">
+          <label for="opacity">透明度 <span id="opacityText">100%</span></label>
+          <input id="opacity" type="range" min="10" max="100" value="100" style="width:100%;accent-color:var(--accent)">
+        </div>
+        <div class="layer-actions">
+          <button class="btn" id="rotateLeft">左转 90°</button>
+          <button class="btn" id="rotateRight">右转 90°</button>
+          <button class="btn" id="flipH">水平翻转</button>
+          <button class="btn" id="flipV">垂直翻转</button>
+        </div>
+        <p class="hint">也可以直接在画布中拖动图片。选中图片后，右下角的小方块可以调整大小。</p>
+      </section>
+
+      <section class="sidebar-section">
+        <div class="section-title">05 · 导出作品</div>
+        <div class="field">
+          <label for="exportFormat">导出格式</label>
+          <select id="exportFormat">
+            <option value="image/png">PNG · 无损</option>
+            <option value="image/jpeg">JPG</option>
+            <option value="image/webp">WebP</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="exportQuality">导出质量 <span id="qualityText">92%</span></label>
+          <input id="exportQuality" type="range" min="10" max="100" value="92" style="width:100%;accent-color:var(--accent)">
+        </div>
+        <div class="export-actions">
+          <button class="btn primary wide" id="exportButton">导出拼接图片</button>
+          <button class="btn" id="clearButton">清空画布</button>
+          <button class="btn" id="resetButton">恢复初始画布</button>
+        </div>
+        <div class="status" id="status">图片在本地浏览器处理，不会上传服务器。</div>
+      </section>
+    </aside>
+  </div>
+</main>
+
+<script>
+const $ = id => document.getElementById(id);
+const canvas = $("designCanvas");
+const ctx = canvas.getContext("2d");
+
+let objects = [];
+let selectedId = null;
+let nextId = 1;
+let dragState = null;
+
+function selectedObject(){
+  return objects.find(item=>item.id===selectedId) || null;
+}
+
+function setStatus(message){
+  $("status").textContent = message;
+  $("canvasStatus").textContent = message;
+}
+
+function draw(){
+  const width = canvas.width;
+  const height = canvas.height;
+
+  ctx.clearRect(0,0,width,height);
+
+  if(!$("transparent").checked){
+    ctx.fillStyle = $("background").value;
+    ctx.fillRect(0,0,width,height);
+  }
+
+  objects.forEach(item=>{
+    ctx.save();
+    ctx.globalAlpha = item.opacity;
+    ctx.translate(item.x+item.w/2,item.y+item.h/2);
+    ctx.rotate(item.rotation*Math.PI/180);
+    ctx.scale(item.flipH?-1:1,item.flipV?-1:1);
+    ctx.drawImage(item.image,-item.w/2,-item.h/2,item.w,item.h);
+    ctx.restore();
+  });
+
+  const item = selectedObject();
+  if(item){
+    ctx.save();
+    ctx.strokeStyle = "#b77b70";
+    ctx.lineWidth = Math.max(2,width/600);
+    ctx.setLineDash([8,5]);
+    ctx.strokeRect(item.x,item.y,item.w,item.h);
+    ctx.setLineDash([]);
+    const handleSize = Math.max(13,width/75);
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(item.x+item.w-handleSize/2,item.y+item.h-handleSize/2,handleSize,handleSize);
+    ctx.strokeRect(item.x+item.w-handleSize/2,item.y+item.h-handleSize/2,handleSize,handleSize);
+    ctx.restore();
+  }
+
+  $("canvasInfo").textContent = width+" × "+height+" px";
+}
+
+function renderLayers(){
+  const list = $("layerList");
+  list.innerHTML = "";
+
+  if(!objects.length){
+    list.innerHTML = '<div class="layer-empty">还没有添加图片</div>';
+    return;
+  }
+
+  [...objects].reverse().forEach(item=>{
+    const row = document.createElement("div");
+    row.className = "layer"+(item.id===selectedId?" active":"");
+
+    const thumb = document.createElement("img");
+    thumb.src = item.previewUrl;
+    thumb.alt = "";
+
+    const name = document.createElement("span");
+    name.className = "layer-name";
+    name.textContent = item.name;
+
+    row.append(thumb,name);
+    row.onclick = ()=>{
+      selectedId = item.id;
+      syncControls();
+      renderLayers();
+      draw();
+    };
+    list.appendChild(row);
+  });
+}
+
+function syncControls(){
+  const item = selectedObject();
+  const controls = [
+    "posX","posY","objectWidth","objectHeight",
+    "opacity","rotateLeft","rotateRight","flipH","flipV",
+    "moveUp","moveDown","duplicate","removeLayer","deleteButton","centerButton"
+  ];
+
+  controls.forEach(id=>$(id).disabled=!item);
+
+  if(!item){
+    ["posX","posY","objectWidth","objectHeight"].forEach(id=>$(id).value="");
+    $("opacity").value=100;
+    $("opacityText").textContent="100%";
+    return;
+  }
+
+  $("posX").value=Math.round(item.x);
+  $("posY").value=Math.round(item.y);
+  $("objectWidth").value=Math.round(item.w);
+  $("objectHeight").value=Math.round(item.h);
+  $("opacity").value=Math.round(item.opacity*100);
+  $("opacityText").textContent=Math.round(item.opacity*100)+"%";
+}
+
+function updateSelected(){
+  const item = selectedObject();
+  if(!item) return;
+
+  const x = Number($("posX").value);
+  const y = Number($("posY").value);
+  const w = Number($("objectWidth").value);
+  const h = Number($("objectHeight").value);
+
+  if(Number.isFinite(x)) item.x=x;
+  if(Number.isFinite(y)) item.y=y;
+  if(Number.isFinite(w)&&w>0&&w<=8000) item.w=w;
+  if(Number.isFinite(h)&&h>0&&h<=8000) item.h=h;
+
+  draw();
+  renderLayers();
+}
+
+["posX","posY","objectWidth","objectHeight"].forEach(id=>{
+  $(id).addEventListener("change",updateSelected);
+});
+
+$("opacity").addEventListener("input",()=>{
+  const item=selectedObject();
+  if(!item)return;
+  item.opacity=Number($("opacity").value)/100;
+  $("opacityText").textContent=$("opacity").value+"%";
+  draw();
+});
+
+function addImage(file){
+  return new Promise((resolve,reject)=>{
+    if(!["image/png","image/jpeg","image/webp"].includes(file.type)){
+      reject(new Error("不支持的图片格式："+file.name));
+      return;
+    }
+    if(file.size>30*1024*1024){
+      reject(new Error("单张图片不能超过 30MB："+file.name));
+      return;
+    }
+
+    const url=URL.createObjectURL(file);
+    const image=new Image();
+
+    image.onload=()=>{
+      const maxSide=canvas.width*0.65;
+      const scale=Math.min(maxSide/image.naturalWidth,maxSide/image.naturalHeight,1);
+      const w=Math.max(1,image.naturalWidth*scale);
+      const h=Math.max(1,image.naturalHeight*scale);
+
+      const item={
+        id:nextId++,
+        name:file.name,
+        image,
+        previewUrl:url,
+        x:(canvas.width-w)/2,
+        y:(canvas.height-h)/2,
+        w,h,
+        opacity:1,
+        rotation:0,
+        flipH:false,
+        flipV:false
+      };
+
+      objects.push(item);
+      selectedId=item.id;
+      resolve(item);
+    };
+
+    image.onerror=()=>{
+      URL.revokeObjectURL(url);
+      reject(new Error("无法读取图片："+file.name));
+    };
+
+    image.src=url;
+  });
+}
+
+$("fileInput").addEventListener("change",async event=>{
+  const files=Array.from(event.target.files||[]);
+  if(!files.length)return;
+
+  if(objects.length+files.length>30){
+    setStatus("最多添加 30 张图片。");
+    event.target.value="";
+    return;
+  }
+
+  setStatus("正在导入图片……");
+
+  let success=0;
+  for(const file of files){
+    try{
+      await addImage(file);
+      success++;
+    }catch(error){
+      setStatus(error.message);
+    }
+  }
+
+  renderLayers();
+  syncControls();
+  draw();
+  if(success) setStatus("成功添加 "+success+" 张图片。");
+  event.target.value="";
+});
+
+function pointerPosition(event){
+  const rect=canvas.getBoundingClientRect();
+  return {
+    x:(event.clientX-rect.left)*canvas.width/rect.width,
+    y:(event.clientY-rect.top)*canvas.height/rect.height
+  };
+}
+
+function hitTest(point){
+  for(let i=objects.length-1;i>=0;i--){
+    const item=objects[i];
+    if(point.x>=item.x&&point.x<=item.x+item.w&&
+       point.y>=item.y&&point.y<=item.y+item.h){
+      return item;
+    }
+  }
+  return null;
+}
+
+canvas.addEventListener("pointerdown",event=>{
+  const point=pointerPosition(event);
+  const item=selectedObject();
+
+  if(item){
+    const handle= Math.max(18,canvas.width/55);
+    const hx=item.x+item.w;
+    const hy=item.y+item.h;
+
+    if(Math.abs(point.x-hx)<handle&&Math.abs(point.y-hy)<handle){
+      dragState={
+        type:"resize",id:item.id,
+        startX:point.x,startY:point.y,
+        width:item.w,height:item.h
+      };
+      canvas.setPointerCapture(event.pointerId);
+      return;
+    }
+  }
+
+  const hit=hitTest(point);
+
+  if(hit){
+    selectedId=hit.id;
+    dragState={
+      type:"move",id:hit.id,
+      startX:point.x,startY:point.y,
+      x:hit.x,y:hit.y
+    };
+  }else{
+    selectedId=null;
+    dragState=null;
+  }
+
+  syncControls();
+  renderLayers();
+  draw();
+
+  if(dragState) canvas.setPointerCapture(event.pointerId);
+});
+
+canvas.addEventListener("pointermove",event=>{
+  if(!dragState)return;
+
+  const point=pointerPosition(event);
+  const item=objects.find(obj=>obj.id===dragState.id);
+  if(!item)return;
+
+  const dx=point.x-dragState.startX;
+  const dy=point.y-dragState.startY;
+
+  if(dragState.type==="move"){
+    item.x=dragState.x+dx;
+    item.y=dragState.y+dy;
+  }else{
+    const ratio=dragState.width/dragState.height;
+    let newWidth=Math.max(20,dragState.width+dx);
+    let newHeight=Math.max(20,dragState.height+dy);
+
+    if(event.shiftKey){
+      newHeight=newWidth/ratio;
+    }
+
+    item.w=Math.min(8000,newWidth);
+    item.h=Math.min(8000,newHeight);
+  }
+
+  syncControls();
+  draw();
+});
+
+function stopDrag(){
+  if(!dragState)return;
+  dragState=null;
+  renderLayers();
+}
+canvas.addEventListener("pointerup",stopDrag);
+canvas.addEventListener("pointercancel",stopDrag);
+
+function deleteSelected(){
+  const index=objects.findIndex(item=>item.id===selectedId);
+  if(index<0)return;
+  const removed=objects.splice(index,1)[0];
+  URL.revokeObjectURL(removed.previewUrl);
+  selectedId=null;
+  syncControls();
+  renderLayers();
+  draw();
+  setStatus("已删除选中图片。");
+}
+
+$("deleteButton").onclick=deleteSelected;
+$("removeLayer").onclick=deleteSelected;
+
+$("centerButton").onclick=()=>{
+  const item=selectedObject();
+  if(!item)return;
+  item.x=(canvas.width-item.w)/2;
+  item.y=(canvas.height-item.h)/2;
+  syncControls();
+  draw();
+};
+
+$("moveUp").onclick=()=>{
+  const index=objects.findIndex(item=>item.id===selectedId);
+  if(index<0||index===objects.length-1)return;
+  [objects[index],objects[index+1]]=[objects[index+1],objects[index]];
+  renderLayers();draw();
+};
+
+$("moveDown").onclick=()=>{
+  const index=objects.findIndex(item=>item.id===selectedId);
+  if(index<=0)return;
+  [objects[index],objects[index-1]]=[objects[index-1],objects[index]];
+  renderLayers();draw();
+};
+
+$("duplicate").onclick=()=>{
+  const item=selectedObject();
+  if(!item)return;
+  if(objects.length>=30){
+    setStatus("最多添加 30 张图片。");
+    return;
+  }
+
+  const copy={
+    ...item,
+    id:nextId++,
+    name:item.name+" - 副本",
+    x:item.x+25,
+    y:item.y+25
+  };
+  objects.push(copy);
+  selectedId=copy.id;
+  syncControls();
+  renderLayers();
+  draw();
+};
+
+$("rotateLeft").onclick=()=>{
+  const item=selectedObject();if(!item)return;
+  item.rotation=(item.rotation-90+360)%360;
+  [item.w,item.h]=[item.h,item.w];
+  draw();syncControls();
+};
+
+$("rotateRight").onclick=()=>{
+  const item=selectedObject();if(!item)return;
+  item.rotation=(item.rotation+90)%360;
+  [item.w,item.h]=[item.h,item.w];
+  draw();syncControls();
+};
+
+$("flipH").onclick=()=>{
+  const item=selectedObject();if(!item)return;
+  item.flipH=!item.flipH;draw();
+};
+
+$("flipV").onclick=()=>{
+  const item=selectedObject();if(!item)return;
+  item.flipV=!item.flipV;draw();
+};
+
+$("preset").addEventListener("change",()=>{
+  if($("preset").value==="custom")return;
+  const [w,h]=$("preset").value.split(",").map(Number);
+  $("canvasWidth").value=w;
+  $("canvasHeight").value=h;
+  applyCanvasSize();
+});
+
+function applyCanvasSize(){
+  const w=Number($("canvasWidth").value);
+  const h=Number($("canvasHeight").value);
+
+  if(!Number.isInteger(w)||!Number.isInteger(h)||
+     w<100||h<100||w>4000||h>4000){
+    setStatus("画布宽高必须为 100 至 4000 之间的整数。");
+    return;
+  }
+
+  canvas.width=w;
+  canvas.height=h;
+  draw();
+  setStatus("画布尺寸已调整为 "+w+" × "+h+"。");
+}
+
+$("applySize").onclick=applyCanvasSize;
+
+$("background").addEventListener("input",draw);
+$("transparent").addEventListener("change",draw);
+
+$("fitButton").onclick=()=>{
+  const item=selectedObject();
+  if(item){
+    const scale=Math.min(
+      canvas.width*0.65/item.image.naturalWidth,
+      canvas.height*0.65/item.image.naturalHeight
+    );
+    item.w=item.image.naturalWidth*scale;
+    item.h=item.image.naturalHeight*scale;
+    item.x=(canvas.width-item.w)/2;
+    item.y=(canvas.height-item.h)/2;
+    syncControls();
+  }
+  draw();
+};
+
+$("exportQuality").addEventListener("input",()=>{
+  $("qualityText").textContent=$("exportQuality").value+"%";
+});
+
+$("exportButton").onclick=()=>{
+  const format=$("exportFormat").value;
+  const quality=Number($("exportQuality").value)/100;
+  const extension=format==="image/jpeg"?"jpg":
+    format==="image/webp"?"webp":"png";
+
+  const exportCanvas=document.createElement("canvas");
+  exportCanvas.width=canvas.width;
+  exportCanvas.height=canvas.height;
+  const exportCtx=exportCanvas.getContext("2d");
+
+  if(format==="image/jpeg"||!$("transparent").checked){
+    exportCtx.fillStyle=$("background").value;
+    exportCtx.fillRect(0,0,exportCanvas.width,exportCanvas.height);
+  }
+
+  objects.forEach(item=>{
+    exportCtx.save();
+    exportCtx.globalAlpha=item.opacity;
+    exportCtx.translate(item.x+item.w/2,item.y+item.h/2);
+    exportCtx.rotate(item.rotation*Math.PI/180);
+    exportCtx.scale(item.flipH?-1:1,item.flipV?-1:1);
+    exportCtx.drawImage(item.image,-item.w/2,-item.h/2,item.w,item.h);
+    exportCtx.restore();
+  });
+
+  exportCanvas.toBlob(blob=>{
+    if(!blob){
+      setStatus("导出失败，请降低画布尺寸后重试。");
+      return;
+    }
+
+    const url=URL.createObjectURL(blob);
+    const link=document.createElement("a");
+    link.href=url;
+    link.download="HEMENG-collage."+extension;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),2000);
+    setStatus("作品导出成功。");
+  },format,quality);
+};
+
+function clearObjects(){
+  objects.forEach(item=>URL.revokeObjectURL(item.previewUrl));
+  objects=[];
+  selectedId=null;
+  syncControls();
+  renderLayers();
+  draw();
+}
+
+$("clearButton").onclick=()=>{
+  clearObjects();
+  setStatus("画布中的图片已清空。");
+};
+
+$("resetButton").onclick=()=>{
+  clearObjects();
+  canvas.width=1200;
+  canvas.height=1200;
+  $("canvasWidth").value=1200;
+  $("canvasHeight").value=1200;
+  $("preset").value="1200,1200";
+  $("background").value="#ffffff";
+  $("transparent").checked=false;
+  draw();
+  setStatus("已恢复初始画布。");
+};
+
+window.addEventListener("keydown",event=>{
+  if(event.key==="Delete"||event.key==="Backspace"){
+    if(!["INPUT","SELECT"].includes(document.activeElement.tagName)){
+      deleteSelected();
+    }
+  }
+});
+
+syncControls();
+renderLayers();
+draw();
+</script>
+</body>
+</html>
