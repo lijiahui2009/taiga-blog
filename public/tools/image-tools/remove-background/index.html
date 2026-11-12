@@ -1,0 +1,490 @@
+
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#faf7f5">
+<title>AI 图片背景去除</title>
+<style>
+:root{
+  --bg:#faf7f5;--panel:#fff;--text:#302c2a;
+  --muted:#8b817c;--line:#eee5e0;--accent:#b77b70;
+  --soft:#f5ece8;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif
+}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.top{max-width:1200px;margin:auto;padding:27px 24px 15px}
+.back{font-size:13px;color:var(--muted);text-decoration:none}
+h1{font-size:25px;margin:17px 0 7px}
+.sub{font-size:13px;color:var(--muted);line-height:1.8}
+.layout{
+  max-width:1200px;margin:auto;padding:12px 24px 45px;
+  display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:17px;
+  align-items:start
+}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px}
+.main{padding:17px}
+.side{display:flex;flex-direction:column;gap:12px}
+.section{padding:16px}
+.section h2{font-size:14px;margin:0 0 13px}
+.btn{
+  border:1px solid var(--line);background:white;color:var(--text);
+  border-radius:9px;padding:10px 14px;font-size:12px
+}
+.btn:hover{border-color:var(--accent);color:#986257}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:white}
+.btn.primary:hover{background:#986257}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.upload{
+  padding:35px 15px;text-align:center;background:#fcf9f7;
+  border:1px dashed #dfc9c0;border-radius:13px;color:var(--muted)
+}
+.upload strong{display:block;color:var(--text);font-size:14px;margin-bottom:8px}
+.upload p{font-size:12px;line-height:1.8}
+input[type=file]{display:none}
+.preview{
+  min-height:390px;margin-top:14px;border:1px solid var(--line);
+  border-radius:12px;display:flex;align-items:center;
+  justify-content:center;overflow:hidden;padding:12px;
+  background-color:#faf8f6;
+  background-image:linear-gradient(45deg,#eee9e5 25%,transparent 25%),
+  linear-gradient(-45deg,#eee9e5 25%,transparent 25%),
+  linear-gradient(45deg,transparent 75%,#eee9e5 75%),
+  linear-gradient(-45deg,transparent 75%,#eee9e5 75%);
+  background-size:20px 20px;
+  background-position:0 0,0 10px,10px -10px,-10px 0
+}
+.preview img{display:block;max-width:100%;max-height:620px;object-fit:contain}
+.empty{text-align:center;color:var(--muted);font-size:12px;line-height:1.8}
+.empty .symbol{font-size:42px;margin-bottom:10px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+.status{
+  margin-top:13px;padding:12px;background:#faf8f6;
+  border-radius:9px;font-size:12px;color:var(--muted);line-height:1.8
+}
+.progress{
+  height:8px;border-radius:10px;background:#f0e9e5;
+  overflow:hidden;margin-top:12px
+}
+.progress div{
+  height:100%;width:0;background:var(--accent);
+  transition:width .2s
+}
+.field{margin:13px 0}
+.field label{
+  display:flex;justify-content:space-between;gap:8px;
+  font-size:12px;color:#665d58;margin-bottom:8px
+}
+.field input[type=color]{
+  width:48px;height:33px;border:1px solid var(--line);
+  border-radius:8px;background:white;padding:2px
+}
+.colors{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.color{
+  width:30px;height:30px;border-radius:50%;
+  border:2px solid white;outline:1px solid var(--line)
+}
+.color.active{outline:2px solid var(--accent)}
+.hint{font-size:11px;color:var(--muted);line-height:1.8}
+.hidden{display:none!important}
+.warning{
+  padding:12px;background:#fbf5ef;border-radius:10px;
+  font-size:11px;color:#826c5c;line-height:1.8
+}
+.info{font-size:12px;color:var(--muted);line-height:1.8}
+@media(max-width:850px){
+  .layout{grid-template-columns:1fr}
+  .side{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:580px){
+  .top{padding:20px 15px 10px}
+  .layout{padding:8px 12px 30px}
+  .side{display:flex}
+  .main{padding:11px}
+  .preview{min-height:270px}
+  h1{font-size:22px}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a class="back" href="/tools/image-tools/">← 返回图片处理中心</a>
+  <h1>AI 图片背景去除</h1>
+  <div class="sub">
+    使用本地 AI 图像分割模型识别图片主体，生成透明背景图片。
+    图片本身不会上传到图片处理服务器。
+  </div>
+</header>
+
+<main class="layout">
+<section class="panel main">
+
+  <div class="upload" id="uploadArea">
+    <strong>选择需要处理的图片</strong>
+    <p>支持 JPG、PNG、WebP<br>单张最大 15MB，建议使用清晰图片</p>
+    <button class="btn primary" id="chooseBtn">选择图片</button>
+    <input type="file" id="fileInput" accept="image/png,image/jpeg,image/webp">
+  </div>
+
+  <div class="preview" id="preview">
+    <div class="empty">
+      <div class="symbol">✦</div>
+      <strong>等待导入图片</strong>
+      <p>处理后的透明背景图片将在这里显示</p>
+    </div>
+  </div>
+
+  <div class="progress hidden" id="progress">
+    <div id="progressBar"></div>
+  </div>
+
+  <div class="status" id="status">
+    尚未选择图片。
+  </div>
+
+  <div class="actions">
+    <button class="btn primary" id="processBtn" disabled>开始去除背景</button>
+    <button class="btn" id="restoreBtn" disabled>恢复原图</button>
+    <button class="btn" id="downloadBtn" disabled>下载透明 PNG</button>
+  </div>
+</section>
+
+<aside class="side">
+
+  <section class="panel section">
+    <h2>处理设置</h2>
+
+    <div class="field">
+      <label>模型选择</label>
+      <select id="model">
+        <option value="isnet_quint8" selected>轻量量化模型</option>
+        <option value="isnet_fp16">半精度模型</option>
+        <option value="isnet">标准模型</option>
+      </select>
+    </div>
+
+    <div class="hint">
+      轻量模型通常更适合首次体验。不同模型在文件体积、速度和边缘细节方面存在差异。
+    </div>
+
+    <div class="warning" style="margin-top:14px">
+      首次使用需要下载模型和运行时文件。下载速度取决于网络环境，处理速度取决于设备性能。
+    </div>
+  </section>
+
+  <section class="panel section">
+    <h2>背景预览</h2>
+    <div class="field">
+      <label>预览背景颜色</label>
+      <div class="row" style="display:flex;align-items:center;gap:10px">
+        <input type="color" id="backgroundColor" value="#ffffff">
+        <span class="hint">只改变预览背景，不会改变透明 PNG 文件。</span>
+      </div>
+    </div>
+
+    <div class="colors">
+      <button class="color active" data-color="#ffffff" style="background:#fff" title="白色"></button>
+      <button class="color" data-color="#eeeeee" style="background:#eee" title="浅灰"></button>
+      <button class="color" data-color="#222222" style="background:#222" title="深色"></button>
+      <button class="color" data-color="#b77b70" style="background:#b77b70" title="品牌色"></button>
+      <button class="color" data-color="#dce9df" style="background:#dce9df" title="浅绿"></button>
+    </div>
+  </section>
+
+  <section class="panel section">
+    <h2>处理信息</h2>
+    <div class="info" id="imageInfo">
+      尚未导入图片。
+    </div>
+  </section>
+
+  <section class="panel section">
+    <h2>隐私与处理方式</h2>
+    <div class="hint">
+      1. 图片在浏览器内存中读取。<br>
+      2. AI 模型通过资源服务器加载。<br>
+      3. 图片分割在当前浏览器设备上执行。<br>
+      4. 结果生成后可以直接保存为透明 PNG。
+      <br><br>
+      模型下载会产生网络请求，但这不等于上传你的原始图片。
+    </div>
+  </section>
+
+</aside>
+</main>
+
+<script>
+(()=>{
+'use strict';
+
+const $=id=>document.getElementById(id);
+const MAX_SIZE=15*1024*1024;
+const MAX_PIXELS=20000000;
+
+let originalFile=null;
+let originalUrl=null;
+let resultBlob=null;
+let resultUrl=null;
+let currentColor='#ffffff';
+let busy=false;
+let removeBackgroundFunction=null;
+
+function setStatus(text){
+  $('status').textContent=text;
+}
+
+function setBusy(value){
+  busy=value;
+  $('processBtn').disabled=value||!originalFile;
+  $('chooseBtn').disabled=value;
+  $('restoreBtn').disabled=value||!originalFile;
+  $('downloadBtn').disabled=value||!resultBlob;
+  $('fileInput').disabled=value;
+}
+
+function showPreview(url){
+  $('preview').innerHTML='';
+  const img=new Image();
+  img.alt='图片预览';
+  img.src=url;
+  $('preview').appendChild(img);
+  updatePreviewBackground();
+}
+
+function updatePreviewBackground(){
+  $('preview').style.backgroundColor=currentColor;
+}
+
+function formatBytes(bytes){
+  return bytes<1024*1024
+    ?(bytes/1024).toFixed(1)+' KB'
+    :(bytes/1024/1024).toFixed(2)+' MB';
+}
+
+function loadOriginal(file){
+  if(!file)return;
+
+  if(!/^image\/(png|jpeg|webp)$/.test(file.type)){
+    alert('请选择 JPG、PNG 或 WebP 图片。');
+    return;
+  }
+
+  if(file.size>MAX_SIZE){
+    alert('图片不能超过 15MB。');
+    return;
+  }
+
+  const url=URL.createObjectURL(file);
+  const img=new Image();
+
+  img.onload=()=>{
+    if(img.naturalWidth*img.naturalHeight>MAX_PIXELS){
+      URL.revokeObjectURL(url);
+      alert('图片像素过大，请选择尺寸较小的图片。');
+      return;
+    }
+
+    if(originalUrl)URL.revokeObjectURL(originalUrl);
+    if(resultUrl)URL.revokeObjectURL(resultUrl);
+
+    originalFile=file;
+    originalUrl=url;
+    resultBlob=null;
+    resultUrl=null;
+
+    showPreview(originalUrl);
+
+    $('imageInfo').innerHTML=
+      `文件名称：${file.name}<br>`+
+      `文件大小：${formatBytes(file.size)}<br>`+
+      `图片尺寸：${img.naturalWidth} × ${img.naturalHeight}<br>`+
+      `文件格式：${file.type}`;
+
+    $('restoreBtn').disabled=false;
+    $('downloadBtn').disabled=true;
+    $('processBtn').disabled=false;
+
+    setStatus('图片已载入，可以开始处理。');
+    $('progress').classList.add('hidden');
+    $('progressBar').style.width='0%';
+  };
+
+  img.onerror=()=>{
+    URL.revokeObjectURL(url);
+    alert('图片读取失败。');
+  };
+
+  img.src=url;
+}
+
+async function loadModel(){
+  if(removeBackgroundFunction)return removeBackgroundFunction;
+
+  setStatus('正在加载背景去除引擎，请稍候...');
+  $('progress').classList.remove('hidden');
+  $('progressBar').style.width='8%';
+
+  const module=await import(
+    'https://esm.sh/@imgly/background-removal@1.7.0'
+  );
+
+  const fn=module.default;
+
+  if(typeof fn!=='function'){
+    throw new Error('背景去除引擎加载失败。');
+  }
+
+  removeBackgroundFunction=fn;
+  $('progressBar').style.width='35%';
+  return fn;
+}
+
+async function processImage(){
+  if(!originalFile||busy)return;
+
+  setBusy(true);
+  $('progress').classList.remove('hidden');
+  $('progressBar').style.width='5%';
+
+  try{
+    const removeBackground=await loadModel();
+
+    setStatus('正在准备图像分割模型...');
+    $('progressBar').style.width='40%';
+
+    const config={
+      model:$('model').value,
+      device:'cpu',
+      output:{
+        format:'image/png',
+        quality:1,
+        type:'foreground'
+      }
+    };
+
+    setStatus('AI 正在识别主体并去除背景...');
+    $('progressBar').style.width='55%';
+
+    const blob=await removeBackground(originalFile,config);
+
+    if(!(blob instanceof Blob)||blob.size===0){
+      throw new Error('没有获得有效的处理结果。');
+    }
+
+    if(resultUrl)URL.revokeObjectURL(resultUrl);
+
+    resultBlob=blob;
+    resultUrl=URL.createObjectURL(blob);
+
+    showPreview(resultUrl);
+
+    $('progressBar').style.width='100%';
+    $('downloadBtn').disabled=false;
+
+    $('imageInfo').innerHTML+=
+      `<br><br>处理结果：${formatBytes(blob.size)}<br>`+
+      `输出格式：PNG 透明图片`;
+
+    setStatus('处理完成。可以调整预览背景或下载透明 PNG。');
+
+  }catch(error){
+    console.error(error);
+
+    setStatus(
+      '处理失败：'+(error.message||'未知错误')+
+      '。可以检查网络、刷新页面后重试。'
+    );
+
+    alert(
+      '背景去除失败。\n\n'+
+      (error.message||'未知错误')+
+      '\n\n请检查网络连接，或尝试使用较小的图片。'
+    );
+
+  }finally{
+    setBusy(false);
+    $('progressBar').style.width='100%';
+  }
+}
+
+function restoreOriginal(){
+  if(!originalUrl)return;
+
+  showPreview(originalUrl);
+  resultBlob=null;
+
+  if(resultUrl){
+    URL.revokeObjectURL(resultUrl);
+    resultUrl=null;
+  }
+
+  $('downloadBtn').disabled=true;
+  setStatus('已恢复原图。');
+}
+
+function downloadResult(){
+  if(!resultBlob)return;
+
+  const url=URL.createObjectURL(resultBlob);
+  const a=document.createElement('a');
+
+  const baseName=(originalFile.name||'image')
+    .replace(/\.[^.]+$/,'');
+
+  a.href=url;
+  a.download=baseName+'-no-background.png';
+
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+  setTimeout(()=>URL.revokeObjectURL(url),3000);
+}
+
+$('chooseBtn').onclick=()=>$('fileInput').click();
+
+$('fileInput').onchange=e=>{
+  const file=e.target.files?.[0];
+  if(file)loadOriginal(file);
+  e.target.value='';
+};
+
+$('processBtn').onclick=processImage;
+$('restoreBtn').onclick=restoreOriginal;
+$('downloadBtn').onclick=downloadResult;
+
+$('backgroundColor').addEventListener('input',e=>{
+  currentColor=e.target.value;
+  updatePreviewBackground();
+  document.querySelectorAll('.color').forEach(b=>{
+    b.classList.toggle('active',b.dataset.color===currentColor);
+  });
+});
+
+document.querySelectorAll('.color').forEach(button=>{
+  button.addEventListener('click',()=>{
+    currentColor=button.dataset.color;
+    $('backgroundColor').value=currentColor;
+    document.querySelectorAll('.color').forEach(b=>{
+      b.classList.toggle('active',b===button);
+    });
+    updatePreviewBackground();
+  });
+});
+
+window.addEventListener('beforeunload',()=>{
+  if(originalUrl)URL.revokeObjectURL(originalUrl);
+  if(resultUrl)URL.revokeObjectURL(resultUrl);
+});
+
+})();
+</script>
+</body>
+</html>
