@@ -1,0 +1,607 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f7f5f2">
+<title>图片标注编辑器 - HEMENG</title>
+<style>
+:root{
+  --bg:#f7f5f2;--white:#fff;--accent:#a96f64;
+  --dark:#89564e;--text:#37312f;--muted:#948984;
+  --line:#ebe4df;--soft:#fff5f1;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:Arial,"Microsoft YaHei",sans-serif;
+}
+button,input,select{font:inherit}
+button{cursor:pointer}
+button:disabled{opacity:.4;cursor:not-allowed}
+.topbar{
+  height:60px;padding:0 5%;display:flex;
+  align-items:center;justify-content:space-between;
+  background:white;border-bottom:1px solid var(--line);
+}
+.brand{font-weight:750;text-decoration:none;color:inherit}
+.back{font-size:12px;color:var(--muted);text-decoration:none}
+.page{max-width:1450px;margin:auto;padding:28px 20px 60px}
+.heading{margin-bottom:20px}
+.eyebrow{font-size:10px;letter-spacing:2px;color:var(--accent);font-weight:bold}
+h1{font-size:27px;margin:9px 0}
+.subtitle{font-size:12px;color:var(--muted);line-height:1.8}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:15px}
+.card{background:white;border:1px solid var(--line);border-radius:13px;overflow:hidden;min-width:0}
+.card-head{
+  padding:15px 17px;border-bottom:1px solid var(--line);
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:12px;font-weight:bold;
+}
+.toolbar{padding:12px;display:flex;gap:7px;flex-wrap:wrap;border-bottom:1px solid var(--line)}
+.btn{
+  border:1px solid var(--line);background:white;color:#625751;
+  border-radius:8px;padding:9px 11px;font-size:11px;font-weight:650;
+}
+.btn:hover{background:var(--soft);border-color:#d8b9af}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:white}
+.btn.primary:hover{background:var(--dark)}
+.btn.active{background:#f5e7e2;border-color:var(--accent);color:var(--dark)}
+.btn.danger{color:#a44d48}
+.stage{
+  min-height:530px;padding:22px;display:flex;
+  justify-content:center;align-items:center;overflow:auto;
+  background-color:#f1eeeb;
+  background-image:radial-gradient(#d9d1cb .7px,transparent .7px);
+  background-size:15px 15px;
+}
+.canvas-wrap{display:flex;justify-content:center;align-items:center;width:100%}
+#editor{
+  display:block;max-width:100%;max-height:680px;
+  width:auto;height:auto;box-shadow:0 5px 25px #30221b24;
+  touch-action:none;cursor:crosshair;background:white;
+}
+.foot{
+  padding:10px 14px;border-top:1px solid var(--line);
+  font-size:10px;color:var(--muted);display:flex;
+  justify-content:space-between;gap:8px;
+}
+.section{padding:15px;border-bottom:1px solid #f0ebe7}
+.section-title{font-size:12px;font-weight:bold;margin-bottom:12px}
+.tools{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.tool{padding:11px 3px;text-align:center;font-size:11px}
+.field{margin:12px 0}
+.field label{display:flex;justify-content:space-between;font-size:11px;font-weight:650;margin-bottom:7px}
+input[type=color]{
+  width:100%;height:36px;padding:3px;border:1px solid var(--line);
+  border-radius:8px;background:white;
+}
+input[type=range]{width:100%;accent-color:var(--accent)}
+input[type=number],select{
+  width:100%;height:36px;padding:0 9px;
+  border:1px solid var(--line);border-radius:8px;
+  background:white;color:var(--text);font-size:11px;
+}
+input[type=file]{display:none}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.actions .wide{grid-column:1/-1}
+.status{
+  padding:10px;margin-top:12px;background:#fff8f5;
+  border:1px solid #f1e4de;border-radius:8px;
+  color:var(--muted);font-size:10px;line-height:1.8;
+}
+.hint{font-size:10px;color:var(--muted);line-height:1.8}
+@media(max-width:850px){
+  .layout{grid-template-columns:1fr}
+  .stage{min-height:330px;padding:10px}
+  #editor{max-height:550px}
+}
+@media(max-width:520px){
+  .page{padding:20px 11px 40px}
+  .topbar{padding:0 14px}
+  h1{font-size:23px}
+  .stage{min-height:260px}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a class="brand" href="/">HEMENG</a>
+  <a class="back" href="/tools/image-tools/">返回图片处理中心 ←</a>
+</header>
+
+<main class="page">
+  <div class="heading">
+    <div class="eyebrow">HEMENG · IMAGE STUDIO</div>
+    <h1>图片标注编辑器</h1>
+    <p class="subtitle">添加文字、绘制形状、标记重点，完成后直接导出。</p>
+  </div>
+
+  <div class="layout">
+    <section class="card">
+      <div class="card-head">
+        <span>编辑画布</span>
+        <span id="dimension">尚未导入图片</span>
+      </div>
+
+      <div class="toolbar">
+        <label class="btn primary">
+          ＋ 导入图片
+          <input id="fileInput" type="file" accept="image/png,image/jpeg,image/webp">
+        </label>
+        <button class="btn" id="undo">撤销</button>
+        <button class="btn" id="redo">重做</button>
+        <button class="btn" id="clear">清除标注</button>
+      </div>
+
+      <div class="stage">
+        <div class="canvas-wrap">
+          <canvas id="editor" width="1200" height="800"></canvas>
+        </div>
+      </div>
+
+      <div class="foot">
+        <span id="canvasStatus">请先导入一张图片</span>
+        <span>所有编辑均在本地完成</span>
+      </div>
+    </section>
+
+    <aside class="card">
+      <div class="card-head">标注工具</div>
+
+      <section class="section">
+        <div class="section-title">01 · 选择工具</div>
+        <div class="tools">
+          <button class="btn tool active" data-tool="free">✎ 涂鸦</button>
+          <button class="btn tool" data-tool="line">／ 直线</button>
+          <button class="btn tool" data-tool="arrow">➜ 箭头</button>
+          <button class="btn tool" data-tool="rect">□ 矩形</button>
+          <button class="btn tool" data-tool="circle">○ 圆形</button>
+          <button class="btn tool" data-tool="mosaic">▦ 马赛克</button>
+          <button class="btn tool" data-tool="text">T 文字</button>
+        </div>
+        <p class="hint">涂鸦、形状和马赛克：在画布上按住鼠标或手指拖动。文字工具：点击画布指定位置。</p>
+      </section>
+
+      <section class="section">
+        <div class="section-title">02 · 样式设置</div>
+        <div class="field">
+          <label for="color">标注颜色</label>
+          <input id="color" type="color" value="#e34b42">
+        </div>
+        <div class="field">
+          <label for="size">线条粗细 <span id="sizeText">6 px</span></label>
+          <input id="size" type="range" min="1" max="60" value="6">
+        </div>
+        <div class="field">
+          <label for="fontSize">文字大小 <span id="fontText">36 px</span></label>
+          <input id="fontSize" type="range" min="12" max="160" value="36">
+        </div>
+        <div class="field">
+          <label for="mosaicSize">马赛克强度 <span id="mosaicText">16</span></label>
+          <input id="mosaicSize" type="range" min="4" max="50" value="16">
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-title">03 · 文字设置</div>
+        <div class="field">
+          <label for="textInput">标注内容</label>
+          <input id="textInput" type="text" placeholder="输入要添加的文字"
+            style="width:100%;height:36px;padding:0 9px;border:1px solid var(--line);border-radius:8px;font-size:11px">
+        </div>
+        <div class="field">
+          <label for="fontFamily">字体</label>
+          <select id="fontFamily">
+            <option value="Arial">Arial</option>
+            <option value="Microsoft YaHei">微软雅黑</option>
+            <option value="serif">衬线字体</option>
+            <option value="monospace">等宽字体</option>
+          </select>
+        </div>
+        <p class="hint">选择文字工具后，在画布上点击，即可将输入的文字放置在对应位置。</p>
+      </section>
+
+      <section class="section">
+        <div class="section-title">04 · 导出设置</div>
+        <div class="field">
+          <label for="format">图片格式</label>
+          <select id="format">
+            <option value="image/png">PNG</option>
+            <option value="image/jpeg">JPG</option>
+            <option value="image/webp">WebP</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="quality">导出质量 <span id="qualityText">92%</span></label>
+          <input id="quality" type="range" min="10" max="100" value="92">
+        </div>
+        <div class="actions">
+          <button class="btn primary wide" id="export">导出图片</button>
+          <button class="btn wide" id="reset">重新导入图片</button>
+        </div>
+        <div class="status" id="status">请先导入图片。编辑内容不会上传服务器。</div>
+      </section>
+    </aside>
+  </div>
+</main>
+
+<script>
+const $=id=>document.getElementById(id);
+const canvas=$("editor");
+const ctx=canvas.getContext("2d");
+
+let baseImage=null;
+let baseUrl=null;
+let originalFile=null;
+let currentTool="free";
+let drawing=false;
+let startPoint=null;
+let lastPoint=null;
+let snapshot=null;
+let history=[];
+let historyIndex=-1;
+let previewCanvas=null;
+
+function setStatus(message){
+  $("status").textContent=message;
+  $("canvasStatus").textContent=message;
+}
+
+function pointFromEvent(event){
+  const rect=canvas.getBoundingClientRect();
+  return {
+    x:(event.clientX-rect.left)*canvas.width/rect.width,
+    y:(event.clientY-rect.top)*canvas.height/rect.height
+  };
+}
+
+function saveHistory(){
+  try{
+    const image=ctx.getImageData(0,0,canvas.width,canvas.height);
+    history=history.slice(0,historyIndex+1);
+    history.push(image);
+    if(history.length>25)history.shift();
+    historyIndex=history.length-1;
+    updateHistoryButtons();
+  }catch(error){
+    setStatus("无法保存当前编辑状态，画布可能过大。");
+  }
+}
+
+function updateHistoryButtons(){
+  $("undo").disabled=historyIndex<=0;
+  $("redo").disabled=historyIndex>=history.length-1;
+}
+
+function restoreHistory(index){
+  if(index<0||index>=history.length)return;
+  historyIndex=index;
+  ctx.putImageData(history[index],0,0);
+  updateHistoryButtons();
+}
+
+$("undo").onclick=()=>restoreHistory(historyIndex-1);
+$("redo").onclick=()=>restoreHistory(historyIndex+1);
+
+function loadImage(file){
+  if(!file)return;
+  if(!["image/png","image/jpeg","image/webp"].includes(file.type)){
+    setStatus("目前只支持 PNG、JPG 和 WebP 图片。");
+    return;
+  }
+  if(file.size>30*1024*1024){
+    setStatus("图片不能超过 30MB。");
+    return;
+  }
+
+  const url=URL.createObjectURL(file);
+  const img=new Image();
+
+  img.onload=()=>{
+    if(baseUrl)URL.revokeObjectURL(baseUrl);
+    baseUrl=url;
+    baseImage=img;
+    originalFile=file;
+
+    canvas.width=img.naturalWidth;
+    canvas.height=img.naturalHeight;
+
+    if(canvas.width>8000||canvas.height>8000||
+       canvas.width*canvas.height>40000000){
+      canvas.width=0;
+      canvas.height=0;
+      baseImage=null;
+      URL.revokeObjectURL(url);
+      baseUrl=null;
+      setStatus("图片尺寸过大，请使用较小的图片。");
+      return;
+    }
+
+    ctx.drawImage(img,0,0);
+    history=[];
+    historyIndex=-1;
+    saveHistory();
+
+    $("dimension").textContent=canvas.width+" × "+canvas.height;
+    setStatus("图片已导入："+file.name);
+  };
+
+  img.onerror=()=>{
+    URL.revokeObjectURL(url);
+    setStatus("图片读取失败，请更换文件。");
+  };
+
+  img.src=url;
+}
+
+$("fileInput").addEventListener("change",event=>{
+  const file=event.target.files[0];
+  if(file)loadImage(file);
+  event.target.value="";
+});
+
+document.querySelectorAll("[data-tool]").forEach(button=>{
+  button.onclick=()=>{
+    currentTool=button.dataset.tool;
+    document.querySelectorAll("[data-tool]").forEach(item=>
+      item.classList.toggle("active",item===button)
+    );
+    canvas.style.cursor=currentTool==="text"?"text":"crosshair";
+    setStatus("当前工具："+button.textContent.trim());
+  };
+});
+
+$("size").oninput=()=>{
+  $("sizeText").textContent=$("size").value+" px";
+};
+$("fontSize").oninput=()=>{
+  $("fontText").textContent=$("fontSize").value+" px";
+};
+$("mosaicSize").oninput=()=>{
+  $("mosaicText").textContent=$("mosaicSize").value;
+};
+$("quality").oninput=()=>{
+  $("qualityText").textContent=$("quality").value+"%";
+};
+
+function drawLine(a,b,color,width){
+  ctx.strokeStyle=color;
+  ctx.lineWidth=width;
+  ctx.lineCap="round";
+  ctx.lineJoin="round";
+  ctx.beginPath();
+  ctx.moveTo(a.x,a.y);
+  ctx.lineTo(b.x,b.y);
+  ctx.stroke();
+}
+
+function drawArrow(a,b,color,width){
+  const angle=Math.atan2(b.y-a.y,b.x-a.x);
+  const head=Math.max(width*3,18);
+
+  drawLine(a,b,color,width);
+
+  ctx.fillStyle=color;
+  ctx.beginPath();
+  ctx.moveTo(b.x,b.y);
+  ctx.lineTo(
+    b.x-head*Math.cos(angle-Math.PI/6),
+    b.y-head*Math.sin(angle-Math.PI/6)
+  );
+  ctx.lineTo(
+    b.x-head*Math.cos(angle+Math.PI/6),
+    b.y-head*Math.sin(angle+Math.PI/6)
+  );
+  ctx.closePath();
+  ctx.fill();
+}
+
+function drawShape(a,b,tool){
+  const color=$("color").value;
+  const width=Number($("size").value);
+  ctx.strokeStyle=color;
+  ctx.lineWidth=width;
+  ctx.lineCap="round";
+
+  if(tool==="line"){
+    drawLine(a,b,color,width);
+  }else if(tool==="arrow"){
+    drawArrow(a,b,color,width);
+  }else if(tool==="rect"){
+    ctx.strokeRect(a.x,a.y,b.x-a.x,b.y-a.y);
+  }else if(tool==="circle"){
+    const x=(a.x+b.x)/2;
+    const y=(a.y+b.y)/2;
+    const rx=Math.abs(b.x-a.x)/2;
+    const ry=Math.abs(b.y-a.y)/2;
+    ctx.beginPath();
+    ctx.ellipse(x,y,rx,ry,0,0,Math.PI*2);
+    ctx.stroke();
+  }
+}
+
+function drawMosaic(a,b){
+  const x=Math.max(0,Math.floor(Math.min(a.x,b.x)));
+  const y=Math.max(0,Math.floor(Math.min(a.y,b.y)));
+  const right=Math.min(canvas.width,Math.ceil(Math.max(a.x,b.x)));
+  const bottom=Math.min(canvas.height,Math.ceil(Math.max(a.y,b.y)));
+  const w=right-x;
+  const h=bottom-y;
+  if(w<2||h<2)return;
+
+  const block=Number($("mosaicSize").value);
+  const small=document.createElement("canvas");
+  small.width=Math.max(1,Math.ceil(w/block));
+  small.height=Math.max(1,Math.ceil(h/block));
+  const smallCtx=small.getContext("2d");
+
+  smallCtx.imageSmoothingEnabled=true;
+  smallCtx.drawImage(canvas,x,y,w,h,0,0,small.width,small.height);
+
+  ctx.save();
+  ctx.imageSmoothingEnabled=false;
+  ctx.drawImage(small,0,0,small.width,small.height,x,y,w,h);
+  ctx.restore();
+}
+
+function addText(point){
+  const text=$("textInput").value.trim();
+  if(!text){
+    setStatus("请先在文字设置中输入内容。");
+    return;
+  }
+
+  saveHistory();
+  const size=Number($("fontSize").value);
+  ctx.fillStyle=$("color").value;
+  ctx.font=size+"px "+$("fontFamily").value;
+  ctx.textBaseline="top";
+
+  const lines=text.split("\n");
+  lines.forEach((line,index)=>{
+    ctx.fillText(line,point.x,point.y+index*size*1.35);
+  });
+
+  saveHistory();
+  setStatus("文字标注已添加。");
+}
+
+canvas.addEventListener("pointerdown",event=>{
+  if(!baseImage){
+    setStatus("请先导入图片。");
+    return;
+  }
+
+  const point=pointFromEvent(event);
+
+  if(currentTool==="text"){
+    addText(point);
+    return;
+  }
+
+  drawing=true;
+  startPoint=point;
+  lastPoint=point;
+  snapshot=ctx.getImageData(0,0,canvas.width,canvas.height);
+  canvas.setPointerCapture(event.pointerId);
+});
+
+canvas.addEventListener("pointermove",event=>{
+  if(!drawing)return;
+
+  const point=pointFromEvent(event);
+  ctx.putImageData(snapshot,0,0);
+
+  if(currentTool==="free"){
+    drawLine(lastPoint,point,$("color").value,Number($("size").value));
+    lastPoint=point;
+  }else if(currentTool==="mosaic"){
+    ctx.strokeStyle="rgba(169,111,100,.8)";
+    ctx.lineWidth=1;
+    ctx.setLineDash([5,4]);
+    ctx.strokeRect(
+      startPoint.x,startPoint.y,
+      point.x-startPoint.x,point.y-startPoint.y
+    );
+    ctx.setLineDash([]);
+  }else{
+    drawShape(startPoint,point,currentTool);
+  }
+
+  previewCanvas=point;
+});
+
+function finishDrawing(event){
+  if(!drawing)return;
+  drawing=false;
+
+  const point=pointFromEvent(event);
+  ctx.putImageData(snapshot,0,0);
+
+  if(currentTool==="free"){
+    if(Math.abs(point.x-startPoint.x)+Math.abs(point.y-startPoint.y)>0){
+      drawLine(lastPoint,point,$("color").value,Number($("size").value));
+    }
+  }else if(currentTool==="mosaic"){
+    drawMosaic(startPoint,point);
+  }else{
+    drawShape(startPoint,point,currentTool);
+  }
+
+  saveHistory();
+  snapshot=null;
+  previewCanvas=null;
+}
+
+canvas.addEventListener("pointerup",finishDrawing);
+canvas.addEventListener("pointercancel",finishDrawing);
+
+$("clear").onclick=()=>{
+  if(!baseImage)return;
+  if(!confirm("确定清除所有标注并恢复原图吗？"))return;
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.drawImage(baseImage,0,0);
+  history=[];
+  historyIndex=-1;
+  saveHistory();
+  setStatus("已清除所有标注。");
+};
+
+$("reset").onclick=()=>{
+  if(!originalFile){
+    setStatus("尚未导入图片。");
+    return;
+  }
+  loadImage(originalFile);
+};
+
+$("export").onclick=()=>{
+  if(!baseImage){
+    setStatus("请先导入图片。");
+    return;
+  }
+
+  const format=$("format").value;
+  const quality=Number($("quality").value)/100;
+  const extension=format==="image/jpeg"?"jpg":
+    format==="image/webp"?"webp":"png";
+
+  const output=document.createElement("canvas");
+  output.width=canvas.width;
+  output.height=canvas.height;
+  const out=output.getContext("2d");
+
+  if(format==="image/jpeg"){
+    out.fillStyle="#ffffff";
+    out.fillRect(0,0,output.width,output.height);
+  }
+  out.drawImage(canvas,0,0);
+
+  output.toBlob(blob=>{
+    if(!blob){
+      setStatus("导出失败，请尝试降低图片尺寸。");
+      return;
+    }
+
+    const url=URL.createObjectURL(blob);
+    const link=document.createElement("a");
+    link.href=url;
+    link.download="HEMENG-annotated."+extension;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),2000);
+    setStatus("图片导出成功。");
+  },format,quality);
+};
+
+ctx.fillStyle="#ffffff";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+$("undo").disabled=true;
+$("redo").disabled=true;
+</script>
+</body>
+</html>
