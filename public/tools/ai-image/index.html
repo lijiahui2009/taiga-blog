@@ -1,0 +1,461 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#fffaf7">
+<title>AI 图片修复 - 荷萌 HEMENG</title>
+<style>
+:root{
+  --bg:#fffaf7;
+  --card:#fff;
+  --accent:#b77b70;
+  --accent-dark:#956258;
+  --text:#6d4c49;
+  --muted:#a18b84;
+  --border:#f2ded5;
+  --soft:#fff3ed;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,"Microsoft YaHei",sans-serif;
+}
+button,input{font:inherit}
+header{
+  position:sticky;
+  top:0;
+  z-index:5;
+  background:rgba(255,250,247,.94);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);
+}
+.header-inner{
+  max-width:1100px;
+  margin:auto;
+  padding:14px 22px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:var(--text);
+  text-decoration:none;
+  font-weight:bold;
+}
+.brand img{width:36px;height:36px;object-fit:contain}
+.back{
+  color:var(--muted);
+  text-decoration:none;
+  font-size:13px;
+}
+main{
+  max-width:1000px;
+  margin:auto;
+  padding:45px 20px 75px;
+}
+.hero{text-align:center;margin-bottom:35px}
+.kicker{
+  color:var(--accent);
+  font-size:11px;
+  letter-spacing:4px;
+  font-weight:bold;
+}
+h1{
+  font-size:32px;
+  margin:14px 0 10px;
+}
+.hero p{
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.9;
+  margin:0;
+}
+.panel{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:24px;
+  box-shadow:0 12px 35px rgba(120,75,65,.05);
+  margin-bottom:20px;
+}
+.panel h2{
+  font-size:17px;
+  margin:0 0 17px;
+}
+.upload{
+  border:1px dashed #dcb7ac;
+  border-radius:14px;
+  background:var(--soft);
+  min-height:170px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:12px;
+  text-align:center;
+  padding:25px;
+}
+.upload-icon{font-size:35px;color:var(--accent)}
+.upload p{margin:0;color:var(--muted);font-size:13px}
+.primary,.secondary{
+  border:0;
+  border-radius:9px;
+  padding:12px 20px;
+  cursor:pointer;
+  font-size:13px;
+}
+.primary{
+  color:white;
+  background:var(--accent);
+}
+.primary:hover{background:var(--accent-dark)}
+.secondary{
+  background:var(--soft);
+  color:var(--accent-dark);
+  border:1px solid var(--border);
+}
+button:disabled{opacity:.45;cursor:not-allowed}
+#fileInput{display:none}
+.workspace{
+  display:none;
+  margin-top:22px;
+}
+.image-area{
+  position:relative;
+  width:100%;
+  min-height:220px;
+  max-height:650px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  border-radius:12px;
+  background:#f8f2ee;
+  border:1px solid var(--border);
+}
+#imageCanvas{
+  display:block;
+  max-width:100%;
+  max-height:650px;
+  width:auto;
+  height:auto;
+  cursor:crosshair;
+  touch-action:none;
+}
+.tools{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:17px;
+}
+.hint{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.9;
+  margin-top:13px;
+}
+.status{
+  padding:13px;
+  border-radius:10px;
+  background:var(--soft);
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.8;
+  margin-top:17px;
+}
+.notice{
+  border-left:3px solid var(--accent);
+  padding:12px 15px;
+  background:#fff9f6;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.9;
+  margin-top:20px;
+}
+footer{
+  text-align:center;
+  padding:25px;
+  border-top:1px solid var(--border);
+  color:var(--muted);
+  font-size:11px;
+}
+@media(max-width:600px){
+  main{padding:32px 14px 55px}
+  .panel{padding:17px}
+  h1{font-size:27px}
+  .tools button{flex:1}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a class="brand" href="/">
+      <img src="/images/hemeng-logo.svg" alt="">
+      <span>荷萌 HEMENG</span>
+    </a>
+    <a class="back" href="/tools/">← 工具中心</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="kicker">AI IMAGE LAB</div>
+    <h1>AI 图片修复</h1>
+    <p>选择图片，标记自己有权修改的区域。<br>让图片处理更加简单。</p>
+  </section>
+
+  <section class="panel">
+    <h2>01 · 上传图片</h2>
+    <div class="upload" id="uploadArea">
+      <div class="upload-icon">＋</div>
+      <strong>选择一张图片</strong>
+      <p>支持 JPG、PNG、WEBP</p>
+      <button class="primary" id="chooseBtn">选择图片</button>
+      <input id="fileInput" type="file" accept="image/jpeg,image/png,image/webp">
+    </div>
+
+    <div class="workspace" id="workspace">
+      <h2>02 · 选择处理区域</h2>
+      <div class="image-area">
+        <canvas id="imageCanvas"></canvas>
+      </div>
+      <div class="tools">
+        <button class="secondary" id="undoBtn" disabled>撤销选区</button>
+        <button class="secondary" id="clearBtn" disabled>清除选区</button>
+        <button class="secondary" id="resetBtn">重新上传</button>
+        <button class="primary" id="downloadOriginalBtn">导出原图</button>
+      </div>
+      <p class="hint">
+        在图片上拖动鼠标或手指，可以框选区域。当前版本仅提供选区预览，尚未接入 AI 修复模型。
+      </p>
+      <div class="status" id="status">
+        等待上传图片。
+      </div>
+    </div>
+
+    <div class="notice">
+      请仅处理自己拥有或明确获得修改授权的图片内容。第三方版权、来源及真实性标识不属于本工具的处理范围。
+    </div>
+  </section>
+</main>
+
+<footer>
+  荷萌 HEMENG · AI IMAGE LAB
+</footer>
+
+<script>
+const fileInput=document.getElementById("fileInput");
+const chooseBtn=document.getElementById("chooseBtn");
+const workspace=document.getElementById("workspace");
+const canvas=document.getElementById("imageCanvas");
+const ctx=canvas.getContext("2d");
+const statusBox=document.getElementById("status");
+
+let image=new Image();
+let imageUrl="";
+let selection=null;
+let dragging=false;
+let startX=0;
+let startY=0;
+let scale=1;
+
+chooseBtn.addEventListener("click",()=>{
+  fileInput.click();
+});
+
+fileInput.addEventListener("change",event=>{
+  const file=event.target.files[0];
+  if(!file)return;
+
+  if(!["image/jpeg","image/png","image/webp"].includes(file.type)){
+    alert("请选择 JPG、PNG 或 WEBP 图片。");
+    fileInput.value="";
+    return;
+  }
+
+  if(file.size>15*1024*1024){
+    alert("图片不能超过 15MB。");
+    fileInput.value="";
+    return;
+  }
+
+  if(imageUrl)URL.revokeObjectURL(imageUrl);
+  imageUrl=URL.createObjectURL(file);
+  image=new Image();
+
+  image.onload=()=>{
+    selection=null;
+    scale=Math.min(1,1100/image.width,650/image.height);
+    canvas.width=Math.round(image.width*scale);
+    canvas.height=Math.round(image.height*scale);
+
+    workspace.style.display="block";
+    document.getElementById("uploadArea").style.display="none";
+
+    drawImage();
+    updateStatus();
+    updateButtons();
+  };
+
+  image.onerror=()=>{
+    alert("图片读取失败，请重新选择。");
+  };
+
+  image.src=imageUrl;
+});
+
+function drawImage(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.drawImage(image,0,0,canvas.width,canvas.height);
+
+  if(selection){
+    const x=selection.x;
+    const y=selection.y;
+    const w=selection.w;
+    const h=selection.h;
+
+    ctx.save();
+    ctx.fillStyle="rgba(183,123,112,.18)";
+    ctx.fillRect(x,y,w,h);
+    ctx.strokeStyle="#b77b70";
+    ctx.lineWidth=2;
+    ctx.setLineDash([7,4]);
+    ctx.strokeRect(x,y,w,h);
+    ctx.restore();
+  }
+}
+
+function getPoint(event){
+  const rect=canvas.getBoundingClientRect();
+  return {
+    x:Math.max(0,Math.min(canvas.width,
+      (event.clientX-rect.left)*canvas.width/rect.width)),
+    y:Math.max(0,Math.min(canvas.height,
+      (event.clientY-rect.top)*canvas.height/rect.height))
+  };
+}
+
+canvas.addEventListener("pointerdown",event=>{
+  if(!image.src)return;
+  event.preventDefault();
+  canvas.setPointerCapture(event.pointerId);
+  const p=getPoint(event);
+  startX=p.x;
+  startY=p.y;
+  dragging=true;
+  selection={x:startX,y:startY,w:0,h:0};
+  drawImage();
+});
+
+canvas.addEventListener("pointermove",event=>{
+  if(!dragging)return;
+  const p=getPoint(event);
+  selection={
+    x:Math.min(startX,p.x),
+    y:Math.min(startY,p.y),
+    w:Math.abs(p.x-startX),
+    h:Math.abs(p.y-startY)
+  };
+  drawImage();
+});
+
+function finishSelection(){
+  if(!dragging)return;
+  dragging=false;
+
+  if(selection&&(selection.w<5||selection.h<5)){
+    selection=null;
+  }
+
+  drawImage();
+  updateStatus();
+  updateButtons();
+}
+
+canvas.addEventListener("pointerup",finishSelection);
+canvas.addEventListener("pointercancel",finishSelection);
+
+document.getElementById("undoBtn").addEventListener("click",()=>{
+  selection=null;
+  drawImage();
+  updateStatus();
+  updateButtons();
+});
+
+document.getElementById("clearBtn").addEventListener("click",()=>{
+  selection=null;
+  drawImage();
+  updateStatus();
+  updateButtons();
+});
+
+document.getElementById("resetBtn").addEventListener("click",()=>{
+  if(imageUrl)URL.revokeObjectURL(imageUrl);
+  imageUrl="";
+  image=new Image();
+  selection=null;
+  fileInput.value="";
+  workspace.style.display="none";
+  document.getElementById("uploadArea").style.display="flex";
+  updateButtons();
+});
+
+document.getElementById("downloadOriginalBtn").addEventListener("click",()=>{
+  if(!image.src)return;
+
+  const output=document.createElement("canvas");
+  output.width=image.naturalWidth;
+  output.height=image.naturalHeight;
+  output.getContext("2d").drawImage(image,0,0);
+
+  output.toBlob(blob=>{
+    if(!blob)return;
+    const url=URL.createObjectURL(blob);
+    const link=document.createElement("a");
+    link.href=url;
+    link.download="image-original.png";
+    link.click();
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
+  },"image/png");
+});
+
+function updateStatus(){
+  if(!image.src){
+    statusBox.textContent="等待上传图片。";
+    return;
+  }
+
+  if(selection){
+    const x=Math.round(selection.x/scale);
+    const y=Math.round(selection.y/scale);
+    const w=Math.round(selection.w/scale);
+    const h=Math.round(selection.h/scale);
+    statusBox.textContent=
+      `已选择区域：${w} × ${h} px，位置：${x}, ${y}。当前仅记录选区，AI 修复服务尚未连接。`;
+  }else{
+    statusBox.textContent=
+      "图片已加载。请在图片上拖动，选择需要处理的区域。";
+  }
+}
+
+function updateButtons(){
+  const hasSelection=!!selection;
+  document.getElementById("undoBtn").disabled=!hasSelection;
+  document.getElementById("clearBtn").disabled=!hasSelection;
+}
+
+window.addEventListener("beforeunload",()=>{
+  if(imageUrl)URL.revokeObjectURL(imageUrl);
+});
+</script>
+</body>
+</html>
