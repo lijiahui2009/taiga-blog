@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#fffaf7">
 <title>图片处理 - 荷萌 HEMENG</title>
+
 <style>
 :root{
   --bg:#fffaf7;
@@ -27,6 +28,7 @@ body{
 button,input,select{font:inherit}
 button{cursor:pointer}
 a{color:inherit;text-decoration:none}
+
 .header{
   display:flex;
   justify-content:space-between;
@@ -39,6 +41,7 @@ a{color:inherit;text-decoration:none}
 }
 .brand{font-weight:bold;font-size:18px}
 .back{font-size:13px;color:var(--muted)}
+
 .hero{
   text-align:center;
   padding:48px 18px 30px;
@@ -51,10 +54,102 @@ a{color:inherit;text-decoration:none}
   font-weight:bold;
 }
 h1{font-size:clamp(27px,5vw,38px);margin:14px 0 9px}
-.hero p{font-size:13px;color:var(--muted);line-height:1.9;margin:0}
-.container{max-width:1050px;margin:auto;padding:20px 22px 65px}
-.tabs{
+.hero p{
+  font-size:13px;
+  color:var(--muted);
+  line-height:1.9;
+  margin:0;
+}
+
+.container{
+  max-width:1050px;
+  margin:auto;
+  padding:20px 22px 65px;
+}
+
+/* 工具总览 */
+.tool-overview{margin-bottom:27px}
+.overview-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  gap:12px;
+  margin-bottom:15px;
+}
+.overview-title h2{
+  font-size:19px;
+  margin:0;
+}
+.overview-title p{
+  color:var(--muted);
+  font-size:12px;
+  margin:6px 0 0;
+}
+.tool-grid{
   display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+}
+.tool-card{
+  display:block;
+  min-width:0;
+  padding:18px;
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:15px;
+  transition:transform .2s,border-color .2s,box-shadow .2s;
+}
+.tool-card:hover{
+  transform:translateY(-3px);
+  border-color:var(--accent);
+  box-shadow:0 8px 22px #80524812;
+}
+.tool-icon{
+  width:40px;
+  height:40px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--soft);
+  border-radius:12px;
+  font-size:20px;
+  margin-bottom:13px;
+}
+.tool-card strong{
+  display:block;
+  font-size:14px;
+  margin-bottom:7px;
+}
+.tool-card .tool-desc{
+  display:block;
+  font-size:11px;
+  color:var(--muted);
+  line-height:1.7;
+  min-height:37px;
+}
+.tool-arrow{
+  display:block;
+  margin-top:12px;
+  color:var(--accent);
+  font-size:11px;
+}
+.tool-card:focus-visible{
+  outline:2px solid var(--accent);
+  outline-offset:3px;
+}
+.tool-card button{
+  display:block;
+  width:100%;
+  padding:0;
+  border:0;
+  background:none;
+  color:inherit;
+  text-align:left;
+}
+
+/* 工具工作区 */
+.tabs{
+  display:none;
   grid-template-columns:repeat(3,minmax(0,1fr));
   gap:10px;
   padding:6px;
@@ -71,7 +166,11 @@ h1{font-size:clamp(27px,5vw,38px);margin:14px 0 9px}
   background:transparent;
   font-weight:bold;
 }
-.tab.active{background:white;color:var(--accent-dark);box-shadow:0 3px 12px #80524812}
+.tab.active{
+  background:white;
+  color:var(--accent-dark);
+  box-shadow:0 3px 12px #80524812;
+}
 .panel{
   background:var(--surface);
   border:1px solid var(--border);
@@ -80,10 +179,21 @@ h1{font-size:clamp(27px,5vw,38px);margin:14px 0 9px}
   box-shadow:0 10px 30px #8052480b;
 }
 .panel h2{font-size:19px;margin:0 0 8px}
-.desc{font-size:13px;color:var(--muted);line-height:1.9;margin:0 0 20px}
+.desc{
+  font-size:13px;
+  color:var(--muted);
+  line-height:1.9;
+  margin:0 0 20px;
+}
 .hidden{display:none!important}
+
 .field{margin:17px 0}
-.field label{display:block;font-size:13px;font-weight:bold;margin-bottom:8px}
+.field label{
+  display:block;
+  font-size:13px;
+  font-weight:bold;
+  margin-bottom:8px;
+}
 input[type=file]{
   width:100%;
   padding:13px;
@@ -107,7 +217,11 @@ select,input[type=number],input[type=color]{
   align-items:end;
 }
 .settings .field{margin:8px 0}
-.settings select{display:block;margin-top:7px;min-width:130px}
+.settings select{
+  display:block;
+  margin-top:7px;
+  min-width:130px;
+}
 .primary,.secondary,.small{
   border:0;
   border-radius:10px;
@@ -117,9 +231,13 @@ select,input[type=number],input[type=color]{
 }
 .primary{background:var(--accent);color:white}
 .primary:hover{background:var(--accent-dark)}
-.secondary{background:#f3e9e5;color:var(--text)}
-.small{padding:7px 10px;background:#f3e9e5;color:var(--text)}
+.secondary,.small{
+  background:#f3e9e5;
+  color:var(--text);
+}
+.small{padding:7px 10px}
 button:disabled{opacity:.4;cursor:not-allowed}
+
 .status{
   margin-top:15px;
   padding:12px;
@@ -142,17 +260,24 @@ button:disabled{opacity:.4;cursor:not-allowed}
   min-width:0;
 }
 .image-item img{
-  width:65px;height:65px;
+  width:65px;
+  height:65px;
   object-fit:cover;
   border-radius:8px;
   background:#f4eae6;
   flex-shrink:0;
 }
 .image-name{
-  min-width:0;flex:1;
-  font-size:12px;overflow-wrap:anywhere;
+  min-width:0;
+  flex:1;
+  font-size:12px;
+  overflow-wrap:anywhere;
 }
-.image-actions{display:flex;gap:5px;flex-shrink:0}
+.image-actions{
+  display:flex;
+  gap:5px;
+  flex-shrink:0;
+}
 .preview-wrap{
   margin-top:20px;
   padding:14px;
@@ -168,7 +293,12 @@ button:disabled{opacity:.4;cursor:not-allowed}
   height:auto;
   margin:auto;
 }
-.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:17px}
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:17px;
+}
 .frame{
   display:block;
   width:100%;
@@ -177,7 +307,23 @@ button:disabled{opacity:.4;cursor:not-allowed}
   border-radius:13px;
   background:white;
 }
-.notice{font-size:12px;color:var(--muted);line-height:1.8;margin-top:14px}
+.notice{
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.8;
+  margin-top:14px;
+}
+footer{
+  padding:25px 15px;
+  border-top:1px solid var(--border);
+  text-align:center;
+  font-size:11px;
+  color:var(--muted);
+}
+
+@media(max-width:760px){
+  .tool-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
 @media(max-width:560px){
   .header{padding:14px 5%}
   .container{padding:15px 12px 45px}
@@ -185,10 +331,15 @@ button:disabled{opacity:.4;cursor:not-allowed}
   .image-item img{width:52px;height:52px}
   .small{padding:7px}
   .frame{height:900px}
-  .tab{padding:12px 4px;font-size:12px}
+  .tool-card{padding:14px}
+  .tool-grid{gap:9px}
+}
+@media(max-width:360px){
+  .tool-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
+
 <body>
 
 <header class="header">
@@ -199,28 +350,117 @@ button:disabled{opacity:.4;cursor:not-allowed}
 <section class="hero">
   <div class="kicker">HEMENG · IMAGE STUDIO</div>
   <h1>图片处理</h1>
-  <p>把常用图片工具集中在一个地方。<br>本地处理，简单而直接。</p>
+  <p>
+    把常用图片工具集中在一个地方。<br>
+    本地处理，简单而直接。
+  </p>
 </section>
 
 <main class="container">
 
+  <!-- 工具总览 -->
+  <section class="tool-overview">
+
+    <div class="overview-title">
+      <div>
+        <h2>图片工具箱</h2>
+        <p>选择需要使用的图片处理功能</p>
+      </div>
+    </div>
+
+    <div class="tool-grid">
+
+      <a class="tool-card" href="/tools/nine-grid/">
+        <div class="tool-icon">▦</div>
+        <strong>九宫格</strong>
+        <span class="tool-desc">图片切割、九张图片生成</span>
+        <span class="tool-arrow">打开工具 →</span>
+      </a>
+
+      <div class="tool-card">
+        <button type="button" onclick="openLongTool()">
+          <div class="tool-icon">▤</div>
+          <strong>长图拼接</strong>
+          <span class="tool-desc">多张图片纵向或横向拼接</span>
+          <span class="tool-arrow">打开工具 →</span>
+        </button>
+      </div>
+
+      <a class="tool-card" href="/tools/image-tools/basic/">
+        <div class="tool-icon">✂</div>
+        <strong>基础图片编辑</strong>
+        <span class="tool-desc">裁剪、旋转、压缩、尺寸调整</span>
+        <span class="tool-arrow">打开工具 →</span>
+      </a>
+
+      <a class="tool-card" href="/tools/image-tools/collage/">
+        <div class="tool-icon">▧</div>
+        <strong>自由拼接</strong>
+        <span class="tool-desc">自由排版、移动、缩放和图层编辑</span>
+        <span class="tool-arrow">打开工具 →</span>
+      </a>
+
+      <a class="tool-card" href="/tools/image-tools/annotate/">
+        <div class="tool-icon">✎</div>
+        <strong>图片标注</strong>
+        <span class="tool-desc">文字、箭头、形状、涂鸦和马赛克</span>
+        <span class="tool-arrow">打开工具 →</span>
+      </a>
+
+      <a class="tool-card" href="/tools/image-tools/watermark/">
+        <div class="tool-icon">◈</div>
+        <strong>水印与调色</strong>
+        <span class="tool-desc">文字水印、Logo、水温与滤镜调整</span>
+        <span class="tool-arrow">打开工具 →</span>
+      </a>
+
+      <a class="tool-card" href="/tools/image-tools/batch/">
+        <div class="tool-icon">▦</div>
+        <strong>批量图片处理</strong>
+        <span class="tool-desc">批量压缩、转换、尺寸和命名</span>
+        <span class="tool-arrow">打开工具 →</span>
+      </a>
+
+      <a class="tool-card" href="/tools/image-tools/advanced/">
+        <div class="tool-icon">✧</div>
+        <strong>高级图片工具</strong>
+        <span class="tool-desc">颜色提取、EXIF、图片对比和 GIF</span>
+        <span class="tool-arrow">打开工具 →</span>
+      </a>
+
+      <a class="tool-card" href="/tools/image-tools/remove-background/">
+        <div class="tool-icon">◉</div>
+        <strong>AI 背景去除</strong>
+        <span class="tool-desc">识别图片主体，生成透明背景 PNG</span>
+        <span class="tool-arrow">打开工具 →</span>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- 工作区 -->
   <div class="tabs">
-    <button class="tab active" id="nineTab">九宫格</button>
+    <button class="tab" id="nineTab">九宫格</button>
     <button class="tab" id="longTab">长图拼接</button>
     <button class="tab" id="basicTab">基础图片编辑</button>
   </div>
 
-  <section id="ninePanel" class="panel">
+  <!-- 九宫格 -->
+  <section id="ninePanel" class="panel hidden">
     <h2>九宫格图片工具</h2>
     <p class="desc">图片切割与九张图片合成，保留原有工具功能。</p>
-    <iframe class="frame"
+
+    <iframe
+      class="frame"
       src="/tools/nine-grid/"
       title="九宫格图片工具"
       loading="lazy">
     </iframe>
   </section>
 
+  <!-- 长图拼接 -->
   <section id="longPanel" class="panel hidden">
+
     <h2>长图拼接</h2>
     <p class="desc">
       上传多张图片，调整顺序后拼接成长图。
@@ -228,14 +468,20 @@ button:disabled{opacity:.4;cursor:not-allowed}
     </p>
 
     <div class="field">
-      <label for="imageFiles">选择图片（最多 20 张，单张不超过 20MB）</label>
-      <input id="imageFiles" type="file"
-        accept="image/png,image/jpeg,image/webp" multiple>
+      <label for="imageFiles">
+        选择图片（最多 20 张，单张不超过 20MB）
+      </label>
+      <input
+        id="imageFiles"
+        type="file"
+        accept="image/png,image/jpeg,image/webp"
+        multiple>
     </div>
 
     <div id="imageList" class="image-list"></div>
 
     <div class="settings">
+
       <div class="field">
         <label for="direction">拼接方向</label>
         <select id="direction">
@@ -285,6 +531,7 @@ button:disabled{opacity:.4;cursor:not-allowed}
           <option value="image/jpeg">JPG</option>
         </select>
       </div>
+
     </div>
 
     <div class="actions">
@@ -292,28 +539,37 @@ button:disabled{opacity:.4;cursor:not-allowed}
       <button class="secondary" id="clearButton">清空图片</button>
     </div>
 
-    <div class="status" id="status">请先选择需要拼接的图片。</div>
+    <div class="status" id="status">
+      请先选择需要拼接的图片。
+    </div>
 
     <div class="preview-wrap hidden" id="previewWrap">
       <canvas id="resultCanvas"></canvas>
     </div>
 
     <div class="actions">
-      <button class="primary" id="downloadButton" disabled>下载拼接图片</button>
+      <button class="primary" id="downloadButton" disabled>
+        下载拼接图片
+      </button>
     </div>
 
     <p class="notice">
       图片在当前浏览器本地处理，不会上传到服务器。
-      拼接图片尺寸过大时，浏览器可能无法完成生成，请适当减少图片数量或尺寸。
+      拼接图片尺寸过大时，浏览器可能无法完成生成，
+      请适当减少图片数量或尺寸。
     </p>
+
   </section>
 
+  <!-- 基础图片编辑 -->
   <section id="basicPanel" class="panel hidden">
     <h2>基础图片编辑</h2>
     <p class="desc">
       图片裁剪、尺寸调整、旋转翻转、格式转换与压缩。
     </p>
-    <iframe class="frame"
+
+    <iframe
+      class="frame"
       src="/tools/image-tools/basic/"
       title="基础图片编辑工作台"
       loading="lazy">
@@ -322,19 +578,27 @@ button:disabled{opacity:.4;cursor:not-allowed}
 
 </main>
 
-<footer>荷萌 HEMENG · IMAGE STUDIO</footer>
+<footer>
+  荷萌 HEMENG · IMAGE STUDIO
+</footer>
 
 <script>
+"use strict";
+
+/* ==========================
+   工作区导航
+========================== */
+
 const tabs = {
-  nine: document.getElementById("nineTab"),
-  long: document.getElementById("longTab"),
-  basic: document.getElementById("basicTab")
+  nine:document.getElementById("nineTab"),
+  long:document.getElementById("longTab"),
+  basic:document.getElementById("basicTab")
 };
 
 const panels = {
-  nine: document.getElementById("ninePanel"),
-  long: document.getElementById("longPanel"),
-  basic: document.getElementById("basicPanel")
+  nine:document.getElementById("ninePanel"),
+  long:document.getElementById("longPanel"),
+  basic:document.getElementById("basicPanel")
 };
 
 function switchPanel(name){
@@ -344,45 +608,60 @@ function switchPanel(name){
   });
 }
 
-tabs.nine.onclick = ()=>switchPanel("nine");
-tabs.long.onclick = ()=>switchPanel("long");
-tabs.basic.onclick = ()=>switchPanel("basic");
+tabs.nine.onclick=()=>switchPanel("nine");
+tabs.long.onclick=()=>switchPanel("long");
+tabs.basic.onclick=()=>switchPanel("basic");
 
-const fileInput = document.getElementById("imageFiles");
-const imageList = document.getElementById("imageList");
-const statusBox = document.getElementById("status");
-const canvas = document.getElementById("resultCanvas");
-const previewWrap = document.getElementById("previewWrap");
-const downloadButton = document.getElementById("downloadButton");
+function openLongTool(){
+  switchPanel("long");
 
-let images = [];
-let resultReady = false;
+  setTimeout(()=>{
+    panels.long.scrollIntoView({
+      behavior:"smooth",
+      block:"start"
+    });
+  },50);
+}
+
+/* ==========================
+   长图拼接
+========================== */
+
+const fileInput=document.getElementById("imageFiles");
+const imageList=document.getElementById("imageList");
+const statusBox=document.getElementById("status");
+const canvas=document.getElementById("resultCanvas");
+const previewWrap=document.getElementById("previewWrap");
+const downloadButton=document.getElementById("downloadButton");
+
+let images=[];
+let resultReady=false;
 
 function setStatus(message){
-  statusBox.textContent = message;
+  statusBox.textContent=message;
 }
 
 function resetResult(){
-  resultReady = false;
-  downloadButton.disabled = true;
+  resultReady=false;
+  downloadButton.disabled=true;
   previewWrap.classList.add("hidden");
-  canvas.width = 0;
-  canvas.height = 0;
+  canvas.width=0;
+  canvas.height=0;
 }
 
 function releaseImage(item){
-  if(item && item.previewUrl){
+  if(item&&item.previewUrl){
     URL.revokeObjectURL(item.previewUrl);
-    item.previewUrl = null;
+    item.previewUrl=null;
   }
 }
 
 function readImage(file){
   return new Promise((resolve,reject)=>{
-    const url = URL.createObjectURL(file);
-    const image = new Image();
+    const url=URL.createObjectURL(file);
+    const image=new Image();
 
-    image.onload = ()=>{
+    image.onload=()=>{
       resolve({
         file,
         image,
@@ -392,33 +671,34 @@ function readImage(file){
       });
     };
 
-    image.onerror = ()=>{
+    image.onerror=()=>{
       URL.revokeObjectURL(url);
       reject(new Error("无法读取图片："+file.name));
     };
 
-    image.src = url;
+    image.src=url;
   });
 }
 
 fileInput.addEventListener("change",async()=>{
-  const selected = Array.from(fileInput.files || []);
-  if(!selected.length) return;
+  const selected=Array.from(fileInput.files||[]);
 
-  if(images.length + selected.length > 20){
+  if(!selected.length)return;
+
+  if(images.length+selected.length>20){
     setStatus("最多只能添加 20 张图片。");
-    fileInput.value = "";
+    fileInput.value="";
     return;
   }
 
-  const invalid = selected.find(file =>
-    !["image/png","image/jpeg","image/webp"].includes(file.type) ||
-    file.size > 20 * 1024 * 1024
+  const invalid=selected.find(file=>
+    !["image/png","image/jpeg","image/webp"].includes(file.type)||
+    file.size>20*1024*1024
   );
 
   if(invalid){
     setStatus("文件格式不支持，或单张图片超过 20MB。");
-    fileInput.value = "";
+    fileInput.value="";
     return;
   }
 
@@ -426,199 +706,282 @@ fileInput.addEventListener("change",async()=>{
 
   try{
     for(const file of selected){
-      const item = await readImage(file);
+      const item=await readImage(file);
       images.push(item);
     }
 
     renderList();
     resetResult();
-    setStatus("已添加 "+images.length+" 张图片，可以调整顺序并生成。");
+
+    setStatus(
+      "已添加 "+images.length+
+      " 张图片，可以调整顺序并生成。"
+    );
+
   }catch(error){
     setStatus(error.message);
   }
 
-  fileInput.value = "";
+  fileInput.value="";
 });
 
 function renderList(){
-  imageList.innerHTML = "";
+  imageList.innerHTML="";
 
   images.forEach((item,index)=>{
-    const row = document.createElement("div");
-    row.className = "image-item";
+    const row=document.createElement("div");
+    row.className="image-item";
 
-    const thumb = document.createElement("img");
-    thumb.src = item.previewUrl;
-    thumb.alt = "图片预览";
+    const thumb=document.createElement("img");
+    thumb.src=item.previewUrl;
+    thumb.alt="图片预览";
 
-    const name = document.createElement("div");
-    name.className = "image-name";
-    name.textContent =
+    const name=document.createElement("div");
+    name.className="image-name";
+    name.textContent=
       (index+1)+". "+item.file.name+
       " · "+item.width+"×"+item.height;
 
-    const actions = document.createElement("div");
-    actions.className = "image-actions";
+    const actions=document.createElement("div");
+    actions.className="image-actions";
 
-    const up = document.createElement("button");
-    up.className = "small";
-    up.textContent = "上移";
-    up.disabled = index === 0;
-    up.onclick = ()=>{
-      [images[index-1],images[index]] =
+    const up=document.createElement("button");
+    up.className="small";
+    up.textContent="上移";
+    up.disabled=index===0;
+
+    up.onclick=()=>{
+      [images[index-1],images[index]]=
       [images[index],images[index-1]];
+
       renderList();
       resetResult();
     };
 
-    const down = document.createElement("button");
-    down.className = "small";
-    down.textContent = "下移";
-    down.disabled = index === images.length-1;
-    down.onclick = ()=>{
-      [images[index+1],images[index]] =
+    const down=document.createElement("button");
+    down.className="small";
+    down.textContent="下移";
+    down.disabled=index===images.length-1;
+
+    down.onclick=()=>{
+      [images[index+1],images[index]]=
       [images[index],images[index+1]];
+
       renderList();
       resetResult();
     };
 
-    const remove = document.createElement("button");
-    remove.className = "small";
-    remove.textContent = "删除";
-    remove.onclick = ()=>{
-      const removed = images.splice(index,1)[0];
+    const remove=document.createElement("button");
+    remove.className="small";
+    remove.textContent="删除";
+
+    remove.onclick=()=>{
+      const removed=images.splice(index,1)[0];
+
       releaseImage(removed);
       renderList();
       resetResult();
+
       setStatus("当前剩余 "+images.length+" 张图片。");
     };
 
     actions.append(up,down,remove);
     row.append(thumb,name,actions);
+
     imageList.appendChild(row);
   });
 }
 
-document.getElementById("makeButton").onclick = ()=>{
-  if(images.length < 2){
+/* ==========================
+   生成拼接图片
+========================== */
+
+document.getElementById("makeButton").onclick=()=>{
+  if(images.length<2){
     setStatus("至少选择两张图片才能进行拼接。");
     return;
   }
 
-  const direction = document.getElementById("direction").value;
-  const resizeMode = document.getElementById("resizeMode").value;
-  const target = Number(document.getElementById("targetSize").value);
-  const spacing = Number(document.getElementById("spacing").value);
-  const background = document.getElementById("background").value;
+  const direction=
+    document.getElementById("direction").value;
 
-  const vertical = direction === "vertical";
+  const resizeMode=
+    document.getElementById("resizeMode").value;
 
-  const sizes = images.map(item=>{
-    let width = item.width;
-    let height = item.height;
+  const target=
+    Number(document.getElementById("targetSize").value);
 
-    if(resizeMode === "fit"){
-      const ratio = vertical ? target / width : target / height;
-      width = Math.round(width * ratio);
-      height = Math.round(height * ratio);
+  const spacing=
+    Number(document.getElementById("spacing").value);
+
+  const background=
+    document.getElementById("background").value;
+
+  const vertical=direction==="vertical";
+
+  const sizes=images.map(item=>{
+    let width=item.width;
+    let height=item.height;
+
+    if(resizeMode==="fit"){
+      const ratio=vertical?target/width:target/height;
+
+      width=Math.round(width*ratio);
+      height=Math.round(height*ratio);
     }
 
     return {width,height};
   });
 
-  let totalWidth = 0;
-  let totalHeight = 0;
+  let totalWidth=0;
+  let totalHeight=0;
 
   if(vertical){
-    totalWidth = Math.max(...sizes.map(item=>item.width));
-    totalHeight = sizes.reduce((sum,item)=>sum+item.height,0)
-      + spacing*(images.length-1);
+    totalWidth=Math.max(...sizes.map(item=>item.width));
+
+    totalHeight=
+      sizes.reduce((sum,item)=>sum+item.height,0)+
+      spacing*(images.length-1);
+
   }else{
-    totalWidth = sizes.reduce((sum,item)=>sum+item.width,0)
-      + spacing*(images.length-1);
-    totalHeight = Math.max(...sizes.map(item=>item.height));
+    totalWidth=
+      sizes.reduce((sum,item)=>sum+item.width,0)+
+      spacing*(images.length-1);
+
+    totalHeight=Math.max(...sizes.map(item=>item.height));
   }
 
-  const maxDimension = 30000;
-  const maxPixels = 80000000;
+  const maxDimension=30000;
+  const maxPixels=80000000;
 
   if(
-    totalWidth > maxDimension ||
-    totalHeight > maxDimension ||
-    totalWidth * totalHeight > maxPixels
+    totalWidth>maxDimension||
+    totalHeight>maxDimension||
+    totalWidth*totalHeight>maxPixels
   ){
-    setStatus("生成尺寸过大。请减少图片数量、降低统一尺寸或减少间距。");
+    setStatus(
+      "生成尺寸过大。请减少图片数量、降低统一尺寸或减少间距。"
+    );
     return;
   }
 
   try{
-    canvas.width = totalWidth;
-    canvas.height = totalHeight;
+    canvas.width=totalWidth;
+    canvas.height=totalHeight;
 
-    const ctx = canvas.getContext("2d");
-    if(!ctx) throw new Error("浏览器无法创建图片画布。");
+    const ctx=canvas.getContext("2d");
 
-    ctx.fillStyle = background;
+    if(!ctx){
+      throw new Error("浏览器无法创建图片画布。");
+    }
+
+    ctx.fillStyle=background;
     ctx.fillRect(0,0,totalWidth,totalHeight);
 
-    let offset = 0;
+    let offset=0;
 
     images.forEach((item,index)=>{
-      const size = sizes[index];
-      const x = vertical ? (totalWidth-size.width)/2 : offset;
-      const y = vertical ? offset : (totalHeight-size.height)/2;
+      const size=sizes[index];
 
-      ctx.drawImage(item.image,x,y,size.width,size.height);
-      offset += (vertical ? size.height : size.width) + spacing;
+      const x=vertical
+        ?(totalWidth-size.width)/2
+        :offset;
+
+      const y=vertical
+        ?offset
+        :(totalHeight-size.height)/2;
+
+      ctx.drawImage(
+        item.image,
+        x,
+        y,
+        size.width,
+        size.height
+      );
+
+      offset+=(vertical?size.height:size.width)+spacing;
     });
 
     previewWrap.classList.remove("hidden");
-    resultReady = true;
-    downloadButton.disabled = false;
+
+    resultReady=true;
+    downloadButton.disabled=false;
 
     setStatus(
-      "生成成功！图片尺寸："+totalWidth+" × "+totalHeight+
+      "生成成功！图片尺寸："+totalWidth+
+      " × "+totalHeight+
       "，共拼接 "+images.length+" 张图片。"
     );
+
   }catch(error){
     resetResult();
     setStatus("生成失败："+error.message);
   }
 };
 
-downloadButton.onclick = ()=>{
-  if(!resultReady) return;
+/* ==========================
+   下载拼接图片
+========================== */
 
-  const format = document.getElementById("format").value;
-  const extension = format === "image/jpeg" ? "jpg" : "png";
+downloadButton.onclick=()=>{
+  if(!resultReady)return;
+
+  const format=document.getElementById("format").value;
+
+  const extension=
+    format==="image/jpeg"?"jpg":"png";
 
   canvas.toBlob(blob=>{
     if(!blob){
-      setStatus("导出失败，请尝试更换格式或减少图片尺寸。");
+      setStatus(
+        "导出失败，请尝试更换格式或减少图片尺寸。"
+      );
       return;
     }
 
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "HEMENG-长图."+extension;
+    const url=URL.createObjectURL(blob);
+    const link=document.createElement("a");
+
+    link.href=url;
+    link.download="HEMENG-长图."+extension;
+
     document.body.appendChild(link);
     link.click();
     link.remove();
 
-    setTimeout(()=>URL.revokeObjectURL(url),1500);
+    setTimeout(()=>{
+      URL.revokeObjectURL(url);
+    },1500);
+
   },format,0.92);
 };
 
-document.getElementById("clearButton").onclick = ()=>{
+/* ==========================
+   清空图片
+========================== */
+
+document.getElementById("clearButton").onclick=()=>{
   images.forEach(releaseImage);
-  images = [];
-  imageList.innerHTML = "";
-  fileInput.value = "";
+
+  images=[];
+  imageList.innerHTML="";
+  fileInput.value="";
+
   resetResult();
+
   setStatus("已清空，请重新选择图片。");
 };
+
+/* ==========================
+   页面离开时释放资源
+========================== */
+
+window.addEventListener("beforeunload",()=>{
+  images.forEach(releaseImage);
+});
+
 </script>
+
 </body>
 </html>
 
