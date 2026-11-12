@@ -344,3 +344,307 @@ footer {
     box-shadow: 3px 3px 0 var(--comic-ink) !important;
   }
 }
+
+/* =========================================
+   IMAGE STUDIO · COMIC WORKSPACE
+========================================= */
+
+body:has(.tool-overview) .hero {
+  position: relative;
+  max-width: 1050px;
+  margin: 30px auto 10px;
+  padding: 48px 25px 42px;
+  text-align: left;
+  overflow: hidden;
+  background: #fffdf6 !important;
+  border: 3px solid var(--comic-ink) !important;
+  border-radius: 5px !important;
+  box-shadow: 7px 7px 0 var(--comic-ink) !important;
+}
+
+body:has(.tool-overview) .hero::before {
+  content: "IMAGE LAB";
+  position: absolute;
+  right: 28px;
+  top: 22px;
+  padding: 7px 12px;
+  border: 2px solid var(--comic-ink);
+  background: var(--comic-yellow);
+  font-size: 11px;
+  font-weight: 1000;
+  letter-spacing: 2px;
+  transform: rotate(5deg);
+}
+
+body:has(.tool-overview) .hero::after {
+  content: "✦";
+  position: absolute;
+  right: 12%;
+  bottom: 12px;
+  color: var(--comic-red);
+  font-size: 64px;
+  transform: rotate(14deg);
+}
+
+body:has(.tool-overview) .hero h1 {
+  position: relative;
+  z-index: 1;
+  margin: 12px 0;
+  font-size: clamp(36px, 6vw, 58px);
+  font-weight: 1000;
+  letter-spacing: -.06em;
+  text-shadow: 3px 3px 0 var(--comic-yellow);
+}
+
+body:has(.tool-overview) .hero p {
+  position: relative;
+  z-index: 1;
+  max-width: 460px;
+  color: #625b55;
+  font-size: 14px;
+  font-weight: 650;
+}
+
+body:has(.tool-overview) .container {
+  max-width: 1120px;
+  padding-top: 32px;
+}
+
+body:has(.tool-overview) .overview-title {
+  position: relative;
+  padding: 0 0 15px;
+  border-bottom: 3px solid var(--comic-ink);
+}
+
+body:has(.tool-overview) .overview-title h2 {
+  font-size: 25px;
+  font-weight: 1000;
+  letter-spacing: -.04em;
+}
+
+body:has(.tool-overview) .overview-title p {
+  color: #716b64;
+  font-weight: 650;
+}
+
+body:has(.tool-overview) .tool-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 19px;
+  padding: 8px 5px 12px;
+}
+
+body:has(.tool-overview) .tool-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 190px;
+  padding: 20px;
+  overflow: hidden;
+  background: var(--comic-paper) !important;
+  border: 2.5px solid var(--comic-ink) !important;
+  border-radius: 4px !important;
+  box-shadow: 5px 5px 0 var(--comic-ink) !important;
+  transition: transform .16s ease, box-shadow .16s ease;
+}
+
+body:has(.tool-overview) .tool-card:nth-child(3n + 1) {
+  transform: rotate(-.6deg);
+}
+
+body:has(.tool-overview) .tool-card:nth-child(3n + 2) {
+  transform: rotate(.5deg);
+}
+
+body:has(.tool-overview) .tool-card:nth-child(3n) {
+  transform: rotate(-.2deg);
+}
+
+body:has(.tool-overview) .tool-card:hover {
+  z-index: 2;
+  transform: translateY(-5px) rotate(0deg) !important;
+  box-shadow: 8px 9px 0 var(--comic-ink) !important;
+  border-color: var(--comic-ink) !important;
+}
+
+body:has(.tool-overview) .tool-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 34px;
+  height: 34px;
+  background: var(--comic-yellow);
+  border-left: 2px solid var(--comic-ink);
+  border-bottom: 2px solid var(--comic-ink);
+  clip-path: polygon(0 0,100% 0,100% 100%);
+}
+
+body:has(.tool-overview) .tool-card:nth-child(3n + 2)::after {
+  background: var(--comic-blue);
+}
+
+body:has(.tool-overview) .tool-card:nth-child(3n)::after {
+  background: var(--comic-red);
+}
+
+body:has(.tool-overview) .tool-icon {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 16px;
+  background: #ffe7a2 !important;
+  border: 2px solid var(--comic-ink) !important;
+  border-radius: 4px !important;
+  font-size: 23px;
+  box-shadow: 3px 3px 0 var(--comic-ink);
+}
+
+body:has(.tool-overview) .tool-card:nth-child(3n + 2) .tool-icon {
+  background: #d8edf0 !important;
+}
+
+body:has(.tool-overview) .tool-card:nth-child(3n) .tool-icon {
+  background: #f8d8d1 !important;
+}
+
+body:has(.tool-overview) .tool-card strong {
+  font-size: 16px;
+  font-weight: 1000;
+  color: var(--comic-ink);
+}
+
+body:has(.tool-overview) .tool-card .tool-desc {
+  min-height: 40px;
+  color: #716b64;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+body:has(.tool-overview) .tool-arrow {
+  margin-top: auto;
+  padding-top: 13px;
+  color: var(--comic-red);
+  font-size: 12px;
+  font-weight: 1000;
+}
+
+body:has(.tool-overview) .tool-card button {
+  height: 100%;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  color: inherit;
+  text-align: left;
+}
+
+body:has(.tool-overview) .tool-card button:active {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+body:has(.tool-overview) .tabs {
+  border: 2px solid var(--comic-ink) !important;
+  border-radius: 4px !important;
+  background: #e9dfcf !important;
+  box-shadow: 4px 4px 0 var(--comic-ink);
+}
+
+body:has(.tool-overview) .tab {
+  border: 2px solid transparent !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+}
+
+body:has(.tool-overview) .tab.active {
+  border-color: var(--comic-ink) !important;
+  background: var(--comic-yellow) !important;
+  color: var(--comic-ink) !important;
+  box-shadow: 2px 2px 0 var(--comic-ink) !important;
+}
+
+body:has(.tool-overview) .panel {
+  margin-top: 18px;
+  background: var(--comic-paper) !important;
+  border: 3px solid var(--comic-ink) !important;
+  border-radius: 4px !important;
+  box-shadow: 6px 6px 0 var(--comic-ink) !important;
+}
+
+body:has(.tool-overview) .panel h2 {
+  font-size: 23px;
+  font-weight: 1000;
+}
+
+body:has(.tool-overview) .primary {
+  background: var(--comic-red) !important;
+  color: white !important;
+}
+
+body:has(.tool-overview) .secondary {
+  background: var(--comic-yellow) !important;
+  color: var(--comic-ink) !important;
+}
+
+body:has(.tool-overview) .image-item {
+  background: white !important;
+  border: 2px solid var(--comic-ink) !important;
+  border-radius: 4px !important;
+  box-shadow: 2px 2px 0 var(--comic-ink);
+}
+
+body:has(.tool-overview) .preview-wrap {
+  background: #eee8db !important;
+  border: 2px dashed var(--comic-ink) !important;
+  border-radius: 4px !important;
+}
+
+body:has(.tool-overview) footer {
+  margin-top: 35px;
+  border-top: 3px solid var(--comic-ink) !important;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+@media (max-width: 760px) {
+  body:has(.tool-overview) .hero {
+    margin: 20px 12px 8px;
+    padding: 38px 20px;
+  }
+
+  body:has(.tool-overview) .tool-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 13px;
+  }
+
+  body:has(.tool-overview) .tool-card {
+    min-height: 180px;
+    padding: 15px;
+  }
+}
+
+@media (max-width: 420px) {
+  body:has(.tool-overview) .hero::before {
+    right: 13px;
+    top: 12px;
+    font-size: 9px;
+  }
+
+  body:has(.tool-overview) .hero h1 {
+    font-size: 36px;
+  }
+
+  body:has(.tool-overview) .tool-grid {
+    gap: 11px;
+  }
+
+  body:has(.tool-overview) .tool-card {
+    min-height: 174px;
+    padding: 12px;
+  }
+
+  body:has(.tool-overview) .tool-card strong {
+    font-size: 14px;
+  }
+}
