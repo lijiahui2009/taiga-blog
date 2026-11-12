@@ -1,0 +1,346 @@
+
+/* HEMENG · ORIGINAL COMIC PAPER DESIGN SYSTEM */
+
+:root {
+  --comic-ink: #25242a;
+  --comic-paper: #fffdf6;
+  --comic-cream: #f3eddf;
+  --comic-red: #ed6757;
+  --comic-yellow: #ffd65a;
+  --comic-blue: #72b3c4;
+  --comic-lilac: #aaa0d8;
+  --comic-line: 2.5px solid var(--comic-ink);
+  --comic-shadow: 5px 5px 0 var(--comic-ink);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: var(--comic-ink) !important;
+  background-color: var(--comic-cream) !important;
+  background-image: radial-gradient(
+    rgba(37,36,42,.14) .8px,
+    transparent .8px
+  ) !important;
+  background-size: 10px 10px !important;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: .17;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0 5px,
+    rgba(255,255,255,.28) 5px 6px
+  );
+}
+
+body > * {
+  position: relative;
+  z-index: 1;
+}
+
+a {
+  color: inherit;
+}
+
+button, input, textarea, select {
+  font-family: inherit;
+}
+
+button, a, input, textarea, select {
+  -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+  outline: 3px solid var(--comic-red) !important;
+  outline-offset: 3px !important;
+}
+
+/* 顶部导航 */
+
+.site-header,
+.header,
+.topbar {
+  background: var(--comic-paper) !important;
+  border: var(--comic-line) !important;
+  border-radius: 5px !important;
+  box-shadow: 4px 4px 0 var(--comic-ink) !important;
+}
+
+.site-header {
+  margin: 12px auto 0;
+  max-width: 1240px;
+}
+
+.header-inner {
+  min-height: 68px;
+}
+
+.brand-name,
+.brand {
+  color: var(--comic-ink);
+}
+
+.main-nav a,
+nav a,
+.back {
+  color: var(--comic-ink) !important;
+  font-weight: 800;
+}
+
+.main-nav a:hover,
+nav a:hover,
+.back:hover {
+  color: var(--comic-red) !important;
+}
+
+/* 页面主视觉 */
+
+.page-heading,
+.hero-wrap .hero,
+.tool-zone,
+.community-panel {
+  border: var(--comic-line) !important;
+  border-radius: 5px !important;
+  box-shadow: var(--comic-shadow) !important;
+}
+
+.hero-wrap .hero {
+  overflow: hidden;
+}
+
+.hero-wrap .hero h1,
+body > main .hero h1 {
+  letter-spacing: -.04em;
+}
+
+.kicker,
+.eyebrow,
+.hero-label,
+.hero small {
+  color: var(--comic-red) !important;
+  font-weight: 900 !important;
+  letter-spacing: .12em !important;
+}
+
+/* 纸片卡片 */
+
+.panel,
+.tool-card,
+.world-card,
+.article-card,
+.discovery-card,
+.recent-card,
+.post,
+.step,
+.upload,
+.article-item,
+.article-detail,
+.community-panel {
+  border: var(--comic-line) !important;
+  border-radius: 5px !important;
+  box-shadow: 4px 4px 0 var(--comic-ink) !important;
+}
+
+.panel,
+.article-card,
+.recent-card,
+.post,
+.step,
+.tool-card,
+.world-card {
+  background: var(--comic-paper) !important;
+}
+
+.tool-card:hover,
+.world-card:hover,
+.article-card:hover {
+  transform: translate(-2px,-2px) !important;
+  box-shadow: 7px 7px 0 var(--comic-ink) !important;
+}
+
+.tool-symbol,
+.world-icon,
+.heading-icon,
+.brand-icon {
+  border: 2px solid var(--comic-ink) !important;
+  border-radius: 4px !important;
+}
+
+.tool-open,
+.world-enter,
+.article-category,
+.mini-label {
+  color: var(--comic-red) !important;
+  font-weight: 900 !important;
+}
+
+/* 按钮与交互 */
+
+button,
+.action-primary,
+.action-secondary,
+.all-tools,
+.filter-button,
+.discovery-link,
+.section-more,
+.community-actions a,
+.retry-button {
+  border: 2px solid var(--comic-ink) !important;
+  border-radius: 4px !important;
+  box-shadow: 3px 3px 0 var(--comic-ink) !important;
+  font-weight: 850 !important;
+}
+
+button:active,
+.action-primary:active,
+.action-secondary:active,
+.all-tools:active,
+.filter-button:active,
+.discovery-link:active {
+  transform: translate(2px,2px) !important;
+  box-shadow: 1px 1px 0 var(--comic-ink) !important;
+}
+
+/* 输入框 */
+
+input:not([type="checkbox"]):not([type="radio"]),
+textarea,
+select,
+.tool-search {
+  border: 2px solid var(--comic-ink) !important;
+  border-radius: 4px !important;
+  background: var(--comic-paper) !important;
+  color: var(--comic-ink) !important;
+  box-shadow: 2px 2px 0 rgba(37,36,42,.22) !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #88817a !important;
+}
+
+.filter-button.active,
+.filter-button:hover {
+  background: var(--comic-yellow) !important;
+  color: var(--comic-ink) !important;
+}
+
+/* 公告与状态 */
+
+.notice,
+.wall-announcement,
+.status,
+.message {
+  border: 2px solid var(--comic-ink) !important;
+  border-radius: 4px !important;
+  box-shadow: 3px 3px 0 var(--comic-ink) !important;
+}
+
+.notice,
+.wall-announcement {
+  background: #fff2bd !important;
+  color: var(--comic-ink) !important;
+}
+
+.status {
+  background: #fff8d9 !important;
+  color: var(--comic-ink) !important;
+}
+
+.stage {
+  border: var(--comic-line) !important;
+  border-radius: 4px !important;
+  box-shadow: 4px 4px 0 var(--comic-ink) !important;
+}
+
+/* 博客与交流内容 */
+
+.article-list,
+.post-list {
+  gap: 16px;
+}
+
+.post-meta,
+.detail-meta,
+.article-date {
+  color: #77716c;
+}
+
+.post-category {
+  border: 1.5px solid var(--comic-ink) !important;
+  border-radius: 3px !important;
+  background: #ffe7a2 !important;
+  color: var(--comic-ink) !important;
+}
+
+.search-box {
+  border: var(--comic-line) !important;
+  border-radius: 4px !important;
+}
+
+.categories button,
+.category {
+  border: 2px solid var(--comic-ink) !important;
+  border-radius: 4px !important;
+  box-shadow: 2px 2px 0 var(--comic-ink) !important;
+}
+
+.categories button.active,
+.category.active {
+  background: var(--comic-yellow) !important;
+  color: var(--comic-ink) !important;
+}
+
+/* 页脚 */
+
+footer {
+  border-top: var(--comic-line) !important;
+  color: #6f6964 !important;
+}
+
+.footer-brand {
+  color: var(--comic-red) !important;
+}
+
+/* 手机端与无障碍 */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+@media (max-width: 680px) {
+  .site-header {
+    margin: 8px 4% 0;
+  }
+
+  .site-header,
+  .header,
+  .topbar {
+    box-shadow: 3px 3px 0 var(--comic-ink) !important;
+  }
+
+  .panel,
+  .tool-card,
+  .world-card,
+  .article-card,
+  .discovery-card,
+  .recent-card,
+  .post,
+  .step {
+    box-shadow: 3px 3px 0 var(--comic-ink) !important;
+  }
+}
