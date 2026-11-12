@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="zh-CN">
 <head>
@@ -415,41 +414,44 @@ function addFiles(fileList){
     // 仅在读取尺寸时短暂解码，不长期保留 Image 对象
     const image=new Image();
 
-   image.onload=()=>{
-  image.onload=null;
-  image.onerror=null;
+    image.onload=()=>{
+      image.onload=null;
+      image.onerror=null;
 
-  if(!files.includes(item)){
-    return;
-  }
+      if(!files.includes(item)){
+        return;
+      }
 
-  const width=image.naturalWidth;
-  const height=image.naturalHeight;
+      const width=image.naturalWidth;
+      const height=image.naturalHeight;
 
-  if(!width||!height||width*height>MAX_PIXELS){
-    item.readError=true;
-    item.error='图片尺寸超过 3000 万像素或无法读取';
+      if(!width||!height||width*height>MAX_PIXELS){
+        item.readError=true;
+        item.error='图片尺寸超过 3000 万像素或无法读取';
 
-    if(item.previewUrl){
-      URL.revokeObjectURL(item.previewUrl);
-      item.previewUrl='';
-    }
-  }else{
-    item.width=width;
-    item.height=height;
-  }
+        if(item.previewUrl){
+          URL.revokeObjectURL(item.previewUrl);
+          item.previewUrl='';
+        }
+      }else{
+        item.width=width;
+        item.height=height;
+      }
 
-  renderList();
-};
+      renderList();
+    };
 
     image.onerror=()=>{
       if(!files.includes(item))return;
+
       item.readError=true;
       item.error='无法读取图片文件';
+
       if(item.previewUrl){
         URL.revokeObjectURL(item.previewUrl);
         item.previewUrl='';
       }
+
       renderList();
     };
 
