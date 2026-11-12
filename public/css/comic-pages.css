@@ -1,0 +1,557 @@
+
+/* =========================================
+   HEMENG COMIC PAGES
+   工具中心 + 关于本站
+   原创漫画剪贴簿视觉系统
+========================================= */
+
+:root {
+  --page-ink: #29272b;
+  --page-paper: #fffdf6;
+  --page-yellow: #ffe49a;
+  --page-red: #e85c50;
+  --page-blue: #cce8ec;
+  --page-purple: #e8def5;
+  --page-shadow: 5px 5px 0 var(--page-ink);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body:has(.tools-grid),
+body:has(.intro-card) {
+  background:
+    radial-gradient(circle, rgba(41,39,43,.09) 1px, transparent 1.5px) 0 0 / 13px 13px,
+    #f3eee4 !important;
+  color: var(--page-ink) !important;
+}
+
+/* 顶部导航 */
+
+body:has(.tools-grid) header,
+body:has(.intro-card) header {
+  background: rgba(255,253,246,.94) !important;
+  border-bottom: 3px solid var(--page-ink) !important;
+  box-shadow: 0 3px 0 rgba(41,39,43,.08);
+}
+
+body:has(.tools-grid) .header-inner,
+body:has(.intro-card) .header-inner {
+  max-width: 1120px;
+}
+
+body:has(.tools-grid) .brand,
+body:has(.intro-card) .logo {
+  font-weight: 1000;
+}
+
+body:has(.tools-grid) .brand img {
+  border: 2px solid var(--page-ink);
+  background: white;
+  box-shadow: 2px 2px 0 var(--page-ink);
+}
+
+body:has(.tools-grid) .back,
+body:has(.intro-card) nav a {
+  color: var(--page-ink) !important;
+  font-weight: 800;
+}
+
+body:has(.intro-card) nav a[aria-current="page"]::after {
+  height: 4px;
+  border-radius: 0;
+  background: var(--page-red);
+}
+
+/* =========================================
+   工具中心
+========================================= */
+
+body:has(.tools-grid) .hero {
+  position: relative;
+  max-width: 1080px;
+  margin: 35px auto 12px;
+  padding: 55px 35px 48px;
+  overflow: hidden;
+  text-align: left;
+  background:
+    radial-gradient(circle, rgba(41,39,43,.12) 1px, transparent 1.5px) 0 0 / 12px 12px,
+    var(--page-yellow) !important;
+  border: 3px solid var(--page-ink) !important;
+  border-radius: 4px !important;
+  box-shadow: 8px 8px 0 var(--page-ink);
+}
+
+body:has(.tools-grid) .hero::after {
+  content: "PICK YOUR TOOL!";
+  position: absolute;
+  right: 30px;
+  bottom: 25px;
+  padding: 9px 13px;
+  background: white;
+  border: 2px solid var(--page-ink);
+  box-shadow: 3px 3px 0 var(--page-ink);
+  font-size: 11px;
+  font-weight: 1000;
+  letter-spacing: 1px;
+  transform: rotate(-5deg);
+}
+
+body:has(.tools-grid) .kicker {
+  display: inline-block;
+  padding: 6px 10px;
+  background: var(--page-red);
+  border: 2px solid var(--page-ink);
+  color: white !important;
+  font-weight: 1000;
+  letter-spacing: 2px;
+  transform: rotate(-2deg);
+}
+
+body:has(.tools-grid) .hero h1 {
+  position: relative;
+  z-index: 1;
+  margin: 19px 0 12px;
+  color: var(--page-ink);
+  font-size: clamp(40px, 7vw, 66px);
+  font-weight: 1000;
+  letter-spacing: -.07em;
+  text-shadow: 4px 4px 0 white;
+}
+
+body:has(.tools-grid) .hero p {
+  color: #514b47 !important;
+  font-weight: 750;
+  line-height: 2;
+}
+
+body:has(.tools-grid) .container {
+  max-width: 1120px;
+  padding-top: 42px;
+}
+
+body:has(.tools-grid) .section-title {
+  display: inline-block;
+  margin-bottom: 10px;
+  padding: 5px 12px;
+  background: var(--page-blue);
+  border: 2px solid var(--page-ink);
+  box-shadow: 3px 3px 0 var(--page-ink);
+  font-size: 25px;
+  font-weight: 1000;
+  transform: rotate(-1deg);
+}
+
+body:has(.tools-grid) .section-desc {
+  color: #68615b;
+  font-weight: 650;
+}
+
+body:has(.tools-grid) .tools-grid {
+  gap: 22px;
+  padding: 8px 5px 15px;
+}
+
+body:has(.tools-grid) .tool-card {
+  position: relative;
+  min-height: 260px;
+  padding: 23px;
+  overflow: hidden;
+  background: var(--page-paper) !important;
+  border: 2.5px solid var(--page-ink) !important;
+  border-radius: 4px !important;
+  box-shadow: var(--page-shadow) !important;
+  transition: transform .16s ease, box-shadow .16s ease;
+}
+
+body:has(.tools-grid) .tool-card:nth-child(4n + 1) {
+  transform: rotate(-.6deg);
+}
+
+body:has(.tools-grid) .tool-card:nth-child(4n + 2) {
+  background: #e5f1f0 !important;
+  transform: rotate(.45deg);
+}
+
+body:has(.tools-grid) .tool-card:nth-child(4n + 3) {
+  background: #f0eafa !important;
+  transform: rotate(-.3deg);
+}
+
+body:has(.tools-grid) .tool-card:nth-child(4n) {
+  background: #ffe8df !important;
+  transform: rotate(.55deg);
+}
+
+body:has(.tools-grid) .tool-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 36px;
+  height: 36px;
+  background: var(--page-yellow);
+  border-left: 2px solid var(--page-ink);
+  border-bottom: 2px solid var(--page-ink);
+  clip-path: polygon(0 0,100% 0,100% 100%);
+}
+
+body:has(.tools-grid) .tool-card:hover {
+  z-index: 2;
+  transform: translateY(-6px) rotate(0) !important;
+  box-shadow: 9px 10px 0 var(--page-ink) !important;
+}
+
+body:has(.tools-grid) .tool-icon {
+  width: 55px;
+  height: 55px;
+  border: 2px solid var(--page-ink);
+  border-radius: 4px;
+  background: var(--page-yellow) !important;
+  color: var(--page-ink) !important;
+  box-shadow: 3px 3px 0 var(--page-ink);
+  font-size: 26px;
+  font-weight: 1000;
+}
+
+body:has(.tools-grid) .tool-type {
+  color: var(--page-red) !important;
+  font-size: 10px;
+  font-weight: 1000;
+  letter-spacing: 2px;
+}
+
+body:has(.tools-grid) .tool-card h2 {
+  color: var(--page-ink);
+  font-size: 20px;
+  font-weight: 1000;
+}
+
+body:has(.tools-grid) .tool-card p {
+  color: #655e58 !important;
+  font-weight: 600;
+  line-height: 1.9;
+}
+
+body:has(.tools-grid) .tool-link {
+  color: var(--page-red) !important;
+  font-weight: 1000;
+}
+
+body:has(.tools-grid) .future {
+  position: relative;
+  margin-top: 40px;
+  padding: 28px;
+  background: #fff3c9 !important;
+  border: 2px dashed var(--page-ink) !important;
+  border-radius: 4px !important;
+  box-shadow: 4px 4px 0 var(--page-ink);
+  color: #514b47 !important;
+  font-weight: 700;
+}
+
+/* =========================================
+   关于本站
+========================================= */
+
+body:has(.intro-card) .hero {
+  padding: 85px 25px 75px;
+  background:
+    radial-gradient(circle, rgba(41,39,43,.12) 1px, transparent 1.5px) 0 0 / 13px 13px,
+    var(--page-blue) !important;
+  border-bottom: 3px solid var(--page-ink) !important;
+}
+
+body:has(.intro-card) .hero-inner {
+  max-width: 1000px;
+  padding: 30px;
+  background: var(--page-paper);
+  border: 3px solid var(--page-ink);
+  box-shadow: 8px 8px 0 var(--page-ink);
+  transform: rotate(-.35deg);
+}
+
+body:has(.intro-card) .eyebrow {
+  display: inline-block;
+  padding: 7px 10px;
+  background: var(--page-red);
+  border: 2px solid var(--page-ink);
+  color: white !important;
+  font-weight: 1000;
+  transform: rotate(-2deg);
+}
+
+body:has(.intro-card) .eyebrow::before {
+  display: none;
+}
+
+body:has(.intro-card) .hero h1 {
+  color: var(--page-ink);
+  font-size: clamp(40px, 7vw, 64px);
+  font-weight: 1000;
+  letter-spacing: -.07em;
+  text-shadow: 4px 4px 0 var(--page-yellow);
+}
+
+body:has(.intro-card) .hero p {
+  color: #5b5550 !important;
+  font-weight: 700;
+}
+
+body:has(.intro-card) .hero-tag {
+  border: 2px solid var(--page-ink);
+  border-radius: 3px;
+  background: var(--page-yellow);
+  color: var(--page-ink);
+  box-shadow: 3px 3px 0 var(--page-ink);
+  font-weight: 1000;
+  transform: rotate(1deg);
+}
+
+body:has(.intro-card) main {
+  max-width: 1060px;
+  padding-top: 65px;
+}
+
+body:has(.intro-card) .section {
+  position: relative;
+  margin-bottom: 75px;
+}
+
+body:has(.intro-card) .section-heading {
+  margin-bottom: 22px;
+}
+
+body:has(.intro-card) .section-number {
+  display: inline-block;
+  padding: 5px 9px;
+  background: var(--page-red);
+  border: 2px solid var(--page-ink);
+  color: white !important;
+  font-weight: 1000;
+  letter-spacing: 1px;
+  transform: rotate(-2deg);
+}
+
+body:has(.intro-card) .section h2 {
+  margin-top: 12px;
+  color: var(--page-ink);
+  font-size: 27px;
+  font-weight: 1000;
+  letter-spacing: -.04em;
+}
+
+body:has(.intro-card) .section > p {
+  color: #5e5751;
+  font-weight: 650;
+}
+
+body:has(.intro-card) .intro-card,
+body:has(.intro-card) .direction-card,
+body:has(.intro-card) .quote {
+  padding: 30px;
+  background: var(--page-paper) !important;
+  border: 2.5px solid var(--page-ink) !important;
+  border-radius: 4px !important;
+  box-shadow: 6px 6px 0 var(--page-ink) !important;
+  color: #514b47;
+}
+
+body:has(.intro-card) .intro-card {
+  transform: rotate(.2deg);
+}
+
+body:has(.intro-card) .intro-card p,
+body:has(.intro-card) .direction-card p {
+  color: #514b47 !important;
+  font-weight: 600;
+}
+
+body:has(.intro-card) .features {
+  gap: 20px;
+}
+
+body:has(.intro-card) .feature {
+  min-height: 165px;
+  padding: 22px;
+  background: var(--page-paper) !important;
+  border: 2.5px solid var(--page-ink) !important;
+  border-radius: 4px !important;
+  box-shadow: 5px 5px 0 var(--page-ink) !important;
+  transition: transform .16s ease, box-shadow .16s ease;
+}
+
+body:has(.intro-card) .feature:nth-child(4n + 1) {
+  transform: rotate(-.5deg);
+}
+
+body:has(.intro-card) .feature:nth-child(4n + 2) {
+  background: #e5f1f0 !important;
+  transform: rotate(.4deg);
+}
+
+body:has(.intro-card) .feature:nth-child(4n + 3) {
+  background: #f0eafa !important;
+  transform: rotate(-.3deg);
+}
+
+body:has(.intro-card) .feature:nth-child(4n) {
+  background: #ffe8df !important;
+  transform: rotate(.5deg);
+}
+
+body:has(.intro-card) .feature:hover {
+  z-index: 2;
+  transform: translateY(-5px) rotate(0);
+  box-shadow: 8px 9px 0 var(--page-ink) !important;
+}
+
+body:has(.intro-card) .feature-icon {
+  width: 43px;
+  height: 43px;
+  border: 2px solid var(--page-ink);
+  border-radius: 4px;
+  background: var(--page-yellow) !important;
+  color: var(--page-ink) !important;
+  box-shadow: 2px 2px 0 var(--page-ink);
+  font-weight: 1000;
+}
+
+body:has(.intro-card) .feature-index {
+  color: var(--page-red);
+  font-weight: 1000;
+}
+
+body:has(.intro-card) .feature h3 {
+  color: var(--page-ink);
+  font-size: 17px;
+  font-weight: 1000;
+}
+
+body:has(.intro-card) .feature p {
+  color: #655e58 !important;
+  font-weight: 600;
+}
+
+body:has(.intro-card) .feature.future {
+  background: #fff3c9 !important;
+}
+
+body:has(.intro-card) .future-label {
+  border: 1.5px solid var(--page-ink);
+  border-radius: 3px;
+  background: var(--page-yellow);
+  color: var(--page-ink);
+  font-weight: 1000;
+}
+
+body:has(.intro-card) .quote {
+  border-left: 7px solid var(--page-red) !important;
+  white-space: pre-wrap;
+  font-weight: 700;
+}
+
+body:has(.intro-card) .quote::before {
+  color: var(--page-red);
+  font-weight: 1000;
+}
+
+/* 页脚 */
+
+body:has(.tools-grid) footer,
+body:has(.intro-card) footer {
+  margin-top: 30px;
+  background: #fffdf6 !important;
+  border-top: 3px solid var(--page-ink) !important;
+  color: #625b55 !important;
+  font-weight: 700;
+}
+
+body:has(.tools-grid) footer strong,
+body:has(.intro-card) footer .footer-brand {
+  color: var(--page-red) !important;
+  font-weight: 1000;
+}
+
+/* 手机适配 */
+
+@media (max-width: 800px) {
+  body:has(.tools-grid) .hero {
+    margin: 22px 14px 10px;
+    padding: 42px 22px;
+  }
+
+  body:has(.tools-grid) .tools-grid {
+    gap: 15px;
+  }
+
+  body:has(.tools-grid) .tool-card {
+    min-height: 245px;
+    padding: 18px;
+  }
+
+  body:has(.intro-card) .hero {
+    padding: 55px 17px;
+  }
+
+  body:has(.intro-card) .hero-inner {
+    padding: 23px;
+  }
+
+  body:has(.intro-card) main {
+    padding: 48px 20px 65px;
+  }
+}
+
+@media (max-width: 560px) {
+  body:has(.tools-grid) .hero h1,
+  body:has(.intro-card) .hero h1 {
+    font-size: 39px;
+  }
+
+  body:has(.tools-grid) .hero::after {
+    right: 12px;
+    bottom: 12px;
+    font-size: 9px;
+  }
+
+  body:has(.tools-grid) .container {
+    padding: 35px 16px 55px;
+  }
+
+  body:has(.tools-grid) .tools-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  body:has(.tools-grid) .tool-card {
+    min-height: 220px;
+  }
+
+  body:has(.intro-card) .features {
+    grid-template-columns: 1fr;
+  }
+
+  body:has(.intro-card) .section {
+    margin-bottom: 55px;
+  }
+
+  body:has(.intro-card) .intro-card,
+  body:has(.intro-card) .direction-card,
+  body:has(.intro-card) .quote {
+    padding: 22px;
+  }
+
+  body:has(.intro-card) .hero-inner {
+    padding: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body:has(.tools-grid) *,
+  body:has(.intro-card) * {
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
