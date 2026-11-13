@@ -215,35 +215,58 @@
   }
 
   function watchDynamicText() {
-    const status = document.getElementById("status");
-    const countdown = document.getElementById("countdown");
-    const copyBtn = document.getElementById("copyBtn");
+  const status = document.getElementById("status");
+  const countdown = document.getElementById("countdown");
+  const copyBtn = document.getElementById("copyBtn");
 
-    const observer = new MutationObserver(() => {
-      const lang = languages[currentLanguage];
+  const observer = new MutationObserver(() => {
+    const lang = languages[currentLanguage];
 
-      const statusKey = originalMessages[status.textContent.trim()];
-      if (statusKey) {
-        status.textContent = lang[statusKey];
+    const statusKey = originalMessages[status.textContent.trim()];
+    if (statusKey) {
+      const translated = lang[statusKey];
+      if (status.textContent !== translated) {
+        status.textContent = translated;
       }
+    }
 
-      if (countdown.textContent === "已过期") {
+    if (countdown.textContent === "已过期") {
+      if (countdown.textContent !== lang.expiredTime) {
         countdown.textContent = lang.expiredTime;
       }
+    }
 
-      if (copyBtn.textContent === "已复制") {
+    if (copyBtn.textContent === "已复制") {
+      if (copyBtn.textContent !== lang.copied) {
         copyBtn.textContent = lang.copied;
       }
+    }
 
-      if (copyBtn.textContent === "复制失败，请手动选择文字") {
+    if (copyBtn.textContent === "复制失败，请手动选择文字") {
+      if (copyBtn.textContent !== lang.copyFailed) {
         copyBtn.textContent = lang.copyFailed;
       }
-    });
+    }
+  });
 
-    observer.observe(status, { childList: true, characterData: true, subtree: true });
-    observer.observe(countdown, { childList: true, characterData: true, subtree: true });
-    observer.observe(copyBtn, { childList: true, characterData: true, subtree: true });
-  }
+  observer.observe(status, {
+    childList: true,
+    characterData: true,
+    subtree: true
+  });
+
+  observer.observe(countdown, {
+    childList: true,
+    characterData: true,
+    subtree: true
+  });
+
+  observer.observe(copyBtn, {
+    childList: true,
+    characterData: true,
+    subtree: true
+  });
+}
 
   function init() {
     addLanguageSelector();
