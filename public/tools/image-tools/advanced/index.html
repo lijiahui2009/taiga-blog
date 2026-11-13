@@ -1308,27 +1308,30 @@ $('gifCreate').onclick=async()=>{
     });
   }
 }
-  function finishGif(){
-  gifBusy=false;
-  $('gifCreate').disabled=false;
-  $('gifClear').disabled=false;
-  $('gifChoose').disabled=false;
+    function finishGif(){
+    gifBusy=false;
+    $('gifCreate').disabled=false;
+    $('gifClear').disabled=false;
+    $('gifChoose').disabled=false;
 
-  if(gifWorkerUrl){
-    URL.revokeObjectURL(gifWorkerUrl);
-    gifWorkerUrl=null;
+    if(gifWorkerUrl){
+      URL.revokeObjectURL(gifWorkerUrl);
+      gifWorkerUrl=null;
+    }
   }
-}
 
-  const a=document.createElement('a');
+  $('gifDownload').onclick=()=>{
+    if(!gifBlobUrl)return;
 
-  a.href=gifBlobUrl;
-  a.download='animated-image-'+Date.now()+'.gif';
+    const a=document.createElement('a');
 
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-};
+    a.href=gifBlobUrl;
+    a.download='animated-image-'+Date.now()+'.gif';
+
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  };
 
 /* 页面关闭时释放资源 */
 window.addEventListener('beforeunload',()=>{
