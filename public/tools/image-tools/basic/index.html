@@ -689,7 +689,73 @@ function setStatus(message,ready=false){
   $("statusText").textContent = message;
   $("statusDot").classList.toggle("ready",ready);
 }
+let undoStack = [];
+let redoStack = [];
+let historyCurrent = null;
+let historyApplying = false;
 
+function getHistoryState(){
+  return {
+    rotation,
+    flipHorizontal,
+    flipVertical,
+    cropRatio: $("cropRatio").value,
+    width: $("widthInput").value,
+    height: $("heightInput").value,
+    keepRatio: $("keepRatio").checked,
+    outputFormat: $("outputFormat").value,
+    quality: $("quality").value
+  };
+}
+
+function updateHistoryButtons(){
+  $("undoButton").disabled = undoStack.length === 0;
+  $("redoButton").disabled = redoStack.length === 0;
+}
+
+function applyHistoryState(state){
+  rotation = state.rotation;
+  flipHorizontal = state.flipHorizontal;
+  flipVertical = state.flipVertical;
+
+  $("cropRatio").value = state.cropRatio;
+  $("widthInput").value = state.width;
+  $("heightInput").value = state.height;
+  $("keepRatio").checked = state.keepRatio;
+  $("outputFormat").value = state.outputFormat;
+  $("quality").value = state.quality;
+  $("qualityText").textContent = state.quality + "%";
+
+  historyApplying = true;
+  render();
+  historyApplying = false;
+
+  historyCurrent = getHistoryState();
+  updateHistoryButtons();
+}
+
+function undoEdit(){
+  if(!undoStack.length) return;
+
+  redoStack.push(getHistoryState());
+  const previous = undoStack.pop();
+
+  applyHistoryState(previous);
+  setStatus("已撤销上一步操作",true);
+}
+
+function redoEdit(){
+  if(!redoStack.length) return;
+
+  undoStack.push(getHistoryState());
+  const next = redoStack.pop();
+
+  applyHistoryState(next);
+  setStatus("已恢复下一步操作",true);
+}
+
+$("undoButton").addEventListener("click",undoEdit);
+$("redoButton").addEventListener("click",redoEdit);
 function formatBytes(bytes){
   if(bytes < 1024) return bytes+" B";
   if(bytes < 1024*1024) return (bytes/1024).toFixed(1)+" KB";
