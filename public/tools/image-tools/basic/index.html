@@ -852,6 +852,10 @@ fileInput.addEventListener("change",async()=>{
     flipHorizontal = false;
     flipVertical = false;
     previewReady = false;
+    undoStack = [];
+    redoStack = [];
+    historyCurrent = null;
+updateHistoryButtons();
 
     $("cropRatio").value = "original";
     $("keepRatio").checked = true;
@@ -961,7 +965,27 @@ function render(){
     canvas.width+" × "+canvas.height;
 
   setStatus("预览已更新",true);
-  return true;
+
+if(!historyApplying){
+  const nextState = getHistoryState();
+
+  if(historyCurrent === null){
+    historyCurrent = nextState;
+  }else if(JSON.stringify(nextState) !== JSON.stringify(historyCurrent)){
+    undoStack.push(historyCurrent);
+
+    if(undoStack.length > 50){
+      undoStack.shift();
+    }
+
+    redoStack = [];
+    historyCurrent = nextState;
+  }
+
+  updateHistoryButtons();
+}
+
+return true;
 }
 
 $("processButton").addEventListener("click",render);
