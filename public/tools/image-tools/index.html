@@ -657,6 +657,60 @@ input[type="color"] {
     justify-content: flex-end;
   }
 }
+    /* 工作区导航 · 漫画分镜按钮 */
+
+.tabs {
+  display: none;
+  gap: 10px !important;
+  padding: 10px !important;
+  background:
+    radial-gradient(circle, rgba(41,39,43,.1) 1px, transparent 1.4px)
+    0 0 / 11px 11px,
+    #eee9df !important;
+  border: 3px solid var(--comic-ink) !important;
+  border-radius: 3px !important;
+  box-shadow: 5px 5px 0 var(--comic-ink);
+}
+
+.tab {
+  min-height: 46px;
+  padding: 11px 8px !important;
+  color: var(--comic-ink) !important;
+  background: #fffdf7 !important;
+  border: 2px solid var(--comic-ink) !important;
+  border-radius: 3px !important;
+  font-weight: 900 !important;
+  box-shadow: 2px 2px 0 var(--comic-ink);
+  transition: transform .15s, background .15s;
+}
+
+.tab:hover {
+  transform: translateY(-2px) rotate(-1deg);
+  background: var(--comic-yellow) !important;
+}
+
+.tab.active {
+  color: var(--comic-ink) !important;
+  background: var(--comic-yellow) !important;
+  box-shadow: 3px 3px 0 var(--comic-ink);
+  transform: translate(-1px,-1px);
+}
+
+.tab:focus-visible {
+  outline: 3px dashed var(--comic-red);
+  outline-offset: 4px;
+}
+
+@media(max-width:560px) {
+  .tabs {
+    grid-template-columns: 1fr !important;
+    box-shadow: 3px 3px 0 var(--comic-ink);
+  }
+
+  .tab {
+    min-height: 42px;
+  }
+}
 </style>
 </head>
 
