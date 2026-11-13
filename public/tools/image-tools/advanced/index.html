@@ -1266,10 +1266,7 @@ $('gifCreate').onclick=async()=>{
         $('gifStatus').textContent='生成失败：没有获得有效文件。';
         finishGif();
         return;
-          if(gifWorkerUrl){
-    URL.revokeObjectURL(gifWorkerUrl);
-    gifWorkerUrl=null;
-  }
+          
       }
 
       if(gifBlobUrl){
@@ -1310,17 +1307,18 @@ $('gifCreate').onclick=async()=>{
       try{bitmap.close?.();}catch{}
     });
   }
-};
-
-function finishGif(){
+}
+  function finishGif(){
   gifBusy=false;
   $('gifCreate').disabled=false;
   $('gifClear').disabled=false;
   $('gifChoose').disabled=false;
-}
 
-$('gifDownload').onclick=()=>{
-  if(!gifBlobUrl)return;
+  if(gifWorkerUrl){
+    URL.revokeObjectURL(gifWorkerUrl);
+    gifWorkerUrl=null;
+  }
+}
 
   const a=document.createElement('a');
 
