@@ -340,6 +340,153 @@ footer{
 </style>
   <link rel="stylesheet" href="/css/comic-world.css?v=20261113-2">
 <link rel="stylesheet" href="/css/comic-tools.css?v=20261113-1">
+  <style>
+/* 图片处理中心 · 漫画剪贴簿专属样式 */
+
+.hero {
+  background:
+    radial-gradient(circle, rgba(41,39,43,.12) 1px, transparent 1.5px)
+    0 0 / 12px 12px !important;
+  border-bottom: 3px solid var(--comic-ink);
+  padding-top: 55px !important;
+  padding-bottom: 38px !important;
+}
+
+.hero h1 {
+  display: inline-block;
+  padding: 5px 15px;
+  background: var(--comic-yellow);
+  border: 3px solid var(--comic-ink);
+  box-shadow: 5px 5px 0 var(--comic-ink);
+  transform: rotate(-1.5deg);
+}
+
+.hero .kicker {
+  display: inline-block;
+  padding: 6px 12px;
+  background: var(--comic-paper);
+  border: 2px solid var(--comic-ink);
+  box-shadow: 3px 3px 0 var(--comic-ink);
+}
+
+.tool-overview {
+  padding: 22px;
+  background: var(--comic-paper);
+  border: 3px solid var(--comic-ink);
+  box-shadow: 7px 7px 0 var(--comic-ink);
+  position: relative;
+}
+
+.overview-title {
+  border-bottom: 3px dashed var(--comic-ink);
+  padding-bottom: 13px;
+}
+
+.overview-title h2 {
+  font-size: 21px !important;
+  font-weight: 1000 !important;
+}
+
+.overview-title p {
+  font-weight: 750;
+}
+
+.tool-grid {
+  gap: 17px !important;
+}
+
+.tool-card {
+  position: relative;
+  min-height: 190px;
+  padding: 17px !important;
+  color: var(--comic-ink) !important;
+  background: #fffdf8 !important;
+  border: 3px solid var(--comic-ink) !important;
+  border-radius: 3px !important;
+  box-shadow: 4px 4px 0 var(--comic-ink) !important;
+  overflow: visible;
+}
+
+.tool-card:nth-child(3n + 1) {
+  transform: rotate(-.8deg);
+}
+
+.tool-card:nth-child(3n + 2) {
+  transform: rotate(.7deg);
+}
+
+.tool-card:nth-child(3n) {
+  transform: rotate(-.3deg);
+}
+
+.tool-card:hover {
+  transform: translate(-3px,-4px) rotate(0deg) !important;
+  box-shadow: 8px 8px 0 var(--comic-ink) !important;
+  border-color: var(--comic-ink) !important;
+}
+
+.tool-icon {
+  width: 43px;
+  height: 43px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--comic-yellow) !important;
+  color: var(--comic-ink) !important;
+  border: 2px solid var(--comic-ink) !important;
+  border-radius: 3px !important;
+  box-shadow: 2px 2px 0 var(--comic-ink);
+  font-size: 22px;
+}
+
+.tool-card:nth-child(3n + 2) .tool-icon {
+  background: var(--comic-blue) !important;
+}
+
+.tool-card:nth-child(3n) .tool-icon {
+  background: var(--comic-pink) !important;
+}
+
+.tool-card strong {
+  font-size: 15px !important;
+  font-weight: 1000 !important;
+}
+
+.tool-card .tool-desc {
+  color: var(--comic-muted) !important;
+  font-weight: 650;
+}
+
+.tool-arrow {
+  display: inline-block;
+  padding: 5px 8px;
+  color: var(--comic-ink) !important;
+  background: var(--comic-yellow);
+  border: 2px solid var(--comic-ink);
+  font-weight: 950 !important;
+}
+
+.tool-card:focus-visible {
+  outline: 3px dashed var(--comic-red);
+  outline-offset: 5px;
+}
+
+@media(max-width:560px) {
+  .tool-overview {
+    padding: 14px;
+    box-shadow: 4px 4px 0 var(--comic-ink);
+  }
+
+  .tool-grid {
+    gap: 12px !important;
+  }
+
+  .tool-card {
+    min-height: 180px;
+    padding: 13px !important;
+  }
+}
+</style>
 </head>
 
 <body>
