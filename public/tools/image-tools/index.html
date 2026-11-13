@@ -1518,6 +1518,63 @@ downloadButton.onclick=()=>{
 
   },format,0.92);
 };
+  /* ==========================
+   保存到相册
+========================== */
+
+savePhotoButton.onclick=()=>{
+  if(!resultReady)return;
+
+  const format=document.getElementById("format").value;
+
+  const extension=
+    format==="image/jpeg"?"jpg":"png";
+
+  canvas.toBlob(async blob=>{
+    if(!blob){
+      setStatus("图片生成失败，请重试。");
+      return;
+    }
+
+    const file=new File(
+      [blob],
+      "HEMENG-长图."+extension,
+      {type:format}
+    );
+
+    if(
+      !navigator.share ||
+      !navigator.canShare ||
+      !navigator.canShare({files:[file]})
+    ){
+      setStatus(
+        "当前浏览器不支持直接保存到相册，请使用下载拼接图片。"
+      );
+      return;
+    }
+
+    try{
+      await navigator.share({
+        files:[file],
+        title:"HEMENG 长图"
+      });
+
+      setStatus(
+        "分享面板已打开，请选择「存储图像」保存到照片。"
+      );
+
+    }catch(error){
+      if(error.name==="AbortError"){
+        setStatus("已取消保存。");
+      }else{
+        setStatus(
+          "保存失败，请尝试使用下载拼接图片。"
+        );
+      }
+    }
+
+  },format,0.92);
+};
 
 /* ==========================
    清空图片
