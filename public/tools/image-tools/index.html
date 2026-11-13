@@ -1193,6 +1193,7 @@ const statusBox=document.getElementById("status");
 const canvas=document.getElementById("resultCanvas");
 const previewWrap=document.getElementById("previewWrap");
 const downloadButton=document.getElementById("downloadButton");
+const savePhotoButton=document.getElementById("savePhotoButton");
 
 let images=[];
 let resultReady=false;
@@ -1204,6 +1205,7 @@ function setStatus(message){
 function resetResult(){
   resultReady=false;
   downloadButton.disabled=true;
+  savePhotoButton.disabled=true;
   previewWrap.classList.add("hidden");
   canvas.width=0;
   canvas.height=0;
@@ -1466,6 +1468,7 @@ document.getElementById("makeButton").onclick=()=>{
 
     resultReady=true;
     downloadButton.disabled=false;
+    savePhotoButton.disabled=false;
 
     setStatus(
       "生成成功！图片尺寸："+totalWidth+
