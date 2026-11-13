@@ -893,6 +893,419 @@ input[type="color"] {
     padding: 11px;
   }
 }
+    
+/* ========================================
+   HEMENG IMAGE STUDIO · 漫画工作室整体改造
+======================================== */
+
+/* 页面整体 */
+body {
+  background:
+    radial-gradient(circle, rgba(41,39,43,.10) 1px, transparent 1.5px)
+    0 0 / 13px 13px,
+    #f1ecdf !important;
+}
+
+.header {
+  max-width: none !important;
+  padding: 17px max(5%, calc((100% - 1180px) / 2)) !important;
+  background: #fffdf6 !important;
+  border-bottom: 3px solid var(--comic-ink) !important;
+  box-shadow: 0 4px 0 rgba(41,39,43,.12);
+}
+
+/* 漫画封面标题区 */
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 65px 20px 58px !important;
+  text-align: center;
+  background:
+    radial-gradient(circle, rgba(41,39,43,.13) 1px, transparent 1.5px)
+    0 0 / 13px 13px,
+    #cce8ec !important;
+  border-bottom: 4px solid var(--comic-ink) !important;
+}
+
+.hero::before {
+  content: "IMAGE";
+  position: absolute;
+  left: 7%;
+  top: 24px;
+  color: rgba(41,39,43,.12);
+  font-size: clamp(65px, 13vw, 150px);
+  font-weight: 1000;
+  transform: rotate(-9deg);
+  pointer-events: none;
+}
+
+.hero::after {
+  content: "STUDIO!";
+  position: absolute;
+  right: 8%;
+  bottom: 20px;
+  padding: 7px 13px;
+  color: var(--comic-ink);
+  background: var(--comic-yellow);
+  border: 3px solid var(--comic-ink);
+  box-shadow: 4px 4px 0 var(--comic-ink);
+  font-size: 14px;
+  font-weight: 1000;
+  transform: rotate(7deg);
+}
+
+.hero .kicker,
+.hero h1,
+.hero p {
+  position: relative;
+  z-index: 1;
+}
+
+.hero .kicker {
+  padding: 7px 13px;
+  color: var(--comic-ink) !important;
+  background: #fffdf6;
+  border: 2px solid var(--comic-ink);
+  box-shadow: 3px 3px 0 var(--comic-ink);
+}
+
+.hero h1 {
+  margin: 22px 0 16px !important;
+  padding: 9px 24px !important;
+  background: var(--comic-yellow);
+  border: 4px solid var(--comic-ink);
+  box-shadow: 7px 7px 0 var(--comic-ink);
+  font-size: clamp(34px, 6vw, 55px) !important;
+  transform: rotate(-1.5deg);
+  text-shadow: none !important;
+}
+
+.hero p {
+  display: inline-block;
+  padding: 9px 15px;
+  color: var(--comic-ink) !important;
+  background: #fffdf6;
+  border: 2px solid var(--comic-ink);
+  font-weight: 750;
+}
+
+/* 主内容宽度 */
+.container {
+  max-width: 1220px !important;
+  padding: 42px 25px 75px !important;
+}
+
+/* 工具箱变成漫画目录 */
+.tool-overview {
+  margin-bottom: 48px !important;
+  padding: 27px !important;
+  background: #fffdf6 !important;
+  border: 4px solid var(--comic-ink) !important;
+  box-shadow: 9px 9px 0 var(--comic-ink) !important;
+}
+
+.overview-title {
+  align-items: center !important;
+  margin-bottom: 25px !important;
+  padding-bottom: 17px !important;
+  border-bottom: 4px solid var(--comic-ink) !important;
+}
+
+.overview-title h2 {
+  display: inline-block;
+  padding: 7px 13px;
+  background: var(--comic-yellow);
+  border: 2px solid var(--comic-ink);
+  box-shadow: 3px 3px 0 var(--comic-ink);
+  font-size: 23px !important;
+}
+
+.overview-title p {
+  margin-top: 12px !important;
+  font-size: 13px !important;
+}
+
+/* 分镜卡片 */
+.tool-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 21px !important;
+}
+
+.tool-card {
+  min-height: 205px !important;
+  padding: 20px !important;
+  display: flex !important;
+  flex-direction: column;
+  align-items: flex-start;
+  background: #fffdf6 !important;
+  border: 3px solid var(--comic-ink) !important;
+  border-radius: 2px !important;
+  box-shadow: 5px 5px 0 var(--comic-ink) !important;
+  transition: transform .16s, box-shadow .16s !important;
+}
+
+.tool-card:nth-child(3n + 1) {
+  transform: rotate(-.8deg);
+}
+
+.tool-card:nth-child(3n + 2) {
+  transform: rotate(.7deg);
+}
+
+.tool-card:nth-child(3n) {
+  transform: rotate(-.3deg);
+}
+
+.tool-card:hover {
+  transform: translate(-4px,-5px) rotate(0deg) !important;
+  box-shadow: 9px 9px 0 var(--comic-ink) !important;
+}
+
+.tool-card > button {
+  width: 100%;
+  min-height: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  color: var(--comic-ink) !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  text-align: left;
+}
+
+.tool-card > button:hover {
+  background: transparent !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.tool-icon {
+  width: 49px !important;
+  height: 49px !important;
+  margin-bottom: 17px !important;
+  font-size: 25px !important;
+  background: var(--comic-yellow) !important;
+  border: 2px solid var(--comic-ink) !important;
+  box-shadow: 3px 3px 0 var(--comic-ink);
+}
+
+.tool-card:nth-child(3n + 2) .tool-icon {
+  background: var(--comic-blue) !important;
+}
+
+.tool-card:nth-child(3n) .tool-icon {
+  background: #f4cbd5 !important;
+}
+
+.tool-card strong {
+  margin-bottom: 9px !important;
+  font-size: 16px !important;
+  font-weight: 1000 !important;
+}
+
+.tool-card .tool-desc {
+  min-height: 42px;
+  color: var(--comic-muted) !important;
+  font-size: 12px !important;
+  line-height: 1.8 !important;
+}
+
+.tool-arrow {
+  margin-top: auto !important;
+  padding: 6px 9px !important;
+  color: var(--comic-ink) !important;
+  background: var(--comic-yellow) !important;
+  border: 2px solid var(--comic-ink);
+  font-weight: 950 !important;
+}
+
+/* 工作区 */
+.panel {
+  margin-top: 38px !important;
+  padding: 30px !important;
+  background: #fffdf6 !important;
+  border: 4px solid var(--comic-ink) !important;
+  box-shadow: 9px 9px 0 var(--comic-ink) !important;
+}
+
+.panel h2 {
+  padding: 9px 15px !important;
+  font-size: 23px !important;
+  transform: rotate(-.8deg);
+}
+
+.panel .desc {
+  margin: 18px 0 25px !important;
+  font-size: 14px !important;
+}
+
+/* 上传区域 */
+#imageFiles {
+  min-height: 100px;
+  padding: 25px !important;
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      rgba(204,232,236,.22) 0 10px,
+      transparent 10px 20px
+    ),
+    #fffdf6 !important;
+  border: 3px dashed var(--comic-ink) !important;
+  font-weight: 750;
+}
+
+/* 参数设置区 */
+.settings {
+  margin-top: 25px;
+  padding: 22px !important;
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 19px !important;
+  background: #f1ecdf !important;
+  border: 3px dashed var(--comic-ink) !important;
+}
+
+.settings .field {
+  min-width: 0;
+  margin: 0 !important;
+}
+
+.settings label {
+  font-size: 13px !important;
+}
+
+.settings select,
+.settings input {
+  width: 100%;
+  min-height: 43px;
+  margin-top: 8px;
+}
+
+/* 操作按钮 */
+.actions {
+  gap: 13px !important;
+  margin-top: 24px !important;
+}
+
+.actions button {
+  min-height: 47px;
+  padding: 12px 20px !important;
+  font-size: 14px !important;
+}
+
+/* 预览区 */
+.preview-wrap {
+  margin-top: 30px !important;
+  padding: 22px !important;
+  background:
+    radial-gradient(circle, rgba(41,39,43,.17) 1px, transparent 1.5px)
+    0 0 / 13px 13px,
+    #e7e1d6 !important;
+  border: 4px solid var(--comic-ink) !important;
+  box-shadow: 7px 7px 0 var(--comic-ink) !important;
+}
+
+.preview-wrap canvas {
+  border: 3px solid var(--comic-ink);
+  box-shadow: 5px 5px 0 var(--comic-ink);
+}
+
+/* 状态和说明 */
+.status {
+  margin-top: 23px !important;
+  padding: 17px !important;
+  font-size: 14px !important;
+}
+
+.notice {
+  margin-top: 22px !important;
+  padding: 16px !important;
+  background: #fff2d1 !important;
+  border: 2px dashed var(--comic-ink) !important;
+  border-left: 7px solid var(--comic-red) !important;
+}
+
+/* 手机端重新排版 */
+@media(max-width:760px) {
+  .container {
+    padding: 25px 16px 55px !important;
+  }
+
+  .tool-overview {
+    padding: 18px !important;
+    box-shadow: 5px 5px 0 var(--comic-ink) !important;
+  }
+
+  .tool-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 15px !important;
+  }
+
+  .tool-card {
+    min-height: 195px !important;
+    padding: 14px !important;
+  }
+
+  .settings {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 15px !important;
+  }
+
+  .panel {
+    padding: 20px !important;
+    box-shadow: 5px 5px 0 var(--comic-ink) !important;
+  }
+}
+
+@media(max-width:460px) {
+  .hero {
+    padding: 45px 15px !important;
+  }
+
+  .hero::before {
+    font-size: 65px;
+  }
+
+  .hero::after {
+    right: 5%;
+    bottom: 9px;
+    font-size: 10px;
+  }
+
+  .hero h1 {
+    font-size: 34px !important;
+  }
+
+  .tool-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+  }
+
+  .tool-card {
+    min-height: 190px !important;
+    padding: 12px !important;
+  }
+
+  .tool-card .tool-desc {
+    font-size: 11px !important;
+  }
+
+  .settings {
+    grid-template-columns: 1fr;
+  }
+
+  .actions button {
+    flex: 1 1 100%;
+  }
+
+  .panel {
+    padding: 15px !important;
+  }
+}
+
 </style>
 </head>
 
