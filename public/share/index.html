@@ -310,6 +310,260 @@ button:disabled {
     transition-duration: .01ms !important;
   }
 }
+  /* =========================================
+   SHARE PAGE · COMIC SCRAPBOOK
+   分享内容页专属漫画剪贴簿风格
+========================================= */
+
+body {
+  padding: 42px 18px !important;
+  background:
+    radial-gradient(circle, rgba(41,39,43,.12) 1px, transparent 1.5px) 0 0 / 13px 13px,
+    #f3eee4 !important;
+}
+
+.container {
+  position: relative;
+  max-width: 680px;
+}
+
+.brand {
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.logo img {
+  height: 43px;
+  filter: drop-shadow(2px 2px 0 rgba(41,39,43,.18));
+}
+
+.brand-label {
+  padding: 8px 11px;
+  color: #29272b !important;
+  background: #ffe49a;
+  border: 2px solid #29272b;
+  box-shadow: 3px 3px 0 #29272b;
+  font-size: 10px;
+  font-weight: 950;
+  letter-spacing: 1.5px;
+  transform: rotate(2deg);
+}
+
+.card {
+  position: relative;
+  overflow: hidden;
+  padding: 36px !important;
+  background: #fffdf6 !important;
+  border: 3px solid #29272b !important;
+  border-radius: 5px !important;
+  box-shadow: 7px 7px 0 #29272b !important;
+}
+
+.card::before {
+  content: "SHARE / 01";
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 9px 13px;
+  color: #29272b;
+  background: #ffe49a;
+  border-left: 2px solid #29272b;
+  border-bottom: 2px solid #29272b;
+  font-size: 10px;
+  font-weight: 1000;
+  letter-spacing: 1px;
+}
+
+.eyebrow {
+  display: inline-flex;
+  padding: 7px 11px;
+  color: #fff !important;
+  background: #e85c50;
+  border: 2px solid #29272b;
+  font-weight: 950;
+  letter-spacing: 1.5px;
+  transform: rotate(-1.5deg);
+}
+
+.eyebrow::before {
+  display: none;
+}
+
+h1 {
+  margin-top: 25px;
+  color: #29272b !important;
+  font-size: clamp(30px, 6vw, 42px);
+  font-weight: 1000 !important;
+  letter-spacing: -.05em;
+  text-shadow: 3px 3px 0 #ffe49a;
+}
+
+.description {
+  color: #706a70 !important;
+  font-weight: 650;
+  line-height: 2;
+}
+
+.content {
+  position: relative;
+  margin-top: 25px;
+  padding: 24px !important;
+  min-height: 150px;
+  color: #29272b !important;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0 31px,
+      rgba(41,39,43,.07) 31px 32px
+    ),
+    #fffefa !important;
+  border: 2px solid #29272b !important;
+  border-radius: 3px !important;
+  box-shadow: 4px 4px 0 #cce8ec !important;
+  font-size: 15px;
+  line-height: 2;
+  overflow-wrap: anywhere;
+}
+
+.status {
+  margin-top: 22px;
+  padding: 19px !important;
+  color: #29272b !important;
+  background: #cce8ec !important;
+  border: 2px solid #29272b !important;
+  border-radius: 3px !important;
+  box-shadow: 3px 3px 0 #29272b !important;
+  font-weight: 750;
+}
+
+.status.error {
+  color: #842e29 !important;
+  background: #ffe0dc !important;
+}
+
+.share-time {
+  margin-top: 20px;
+  padding: 19px !important;
+  color: #29272b !important;
+  background: #f0eafa !important;
+  border: 2px solid #29272b !important;
+  border-radius: 3px !important;
+  box-shadow: 4px 4px 0 #29272b !important;
+}
+
+.share-time-title {
+  display: inline-block;
+  margin-bottom: 12px;
+  padding: 5px 9px;
+  color: #29272b !important;
+  background: #ffe49a;
+  border: 1.5px solid #29272b;
+  font-weight: 950;
+}
+
+.time-row {
+  border-bottom: 1px dashed rgba(41,39,43,.2);
+}
+
+.time-row:last-child {
+  border-bottom: 0;
+}
+
+.time-label {
+  color: #706a70 !important;
+  font-weight: 700;
+}
+
+.time-value {
+  color: #29272b !important;
+  font-weight: 900;
+}
+
+.countdown {
+  color: #bd4038 !important;
+  font-weight: 1000;
+}
+
+.countdown.expired {
+  color: #bd4038 !important;
+}
+
+.actions {
+  gap: 14px;
+  margin-top: 25px;
+}
+
+button,
+.home {
+  min-height: 48px;
+  padding: 0 22px;
+  color: #29272b !important;
+  background: #ffe49a !important;
+  border: 2px solid #29272b !important;
+  border-radius: 3px !important;
+  box-shadow: 3px 3px 0 #29272b !important;
+  font-size: 13px;
+  font-weight: 950 !important;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+button:hover,
+.home:hover {
+  color: #29272b !important;
+  background: #cce8ec !important;
+  transform: translate(-2px,-2px);
+  box-shadow: 5px 5px 0 #29272b !important;
+}
+
+button:active,
+.home:active {
+  transform: translate(2px,2px);
+  box-shadow: 1px 1px 0 #29272b !important;
+}
+
+.home {
+  background: #e8def5 !important;
+}
+
+.footer {
+  margin-top: 28px;
+  color: #706a70 !important;
+  font-weight: 700;
+}
+
+.footer a {
+  color: #bd4038 !important;
+  font-weight: 950;
+}
+
+@media (max-width: 520px) {
+  body {
+    padding: 25px 14px !important;
+  }
+
+  .card {
+    padding: 27px 19px !important;
+    box-shadow: 5px 5px 0 #29272b !important;
+  }
+
+  .brand-label {
+    font-size: 9px;
+    padding: 6px 8px;
+  }
+
+  .content {
+    padding: 18px !important;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  button,
+  .home {
+    width: 100%;
+  }
+}
 </style>
 </head>
 
