@@ -711,6 +711,93 @@ input[type="color"] {
     min-height: 42px;
   }
 }
+    /* 图片列表 · 漫画素材便签 */
+
+.image-list {
+  display: grid;
+  gap: 12px;
+  margin: 18px 0;
+  padding: 12px;
+  background:
+    radial-gradient(circle, rgba(41,39,43,.08) 1px, transparent 1.4px)
+    0 0 / 12px 12px,
+    #fffaf0;
+  border: 2px dashed var(--comic-ink);
+}
+
+.image-list:empty {
+  display: none;
+}
+
+.image-item {
+  display: grid;
+  grid-template-columns: 65px minmax(0,1fr) auto;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding: 10px !important;
+  background: #fffdf8 !important;
+  border: 2px solid var(--comic-ink) !important;
+  border-radius: 3px !important;
+  box-shadow: 3px 3px 0 var(--comic-ink) !important;
+}
+
+.image-item img {
+  width: 65px;
+  height: 65px;
+  object-fit: cover;
+  border: 2px solid var(--comic-ink);
+  border-radius: 2px !important;
+}
+
+.image-name {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  color: var(--comic-ink) !important;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.6;
+}
+
+.image-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 7px;
+}
+
+.image-actions .small {
+  min-width: 48px;
+  padding: 7px 9px !important;
+}
+
+.image-actions button:disabled {
+  opacity: .35;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+@media(max-width:560px) {
+  .image-list {
+    padding: 8px;
+  }
+
+  .image-item {
+    grid-template-columns: 52px minmax(0,1fr);
+    gap: 9px;
+  }
+
+  .image-item img {
+    width: 52px;
+    height: 52px;
+  }
+
+  .image-actions {
+    grid-column: 1 / -1;
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
 </style>
 </head>
 
