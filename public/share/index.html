@@ -748,6 +748,7 @@ function setupShareTime(data) {
 }
 
 /* 读取分享 */
+/* 读取分享：超时保护与自动重试 */
 async function loadShare() {
   const id = new URLSearchParams(location.search).get("id");
 
@@ -756,39 +757,76 @@ async function loadShare() {
     return;
   }
 
-  try {
-    const response = await fetch(
-      `/api/qr-shares?id=${encodeURIComponent(id)}`,
-      { cache: "no-store" }
-    );
+  const maxAttempts = 3;
+  const timeoutMs = 10000;
 
-    const data = await response.json();
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    const controller = new AbortController();
+    let timedOut = false;
 
-    if (!response.ok || !data.success) {
-      showError(data.message || "内容不存在或已经过期。");
+    const timeout = setTimeout(() => {
+      timedOut = true;
+      controller.abort();
+    }, timeoutMs);
+
+    try {
+      if (attempt > 1) {
+        statusEl.textContent =
+          `连接不稳定，正在重试（${attempt - 1}/${maxAttempts - 1}）……`;
+        statusEl.hidden = false;
+        statusEl.classList.remove("error");
+      }
+
+      const response = await fetch(
+        `/api/qr-shares?id=${encodeURIComponent(id)}`,
+        {
+          cache: "no-store",
+          signal: controller.signal
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.status >= 500 || response.status === 429) {
+        throw new Error("服务器暂时繁忙");
+      }
+
+      if (!response.ok || !data.success) {
+        showError(data.message || "内容不存在或已经过期。");
+        return;
+      }
+
+      if (typeof data.content !== "string") {
+        showError("分享内容格式异常，暂时无法显示。");
+        return;
+      }
+
+      sharedContent = data.content;
+
+      contentEl.textContent = sharedContent;
+      contentEl.hidden = false;
+
+      statusEl.hidden = true;
+      actionsEl.hidden = false;
+
+      setupShareTime(data);
       return;
+
+    } catch (error) {
+      if (attempt === maxAttempts) {
+        showError(
+          timedOut
+            ? "连接超时，服务器暂时没有响应。请稍后刷新重试。"
+            : "网络连接不稳定，暂时无法读取分享内容。请稍后刷新重试。"
+        );
+        return;
+      }
+
+    } finally {
+      clearTimeout(timeout);
     }
-
-    if (typeof data.content !== "string") {
-      showError("分享内容格式异常，暂时无法显示。");
-      return;
-    }
-
-    sharedContent = data.content;
-
-    contentEl.textContent = sharedContent;
-    contentEl.hidden = false;
-
-    statusEl.hidden = true;
-    actionsEl.hidden = false;
-
-    setupShareTime(data);
-
-  } catch (error) {
-    showError("网络连接失败，请稍后刷新重试。");
   }
 }
-
 /* 复制内容 */
 copyBtn.addEventListener("click", async () => {
   if (!sharedContent) return;
