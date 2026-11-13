@@ -2240,3 +2240,212 @@ body:has(.hero-wrap) .notice {
     transition: none !important;
   }
 }
+
+/* =========================================
+   TOOL STATION · SEMANTIC CARD UPGRADE
+   工具中心：分类识别与交互升级
+========================================= */
+
+/* 工具卡片统一布局 */
+body:has(.hero-wrap) .tool-grid {
+  align-items: stretch;
+  gap: 22px !important;
+}
+
+body:has(.hero-wrap) .tool-card {
+  min-width: 0;
+  min-height: 225px;
+  padding: 23px !important;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  isolation: isolate;
+  border: 3px solid var(--home-ink) !important;
+  border-radius: 3px !important;
+  box-shadow: 5px 5px 0 var(--home-ink) !important;
+  transition:
+    transform .18s ease,
+    box-shadow .18s ease,
+    background .18s ease;
+}
+
+/* 分类颜色不再依赖卡片排列顺序 */
+body:has(.hero-wrap) .tool-card[data-category="image"] {
+  background: #fff0c9 !important;
+}
+
+body:has(.hero-wrap) .tool-card[data-category="daily"] {
+  background: #e4f0f2 !important;
+}
+
+body:has(.hero-wrap) .tool-card[data-category="create"] {
+  background: #eee8fa !important;
+}
+
+/* 右上角分类标签 */
+body:has(.hero-wrap) .tool-card::before {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 2;
+  padding: 5px 8px;
+  border: 2px solid var(--home-ink);
+  background: var(--home-paper);
+  color: var(--home-ink);
+  box-shadow: 2px 2px 0 var(--home-ink);
+  font-size: 9px;
+  font-weight: 1000;
+  letter-spacing: 1px;
+  transform: rotate(3deg);
+}
+
+body:has(.hero-wrap) .tool-card[data-category="image"]::before {
+  content: "IMAGE";
+}
+
+body:has(.hero-wrap) .tool-card[data-category="daily"]::before {
+  content: "DAILY";
+}
+
+body:has(.hero-wrap) .tool-card[data-category="create"]::before {
+  content: "CREATE";
+}
+
+/* 工具图标 */
+body:has(.hero-wrap) .tool-symbol {
+  flex-shrink: 0;
+  width: 51px;
+  height: 51px;
+  margin-bottom: 2px;
+  border: 2.5px solid var(--home-ink);
+  box-shadow: 3px 3px 0 var(--home-ink);
+  background: var(--home-paper) !important;
+  color: var(--home-ink) !important;
+}
+
+/* 标题与简介 */
+body:has(.hero-wrap) .tool-card h3 {
+  margin: 15px 0 7px;
+  padding-right: 3px;
+  font-size: 19px;
+  line-height: 1.45;
+  font-weight: 1000;
+}
+
+body:has(.hero-wrap) .tool-card p {
+  margin: 0;
+  color: #514d53;
+  font-size: 12px;
+  line-height: 1.9;
+  font-weight: 650;
+}
+
+/* 操作入口 */
+body:has(.hero-wrap) .tool-open {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 2px dashed rgba(37,36,42,.35);
+  color: #c84e42;
+  font-size: 11px;
+  font-weight: 1000;
+}
+
+/* 鼠标交互 */
+@media (hover: hover) {
+  body:has(.hero-wrap) .tool-card:hover {
+    z-index: 4;
+    transform: translate(-3px, -5px) rotate(0) !important;
+    box-shadow: 9px 10px 0 var(--home-ink) !important;
+  }
+}
+
+/* 点击反馈 */
+body:has(.hero-wrap) .tool-card:active {
+  transform: translate(2px, 2px) !important;
+  box-shadow: 2px 2px 0 var(--home-ink) !important;
+}
+
+/* 搜索框更突出 */
+body:has(.hero-wrap) .tool-search {
+  min-height: 50px;
+  border: 3px solid var(--home-ink) !important;
+  border-radius: 3px !important;
+  box-shadow: 4px 4px 0 var(--home-ink) !important;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+body:has(.hero-wrap) .tool-search:focus {
+  outline: 3px solid var(--home-red);
+  outline-offset: 3px;
+}
+
+/* 分类按钮状态 */
+body:has(.hero-wrap) .filter-button {
+  min-height: 38px;
+  border: 2px solid var(--home-ink) !important;
+  border-radius: 3px !important;
+  background: var(--home-paper);
+  color: var(--home-ink);
+  box-shadow: 2px 2px 0 var(--home-ink);
+  font-weight: 950;
+}
+
+body:has(.hero-wrap) .filter-button.active {
+  background: var(--home-yellow) !important;
+  color: var(--home-ink) !important;
+  box-shadow: 3px 3px 0 var(--home-ink);
+}
+
+body:has(.hero-wrap) .filter-button:focus-visible {
+  outline: 3px dashed var(--home-red);
+  outline-offset: 3px;
+}
+
+/* 搜索无结果 */
+body:has(.hero-wrap) .no-tool-result {
+  margin-top: 12px;
+  padding: 28px 18px;
+  border: 3px dashed var(--home-ink);
+  border-radius: 3px;
+  background: var(--home-paper);
+  color: var(--home-ink);
+  font-weight: 800;
+}
+
+/* 手机端 */
+@media (max-width: 700px) {
+  body:has(.hero-wrap) .tool-grid {
+    gap: 17px !important;
+  }
+
+  body:has(.hero-wrap) .tool-card {
+    min-height: 195px;
+    padding: 18px !important;
+  }
+
+  body:has(.hero-wrap) .tool-card h3 {
+    font-size: 16px;
+  }
+
+  body:has(.hero-wrap) .tool-card p {
+    font-size: 11px;
+  }
+
+  body:has(.hero-wrap) .tool-card::before {
+    top: 12px;
+    right: 12px;
+    font-size: 8px;
+  }
+}
+
+/* 减少动态效果 */
+@media (prefers-reduced-motion: reduce) {
+  body:has(.hero-wrap) .tool-card {
+    transition: none !important;
+  }
+}
