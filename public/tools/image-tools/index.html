@@ -798,6 +798,101 @@ input[type="color"] {
     justify-content: flex-end;
   }
 }
+    /* 预览区域 · 漫画展示画布 */
+
+.preview-wrap {
+  position: relative;
+  margin-top: 24px !important;
+  padding: 18px !important;
+  background:
+    radial-gradient(circle, rgba(41,39,43,.16) 1px, transparent 1.5px)
+    0 0 / 13px 13px,
+    #e9e4da !important;
+  border: 3px solid var(--comic-ink) !important;
+  border-radius: 3px !important;
+  box-shadow: 6px 6px 0 var(--comic-ink) !important;
+}
+
+.preview-wrap::before {
+  content: "OUTPUT PREVIEW / 输出预览";
+  display: inline-block;
+  margin-bottom: 14px;
+  padding: 5px 9px;
+  color: var(--comic-ink);
+  background: var(--comic-yellow);
+  border: 2px solid var(--comic-ink);
+  font-size: 10px;
+  font-weight: 1000;
+  letter-spacing: 1px;
+}
+
+.preview-wrap canvas {
+  background: white;
+  border: 2px solid var(--comic-ink);
+  box-shadow: 3px 3px 0 rgba(41,39,43,.25);
+}
+
+/* 状态提示 · 对话气泡 */
+
+.status {
+  position: relative;
+  padding: 14px 16px !important;
+  color: var(--comic-ink) !important;
+  background: #fff5d8 !important;
+  border: 2px solid var(--comic-ink) !important;
+  border-left: 7px solid var(--comic-blue) !important;
+  border-radius: 3px !important;
+  box-shadow: 3px 3px 0 rgba(41,39,43,.18);
+  font-weight: 800;
+  line-height: 1.8;
+}
+
+/* 嵌入式工具窗口 */
+
+.frame {
+  display: block;
+  width: 100%;
+  min-height: 850px;
+  border: 3px solid var(--comic-ink) !important;
+  border-radius: 3px !important;
+  background: #fffdf8;
+  box-shadow: 5px 5px 0 var(--comic-ink);
+}
+
+/* 提示说明 · 纸条 */
+
+.notice {
+  position: relative;
+  padding: 14px 16px !important;
+  color: var(--comic-muted) !important;
+  background: #fff4dc !important;
+  border: 2px dashed var(--comic-ink);
+  border-left: 6px solid var(--comic-red);
+  border-radius: 2px !important;
+  font-size: 12px;
+  font-weight: 750;
+  line-height: 1.9;
+}
+
+@media(max-width:560px) {
+  .preview-wrap {
+    padding: 10px !important;
+    box-shadow: 3px 3px 0 var(--comic-ink) !important;
+  }
+
+  .preview-wrap canvas {
+    max-width: 100%;
+  }
+
+  .frame {
+    min-height: 900px;
+    box-shadow: 3px 3px 0 var(--comic-ink);
+  }
+
+  .notice {
+    padding: 11px;
+  }
+}
 </style>
 </head>
 
