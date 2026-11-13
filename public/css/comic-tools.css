@@ -1,0 +1,507 @@
+
+/* =========================================
+   HEMENG COMIC TOOLS
+   全站工具统一漫画主题
+   只负责视觉，不修改功能逻辑
+========================================= */
+
+:root {
+  --comic-ink: #29272b;
+  --comic-paper: #fffdf6;
+  --comic-bg: #f3eee4;
+  --comic-yellow: #ffe49a;
+  --comic-red: #e85c50;
+  --comic-blue: #cce8ec;
+  --comic-purple: #e8def5;
+  --comic-green: #dcebcf;
+  --comic-muted: #706a70;
+
+  --bg: var(--comic-bg);
+  --surface: var(--comic-paper);
+  --card: var(--comic-paper);
+  --panel: var(--comic-paper);
+  --white: var(--comic-paper);
+  --text: var(--comic-ink);
+  --muted: var(--comic-muted);
+  --line: #d5cfc4;
+  --border: #d5cfc4;
+  --accent: var(--comic-red);
+  --accent-dark: #bd4038;
+  --soft: #fff0c9;
+  --surface-soft: #fff8e8;
+  --shadow: 4px 4px 0 var(--comic-ink);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--comic-bg);
+  color: var(--comic-ink);
+}
+
+body {
+  color: var(--comic-ink) !important;
+  background:
+    radial-gradient(
+      circle,
+      rgba(41,39,43,.10) 1px,
+      transparent 1.4px
+    ) 0 0 / 14px 14px,
+    var(--comic-bg) !important;
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "PingFang SC",
+    "Microsoft YaHei",
+    sans-serif;
+}
+
+a {
+  color: inherit;
+}
+
+/* 顶部导航 */
+
+header,
+.topbar,
+.site-nav,
+.header {
+  color: var(--comic-ink) !important;
+  background: var(--comic-paper) !important;
+  border: 0 !important;
+  border-bottom: 3px solid var(--comic-ink) !important;
+  box-shadow: 0 3px 0 rgba(41,39,43,.08);
+}
+
+.brand,
+.brand-name,
+.brand-en {
+  color: var(--comic-ink) !important;
+  font-weight: 950 !important;
+}
+
+.brand-mark {
+  color: var(--comic-ink) !important;
+  background: var(--comic-yellow) !important;
+  border: 2px solid var(--comic-ink) !important;
+  border-radius: 3px !important;
+  box-shadow: 2px 2px 0 var(--comic-ink) !important;
+}
+
+.back,
+.back-link,
+.site-nav a:not(.brand) {
+  color: var(--comic-ink) !important;
+  font-weight: 850;
+}
+
+/* 标题 */
+
+.hero,
+.heading {
+  color: var(--comic-ink);
+  position: relative;
+}
+
+h1,
+.hero h1,
+.heading h1 {
+  color: var(--comic-ink) !important;
+  font-weight: 1000 !important;
+  letter-spacing: -.035em;
+  text-shadow: 2px 2px 0 var(--comic-yellow);
+}
+
+.hero p,
+.subtitle,
+.desc,
+.eyebrow,
+.kicker,
+.meta,
+.hint,
+.notice {
+  color: var(--comic-muted) !important;
+}
+
+.eyebrow,
+.kicker,
+.hero small {
+  color: var(--comic-red) !important;
+  font-weight: 1000 !important;
+  letter-spacing: .15em;
+}
+
+/* 工作面板 */
+
+.panel,
+.card,
+.tool-card,
+.upload-card,
+.preview-card,
+.settings-card,
+.main-panel,
+.upload,
+.filebox,
+.result,
+.share-box,
+.share-time,
+.info-item,
+.step,
+.layer,
+.item {
+  color: var(--comic-ink) !important;
+  background-color: var(--comic-paper) !important;
+  border: 2px solid var(--comic-ink) !important;
+  border-radius: 3px !important;
+  box-shadow: var(--shadow) !important;
+}
+
+.panel,
+.card,
+.upload-card,
+.preview-card,
+.settings-card,
+.main-panel {
+  padding: 18px;
+}
+
+.card-head,
+.sidebar-section,
+.section-title,
+.setting-section,
+.file-info,
+.preview-footer,
+.canvas-foot {
+  border-color: rgba(41,39,43,.22) !important;
+  color: var(--comic-ink) !important;
+}
+
+.card-head,
+.overview-title,
+.section-title,
+.info-title {
+  font-weight: 950 !important;
+}
+
+/* 上传区域 */
+
+.upload,
+.filebox,
+.drop {
+  border: 2px dashed var(--comic-ink) !important;
+  border-radius: 3px !important;
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      rgba(204,232,236,.24) 0 8px,
+      transparent 8px 16px
+    ),
+    var(--comic-paper) !important;
+}
+
+.upload-icon {
+  border: 2px solid var(--comic-ink) !important;
+  border-radius: 3px !important;
+  background: var(--comic-blue) !important;
+  color: var(--comic-ink) !important;
+}
+
+/* 按钮 */
+
+button,
+.btn,
+.action-button,
+.upload-button,
+.small-btn,
+.mode-option,
+.layer-actions button,
+.positions button {
+  min-height: 36px;
+  border: 2px solid var(--comic-ink) !important;
+  border-radius: 3px !important;
+  background: var(--comic-paper) !important;
+  color: var(--comic-ink) !important;
+  box-shadow: 2px 2px 0 var(--comic-ink);
+  font-weight: 850 !important;
+  transition:
+    transform .14s ease,
+    box-shadow .14s ease,
+    background .14s ease;
+}
+
+button:hover,
+.btn:hover,
+.action-button:hover,
+.upload-button:hover,
+.small-btn:hover,
+.mode-option:hover {
+  background: var(--comic-yellow) !important;
+  color: var(--comic-ink) !important;
+  transform: translate(-1px,-1px);
+  box-shadow: 3px 3px 0 var(--comic-ink);
+}
+
+button:active,
+.btn:active,
+.action-button:active {
+  transform: translate(1px,1px);
+  box-shadow: 1px 1px 0 var(--comic-ink);
+}
+
+button:disabled,
+.btn:disabled {
+  opacity: .42 !important;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn.primary,
+.btn-main,
+.btn-download,
+button.primary {
+  background: var(--comic-yellow) !important;
+  color: var(--comic-ink) !important;
+}
+
+.btn.danger,
+.btn-reset,
+button.danger {
+  background: #ffe0dc !important;
+  color: #842e29 !important;
+}
+
+.btn.dark {
+  background: var(--comic-ink) !important;
+  color: var(--comic-paper) !important;
+}
+
+.secondary,
+.btn.secondary {
+  background: var(--comic-blue) !important;
+  color: var(--comic-ink) !important;
+}
+
+/* 输入框 */
+
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]),
+select,
+textarea {
+  max-width: 100%;
+  border: 2px solid var(--comic-ink) !important;
+  border-radius: 2px !important;
+  background: #fffefa !important;
+  color: var(--comic-ink) !important;
+  box-shadow: 2px 2px 0 rgba(41,39,43,.18);
+}
+
+input[type="checkbox"],
+input[type="radio"],
+input[type="range"] {
+  accent-color: var(--comic-red);
+}
+
+input[type="color"] {
+  border: 2px solid var(--comic-ink) !important;
+  border-radius: 2px !important;
+  background: var(--comic-paper) !important;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus-visible {
+  outline: 3px dashed var(--comic-red) !important;
+  outline-offset: 3px;
+}
+
+/* 预览和画布 */
+
+.preview-stage,
+.canvas-area,
+.stage,
+.preview,
+#qrOutput {
+  border: 2px solid var(--comic-ink) !important;
+  border-radius: 3px !important;
+}
+
+.preview-stage,
+.canvas-area {
+  background-color: #e9e4da !important;
+  background-image:
+    radial-gradient(
+      rgba(41,39,43,.22) .8px,
+      transparent .9px
+    ) !important;
+  background-size: 13px 13px !important;
+}
+
+.stage {
+  background: #29272b !important;
+  overflow: hidden;
+}
+
+#designCanvas,
+#editor,
+canvas {
+  border-radius: 0 !important;
+}
+
+.layer.active,
+.mode-option.active,
+.btn.active,
+.tool.active {
+  background: var(--comic-purple) !important;
+  border-color: var(--comic-ink) !important;
+  color: var(--comic-ink) !important;
+  box-shadow: 3px 3px 0 var(--comic-ink) !important;
+}
+
+/* 状态提示 */
+
+.status,
+.notice,
+.hint,
+.warning {
+  border-radius: 2px !important;
+}
+
+.status,
+.result,
+.share-box,
+.share-time,
+.info-item {
+  border: 2px solid var(--comic-ink) !important;
+  background: #fffefa !important;
+  color: var(--comic-ink) !important;
+}
+
+.status.good,
+.good {
+  background: var(--comic-green) !important;
+  color: #244a2a !important;
+}
+
+.status.bad,
+.bad {
+  background: #ffe0dc !important;
+  color: #842e29 !important;
+}
+
+.warning {
+  border: 2px solid var(--comic-ink) !important;
+  background: var(--comic-yellow) !important;
+  color: var(--comic-ink) !important;
+}
+
+.progress {
+  border: 2px solid var(--comic-ink) !important;
+  border-radius: 2px !important;
+  background: #e4ded3 !important;
+  overflow: hidden;
+}
+
+.progress > *,
+.progress-bar {
+  background: var(--comic-red) !important;
+}
+
+/* 图片工具中心 */
+
+.tool-grid {
+  gap: 15px !important;
+}
+
+.tool-card {
+  display: block;
+  text-decoration: none;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.tool-card:hover {
+  transform: translate(-2px,-2px) rotate(-.4deg);
+  box-shadow: 6px 6px 0 var(--comic-ink) !important;
+}
+
+.tool-icon {
+  color: var(--comic-ink) !important;
+  background: var(--comic-yellow) !important;
+  border: 2px solid var(--comic-ink) !important;
+  border-radius: 3px !important;
+}
+
+.tool-arrow,
+.tool-link {
+  color: var(--comic-red) !important;
+  font-weight: 950 !important;
+}
+
+/* 页脚 */
+
+footer {
+  color: var(--comic-muted) !important;
+  font-weight: 800;
+}
+
+/* 保留隐藏状态 */
+
+[hidden],
+.hidden {
+  display: none !important;
+}
+
+img,
+video {
+  max-width: 100%;
+}
+
+/* 手机端 */
+
+@media (max-width: 700px) {
+  .panel,
+  .card,
+  .upload-card,
+  .preview-card,
+  .settings-card,
+  .main-panel {
+    padding: 14px;
+  }
+
+  .tool-grid {
+    grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+  }
+
+  button,
+  .btn,
+  .action-button {
+    min-height: 40px;
+  }
+}
+
+@media (max-width: 420px) {
+  .tool-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .hero {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  h1 {
+    font-size: 25px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: .01ms !important;
+  }
+}
