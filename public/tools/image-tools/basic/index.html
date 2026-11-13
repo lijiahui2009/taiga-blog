@@ -1042,14 +1042,13 @@ $("flipV").addEventListener("click",()=>{
 
 $("quality").addEventListener("input",()=>{
   $("qualityText").textContent = $("quality").value+"%";
+});
+
 $("quality").addEventListener("change",()=>{
   recordHistoryState();
 });
 
 $("outputFormat").addEventListener("change",()=>{
-  const name = $("outputFormat").selectedOptions[0].text;
-  setStatus("导出格式已切换为 "+name,true);
-  $("outputFormat").addEventListener("change",()=>{
   const name = $("outputFormat").selectedOptions[0].text;
   setStatus("导出格式已切换为 "+name,true);
   recordHistoryState();
