@@ -707,6 +707,26 @@ function getHistoryState(){
     quality: $("quality").value
   };
 }
+  function recordHistoryState(){
+  if(!sourceImage || historyApplying) return;
+
+  const nextState = getHistoryState();
+
+  if(historyCurrent === null){
+    historyCurrent = nextState;
+  }else if(JSON.stringify(nextState) !== JSON.stringify(historyCurrent)){
+    undoStack.push(historyCurrent);
+
+    if(undoStack.length > 50){
+      undoStack.shift();
+    }
+
+    redoStack = [];
+    historyCurrent = nextState;
+  }
+
+  updateHistoryButtons();
+}
 
 function updateHistoryButtons(){
   $("undoButton").disabled = undoStack.length === 0;
