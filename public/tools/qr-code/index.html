@@ -902,8 +902,128 @@ function drawQrThemeDecorations(ctx,size,offset,unit,theme,dark){
     dot(cx-unit*3,topY,unit*.3);
     dot(cx+unit*3,topY,unit*.3);
     dot(cx-unit*2,bottomY,unit*.22);
-    dot(cx+unit*2,bottomY,unit*.22);
+        dot(cx+unit*2,bottomY,unit*.22);
+
+  }else if(theme==="manga"){
+
+    const ink="#302536";
+    const paper="#fffafd";
+    const pink="#ed91b5";
+
+    // 漫画封面粗描边
+    ctx.strokeStyle=ink;
+    ctx.lineWidth=unit*.65;
+    ctx.setLineDash([]);
+    ctx.beginPath();
+    ctx.roundRect(
+      unit*1.8,
+      unit*1.8,
+      size-unit*3.6,
+      size-unit*3.6,
+      unit*1.8
+    );
+    ctx.stroke();
+
+    // 四角漫画网点
+    ctx.fillStyle="#e9a9c4";
+
+    for(const corner of [
+      [unit*3,unit*3],
+      [size-unit*11,unit*3],
+      [unit*3,size-unit*11],
+      [size-unit*11,size-unit*11]
+    ]){
+      for(let x=0;x<7;x++){
+        for(let y=0;y<7;y++){
+          dot(
+            corner[0]+x*unit,
+            corner[1]+y*unit,
+            unit*.12
+          );
+        }
+      }
+    }
+
+    // 两侧速度线
+    ctx.strokeStyle=ink;
+    ctx.lineWidth=unit*.22;
+
+    for(let i=0;i<5;i++){
+      const y=cx+(i-2)*unit*1.5;
+
+      ctx.beginPath();
+      ctx.moveTo(unit*2,y);
+      ctx.lineTo(unit*11,y-unit*.7);
+      ctx.moveTo(size-unit*2,y);
+      ctx.lineTo(size-unit*11,y-unit*.7);
+      ctx.stroke();
+    }
+
+    // 漫画对话气泡
+    function bubble(x,y,w,h,label,tailDown){
+      ctx.save();
+
+      ctx.fillStyle=paper;
+      ctx.strokeStyle=ink;
+      ctx.lineWidth=unit*.35;
+
+      ctx.beginPath();
+      ctx.roundRect(x-w/2,y-h/2,w,h,unit*.9);
+      ctx.fill();
+      ctx.stroke();
+
+      // 气泡尾巴
+      ctx.beginPath();
+
+      if(tailDown){
+        ctx.moveTo(x-unit*.7,y+h/2-unit*.2);
+        ctx.lineTo(x+unit*.5,y+h/2+unit*.9);
+        ctx.lineTo(x+unit*1.1,y+h/2-unit*.2);
+      }else{
+        ctx.moveTo(x-unit*.7,y-h/2+unit*.2);
+        ctx.lineTo(x+unit*.5,y-h/2-unit*.9);
+        ctx.lineTo(x+unit*1.1,y-h/2+unit*.2);
+      }
+
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle=ink;
+      ctx.font=`bold ${unit*1.25}px sans-serif`;
+      ctx.textAlign="center";
+      ctx.textBaseline="middle";
+      ctx.fillText(label,x,y);
+
+      ctx.restore();
+    }
+
+    bubble(cx,topY,unit*8,unit*3,"LOVE!",true);
+    bubble(cx,bottomY,unit*8,unit*3,"WOW!",false);
+
+    // 两侧漫画星爆
+    ctx.fillStyle=pink;
+    star(sideX,cx,unit*1.25);
+    star(size-sideX,cx,unit*1.25);
+
+    // 小型漫画强调线
+    ctx.strokeStyle=pink;
+    ctx.lineWidth=unit*.3;
+
+    for(const direction of [-1,1]){
+      for(let i=0;i<3;i++){
+        const x=cx+direction*unit*(3+i*1.2);
+        const y=topY+unit*2;
+
+        ctx.beginPath();
+        ctx.moveTo(x,y);
+        ctx.lineTo(x+direction*unit*.5,y-unit);
+        ctx.stroke();
+      }
+    }
   }
+
+  ctx.restore();
 
   ctx.restore();
 }
