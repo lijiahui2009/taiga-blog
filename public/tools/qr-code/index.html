@@ -782,16 +782,16 @@ function drawQrThemeDecorations(ctx,size,offset,unit,theme,dark){
     // 猫耳
     for(const x of [offset+unit*2,size-offset-unit*2]){
       ctx.beginPath();
-      ctx.moveTo(x-unit*1.5,offset-unit*3);
+      ctx.moveTo(x-unit*1.5,offset-unit*5);
       ctx.lineTo(x,offset-unit*5);
-      ctx.lineTo(x+unit*1.5,offset-unit*3);
+      ctx.lineTo(x+unit*1.5,offset-unit*5);
       ctx.closePath();
       ctx.fill();
     }
   }else if(theme==="gift"){
     // 礼物蝴蝶结
     const x=size/2;
-    const y=offset-unit*3;
+    const y=offset-unit*6;
 
     ctx.beginPath();
     ctx.ellipse(x-unit*1.1,y,unit*1.1,unit*.7,-.5,0,Math.PI*2);
@@ -802,14 +802,14 @@ function drawQrThemeDecorations(ctx,size,offset,unit,theme,dark){
     ctx.arc(x,y,unit*.55,0,Math.PI*2);
     ctx.fill();
   }else if(theme==="strawberry"){
-    heart(size/2,offset-unit*3,unit*1.5);
-    heart(offset-unit*3,size/2,unit);
+    heart(size/2,offset-unit*6,unit*1.5);
+    heart(offset-unit*6,size/2,unit);
   }else if(theme==="blueberry"){
-    star(size/2,offset-unit*3,unit*2);
-    star(size-offset+unit*3,size/2,unit*1.5);
+    star(size/2,offset-unit*6,unit*2);
+    star(size-offset+unit*6,size/2,unit*1.5);
   }else if(theme==="lavender"){
-    star(offset-unit*3,offset-unit*3,unit*1.4);
-    star(size-offset+unit*3,size-offset+unit*3,unit*1.4);
+    star(offset-unit*6,offset-unit*6,unit*1.4);
+    star(size-offset+unit*6,size-offset+unit*6,unit*1.4);
   }
 
   ctx.restore();
