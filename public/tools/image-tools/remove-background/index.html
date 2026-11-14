@@ -336,10 +336,11 @@ async function loadModel(){
     'https://esm.sh/@imgly/background-removal@1.7.0'
   );
 
-  const fn=module.default;
+    const fn=module.removeBackground || module.default;
 
   if(typeof fn!=='function'){
-    throw new Error('背景去除引擎加载失败。');
+    console.error('背景去除模块导出内容：',module);
+    throw new Error('未找到 removeBackground 函数，请检查引擎模块版本。');
   }
 
   removeBackgroundFunction=fn;
