@@ -737,14 +737,7 @@ function renderQr(value,token){
       ctx.fillStyle=light;
       ctx.fillRect(0,0,exportCanvas.width,exportCanvas.height);
 
-      drawCuteQrMatrix(
-        ctx,
-        qrInstance,
-        size,
-        dark,
-        light,
-        document.getElementById("qrStyle").value
-      );
+    
 
       // 将二维码绘制在标准留白区域内
       const matrixCanvas=document.createElement("canvas");
