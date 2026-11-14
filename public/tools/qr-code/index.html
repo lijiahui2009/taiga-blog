@@ -782,9 +782,9 @@ function drawQrThemeDecorations(ctx,size,offset,unit,theme,dark){
     // 猫耳
     for(const x of [offset+unit*2,size-offset-unit*2]){
       ctx.beginPath();
-      ctx.moveTo(x-unit*1.5,offset-unit*5);
-      ctx.lineTo(x,offset-unit*5);
-      ctx.lineTo(x+unit*1.5,offset-unit*5);
+      ctx.moveTo(x-unit*1.5,offset-unit*6);
+      ctx.lineTo(x,offset-unit*8);
+      ctx.lineTo(x+unit*1.5,offset-unit*6);
       ctx.closePath();
       ctx.fill();
     }
