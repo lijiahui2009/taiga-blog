@@ -250,6 +250,17 @@ footer strong{color:var(--accent-dark);letter-spacing:.08em}
       <input id="lightColor" type="color" value="#ffffff">
     </div>
   </div>
+    <div class="style-picker">
+    <label for="qrStyle">二维码造型</label>
+    <select id="qrStyle">
+      <option value="square">经典方块</option>
+      <option value="rounded" selected>软萌圆角</option>
+      <option value="dots">圆点点阵</option>
+      <option value="heart">爱心点阵</option>
+      <option value="star">星星点阵</option>
+    </select>
+    <p class="hint">定位图案保持标准结构；模块太小时会自动使用方块，优先保证识别。</p>
+  </div>
 
   <div class="actions">
     <button class="primary" id="generateBtn" type="button">生成二维码</button>
