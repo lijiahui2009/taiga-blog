@@ -261,6 +261,17 @@ footer strong{color:var(--accent-dark);letter-spacing:.08em}
     </select>
     <p class="hint">定位图案保持标准结构；模块太小时会自动使用方块，优先保证识别。</p>
   </div>
+    <div class="style-picker">
+    <label for="qrTheme">可爱主题</label>
+    <select id="qrTheme">
+      <option value="strawberry">🍓 草莓牛奶</option>
+      <option value="mint">🐱 薄荷猫咪</option>
+      <option value="blueberry">⭐ 蓝莓星星</option>
+      <option value="lavender">💜 紫藤梦幻</option>
+      <option value="gift">🎁 甜心礼物</option>
+    </select>
+    <p class="hint">选择主题会自动调整二维码颜色和模块造型，也可以继续手动修改颜色。</p>
+  </div>
 
   <div class="actions">
     <button class="primary" id="generateBtn" type="button">生成二维码</button>
@@ -373,6 +384,47 @@ const shareLinkText=document.getElementById("shareLinkText");
 const shareTimeInfo=document.getElementById("shareTimeInfo");
 const shareCreatedAt=document.getElementById("shareCreatedAt");
 const shareCountdown=document.getElementById("shareCountdown");
+/* 可爱二维码主题 */
+const qrTheme=document.getElementById("qrTheme");
+
+const qrThemes={
+  strawberry:{
+    dark:"#783d50",
+    light:"#fff0f4",
+    style:"heart"
+  },
+  mint:{
+    dark:"#285c50",
+    light:"#effaf3",
+    style:"rounded"
+  },
+  blueberry:{
+    dark:"#304c83",
+    light:"#f0f5ff",
+    style:"star"
+  },
+  lavender:{
+    dark:"#624b83",
+    light:"#f7f0ff",
+    style:"dots"
+  },
+  gift:{
+    dark:"#874b45",
+    light:"#fff3df",
+    style:"rounded"
+  }
+};
+
+qrTheme.addEventListener("change",()=>{
+  const theme=qrThemes[qrTheme.value];
+  if(!theme)return;
+
+  document.getElementById("darkColor").value=theme.dark;
+  document.getElementById("lightColor").value=theme.light;
+  document.getElementById("qrStyle").value=theme.style;
+
+  setMakeStatus("已切换可爱主题，点击生成二维码即可预览。","good");
+});
 
 let generatedCanvas=null;
 let generatedBlob=null;
